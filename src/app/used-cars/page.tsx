@@ -3,10 +3,49 @@
 // browser gets real car data in the initial HTML response instead of an
 // empty <div id="root"> that waits on a full SPA boot before anything paints.
 import Link from "next/link";
+import FilterBar from "./FilterBar";
 import styles from "./page.module.css";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
 const PAGE_SIZE = 25;
+
+const FACET_FILTER_BODY = {
+  is_manheim_car: "0",
+  premium_car: 0,
+  minPrice: "",
+  maxPrice: "",
+  minYear: "",
+  maxYear: "",
+  Make: "",
+  Model: "",
+  Fuel: "",
+  seats: "",
+  body_style: "",
+  Condition: "",
+  minMileage: "",
+  maxMileage: "",
+  minEnginesize: "",
+  maxEnginesize: "",
+  transmission_type: "",
+  engine: "",
+  color: "",
+  vrtFilter: "Yes",
+};
+
+interface FacetOption {
+  label: string;
+  total: number;
+}
+
+async function postFacet(path: string) {
+  const res = await fetch(`${API_BASE}/${path}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(FACET_FILTER_BODY),
+    cache: "no-store",
+  });
+  return res.json();
+}
 
 interface Car {
   car_id: string;
@@ -136,14 +175,49 @@ export default async function UsedCarsPage({
   const requestedPage = Number(firstParam(params, "page")) || 1;
   const page = Math.max(1, Math.floor(requestedPage));
 
-  const { data } = await getCars(filters, page);
+  const [{ data }, makesData, fuelsData, bodyStylesData, transmissionsData] =
+    await Promise.all([
+      getCars(filters, page),
+      postFacet("makes"),
+      postFacet("fuel-types"),
+      postFacet("body-styles"),
+      postFacet("transmission-types"),
+    ]);
   const totalPages = Math.max(1, Math.ceil(data.count / PAGE_SIZE));
   const currentPage = Math.min(page, totalPages);
+
+  const makes: FacetOption[] = (makesData.make || [])
+    .filter((m: { make: string }) => m.make)
+    .map((m: { make: string; total: number }) => ({ label: m.make, total: m.total }));
+  const fuels: FacetOption[] = (fuelsData.fuel_type || [])
+    .filter((f: { fuel_type: string }) => f.fuel_type)
+    .map((f: { fuel_type: string; total: number }) => ({ label: f.fuel_type, total: f.total }));
+  const bodyStyles: FacetOption[] = (bodyStylesData.body_style || [])
+    .filter((b: { body_style: string }) => b.body_style)
+    .map((b: { body_style: string; total: number }) => ({ label: b.body_style, total: b.total }));
+  const transmissions: FacetOption[] = (transmissionsData.transmission || [])
+    .filter((t: { car_transmission: string }) => t.car_transmission)
+    .map((t: { car_transmission: string; total: number }) => ({
+      label: t.car_transmission,
+      total: t.total,
+    }));
 
   return (
     <main className={styles.main}>
       <h1 className={styles.heading}>Used cars for sale</h1>
       <p className={styles.count}>Total vehicles: {data.count.toLocaleString("en-IE")}</p>
+
+      <FilterBar
+        initialMakes={makes}
+        initialFuels={fuels}
+        initialBodyStyles={bodyStyles}
+        initialTransmissions={transmissions}
+        currentMake={filters.Make}
+        currentModel={filters.Model}
+        currentFuel={filters.Fuel}
+        currentBodyStyle={filters.body_style}
+        currentTransmission={filters.transmission_type}
+      />
 
       {activeFilters.length > 0 && (
         <div className={styles.activeFilters}>
