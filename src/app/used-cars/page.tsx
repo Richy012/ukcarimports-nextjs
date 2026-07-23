@@ -6,6 +6,7 @@ import Link from "next/link";
 import styles from "./page.module.css";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
+const PAGE_SIZE = 25;
 
 interface Car {
   car_id: string;
@@ -34,7 +35,7 @@ interface Filters {
   transmission_type: string;
 }
 
-async function getCars(filters: Filters): Promise<ApiResponse> {
+async function getCars(filters: Filters, pageNum: number): Promise<ApiResponse> {
   const res = await fetch(`${API_BASE}/allcarsnew/0/10`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -57,8 +58,8 @@ async function getCars(filters: Filters): Promise<ApiResponse> {
       maxEnginesize: "",
       transmission_type: filters.transmission_type,
       engine: "",
-      pagenum: 1,
-      limit: 25,
+      pagenum: pageNum,
+      limit: PAGE_SIZE,
       pricefilter: "",
       mileagefilter: "",
       color: "",
@@ -107,6 +108,16 @@ function firstParam(
   return v ?? "";
 }
 
+function pageHref(filters: Filters, page: number): string {
+  const qs = new URLSearchParams();
+  Object.entries(filters).forEach(([k, v]) => {
+    if (v) qs.set(k, v);
+  });
+  if (page > 1) qs.set("page", String(page));
+  const s = qs.toString();
+  return s ? `/used-cars?${s}` : "/used-cars";
+}
+
 export default async function UsedCarsPage({
   searchParams,
 }: {
@@ -122,7 +133,12 @@ export default async function UsedCarsPage({
   };
   const activeFilters = Object.entries(filters).filter(([, v]) => v);
 
-  const { data } = await getCars(filters);
+  const requestedPage = Number(firstParam(params, "page")) || 1;
+  const page = Math.max(1, Math.floor(requestedPage));
+
+  const { data } = await getCars(filters, page);
+  const totalPages = Math.max(1, Math.ceil(data.count / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
 
   return (
     <main className={styles.main}>
@@ -180,6 +196,30 @@ export default async function UsedCarsPage({
 
       {data.cars.length === 0 && (
         <p className={styles.noResults}>No cars match these filters.</p>
+      )}
+
+      {data.cars.length > 0 && totalPages > 1 && (
+        <nav className={styles.pagination} aria-label="Pagination">
+          {currentPage > 1 ? (
+            <Link href={pageHref(filters, currentPage - 1)} className={styles.pageLink}>
+              &larr; Previous
+            </Link>
+          ) : (
+            <span className={styles.pageLinkDisabled}>&larr; Previous</span>
+          )}
+
+          <span className={styles.pageStatus}>
+            Page {currentPage.toLocaleString("en-IE")} of {totalPages.toLocaleString("en-IE")}
+          </span>
+
+          {currentPage < totalPages ? (
+            <Link href={pageHref(filters, currentPage + 1)} className={styles.pageLink}>
+              Next &rarr;
+            </Link>
+          ) : (
+            <span className={styles.pageLinkDisabled}>Next &rarr;</span>
+          )}
+        </nav>
       )}
     </main>
   );
