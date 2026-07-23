@@ -1,0 +1,47 @@
+.widget {
+  background: #fff;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.heading {
+  margin: 0 0 16px;
+  font-size: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.select,
+.selectWide {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background: #fff;
+}
+
+.selectWide {
+  grid-column: span 2;
+}
+
+.searchButton {
+  margin-top: 14px;
+  width: 100%;
+  background: #b60b0c;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.searchButton:hover {
+  background: #950909;
+}
