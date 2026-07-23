@@ -2,8 +2,6 @@
 // produce the HTML. This is the actual fix for the ~9s mobile LCP: the
 // browser gets real car data in the initial HTML response instead of an
 // empty <div id="root"> that waits on a full SPA boot before anything paints.
-import { readFile } from "fs/promises";
-import path from "path";
 import Link from "next/link";
 import FilterBar from "./FilterBar";
 import styles from "./page.module.css";
@@ -74,33 +72,6 @@ interface Filters {
   Fuel: string;
   body_style: string;
   transmission_type: string;
-}
-
-interface PriceIndicator {
-  t: "great" | "good" | "fair" | "higher";
-  p: number;
-}
-
-const PRICE_INDICATOR_LABELS: Record<PriceIndicator["t"], string> = {
-  great: "Great Price",
-  good: "Good Price",
-  fair: "Fair Price",
-  higher: "Higher Price",
-};
-
-async function getPriceIndicators(): Promise<Record<string, PriceIndicator>> {
-  // Built from the UK-vs-Irish market comparison engine (Carzone matching) --
-  // see /root/patchbuild/build_price_indicators.py on the staging matcher box.
-  // Static file living in public/, regenerated whenever the matcher reruns.
-  // Read straight off disk rather than fetching over HTTP -- it's the same
-  // process's own static asset, not an external resource.
-  try {
-    const filePath = path.join(process.cwd(), "public", "price-indicators.json");
-    const raw = await readFile(filePath, "utf-8");
-    return JSON.parse(raw);
-  } catch {
-    return {};
-  }
 }
 
 async function getCars(filters: Filters, pageNum: number): Promise<ApiResponse> {
@@ -204,14 +175,13 @@ export default async function UsedCarsPage({
   const requestedPage = Number(firstParam(params, "page")) || 1;
   const page = Math.max(1, Math.floor(requestedPage));
 
-  const [{ data }, makesData, fuelsData, bodyStylesData, transmissionsData, priceIndicators] =
+  const [{ data }, makesData, fuelsData, bodyStylesData, transmissionsData] =
     await Promise.all([
       getCars(filters, page),
       postFacet("makes"),
       postFacet("fuel-types"),
       postFacet("body-styles"),
       postFacet("transmission-types"),
-      getPriceIndicators(),
     ]);
   const totalPages = Math.max(1, Math.ceil(data.count / PAGE_SIZE));
   const currentPage = Math.min(page, totalPages);
@@ -265,32 +235,18 @@ export default async function UsedCarsPage({
           const finalPrice = car.car_info?.final_price;
           const imageUrl = `${API_BASE}/car-thumb/${car.car_id}`;
 
-          // Only surface a badge for an actionable signal (a real saving or
-          // a real premium) -- a "fair" (roughly market-comparable) result
-          // stays unbadged, same as AutoTrader only badges some tiles, not
-          // every one, to avoid every card being covered in a neutral label.
-          const indicator = priceIndicators[car.car_id];
-          const showBadge = indicator && indicator.t !== "fair";
-
           return (
             <a key={car.car_id} href={`/car/${car.car_id}`} className={styles.card}>
-              <div className={styles.cardImageWrap}>
-                {showBadge && (
-                  <span className={`${styles.priceBadge} ${styles[`priceBadge_${indicator.t}`]}`}>
-                    {PRICE_INDICATOR_LABELS[indicator.t]}
-                  </span>
-                )}
-                <img
-                  src={imageUrl}
-                  alt={car.car_name}
-                  width={280}
-                  height={210}
-                  loading={index < 4 ? "eager" : "lazy"}
-                  fetchPriority={index === 0 ? "high" : "auto"}
-                  decoding="async"
-                  className={styles.cardImage}
-                />
-              </div>
+              <img
+                src={imageUrl}
+                alt={car.car_name}
+                width={280}
+                height={210}
+                loading={index < 4 ? "eager" : "lazy"}
+                fetchPriority={index === 0 ? "high" : "auto"}
+                decoding="async"
+                className={styles.cardImage}
+              />
               <div className={styles.cardBody}>
                 <div className={styles.cardTitle}>{car.car_name}</div>
                 <div className={styles.chips}>
