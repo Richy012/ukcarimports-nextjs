@@ -17,6 +17,31 @@
   font-size: 14px;
 }
 
+.activeFilters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 20px;
+  padding: 10px 14px;
+  background: #f9f2f2;
+  border: 1px solid #f0d9d9;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #454443;
+}
+
+.clearFilters {
+  color: #b60b0c;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.noResults {
+  color: #666;
+  padding: 40px 0;
+  text-align: center;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));

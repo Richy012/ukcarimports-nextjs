@@ -2,6 +2,7 @@
 // produce the HTML. This is the actual fix for the ~9s mobile LCP: the
 // browser gets real car data in the initial HTML response instead of an
 // empty <div id="root"> that waits on a full SPA boot before anything paints.
+import Link from "next/link";
 import styles from "./page.module.css";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
@@ -25,7 +26,15 @@ interface ApiResponse {
   data: { cars: Car[]; count: number };
 }
 
-async function getCars(): Promise<ApiResponse> {
+interface Filters {
+  Make: string;
+  Model: string;
+  Fuel: string;
+  body_style: string;
+  transmission_type: string;
+}
+
+async function getCars(filters: Filters): Promise<ApiResponse> {
   const res = await fetch(`${API_BASE}/allcarsnew/0/10`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -36,17 +45,17 @@ async function getCars(): Promise<ApiResponse> {
       maxPrice: "",
       minYear: "",
       maxYear: "",
-      Make: "",
-      Model: "",
-      Fuel: "",
+      Make: filters.Make,
+      Model: filters.Model,
+      Fuel: filters.Fuel,
       seats: "",
-      body_style: "",
+      body_style: filters.body_style,
       Condition: "",
       minMileage: "",
       maxMileage: "",
       minEnginesize: "",
       maxEnginesize: "",
-      transmission_type: "",
+      transmission_type: filters.transmission_type,
       engine: "",
       pagenum: 1,
       limit: 25,
@@ -89,13 +98,45 @@ function formatKm(mileageMiles: string): string | null {
   );
 }
 
-export default async function UsedCarsPage() {
-  const { data } = await getCars();
+function firstParam(
+  params: { [key: string]: string | string[] | undefined },
+  key: string,
+): string {
+  const v = params[key];
+  if (Array.isArray(v)) return v[0] ?? "";
+  return v ?? "";
+}
+
+export default async function UsedCarsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const params = await searchParams;
+  const filters: Filters = {
+    Make: firstParam(params, "Make"),
+    Model: firstParam(params, "Model"),
+    Fuel: firstParam(params, "Fuel"),
+    body_style: firstParam(params, "body_style"),
+    transmission_type: firstParam(params, "transmission_type"),
+  };
+  const activeFilters = Object.entries(filters).filter(([, v]) => v);
+
+  const { data } = await getCars(filters);
 
   return (
     <main className={styles.main}>
       <h1 className={styles.heading}>Used cars for sale</h1>
       <p className={styles.count}>Total vehicles: {data.count.toLocaleString("en-IE")}</p>
+
+      {activeFilters.length > 0 && (
+        <div className={styles.activeFilters}>
+          <span>Filtered by: {activeFilters.map(([, v]) => v).join(", ")}</span>
+          <Link href="/used-cars" className={styles.clearFilters}>
+            Clear filters
+          </Link>
+        </div>
+      )}
 
       <div className={styles.grid}>
         {data.cars.map((car, index) => {
@@ -136,6 +177,10 @@ export default async function UsedCarsPage() {
           );
         })}
       </div>
+
+      {data.cars.length === 0 && (
+        <p className={styles.noResults}>No cars match these filters.</p>
+      )}
     </main>
   );
 }
