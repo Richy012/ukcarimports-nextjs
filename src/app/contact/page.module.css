@@ -1,0 +1,98 @@
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 30px 16px 50px;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+.offices {
+  flex: 1;
+  min-width: 260px;
+}
+
+.offices h2 {
+  color: #b60b0c;
+  font-weight: 400;
+  margin: 0 0 20px;
+}
+
+.box {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin: 16px 0;
+}
+
+.box h5 {
+  color: #b60b0c;
+  margin: 0 0 4px;
+}
+
+.box p {
+  margin: 0;
+  font-size: 15px;
+}
+
+.form {
+  flex: 1.4;
+  min-width: 300px;
+  background: #f6f6f6;
+  padding: 30px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #454443;
+}
+
+.field input,
+.field textarea {
+  border: 2px solid #71717180;
+  border-radius: 5px;
+  padding: 8px 10px;
+  font-size: 15px;
+  font-family: inherit;
+}
+
+.error {
+  color: #b60b0c;
+  font-size: 13px;
+}
+
+.success {
+  color: #1f7a4d;
+  font-size: 14px;
+}
+
+.submit {
+  align-self: flex-start;
+  background: #b60b0c;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 24px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
