@@ -56,6 +56,23 @@ interface CarDetail {
   service_history?: number;
   last_service?: string;
   last_service_mileage?: string;
+  mot_date?: string;
+  total_service?: string;
+  co2_emission?: string;
+  interior_feat?: string[];
+  exterior_feat?: string[];
+  safety_feat?: string[];
+  performance_spec?: string[];
+  driver_convenience_feat?: string[];
+  technical_feat?: string[];
+}
+
+function splitSpecPair(raw: string): { label: string; value: string } {
+  // performance_spec entries come through as a label glued directly to its
+  // value with no separator (e.g. "Top speed154mph") -- split at the
+  // letter-to-digit boundary, which reliably marks that junction.
+  const match = raw.match(/^(.*?[a-zA-Z])(\d.*)$/);
+  return match ? { label: match[1], value: match[2] } : { label: raw, value: "" };
 }
 
 interface ApiResponse {
@@ -201,18 +218,116 @@ export default async function CarDetailPage({
         </div>
       </div>
 
-      {car.features_options.length > 0 && (
-        <section className={styles.features}>
-          <h2 className={styles.featuresHeading}>Features &amp; Options</h2>
-          <ul className={styles.featuresList}>
-            {car.features_options.map((f) => (
-              <li key={f} className={styles.featureItem}>
-                {f}
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+      <section className={styles.signposts}>
+        {(() => {
+          const featureGroups = [
+            { label: "Interior", items: car.interior_feat },
+            { label: "Exterior", items: car.exterior_feat },
+            { label: "Safety & Security", items: car.safety_feat },
+            { label: "Driver Convenience", items: car.driver_convenience_feat },
+            { label: "Technical", items: car.technical_feat },
+          ].filter((g) => Array.isArray(g.items) && g.items.length > 0);
+          const hasPerformance = Array.isArray(car.performance_spec) && car.performance_spec.length > 0;
+          if (featureGroups.length === 0 && !hasPerformance && car.features_options.length === 0) return null;
+
+          return (
+            <details className={styles.signpost} open>
+              <summary className={styles.signpostSummary}>Full Specification &amp; Features</summary>
+              <div className={styles.signpostBody}>
+                {hasPerformance && (
+                  <div className={styles.featureGroup}>
+                    <h3>Performance</h3>
+                    <dl className={styles.specGrid}>
+                      {car.performance_spec!.map((raw) => {
+                        const { label, value } = splitSpecPair(raw);
+                        return (
+                          <div key={raw} className={styles.specRow}>
+                            <dt className={styles.specLabel}>{label}</dt>
+                            <dd className={styles.specValue}>{value}</dd>
+                          </div>
+                        );
+                      })}
+                    </dl>
+                  </div>
+                )}
+                {featureGroups.map((g) => (
+                  <div key={g.label} className={styles.featureGroup}>
+                    <h3>{g.label}</h3>
+                    <ul className={styles.featuresList}>
+                      {g.items!.map((f) => (
+                        <li key={f} className={styles.featureItem}>
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+                {featureGroups.length === 0 && !hasPerformance && car.features_options.length > 0 && (
+                  <ul className={styles.featuresList}>
+                    {car.features_options.map((f) => (
+                      <li key={f} className={styles.featureItem}>
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </details>
+          );
+        })()}
+
+        {car.co2_emission && (
+          <details className={styles.signpost}>
+            <summary className={styles.signpostSummary}>Running Costs</summary>
+            <div className={styles.signpostBody}>
+              <dl className={styles.specGrid}>
+                <div className={styles.specRow}>
+                  <dt className={styles.specLabel}>CO2 Emissions</dt>
+                  <dd className={styles.specValue}>{car.co2_emission}</dd>
+                </div>
+              </dl>
+              <p className={styles.signpostNote}>
+                VRT and NOx levy for this CO2 figure are already included in the price above.
+              </p>
+            </div>
+          </details>
+        )}
+
+        {(car.service_history || car.mot_date || car.total_service) && (
+          <details className={styles.signpost}>
+            <summary className={styles.signpostSummary}>Vehicle History</summary>
+            <div className={styles.signpostBody}>
+              <dl className={styles.specGrid}>
+                <div className={styles.specRow}>
+                  <dt className={styles.specLabel}>Service history</dt>
+                  <dd className={styles.specValue}>{car.service_history ? "Yes" : "No"}</dd>
+                </div>
+                {car.last_service && (
+                  <div className={styles.specRow}>
+                    <dt className={styles.specLabel}>Last serviced</dt>
+                    <dd className={styles.specValue}>
+                      {car.last_service}
+                      {car.last_service_mileage ? ` at ${car.last_service_mileage} km` : ""}
+                    </dd>
+                  </div>
+                )}
+                {car.total_service && (
+                  <div className={styles.specRow}>
+                    <dt className={styles.specLabel}>Total services</dt>
+                    <dd className={styles.specValue}>{car.total_service}</dd>
+                  </div>
+                )}
+                {car.mot_date && (
+                  <div className={styles.specRow}>
+                    <dt className={styles.specLabel}>MOT expiry</dt>
+                    <dd className={styles.specValue}>{car.mot_date}</dd>
+                  </div>
+                )}
+              </dl>
+            </div>
+          </details>
+        )}
+      </section>
 
       {relatedCars.length > 0 && (
         <section className={styles.related}>

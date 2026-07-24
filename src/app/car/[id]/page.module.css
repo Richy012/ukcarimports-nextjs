@@ -272,3 +272,64 @@
   border-radius: 6px;
   background: #f3f3f3;
 }
+
+.signposts {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.signpost {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 4px 20px;
+}
+
+.signpostSummary {
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 700;
+  color: #b60b0c;
+  padding: 16px 0;
+  list-style: none;
+}
+
+.signpostSummary::-webkit-details-marker {
+  display: none;
+}
+
+.signpostSummary::before {
+  content: "+ ";
+}
+
+.signpost[open] .signpostSummary::before {
+  content: "\2212 ";
+}
+
+.signpostBody {
+  padding: 4px 0 20px;
+}
+
+.signpostNote {
+  font-size: 13px;
+  color: #666;
+  margin: 10px 0 0;
+}
+
+.featureGroup {
+  margin-bottom: 20px;
+}
+
+.featureGroup:last-child {
+  margin-bottom: 0;
+}
+
+.featureGroup h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #454443;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
