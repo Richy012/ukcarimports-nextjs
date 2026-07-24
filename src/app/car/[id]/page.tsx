@@ -2,6 +2,7 @@
 // initial HTML response instead of waiting on a full SPA boot.
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import PriceBreakdown from "./PriceBreakdown";
 import styles from "./page.module.css";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
@@ -12,8 +13,25 @@ interface CarImage {
 }
 
 interface CarInfo {
-  final_price?: number;
-  duty_applied?: boolean;
+  converted_price: number;
+  shipping_fee: number;
+  customs_agent_fee: number;
+  after_irish_vat: number;
+  fee: number;
+  final_price: number;
+  duty_applied: boolean;
+  mechanical_inspection_fee: number;
+  warranty_premium_max_eligible: boolean;
+  warranty_premium_plus_eligible: boolean;
+  warranty_premium_component_eligible: boolean;
+  warranty_premium_powertrain_eligible: boolean;
+  warranty_premium_ev_eligible: boolean;
+}
+
+interface RelatedCar {
+  car_id: string;
+  car_name: string;
+  featured_image: string;
 }
 
 interface CarDetail {
@@ -33,6 +51,11 @@ interface CarDetail {
   decoded_images: CarImage[];
   features_options: string[];
   car_info?: CarInfo;
+  vrt_rate?: number;
+  relatedcars?: RelatedCar[];
+  service_history?: number;
+  last_service?: string;
+  last_service_mileage?: string;
 }
 
 interface ApiResponse {
@@ -63,12 +86,6 @@ function buildCarYear(registrationDate: string): string {
   return `${year} (${year.slice(2)}${half})`;
 }
 
-function formatEuro(n: number): string {
-  return new Intl.NumberFormat("en-IE", { maximumFractionDigits: 0 }).format(
-    Math.round(n),
-  );
-}
-
 function formatKm(mileageMiles: string): string | null {
   const miles = Number(mileageMiles.replace(/\D/g, ""));
   if (!miles) return null;
@@ -96,8 +113,8 @@ export default async function CarDetailPage({
 
   const year = buildCarYear(car.registration_date);
   const km = formatKm(car.mileage);
-  const finalPrice = car.car_info?.final_price;
   const thumbnails = car.decoded_images.slice(0, 8);
+  const relatedCars = (car.relatedcars ?? []).filter((c) => c.featured_image).slice(0, 4);
 
   const specs = [
     year && { label: "Year", value: year },
@@ -148,11 +165,8 @@ export default async function CarDetailPage({
         </div>
 
         <div className={styles.summary}>
-          {finalPrice != null && (
-            <div className={styles.priceBox}>
-              <div className={styles.price}>€{formatEuro(finalPrice)}</div>
-              <div className={styles.priceNote}>VRT &amp; duty included</div>
-            </div>
+          {car.car_info && (
+            <PriceBreakdown carInfo={car.car_info} vrtRate={car.vrt_rate ?? 0} />
           )}
 
           <dl className={styles.specGrid}>
@@ -163,6 +177,27 @@ export default async function CarDetailPage({
               </div>
             ))}
           </dl>
+
+          <div className={styles.deliveryBox}>
+            <h3 className={styles.deliveryHeading}>Delivery &amp; Collection</h3>
+            <p>
+              Every car we sell is imported, duty/VRT-processed, and delivered
+              by us directly — collect from our Sandyford, Dublin office, or
+              arrange home delivery nationwide.
+            </p>
+          </div>
+
+          <ul className={styles.historyChecklist}>
+            <li>✓ History checked before purchase</li>
+            <li>✓ Inspected after deposit</li>
+            {car.service_history ? (
+              <li>
+                ✓ Service history
+                {car.last_service ? ` — last serviced ${car.last_service}` : ""}
+                {car.last_service_mileage ? ` at ${car.last_service_mileage} km` : ""}
+              </li>
+            ) : null}
+          </ul>
         </div>
       </div>
 
@@ -176,6 +211,20 @@ export default async function CarDetailPage({
               </li>
             ))}
           </ul>
+        </section>
+      )}
+
+      {relatedCars.length > 0 && (
+        <section className={styles.related}>
+          <h2 className={styles.featuresHeading}>You may also like</h2>
+          <div className={styles.relatedGrid}>
+            {relatedCars.map((rc) => (
+              <Link key={rc.car_id} href={`/car/${rc.car_id}`} className={styles.relatedCard}>
+                <img src={rc.featured_image} alt={rc.car_name} width={200} height={150} loading="lazy" />
+                <span>{rc.car_name}</span>
+              </Link>
+            ))}
+          </div>
         </section>
       )}
     </main>
