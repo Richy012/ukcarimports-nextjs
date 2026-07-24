@@ -1,0 +1,52 @@
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px 16px 50px;
+}
+
+.page h1 {
+  font-size: 1.8rem;
+  margin: 0 0 20px;
+}
+
+.page :global(section.info) {
+  padding-top: 10px;
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.faqItem {
+  border: 1px solid #e2e2e2;
+  border-radius: 6px;
+  padding: 14px 18px;
+}
+
+.faqQuestion {
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+}
+
+.faqQuestion::-webkit-details-marker {
+  display: none;
+}
+
+.faqQuestion::before {
+  content: "+ ";
+  color: #b60b0c;
+  font-weight: 700;
+}
+
+.faqItem[open] .faqQuestion::before {
+  content: "\2212 ";
+}
+
+.faqAnswer {
+  margin-top: 12px;
+  color: #444;
+  line-height: 1.6;
+}
