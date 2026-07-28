@@ -130,7 +130,7 @@ export default async function CarDetailPage({
 
   const year = buildCarYear(car.registration_date);
   const km = formatKm(car.mileage);
-  const thumbnails = car.decoded_images.slice(0, 8);
+  const thumbnails = (car.decoded_images ?? []).filter((img) => img && img.image).slice(0, 8);
   const relatedCars = (car.relatedcars ?? []).filter((c) => c.featured_image).slice(0, 4);
 
   const specs = [

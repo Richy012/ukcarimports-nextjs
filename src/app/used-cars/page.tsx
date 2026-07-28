@@ -4,6 +4,7 @@
 // empty <div id="root"> that waits on a full SPA boot before anything paints.
 import Link from "next/link";
 import FilterBar from "./FilterBar";
+import CarThumb from "./CarThumb";
 import styles from "./page.module.css";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
@@ -237,16 +238,7 @@ export default async function UsedCarsPage({
 
           return (
             <a key={car.car_id} href={`/car/${car.car_id}`} className={styles.card}>
-              <img
-                src={imageUrl}
-                alt={car.car_name}
-                width={280}
-                height={210}
-                loading={index < 4 ? "eager" : "lazy"}
-                fetchPriority={index === 0 ? "high" : "auto"}
-                decoding="async"
-                className={styles.cardImage}
-              />
+              <CarThumb src={imageUrl} alt={car.car_name} priority={index < 4} />
               <div className={styles.cardBody}>
                 <div className={styles.cardTitle}>{car.car_name}</div>
                 <div className={styles.chips}>
