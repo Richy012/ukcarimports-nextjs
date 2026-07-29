@@ -71,6 +71,14 @@
   color: #b60b0c;
 }
 
+button.navLink {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
 .phone {
   font-weight: 700;
   padding-left: 20px !important;

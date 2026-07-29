@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { clearToken, isTokenValid } from "@/lib/auth";
 import styles from "./Header.module.css";
 
 const NAV_LINKS = [
@@ -16,7 +17,19 @@ const NAV_LINKS = [
 ];
 
 export default function Header() {
-  const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(isTokenValid());
+  }, []);
+
+  function logout() {
+    clearToken();
+    setIsLoggedIn(false);
+    setOpen(false);
+    window.location.href = "/";
+  }
 
   return (
     <header className={styles.header}>
@@ -52,16 +65,45 @@ export default function Header() {
                 )}
               </li>
             ))}
-            <li onClick={() => setOpen(false)}>
-              <Link href="/sign-in" className={styles.navLink}>
-                Login
-              </Link>
-            </li>
-            <li onClick={() => setOpen(false)}>
-              <Link href="/sign-up" className={styles.navLink}>
-                Register
-              </Link>
-            </li>
+
+            {isLoggedIn ? (
+              <>
+                <li onClick={() => setOpen(false)}>
+                  <Link href="/my-account/saved-cars" className={styles.navLink}>
+                    My Saved Cars
+                  </Link>
+                </li>
+                <li onClick={() => setOpen(false)}>
+                  <Link href="/my-account/saved-searches" className={styles.navLink}>
+                    My Saved Searches
+                  </Link>
+                </li>
+                <li onClick={() => setOpen(false)}>
+                  <Link href="/my-account/notifications" className={styles.navLink}>
+                    My Notifications
+                  </Link>
+                </li>
+                <li>
+                  <button type="button" className={styles.navLink} onClick={logout}>
+                    Logout
+                  </button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li onClick={() => setOpen(false)}>
+                  <Link href="/sign-in" className={styles.navLink}>
+                    Login
+                  </Link>
+                </li>
+                <li onClick={() => setOpen(false)}>
+                  <Link href="/sign-up" className={styles.navLink}>
+                    Register
+                  </Link>
+                </li>
+              </>
+            )}
+
             <li className={styles.phone}>
               <a href="tel:01-556 8261">01-556 8261</a>
             </li>

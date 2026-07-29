@@ -73,6 +73,8 @@ interface Filters {
   Fuel: string;
   body_style: string;
   transmission_type: string;
+  price_sort: string;
+  mileage_sort: string;
 }
 
 async function getCars(filters: Filters, pageNum: number): Promise<ApiResponse> {
@@ -100,8 +102,8 @@ async function getCars(filters: Filters, pageNum: number): Promise<ApiResponse> 
       engine: "",
       pagenum: pageNum,
       limit: PAGE_SIZE,
-      pricefilter: "",
-      mileagefilter: "",
+      price_sort: filters.price_sort,
+      mileage_sort: filters.mileage_sort,
       color: "",
       vrt: "",
     }),
@@ -158,6 +160,14 @@ function pageHref(filters: Filters, page: number): string {
   return s ? `/used-cars?${s}` : "/used-cars";
 }
 
+function sortParamsToLabel(priceSort: string, mileageSort: string): string {
+  if (priceSort === "low") return "price_low";
+  if (priceSort === "high") return "price_high";
+  if (mileageSort === "low") return "mileage_low";
+  if (mileageSort === "high") return "mileage_high";
+  return "";
+}
+
 export default async function UsedCarsPage({
   searchParams,
 }: {
@@ -170,8 +180,13 @@ export default async function UsedCarsPage({
     Fuel: firstParam(params, "Fuel"),
     body_style: firstParam(params, "body_style"),
     transmission_type: firstParam(params, "transmission_type"),
+    price_sort: firstParam(params, "price_sort"),
+    mileage_sort: firstParam(params, "mileage_sort"),
   };
-  const activeFilters = Object.entries(filters).filter(([, v]) => v);
+  const activeFilters = Object.entries(filters)
+    .filter(([k]) => k !== "price_sort" && k !== "mileage_sort")
+    .filter(([, v]) => v);
+  const currentSort = sortParamsToLabel(filters.price_sort, filters.mileage_sort);
 
   const requestedPage = Number(firstParam(params, "page")) || 1;
   const page = Math.max(1, Math.floor(requestedPage));
@@ -218,14 +233,13 @@ export default async function UsedCarsPage({
         currentFuel={filters.Fuel}
         currentBodyStyle={filters.body_style}
         currentTransmission={filters.transmission_type}
+        currentSort={currentSort}
+        initialCount={data.count}
       />
 
       {activeFilters.length > 0 && (
         <div className={styles.activeFilters}>
           <span>Filtered by: {activeFilters.map(([, v]) => v).join(", ")}</span>
-          <Link href="/used-cars" className={styles.clearFilters}>
-            Clear filters
-          </Link>
         </div>
       )}
 
