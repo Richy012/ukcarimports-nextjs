@@ -48,6 +48,9 @@ interface CarDetail {
   mileage: string;
   engine: string;
   seats: string;
+  car_door?: string;
+  owner?: string;
+  auction_company_name?: string;
   featured_image: string;
   decoded_images: CarImage[];
   features_options: string[];
@@ -141,10 +144,12 @@ export default async function CarDetailPage({
     car.body_style_name && { label: "Body", value: car.body_style_name },
     car.fuel_type_name && { label: "Fuel", value: car.fuel_type_name },
     car.transmission_name && { label: "Transmission", value: car.transmission_name },
+    car.car_door && { label: "Doors", value: car.car_door },
     km && { label: "Mileage", value: `${km} km` },
     car.engine && { label: "Engine", value: car.engine },
     car.seats && { label: "Seats", value: car.seats },
     car.color_name && { label: "Colour", value: titleCase(car.color_name) },
+    car.owner && { label: "Number of Owners", value: car.owner },
   ].filter(Boolean) as { label: string; value: string }[];
 
   return (
@@ -209,7 +214,27 @@ export default async function CarDetailPage({
                 <dd className={styles.specValue}>{s.value}</dd>
               </div>
             ))}
+            <div className={styles.specRow}>
+              <dt className={styles.specLabel}>MOT History</dt>
+              <dd className={styles.specValue}>
+                <a href="https://www.check-mot.service.gov.uk/" target="_blank" rel="noreferrer" className={styles.specLink}>
+                  Check
+                </a>
+              </dd>
+            </div>
+            <div className={styles.specRow}>
+              <dt className={styles.specLabel}>Mechanical &amp; Condition Report</dt>
+              <dd className={styles.specValue}>
+                <a href={`${API_BASE}/report/Mech_And_Cond_Report.pdf`} target="_blank" rel="noreferrer" className={styles.specLink}>
+                  View
+                </a>
+              </dd>
+            </div>
           </dl>
+
+          {car.auction_company_name && (
+            <p className={styles.sellerLine}>Seller/Garage: By {car.auction_company_name}</p>
+          )}
 
           <div className={styles.deliveryBox}>
             <h3 className={styles.deliveryHeading}>Delivery &amp; Collection</h3>
