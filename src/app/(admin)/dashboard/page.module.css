@@ -1,0 +1,34 @@
+.heading {
+  margin: 0 0 20px;
+}
+
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.statCard {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 20px;
+  background: #fff;
+}
+
+.statLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: #454443;
+  margin: 0 0 8px;
+}
+
+.statValue {
+  font-size: 32px;
+  font-weight: 700;
+  color: #b60b0c;
+}
+
+.statUnit {
+  font-size: 13px;
+  color: #666;
+}

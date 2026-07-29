@@ -62,3 +62,17 @@ export function isTokenValid(): boolean {
 export function authHeaders(): HeadersInit {
   return { "X-Auth-Token": getToken() ?? "" };
 }
+
+// Same magic role string the legacy SPA checks (App.js route guards,
+// Dashboard.jsx) against the JWT's `urxrs` claim -- not a real-looking role
+// name, but it's the actual value the API issues for staff accounts, so it's
+// reused verbatim rather than re-derived.
+const ADMIN_ROLE = "$aHF667#79+57h%45";
+
+// Staff/admin pages need both a live token AND the admin role -- a valid
+// customer session must not grant access to /dashboard etc.
+export function isAdminTokenValid(): boolean {
+  if (!isTokenValid()) return false;
+  const decoded = parseJwt(getToken());
+  return decoded?.urxrs === ADMIN_ROLE;
+}
