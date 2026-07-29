@@ -5,8 +5,6 @@ import Link from "next/link";
 import { API_BASE, authHeaders, isTokenValid } from "@/lib/auth";
 import styles from "./page.module.css";
 
-if (typeof window !== "undefined") { document.title = "MODULE-LOADED"; }
-
 interface SavedCar {
   car_id: string;
   car_name: string;
@@ -14,9 +12,20 @@ interface SavedCar {
   transmission_name?: string;
   fuel_type_name?: string;
   mileage?: string;
+  engine?: string;
+  seats?: string;
   car_info?: { final_price: number };
   saved_car_id?: number;
   saved_car_feedback?: "like" | "dislike" | "none";
+}
+
+function formatKm(mileageMiles?: string): string | null {
+  if (!mileageMiles) return null;
+  const miles = Number(mileageMiles.replace(/\D/g, ""));
+  if (!miles) return null;
+  return new Intl.NumberFormat("en-IE", { maximumFractionDigits: 0 }).format(
+    Math.round(miles * 1.60934),
+  );
 }
 
 function carYear(car: SavedCar): string {
@@ -49,10 +58,14 @@ function CarImage({ carId, alt }: { carId: string; alt: string }) {
   );
 }
 
+const MAX_COMPARE = 4;
+
 export default function SavedCarsClient() {
-    const [cars, setCars] = useState<SavedCar[]>([]);
+  const [cars, setCars] = useState<SavedCar[]>([]);
   const [loading, setLoading] = useState(true);
   const [feedback, setFeedback] = useState<Record<number, string>>({});
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [showCompare, setShowCompare] = useState(false);
 
   useEffect(() => {
     if (!isTokenValid()) {
@@ -102,6 +115,31 @@ export default function SavedCarsClient() {
     }).catch(() => {});
   }
 
+  function toggleCompare(carId: string) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(carId)) {
+        next.delete(carId);
+      } else {
+        if (next.size >= MAX_COMPARE) return prev;
+        next.add(carId);
+      }
+      return next;
+    });
+  }
+
+  const selectedCars = cars.filter((c) => selected.has(c.car_id));
+
+  const compareRows: { label: string; render: (c: SavedCar) => string }[] = [
+    { label: "Price", render: (c) => (c.car_info?.final_price != null ? `€${Math.round(c.car_info.final_price).toLocaleString()}` : "-") },
+    { label: "Year", render: (c) => carYear(c) || "-" },
+    { label: "Mileage", render: (c) => { const km = formatKm(c.mileage); return km ? `${km} km` : "-"; } },
+    { label: "Transmission", render: (c) => c.transmission_name || "-" },
+    { label: "Fuel", render: (c) => c.fuel_type_name || "-" },
+    { label: "Engine", render: (c) => c.engine || "-" },
+    { label: "Seats", render: (c) => c.seats || "-" },
+  ];
+
   return (
     <main className={styles.page}>
       <h1 className={styles.heading}>My Saved Cars</h1>
@@ -118,13 +156,59 @@ export default function SavedCarsClient() {
           heart on any listing to save it here.
         </p>
       ) : (
-        <div className={styles.grid}>
+        <>
+          {showCompare && selectedCars.length >= 2 && (
+            <div className={styles.compareTableWrap}>
+              <div className={styles.compareTableHeader}>
+                <h2>Comparing {selectedCars.length} cars</h2>
+                <button type="button" className={styles.removeBtn} onClick={() => setShowCompare(false)}>
+                  Close comparison
+                </button>
+              </div>
+              <table className={styles.compareTable}>
+                <thead>
+                  <tr>
+                    <th></th>
+                    {selectedCars.map((c) => (
+                      <th key={c.car_id}>
+                        <Link href={`/car/${c.car_id}`} target="_blank">
+                          {c.car_name}
+                        </Link>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {compareRows.map((row) => (
+                    <tr key={row.label}>
+                      <td className={styles.compareRowLabel}>{row.label}</td>
+                      {selectedCars.map((c) => (
+                        <td key={c.car_id}>{row.render(c)}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          <div className={styles.grid}>
           {cars.map((car) => {
             const price = car.car_info?.final_price;
             const savedId = car.saved_car_id;
             const fb = savedId ? feedback[savedId] || "none" : "none";
+            const isSelected = selected.has(car.car_id);
             return (
               <div className={styles.card} key={car.car_id}>
+                <label className={styles.compareCheckboxLabel}>
+                  <input
+                    type="checkbox"
+                    checked={isSelected}
+                    onChange={() => toggleCompare(car.car_id)}
+                    disabled={!isSelected && selected.size >= MAX_COMPARE}
+                  />
+                  Compare
+                </label>
                 <Link href={`/car/${car.car_id}`} target="_blank">
                   <CarImage carId={car.car_id} alt={car.car_name} />
                 </Link>
@@ -168,7 +252,17 @@ export default function SavedCarsClient() {
               </div>
             );
           })}
-        </div>
+          </div>
+
+          {selected.size >= 2 && (
+            <div className={styles.compareBar}>
+              <span>{selected.size} selected</span>
+              <button type="button" className={styles.compareBtn} onClick={() => setShowCompare(true)}>
+                Compare ({selected.size})
+              </button>
+            </div>
+          )}
+        </>
       )}
     </main>
   );
