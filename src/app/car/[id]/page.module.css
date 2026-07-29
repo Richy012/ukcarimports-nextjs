@@ -65,6 +65,64 @@
   gap: 8px;
 }
 
+.photoGridWrap {
+  position: relative;
+}
+
+.gridNav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  color: #222;
+  font-size: 26px;
+  line-height: 1;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.gridNav:hover {
+  background: #fff;
+}
+
+.gridNavPrev {
+  left: -14px;
+}
+
+.gridNavNext {
+  right: -14px;
+}
+
+.viewAllBadge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.viewAllBadge:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
 .photoGridItem {
   position: relative;
 }
@@ -89,6 +147,94 @@
   font-weight: 700;
   font-size: 16px;
   border-radius: 6px;
+}
+
+.lightboxOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.lightboxImageWrap {
+  width: min(96vw, 1600px);
+  height: min(92vh, 1000px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightboxImage {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  cursor: default;
+}
+
+.lightboxClose {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 36px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.lightboxNav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #fff;
+  font-size: 40px;
+  line-height: 1;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightboxNav:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.lightboxNavPrev {
+  left: 16px;
+}
+
+.lightboxNavNext {
+  right: 16px;
+}
+
+.lightboxCounter {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 14px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+
+@media (max-width: 600px) {
+  .lightboxNav {
+    width: 40px;
+    height: 40px;
+    font-size: 32px;
+  }
 }
 
 .summary {

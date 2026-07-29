@@ -1,15 +1,105 @@
 .wrapper {
   margin: 0 0 24px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #f9f9f9;
+  padding: 14px;
+}
+
+.chipSearchWrap {
+  margin-bottom: 12px;
+}
+
+.chipSearchLabel {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #454443;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.chipInput {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  background: #fff;
+}
+
+.quickPicks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.quickPickBtn {
+  padding: 5px 12px;
+  border: 1px solid #ccc;
+  border-radius: 999px;
+  background: #fff;
+  color: #454443;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.quickPickBtn:hover {
+  border-color: #b60b0c;
+  color: #b60b0c;
+}
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #454443;
+  color: #fff;
+  border-radius: 999px;
+  padding: 4px 6px 4px 12px;
+  font-size: 12px;
+}
+
+.chip button {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 2px 6px;
+}
+
+.chipExclude {
+  background: #b60b0c;
+}
+
+.chipHint {
+  font-size: 11px;
+  color: #999;
+  margin: 6px 0 0;
+}
+
+.chipHint code {
+  background: #eee;
+  padding: 1px 4px;
+  border-radius: 3px;
 }
 
 .bar {
   display: grid;
-  grid-template-columns: repeat(6, 1fr) auto auto;
+  grid-template-columns: repeat(6, 1fr);
   gap: 10px;
-  padding: 14px;
-  background: #f9f9f9;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px 8px 0 0;
+  padding-top: 4px;
   align-items: center;
 }
 
@@ -26,6 +116,8 @@
 }
 
 .select {
+  width: 100%;
+  box-sizing: border-box;
   padding: 9px 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -37,6 +129,42 @@
 .select:disabled {
   background: #f3f3f3;
   color: #aaa;
+}
+
+.rangeSection {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e5e5e5;
+}
+
+.rangeSection .select {
+  width: auto;
+  min-width: 110px;
+  flex: 1 1 130px;
+}
+
+.rangeLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: #454443;
+  text-transform: uppercase;
+  margin-right: 2px;
+}
+
+@media (max-width: 600px) {
+  .rangeSection .select {
+    flex: 1 1 100%;
+  }
+}
+
+.actionsRow {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
 }
 
 .applyButton {
@@ -70,11 +198,11 @@
 }
 
 .liveCount {
+  margin-top: 10px;
   padding: 8px 14px;
   background: #fff;
   border: 1px solid #e0e0e0;
-  border-top: none;
-  border-radius: 0 0 8px 8px;
+  border-radius: 6px;
   font-size: 13px;
   color: #666;
 }

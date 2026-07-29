@@ -12,7 +12,6 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import styles from "./page.module.css";
 
-const API_BASE = "https://api.ukcarimports.ie/public";
 const stripePromise = loadStripe("pk_live_hvQGGPsKi13bSSCm2zoKHfMi00RCjfXZZS");
 
 const CARD_ELEMENT_STYLE = {
@@ -97,7 +96,7 @@ function CheckoutForm({
     }
 
     try {
-      const res = await fetch(`${API_BASE}/payment-carsourcing`, {
+      const res = await fetch(`/api/payment-carsourcing`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

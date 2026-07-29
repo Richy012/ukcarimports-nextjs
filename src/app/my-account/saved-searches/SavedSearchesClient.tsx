@@ -29,7 +29,7 @@ function buildQueryString(queryParams: string): string {
 }
 
 export default function SavedSearchesClient() {
-    const [searches, setSearches] = useState<SavedSearch[]>([]);
+  const [searches, setSearches] = useState<SavedSearch[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function SavedSearchesClient() {
       return;
     }
 
-    fetch(`${API_BASE}/user/saved-searches`, { headers: authHeaders() })
+    fetch(`/api/saved-searches`, { headers: authHeaders() })
       .then((res) => res.json())
       .then((data) => {
         setSearches(data.data || []);
@@ -49,7 +49,7 @@ export default function SavedSearchesClient() {
   }, []);
 
   function deleteSearch(id: number) {
-    fetch(`${API_BASE}/user/saved-searches/${id}`, {
+    fetch(`/api/saved-searches/${id}`, {
       method: "DELETE",
       headers: authHeaders(),
     })
@@ -63,7 +63,7 @@ export default function SavedSearchesClient() {
   }
 
   return (
-    <main className={styles.page}>
+    <>
       <h1 className={styles.heading}>My Saved Searches</h1>
       <p className={styles.intro}>
         We check every 15 minutes and email you when new cars match a saved search. You can unsubscribe from
@@ -78,32 +78,26 @@ export default function SavedSearchesClient() {
           you like, then save the search to get emailed when new matches appear.
         </p>
       ) : (
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>Search</th>
-              <th>Saved on</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {searches.map((s) => (
-              <tr key={s.id}>
-                <td>{s.label}</td>
-                <td>{s.created_at}</td>
-                <td>
-                  <Link href={`/used-cars?${buildQueryString(s.query_params)}`} className={styles.actionBtn}>
-                    View results
-                  </Link>
-                  <button type="button" className={styles.deleteBtn} onClick={() => deleteSearch(s.id)}>
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className={styles.searchList}>
+          {searches.map((s) => (
+            <div className={styles.searchCard} key={s.id}>
+              <span className={styles.searchIcon} aria-hidden="true">🔍</span>
+              <div className={styles.searchBody}>
+                <div className={styles.searchLabel}>{s.label}</div>
+                <div className={styles.searchMeta}>Saved on {s.created_at}</div>
+              </div>
+              <div className={styles.searchActions}>
+                <Link href={`/used-cars?${buildQueryString(s.query_params)}`} className={styles.actionBtn}>
+                  View results
+                </Link>
+                <button type="button" className={styles.deleteBtn} onClick={() => deleteSearch(s.id)}>
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       )}
-    </main>
+    </>
   );
 }

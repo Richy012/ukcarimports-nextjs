@@ -73,7 +73,7 @@ export default function SavedCarsClient() {
       return;
     }
 
-    fetch(`${API_BASE}/user/saved-cars`, { headers: authHeaders() })
+    fetch(`/api/saved-cars`, { headers: authHeaders() })
       .then((res) => res.json())
       .then((data) => {
         const list: SavedCar[] = (data.data && data.data.cars) || [];
@@ -90,7 +90,7 @@ export default function SavedCarsClient() {
   }, []);
 
   function removeCar(carId: string) {
-    fetch(`${API_BASE}/user/unsave-car/${carId}`, {
+    fetch(`/api/unsave-car/${carId}`, {
       method: "DELETE",
       headers: authHeaders(),
     })
@@ -108,7 +108,7 @@ export default function SavedCarsClient() {
     const next = current === value ? "none" : value;
     setFeedback((prev) => ({ ...prev, [savedCarId]: next }));
 
-    fetch(`${API_BASE}/user/saved-cars/${savedCarId}/feedback`, {
+    fetch(`/api/saved-cars/${savedCarId}/feedback`, {
       method: "POST",
       headers: { ...authHeaders(), "Content-Type": "application/json" },
       body: JSON.stringify({ feedback: next }),
@@ -141,7 +141,7 @@ export default function SavedCarsClient() {
   ];
 
   return (
-    <main className={styles.page}>
+    <>
       <h1 className={styles.heading}>My Saved Cars</h1>
       <p className={styles.intro}>
         We&apos;ll email you if a similar car is added to our stock later. You can unsubscribe from those
@@ -264,6 +264,6 @@ export default function SavedCarsClient() {
           )}
         </>
       )}
-    </main>
+    </>
   );
 }

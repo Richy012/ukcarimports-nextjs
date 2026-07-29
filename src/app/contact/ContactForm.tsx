@@ -4,7 +4,6 @@ import { useState } from "react";
 import Script from "next/script";
 import styles from "./page.module.css";
 
-const API_BASE = "https://api.ukcarimports.ie/public";
 const RECAPTCHA_SITE_KEY = "6LdJejIaAAAAABPap2izWvDOKZgwXHDlo4KVmtLs";
 
 declare global {
@@ -56,7 +55,7 @@ export default function ContactForm() {
         });
       });
 
-      const res = await fetch(`${API_BASE}/add-lead`, {
+      const res = await fetch(`/api/add-lead`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, recaptchaToken: token }),

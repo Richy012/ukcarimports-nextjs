@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { API_BASE, setToken } from "@/lib/auth";
+import { setToken } from "@/lib/auth";
 import styles from "./page.module.css";
 
 interface FormState {
@@ -52,7 +52,7 @@ export default function SignUpForm() {
 
     setSubmitting(true);
     try {
-      const signupRes = await fetch(`${API_BASE}/signup`, {
+      const signupRes = await fetch(`/api/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -65,7 +65,7 @@ export default function SignUpForm() {
         return;
       }
 
-      const loginRes = await fetch(`${API_BASE}/login`, {
+      const loginRes = await fetch(`/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: form.email, password: form.password }),

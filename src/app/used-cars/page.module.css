@@ -111,6 +111,81 @@
   background: #f3f3f3;
 }
 
+.cardImageCarousel {
+  position: relative;
+}
+
+.carouselArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.85);
+  border: none;
+  color: #222;
+  font-size: 22px;
+  line-height: 1;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.cardImageCarousel:hover .carouselArrow {
+  opacity: 1;
+}
+
+.carouselArrow:hover {
+  background: #fff;
+}
+
+.carouselArrowPrev {
+  left: 8px;
+}
+
+.carouselArrowNext {
+  right: 8px;
+}
+
+.carouselDots {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  z-index: 2;
+}
+
+.carouselDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.carouselDotActive {
+  background: #fff;
+}
+
+.carouselCounter {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  z-index: 2;
+}
+
 .cardBody {
   padding: 12px 14px 4px;
   flex: 1;

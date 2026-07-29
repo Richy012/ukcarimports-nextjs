@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { API_BASE, setToken } from "@/lib/auth";
+import { setToken } from "@/lib/auth";
 import styles from "./page.module.css";
 
 interface FormState {
@@ -35,7 +35,7 @@ export default function SignInForm() {
 
     setSubmitting(true);
     try {
-      const res = await fetch(`${API_BASE}/login`, {
+      const res = await fetch(`/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -88,6 +88,7 @@ export default function SignInForm() {
       </form>
 
       <div className={styles.links}>
+        <Link href="/forgot-password">Forgot your password?</Link>
         <Link href="/sign-up">Not a user? Create account</Link>
       </div>
     </>

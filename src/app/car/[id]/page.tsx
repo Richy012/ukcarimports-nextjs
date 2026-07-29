@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import PriceBreakdown from "./PriceBreakdown";
+import CarGallery from "./CarGallery";
 import styles from "./page.module.css";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
@@ -135,8 +136,6 @@ export default async function CarDetailPage({
   const year = buildCarYear(car.registration_date);
   const km = formatKm(car.mileage);
   const allPhotos = (car.decoded_images ?? []).filter((img) => img && img.image);
-  const thumbnails = allPhotos.slice(0, 4);
-  const extraPhotosCount = Math.max(0, allPhotos.length - 4);
   const relatedCars = (car.relatedcars ?? []).filter((c) => c.featured_image).slice(0, 4);
 
   const specs = [
@@ -161,40 +160,7 @@ export default async function CarDetailPage({
       <h1 className={styles.heading}>{car.car_name}</h1>
 
       <div className={styles.layout}>
-        <div className={styles.gallery}>
-          <img
-            src={car.featured_image}
-            alt={car.car_name}
-            width={800}
-            height={600}
-            fetchPriority="high"
-            decoding="async"
-            className={styles.heroImage}
-          />
-          {thumbnails.length > 0 && (
-            <div className={styles.photoGrid}>
-              {thumbnails.map((img, i) => {
-                const isLast = i === thumbnails.length - 1;
-                return (
-                  <div key={img.id} className={styles.photoGridItem}>
-                    <img
-                      src={img.image}
-                      alt=""
-                      width={260}
-                      height={140}
-                      loading="lazy"
-                      decoding="async"
-                      className={styles.thumb}
-                    />
-                    {isLast && extraPhotosCount > 0 && (
-                      <div className={styles.morePhotosOverlay}>+{extraPhotosCount} more</div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
+        <CarGallery heroSrc={car.featured_image} carName={car.car_name} photos={allPhotos} />
 
         <div className={styles.summary}>
           {car.car_info && (

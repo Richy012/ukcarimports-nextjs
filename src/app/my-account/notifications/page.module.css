@@ -1,9 +1,3 @@
-.page {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 30px 16px 60px;
-}
-
 .heading {
   font-size: 24px;
   margin-bottom: 8px;
@@ -31,137 +25,106 @@
   color: #b60b0c;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
+.notifList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.card {
+.notifCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  overflow: hidden;
+  border-radius: 8px;
+  padding: 12px;
   background: #fff;
-  display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
 }
 
-.cardImage {
-  width: 100%;
-  height: 170px;
-  object-fit: cover;
-  background: #f0f0f0;
+.notifThumbLink {
+  flex-shrink: 0;
+  display: block;
 }
 
-.cardImageFallback {
-  width: 100%;
-  height: 170px;
+.notifThumb {
+  width: 120px;
+  height: 90px;
+  object-fit: contain;
   background: #f0f0f0;
+  border-radius: 5px;
+  display: block;
+}
+
+.notifThumbFallback {
+  width: 120px;
+  height: 90px;
+  background: #f0f0f0;
+  border-radius: 5px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
   color: #999;
-  font-size: 13px;
+  font-size: 24px;
 }
 
-.cardBody {
-  padding: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.notifBody {
   flex: 1;
+  min-width: 180px;
 }
 
-.cardTitle {
+.notifTitle {
   font-size: 15px;
   font-weight: 600;
   color: #222;
   text-decoration: none;
 }
 
-.cardPrice {
-  font-size: 16px;
-  font-weight: 700;
-  color: #b60b0c;
-}
-
-.cardActions {
-  margin-top: auto;
-  padding-top: 10px;
-}
-
-.removeBtn {
-  background: none;
-  border: 1px solid #b60b0c;
-  color: #b60b0c;
-  border-radius: 5px;
-  padding: 6px 14px;
+.notifMetaRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 6px;
   font-size: 13px;
-  cursor: pointer;
 }
 
-.removeBtn:hover {
-  background: #b60b0c;
-  color: #fff;
-}
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.table th,
-.table td {
-  text-align: left;
-  padding: 10px 12px;
-  border-bottom: 1px solid #e5e7eb;
-  font-size: 14px;
-}
-
-.table th {
-  color: #666;
+.availBadge {
+  padding: 3px 10px;
+  border-radius: 999px;
   font-weight: 600;
-}
-
-.actionBtn {
-  background: none;
-  border: 1px solid #71717180;
-  border-radius: 5px;
-  padding: 5px 12px;
-  font-size: 13px;
-  cursor: pointer;
-  margin-right: 6px;
-  color: #454443;
-}
-
-.actionBtn:hover {
-  border-color: #b60b0c;
-  color: #b60b0c;
-}
-
-.deleteBtn {
-  composes: actionBtn;
-  border-color: #b60b0c;
-  color: #b60b0c;
-}
-
-.deleteBtn:hover {
-  background: #b60b0c;
-  color: #fff;
+  font-size: 12px;
 }
 
 .availAvailable {
+  background: #e6f4ec;
   color: #1f7a4d;
 }
 
 .availPending {
-  color: #b8860b;
+  background: #fdf3d9;
+  color: #8a6400;
 }
 
 .availSold {
+  background: #fbe7e7;
   color: #b60b0c;
+}
+
+.notifPrice {
+  font-weight: 700;
+  color: #b60b0c;
+}
+
+.notifSent {
+  color: #888;
+}
+
+.notifActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 .feedbackBtn {
@@ -174,15 +137,20 @@
   justify-content: center;
   background: #fff;
   cursor: pointer;
-  margin-right: 6px;
 }
 
-.feedbackBtnActiveLike {
-  background: #14a800;
-  border-color: #14a800;
+.deleteBtn {
+  background: none;
+  border: 1px solid #b60b0c;
+  color: #b60b0c;
+  border-radius: 5px;
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-left: 4px;
 }
 
-.feedbackBtnActiveDislike {
-  background: #e02020;
-  border-color: #e02020;
+.deleteBtn:hover {
+  background: #b60b0c;
+  color: #fff;
 }

@@ -2,9 +2,7 @@
 // produce the HTML. This is the actual fix for the ~9s mobile LCP: the
 // browser gets real car data in the initial HTML response instead of an
 // empty <div id="root"> that waits on a full SPA boot before anything paints.
-import Link from "next/link";
 import FilterBar from "./FilterBar";
-import CardsGrid from "./CardsGrid";
 import styles from "./page.module.css";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
@@ -73,38 +71,57 @@ interface Filters {
   Fuel: string;
   body_style: string;
   transmission_type: string;
+  seats: string;
+  color: string;
+  minEnginesize: string;
+  maxEnginesize: string;
+  minYear: string;
+  maxYear: string;
+  minPrice: string;
+  maxPrice: string;
+  minMileage: string;
+  maxMileage: string;
   price_sort: string;
   mileage_sort: string;
 }
 
-async function getCars(filters: Filters, pageNum: number): Promise<ApiResponse> {
+async function getCars(
+  filters: Filters,
+  searchChips: string[],
+  versionChips: string[],
+  pageNum: number,
+): Promise<ApiResponse> {
   const res = await fetch(`${API_BASE}/allcarsnew/0/10`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       is_manheim_car: "0",
       premium_car: "0",
-      minPrice: "",
-      maxPrice: "",
-      minYear: "",
-      maxYear: "",
+      minPrice: filters.minPrice,
+      maxPrice: filters.maxPrice,
+      minYear: filters.minYear,
+      maxYear: filters.maxYear,
       Make: filters.Make,
       Model: filters.Model,
       Fuel: filters.Fuel,
-      seats: "",
+      seats: filters.seats,
       body_style: filters.body_style,
       Condition: "",
-      minMileage: "",
-      maxMileage: "",
-      minEnginesize: "",
-      maxEnginesize: "",
+      minMileage: filters.minMileage,
+      maxMileage: filters.maxMileage,
+      minEnginesize: filters.minEnginesize,
+      maxEnginesize: filters.maxEnginesize,
       transmission_type: filters.transmission_type,
       engine: "",
       pagenum: pageNum,
       limit: PAGE_SIZE,
       price_sort: filters.price_sort,
       mileage_sort: filters.mileage_sort,
-      color: "",
+      color: filters.color,
+      search: searchChips.join(" "),
+      searchChips,
+      version: versionChips.join(" "),
+      versionChips,
       vrt: "",
     }),
     // Inventory changes frequently (see llms.txt note written earlier) --
@@ -126,11 +143,23 @@ function firstParam(
   return v ?? "";
 }
 
-function pageHref(filters: Filters, page: number): string {
+function allParams(
+  params: { [key: string]: string | string[] | undefined },
+  key: string,
+): string[] {
+  const v = params[key];
+  if (Array.isArray(v)) return v;
+  if (v) return [v];
+  return [];
+}
+
+function pageHref(filters: Filters, searchChips: string[], versionChips: string[], page: number): string {
   const qs = new URLSearchParams();
   Object.entries(filters).forEach(([k, v]) => {
     if (v) qs.set(k, v);
   });
+  searchChips.forEach((c) => qs.append("searchChips", c));
+  versionChips.forEach((c) => qs.append("versionChips", c));
   if (page > 1) qs.set("page", String(page));
   const s = qs.toString();
   return s ? `/used-cars?${s}` : "/used-cars";
@@ -156,24 +185,34 @@ export default async function UsedCarsPage({
     Fuel: firstParam(params, "Fuel"),
     body_style: firstParam(params, "body_style"),
     transmission_type: firstParam(params, "transmission_type"),
+    seats: firstParam(params, "seats"),
+    color: firstParam(params, "color"),
+    minEnginesize: firstParam(params, "minEnginesize"),
+    maxEnginesize: firstParam(params, "maxEnginesize"),
+    minYear: firstParam(params, "minYear"),
+    maxYear: firstParam(params, "maxYear"),
+    minPrice: firstParam(params, "minPrice"),
+    maxPrice: firstParam(params, "maxPrice"),
+    minMileage: firstParam(params, "minMileage"),
+    maxMileage: firstParam(params, "maxMileage"),
     price_sort: firstParam(params, "price_sort"),
     mileage_sort: firstParam(params, "mileage_sort"),
   };
-  const activeFilters = Object.entries(filters)
-    .filter(([k]) => k !== "price_sort" && k !== "mileage_sort")
-    .filter(([, v]) => v);
+  const searchChips = allParams(params, "searchChips");
+  const versionChips = allParams(params, "versionChips");
   const currentSort = sortParamsToLabel(filters.price_sort, filters.mileage_sort);
 
   const requestedPage = Number(firstParam(params, "page")) || 1;
   const page = Math.max(1, Math.floor(requestedPage));
 
-  const [{ data }, makesData, fuelsData, bodyStylesData, transmissionsData] =
+  const [{ data }, makesData, fuelsData, bodyStylesData, transmissionsData, seatsData] =
     await Promise.all([
-      getCars(filters, page),
+      getCars(filters, searchChips, versionChips, page),
       postFacet("makes"),
       postFacet("fuel-types"),
       postFacet("body-styles"),
       postFacet("transmission-types"),
+      postFacet("seats"),
     ]);
   const totalPages = Math.max(1, Math.ceil(data.count / PAGE_SIZE));
   const currentPage = Math.min(page, totalPages);
@@ -193,6 +232,18 @@ export default async function UsedCarsPage({
       label: t.car_transmission,
       total: t.total,
     }));
+  const seatsOptions: FacetOption[] = (seatsData.seats || [])
+    .filter((s: { seats: string }) => s.seats)
+    .map((s: { seats: string; total: number }) => ({ label: s.seats, total: s.total }));
+
+  const prevHref = currentPage > 1 ? pageHref(filters, searchChips, versionChips, currentPage - 1) : null;
+  const nextHref = currentPage < totalPages ? pageHref(filters, searchChips, versionChips, currentPage + 1) : null;
+
+  // Forces a clean remount of FilterBar whenever the applied URL state
+  // changes (Apply, Clear all, pagination, a shared link) -- otherwise React
+  // reuses the existing client component instance and its local filter
+  // state/dirty flag would keep showing whatever the user had mid-edit.
+  const stateKey = JSON.stringify({ filters, searchChips, versionChips, currentSort, page: currentPage });
 
   return (
     <main className={styles.main}>
@@ -200,54 +251,37 @@ export default async function UsedCarsPage({
       <p className={styles.count}>Total vehicles: {data.count.toLocaleString("en-IE")}</p>
 
       <FilterBar
+        key={stateKey}
         initialMakes={makes}
         initialFuels={fuels}
         initialBodyStyles={bodyStyles}
         initialTransmissions={transmissions}
+        initialSeats={seatsOptions}
         currentMake={filters.Make}
         currentModel={filters.Model}
         currentFuel={filters.Fuel}
         currentBodyStyle={filters.body_style}
         currentTransmission={filters.transmission_type}
+        currentSeats={filters.seats}
+        currentColor={filters.color}
+        currentMinEnginesize={filters.minEnginesize}
+        currentMaxEnginesize={filters.maxEnginesize}
+        currentMinYear={filters.minYear}
+        currentMaxYear={filters.maxYear}
+        currentMinPrice={filters.minPrice}
+        currentMaxPrice={filters.maxPrice}
+        currentMinMileage={filters.minMileage}
+        currentMaxMileage={filters.maxMileage}
+        currentSearchChips={searchChips}
+        currentVersionChips={versionChips}
         currentSort={currentSort}
+        initialCars={data.cars}
         initialCount={data.count}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        prevHref={prevHref}
+        nextHref={nextHref}
       />
-
-      {activeFilters.length > 0 && (
-        <div className={styles.activeFilters}>
-          <span>Filtered by: {activeFilters.map(([, v]) => v).join(", ")}</span>
-        </div>
-      )}
-
-      <CardsGrid cars={data.cars} />
-
-      {data.cars.length === 0 && (
-        <p className={styles.noResults}>No cars match these filters.</p>
-      )}
-
-      {data.cars.length > 0 && totalPages > 1 && (
-        <nav className={styles.pagination} aria-label="Pagination">
-          {currentPage > 1 ? (
-            <Link href={pageHref(filters, currentPage - 1)} className={styles.pageLink}>
-              &larr; Previous
-            </Link>
-          ) : (
-            <span className={styles.pageLinkDisabled}>&larr; Previous</span>
-          )}
-
-          <span className={styles.pageStatus}>
-            Page {currentPage.toLocaleString("en-IE")} of {totalPages.toLocaleString("en-IE")}
-          </span>
-
-          {currentPage < totalPages ? (
-            <Link href={pageHref(filters, currentPage + 1)} className={styles.pageLink}>
-              Next &rarr;
-            </Link>
-          ) : (
-            <span className={styles.pageLinkDisabled}>Next &rarr;</span>
-          )}
-        </nav>
-      )}
     </main>
   );
 }

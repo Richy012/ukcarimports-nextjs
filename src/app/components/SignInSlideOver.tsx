@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { API_BASE, setToken } from "@/lib/auth";
+import { setToken } from "@/lib/auth";
 import styles from "./SignInSlideOver.module.css";
 
 interface FormState {
@@ -49,7 +49,7 @@ export default function SignInSlideOver({
 
     setSubmitting(true);
     try {
-      const res = await fetch(`${API_BASE}/login`, {
+      const res = await fetch(`/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

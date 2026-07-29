@@ -120,7 +120,7 @@ export default function PriceBreakdown({
         });
       });
 
-      const res = await fetch(`${API_BASE}/submit-form`, {
+      const res = await fetch(`/api/submit-form`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

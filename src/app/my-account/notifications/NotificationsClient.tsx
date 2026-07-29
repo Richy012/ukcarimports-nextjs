@@ -17,8 +17,31 @@ interface Notification {
   feedback?: "like" | "dislike" | "none";
 }
 
+function NotificationThumb({ carId, alt }: { carId: string; alt: string }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return (
+      <div className={styles.notifThumbFallback}>
+        <span>📷</span>
+      </div>
+    );
+  }
+  return (
+    <img
+      src={`${API_BASE}/car-thumb/${carId}`}
+      alt={alt}
+      width={120}
+      height={90}
+      loading="lazy"
+      decoding="async"
+      className={styles.notifThumb}
+      onError={() => setFailed(true)}
+    />
+  );
+}
+
 export default function NotificationsClient() {
-    const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,7 +50,7 @@ export default function NotificationsClient() {
       return;
     }
 
-    fetch(`${API_BASE}/user/notifications`, { headers: authHeaders() })
+    fetch(`/api/notifications`, { headers: authHeaders() })
       .then((res) => res.json())
       .then((data) => {
         setNotifications(data.data || []);
@@ -43,7 +66,7 @@ export default function NotificationsClient() {
 
     setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, feedback: next } : n)));
 
-    fetch(`${API_BASE}/user/notifications/${id}/feedback`, {
+    fetch(`/api/notifications/${id}/feedback`, {
       method: "POST",
       headers: { ...authHeaders(), "Content-Type": "application/json" },
       body: JSON.stringify({ feedback: next }),
@@ -51,7 +74,7 @@ export default function NotificationsClient() {
   }
 
   function deleteNotification(id: number) {
-    fetch(`${API_BASE}/user/notifications/${id}`, {
+    fetch(`/api/notifications/${id}`, {
       method: "DELETE",
       headers: authHeaders(),
     })
@@ -65,7 +88,7 @@ export default function NotificationsClient() {
   }
 
   return (
-    <main className={styles.page}>
+    <>
       <h1 className={styles.heading}>My Notifications</h1>
       <p className={styles.intro}>
         Every car we&apos;ve sent you based on your saved cars and saved searches, newest first. Let us know
@@ -81,40 +104,44 @@ export default function NotificationsClient() {
           <Link href="/used-cars">our used cars</Link> and we&apos;ll email you when something similar turns up.
         </p>
       ) : (
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>Car</th>
-              <th>Status</th>
-              <th>Price</th>
-              <th>Sent</th>
-              <th>What did you think?</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {notifications.map((n) => (
-              <tr key={n.id}>
-                <td>
-                  <Link href={`/car/${n.car_id}`}>
-                    {n.car_year ? `${n.car_year} ` : ""}
-                    {n.make_name} {n.model_name}
+        <div className={styles.notifList}>
+          {notifications.map((n) => {
+            const carName = `${n.car_year ? `${n.car_year} ` : ""}${n.make_name} ${n.model_name}`;
+            return (
+              <div className={styles.notifCard} key={n.id}>
+                <Link href={`/car/${n.car_id}`} className={styles.notifThumbLink}>
+                  <NotificationThumb carId={n.car_id} alt={carName} />
+                </Link>
+
+                <div className={styles.notifBody}>
+                  <Link href={`/car/${n.car_id}`} className={styles.notifTitle}>
+                    {carName}
                   </Link>
-                </td>
-                <td>
-                  {n.availability === "available" && <span className={styles.availAvailable}>Available</span>}
-                  {n.availability === "pricing_pending" && (
-                    <span className={styles.availPending} title="Still listed, we're still finalizing the price">
-                      Pricing pending
-                    </span>
-                  )}
-                  {n.availability === "sold" && <span className={styles.availSold}>Sold / removed</span>}
-                </td>
-                <td>
-                  {n.computed_final_price_v2 ? `€${Number(n.computed_final_price_v2).toLocaleString()}` : "-"}
-                </td>
-                <td>{n.sent_at}</td>
-                <td>
+                  <div className={styles.notifMetaRow}>
+                    {n.availability === "available" && (
+                      <span className={`${styles.availBadge} ${styles.availAvailable}`}>Available</span>
+                    )}
+                    {n.availability === "pricing_pending" && (
+                      <span
+                        className={`${styles.availBadge} ${styles.availPending}`}
+                        title="Still listed, we're still finalizing the price"
+                      >
+                        Pricing pending
+                      </span>
+                    )}
+                    {n.availability === "sold" && (
+                      <span className={`${styles.availBadge} ${styles.availSold}`}>Sold / removed</span>
+                    )}
+                    {n.computed_final_price_v2 ? (
+                      <span className={styles.notifPrice}>
+                        €{Number(n.computed_final_price_v2).toLocaleString()}
+                      </span>
+                    ) : null}
+                    <span className={styles.notifSent}>Sent {n.sent_at}</span>
+                  </div>
+                </div>
+
+                <div className={styles.notifActions}>
                   <button
                     type="button"
                     className={styles.feedbackBtn}
@@ -135,17 +162,15 @@ export default function NotificationsClient() {
                   >
                     👎
                   </button>
-                </td>
-                <td>
                   <button type="button" className={styles.deleteBtn} onClick={() => deleteNotification(n.id)}>
                     Delete
                   </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       )}
-    </main>
+    </>
   );
 }
