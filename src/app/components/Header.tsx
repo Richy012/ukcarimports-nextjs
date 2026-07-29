@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { clearToken, isTokenValid, isAdminTokenValid } from "@/lib/auth";
 import styles from "./Header.module.css";
@@ -40,11 +40,28 @@ export default function Header() {
   const [openMenu, setOpenMenu] = useState<MenuKey>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isStaff, setIsStaff] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     setIsLoggedIn(isTokenValid());
     setIsStaff(isAdminTokenValid());
   }, []);
+
+  // The live legacy site's dropdowns never close on an outside click -- once
+  // opened they sit there until you click the toggle again or pick a link
+  // (confirmed live 2026-07-30). Only clicks on a real link or the toggle
+  // itself close a menu without this; clicking anywhere else on the page
+  // left it open indefinitely, same gap this is fixing.
+  useEffect(() => {
+    if (openMenu === null) return;
+    function handleClickOutside(e: MouseEvent) {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setOpenMenu(null);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [openMenu]);
 
   function toggleMenu(key: MenuKey) {
     setOpenMenu((current) => (current === key ? null : key));
@@ -81,7 +98,7 @@ export default function Header() {
           <span />
         </button>
 
-        <nav className={`${styles.nav} ${open ? styles.navOpen : ""}`}>
+        <nav ref={navRef} className={`${styles.nav} ${open ? styles.navOpen : ""}`}>
           <ul className={styles.navList}>
             {NAV_LINKS.map((link) => (
               <li key={link.href} onClick={() => setOpen(false)}>
