@@ -130,7 +130,9 @@ export default async function CarDetailPage({
 
   const year = buildCarYear(car.registration_date);
   const km = formatKm(car.mileage);
-  const thumbnails = (car.decoded_images ?? []).filter((img) => img && img.image).slice(0, 8);
+  const allPhotos = (car.decoded_images ?? []).filter((img) => img && img.image);
+  const thumbnails = allPhotos.slice(0, 4);
+  const extraPhotosCount = Math.max(0, allPhotos.length - 4);
   const relatedCars = (car.relatedcars ?? []).filter((c) => c.featured_image).slice(0, 4);
 
   const specs = [
@@ -164,19 +166,26 @@ export default async function CarDetailPage({
             className={styles.heroImage}
           />
           {thumbnails.length > 0 && (
-            <div className={styles.thumbRow}>
-              {thumbnails.map((img) => (
-                <img
-                  key={img.id}
-                  src={img.image}
-                  alt=""
-                  width={120}
-                  height={90}
-                  loading="lazy"
-                  decoding="async"
-                  className={styles.thumb}
-                />
-              ))}
+            <div className={styles.photoGrid}>
+              {thumbnails.map((img, i) => {
+                const isLast = i === thumbnails.length - 1;
+                return (
+                  <div key={img.id} className={styles.photoGridItem}>
+                    <img
+                      src={img.image}
+                      alt=""
+                      width={260}
+                      height={140}
+                      loading="lazy"
+                      decoding="async"
+                      className={styles.thumb}
+                    />
+                    {isLast && extraPhotosCount > 0 && (
+                      <div className={styles.morePhotosOverlay}>+{extraPhotosCount} more</div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
