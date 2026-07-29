@@ -5,6 +5,13 @@
 // server-side session/cookie on this backend, so this must stay
 // client-side (these helpers are only ever called from "use client"
 // components).
+//
+// Customer and staff sessions use separate storage keys ("token" vs
+// "staff_token") -- the legacy SPA reused a single "token" slot for both,
+// which meant a staff login silently overwrote/masked a customer session
+// (or vice versa) and the header nav had no way to tell which kind of
+// session was active. Keeping them independent means someone can hold both
+// at once, and the nav can show the right affordance for each.
 
 export const API_BASE = "https://api.ukcarimports.ie/public";
 
@@ -22,11 +29,15 @@ export function parseJwt(token: string | null | undefined): DecodedToken | undef
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
     return JSON.parse(atob(base64));
   } catch {
-    // A corrupted/malformed token should never crash the page -- clear it
-    // and treat the visitor as logged out, matching legacy behaviour.
-    localStorage.removeItem("token");
     return undefined;
   }
+}
+
+function isJwtLive(token: string | null): boolean {
+  if (!token) return false;
+  const decoded = parseJwt(token);
+  if (!decoded || !decoded.exp) return false;
+  return decoded.exp * 1000 > Date.now();
 }
 
 export function getToken(): string | null {
@@ -46,13 +57,7 @@ export function clearToken() {
 // applied on the legacy site (see project-ukcarimports-infra memory).
 export function isTokenValid(): boolean {
   const token = getToken();
-  if (!token) return false;
-  const decoded = parseJwt(token);
-  if (!decoded || !decoded.exp) {
-    clearToken();
-    return false;
-  }
-  if (decoded.exp * 1000 <= Date.now()) {
+  if (!isJwtLive(token)) {
     clearToken();
     return false;
   }
@@ -69,10 +74,29 @@ export function authHeaders(): HeadersInit {
 // reused verbatim rather than re-derived.
 const ADMIN_ROLE = "$aHF667#79+57h%45";
 
+export function getStaffToken(): string | null {
+  return localStorage.getItem("staff_token");
+}
+
+export function setStaffToken(token: string) {
+  localStorage.setItem("staff_token", token);
+}
+
+export function clearStaffToken() {
+  localStorage.removeItem("staff_token");
+}
+
 // Staff/admin pages need both a live token AND the admin role -- a valid
 // customer session must not grant access to /dashboard etc.
 export function isAdminTokenValid(): boolean {
-  if (!isTokenValid()) return false;
-  const decoded = parseJwt(getToken());
-  return decoded?.urxrs === ADMIN_ROLE;
+  const token = getStaffToken();
+  if (!isJwtLive(token)) {
+    clearStaffToken();
+    return false;
+  }
+  return parseJwt(token)?.urxrs === ADMIN_ROLE;
+}
+
+export function staffAuthHeaders(): HeadersInit {
+  return { "X-Auth-Token": getStaffToken() ?? "" };
 }

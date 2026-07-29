@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { clearToken, isTokenValid } from "@/lib/auth";
+import { clearToken, isTokenValid, isAdminTokenValid } from "@/lib/auth";
 import styles from "./Header.module.css";
 
 const NAV_LINKS = [
@@ -30,29 +30,42 @@ const ACCOUNT_LINKS = [
   { href: "/my-account/notifications", label: "Notifications" },
 ];
 
+type MenuKey = "resources" | "account" | "auth" | null;
+
 export default function Header() {
-    const [open, setOpen] = useState(false);
-  const [accountOpen, setAccountOpen] = useState(false);
-  const [resourcesOpen, setResourcesOpen] = useState(false);
-  const [authOpen, setAuthOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  // Single source of truth for which dropdown is open -- three independent
+  // booleans previously let "More" and "My Account" both be open at once
+  // (confirmed live 2026-07-30), since toggling one never closed the others.
+  const [openMenu, setOpenMenu] = useState<MenuKey>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isStaff, setIsStaff] = useState(false);
 
   useEffect(() => {
     setIsLoggedIn(isTokenValid());
+    setIsStaff(isAdminTokenValid());
   }, []);
+
+  function toggleMenu(key: MenuKey) {
+    setOpenMenu((current) => (current === key ? null : key));
+  }
+
+  function closeAll() {
+    setOpenMenu(null);
+    setOpen(false);
+  }
 
   function logout() {
     clearToken();
     setIsLoggedIn(false);
-    setAccountOpen(false);
-    setOpen(false);
+    closeAll();
     window.location.href = "/";
   }
 
   return (
     <header className={styles.header}>
       <div className={styles.bar}>
-        <Link href="/" className={styles.brand} onClick={() => setOpen(false)}>
+        <Link href="/" className={styles.brand} onClick={closeAll}>
           <img src="/assets/images/logo.png" alt="UK Car Imports" width={60} height={60} />
         </Link>
 
@@ -88,22 +101,15 @@ export default function Header() {
               <button
                 type="button"
                 className={styles.navLink}
-                aria-expanded={resourcesOpen}
-                onClick={() => setResourcesOpen((v) => !v)}
+                aria-expanded={openMenu === "resources"}
+                onClick={() => toggleMenu("resources")}
               >
                 More ▾
               </button>
-              <ul className={`${styles.accountMenu} ${resourcesOpen ? styles.accountMenuOpen : ""}`}>
+              <ul className={`${styles.accountMenu} ${openMenu === "resources" ? styles.accountMenuOpen : ""}`}>
                 {RESOURCE_LINKS.map((link) => (
                   <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className={styles.accountMenuLink}
-                      onClick={() => {
-                        setResourcesOpen(false);
-                        setOpen(false);
-                      }}
-                    >
+                    <Link href={link.href} className={styles.accountMenuLink} onClick={closeAll}>
                       {link.label}
                     </Link>
                   </li>
@@ -116,22 +122,15 @@ export default function Header() {
                 <button
                   type="button"
                   className={styles.navLink}
-                  aria-expanded={accountOpen}
-                  onClick={() => setAccountOpen((v) => !v)}
+                  aria-expanded={openMenu === "account"}
+                  onClick={() => toggleMenu("account")}
                 >
                   My Account ▾
                 </button>
-                <ul className={`${styles.accountMenu} ${accountOpen ? styles.accountMenuOpen : ""}`}>
+                <ul className={`${styles.accountMenu} ${openMenu === "account" ? styles.accountMenuOpen : ""}`}>
                   {ACCOUNT_LINKS.map((link) => (
                     <li key={link.href}>
-                      <Link
-                        href={link.href}
-                        className={styles.accountMenuLink}
-                        onClick={() => {
-                          setAccountOpen(false);
-                          setOpen(false);
-                        }}
-                      >
+                      <Link href={link.href} className={styles.accountMenuLink} onClick={closeAll}>
                         {link.label}
                       </Link>
                     </li>
@@ -148,37 +147,31 @@ export default function Header() {
                 <button
                   type="button"
                   className={styles.navLink}
-                  aria-expanded={authOpen}
-                  onClick={() => setAuthOpen((v) => !v)}
+                  aria-expanded={openMenu === "auth"}
+                  onClick={() => toggleMenu("auth")}
                 >
                   Login ▾
                 </button>
-                <ul className={`${styles.accountMenu} ${authOpen ? styles.accountMenuOpen : ""}`}>
+                <ul className={`${styles.accountMenu} ${openMenu === "auth" ? styles.accountMenuOpen : ""}`}>
                   <li>
-                    <Link
-                      href="/sign-in"
-                      className={styles.accountMenuLink}
-                      onClick={() => {
-                        setAuthOpen(false);
-                        setOpen(false);
-                      }}
-                    >
+                    <Link href="/sign-in" className={styles.accountMenuLink} onClick={closeAll}>
                       Login
                     </Link>
                   </li>
                   <li>
-                    <Link
-                      href="/sign-up"
-                      className={styles.accountMenuLink}
-                      onClick={() => {
-                        setAuthOpen(false);
-                        setOpen(false);
-                      }}
-                    >
+                    <Link href="/sign-up" className={styles.accountMenuLink} onClick={closeAll}>
                       Register
                     </Link>
                   </li>
                 </ul>
+              </li>
+            )}
+
+            {isStaff && (
+              <li onClick={closeAll}>
+                <Link href="/dashboard" className={styles.navLink}>
+                  Dashboard
+                </Link>
               </li>
             )}
 

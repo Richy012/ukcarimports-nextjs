@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { setToken, isAdminTokenValid } from "@/lib/auth";
+import { setStaffToken, isAdminTokenValid } from "@/lib/auth";
 import styles from "./page.module.css";
 
 interface FormState {
@@ -42,7 +42,7 @@ export default function StaffLoginForm() {
       const data = await res.json();
 
       if (data.ResponseCode == 1) {
-        setToken(data.token);
+        setStaffToken(data.token);
         // The API issues the same JWT shape for every role -- confirm this
         // one is actually admin before sending them into /dashboard, same
         // spirit as the legacy Dashboard.jsx role check.

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { authHeaders } from "@/lib/auth";
+import { staffAuthHeaders } from "@/lib/auth";
 import styles from "./page.module.css";
 
 export default function DashboardClient() {
@@ -43,7 +43,7 @@ export default function DashboardClient() {
 
     // BuyCarController::getLeads() responds {ResponseCode, data: [...]} --
     // not a bare array.
-    fetch("/api/staff-leads", { headers: authHeaders() })
+    fetch("/api/staff-leads", { headers: staffAuthHeaders() })
       .then((res) => res.json())
       .then((data) => setTotalLeads(Array.isArray(data?.data) ? data.data.length : 0))
       .catch(() => setTotalLeads(null));

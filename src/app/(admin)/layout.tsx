@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { clearToken, isAdminTokenValid } from "@/lib/auth";
+import { clearStaffToken, isAdminTokenValid } from "@/lib/auth";
 import styles from "./layout.module.css";
 
 // Only Dashboard is real so far -- more admin sections get added here as
@@ -23,7 +23,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, []);
 
   function handleLogout() {
-    clearToken();
+    clearStaffToken();
     window.location.href = "/staff-login";
   }
 
