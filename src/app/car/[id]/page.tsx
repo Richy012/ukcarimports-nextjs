@@ -19,6 +19,7 @@ interface CarInfo {
   after_irish_vat: number;
   fee: number;
   final_price: number;
+  before_vrt_final_price?: number;
   duty_applied: boolean;
   mechanical_inspection_fee: number;
   warranty_premium_max_eligible: boolean;
@@ -192,7 +193,13 @@ export default async function CarDetailPage({
 
         <div className={styles.summary}>
           {car.car_info && (
-            <PriceBreakdown carInfo={car.car_info} vrtRate={car.vrt_rate ?? 0} />
+            <PriceBreakdown
+              carId={car.car_id}
+              carName={car.car_name}
+              carInfo={car.car_info}
+              vrtRate={car.vrt_rate ?? 0}
+              fuelTypeName={car.fuel_type_name}
+            />
           )}
 
           <dl className={styles.specGrid}>
