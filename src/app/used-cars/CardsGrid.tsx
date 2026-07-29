@@ -15,6 +15,8 @@ interface Car {
   transmission_name: string;
   fuel_type_name: string;
   mileage: string;
+  premium_car?: number;
+  is_manheim_car?: string;
   car_info?: { final_price?: number };
 }
 
@@ -100,6 +102,11 @@ export default function CardsGrid({ cars }: { cars: Car[] }) {
 
         return (
           <Link key={car.car_id} href={`/car/${car.car_id}`} className={styles.card}>
+            {car.premium_car === 1 ? (
+              <span className={`${styles.badge} ${styles.badgePremium}`}>★ Premium</span>
+            ) : car.is_manheim_car === "1" ? (
+              <span className={`${styles.badge} ${styles.badgeAuction}`}>Auction Vehicle</span>
+            ) : null}
             <button
               type="button"
               className={styles.saveButton}
