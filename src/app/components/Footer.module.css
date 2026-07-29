@@ -1,7 +1,8 @@
 .footer {
-  background: #171717;
-  color: #fff;
+  background: #fff;
+  color: #454443;
   margin-top: 40px;
+  border-top: 1px solid #e5e5e5;
 }
 
 .top {
@@ -38,7 +39,7 @@
 
 .box p {
   margin: 0;
-  color: #ccc;
+  color: #454443;
   font-size: 15px;
 }
 
@@ -48,7 +49,7 @@
 }
 
 .bottom {
-  border-top: 1px solid #333;
+  border-top: 1px solid #ddd;
   padding: 20px 16px;
   max-width: 1200px;
   margin: 0 auto;
@@ -66,7 +67,7 @@
 }
 
 .links a {
-  color: #ccc;
+  color: #454443;
   text-decoration: none;
   font-size: 14px;
 }
@@ -77,6 +78,6 @@
 
 .bottom p {
   margin: 0;
-  color: #888;
+  color: #717171;
   font-size: 13px;
 }
