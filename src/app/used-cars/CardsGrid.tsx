@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import CarThumb from "./CarThumb";
+import SignInSlideOver from "../components/SignInSlideOver";
 import { authHeaders, isTokenValid } from "@/lib/auth";
 import styles from "./page.module.css";
 
@@ -45,6 +46,7 @@ function formatKm(mileageMiles: string): string | null {
 export default function CardsGrid({ cars }: { cars: Car[] }) {
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
   const [pending, setPending] = useState<Set<string>>(new Set());
+  const [signInCarId, setSignInCarId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isTokenValid()) return;
@@ -54,13 +56,7 @@ export default function CardsGrid({ cars }: { cars: Car[] }) {
       .catch(() => {});
   }, []);
 
-  function toggleSave(e: React.MouseEvent, carId: string) {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!isTokenValid()) {
-      window.location.href = "/sign-in";
-      return;
-    }
+  function performToggle(carId: string) {
     if (pending.has(carId)) return;
 
     const isSaved = savedIds.has(carId);
@@ -91,7 +87,24 @@ export default function CardsGrid({ cars }: { cars: Car[] }) {
       });
   }
 
+  function toggleSave(e: React.MouseEvent, carId: string) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!isTokenValid()) {
+      setSignInCarId(carId);
+      return;
+    }
+    performToggle(carId);
+  }
+
+  function handleSignInSuccess() {
+    const carId = signInCarId;
+    setSignInCarId(null);
+    if (carId) performToggle(carId);
+  }
+
   return (
+    <>
     <div className={styles.grid}>
       {cars.map((car, index) => {
         const year = buildCarYear(car);
@@ -142,5 +155,11 @@ export default function CardsGrid({ cars }: { cars: Car[] }) {
         );
       })}
     </div>
+    <SignInSlideOver
+      open={signInCarId !== null}
+      onClose={() => setSignInCarId(null)}
+      onSuccess={handleSignInSuccess}
+    />
+    </>
   );
 }
