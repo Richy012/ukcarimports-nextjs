@@ -8,7 +8,10 @@ import styles from "./layout.module.css";
 
 // Only Dashboard is real so far -- more admin sections get added here as
 // each one is actually built, same convention as MyAccountLayout's nav list.
-const NAV_ITEMS = [{ href: "/dashboard", label: "Dashboard" }];
+const NAV_ITEMS = [
+  { href: "/dashboard", label: "Dashboard" },
+  { href: "/cars", label: "Cars" },
+];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
