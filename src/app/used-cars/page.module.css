@@ -49,6 +49,7 @@
 }
 
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   border: 1px solid #e0e0e0;
@@ -56,6 +57,28 @@
   overflow: hidden;
   text-decoration: none;
   color: inherit;
+  background: #fff;
+}
+
+.saveButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  color: #b60b0c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.saveButton:hover {
   background: #fff;
 }
 

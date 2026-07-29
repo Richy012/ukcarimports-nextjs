@@ -231,7 +231,7 @@ export default async function CarDetailPage({
           if (featureGroups.length === 0 && !hasPerformance && car.features_options.length === 0) return null;
 
           return (
-            <details className={styles.signpost} open>
+            <details className={styles.signpost}>
               <summary className={styles.signpostSummary}>Full Specification &amp; Features</summary>
               <div className={styles.signpostBody}>
                 {hasPerformance && (

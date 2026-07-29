@@ -4,7 +4,7 @@
 // empty <div id="root"> that waits on a full SPA boot before anything paints.
 import Link from "next/link";
 import FilterBar from "./FilterBar";
-import CarThumb from "./CarThumb";
+import CardsGrid from "./CardsGrid";
 import styles from "./page.module.css";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
@@ -117,30 +117,6 @@ async function getCars(filters: Filters, pageNum: number): Promise<ApiResponse> 
   return res.json();
 }
 
-function buildCarYear(car: Car): string {
-  if (!car.registration_date) return "";
-  const parts = car.registration_date.split("/");
-  if (parts.length < 3) return "";
-  const year = parts[2];
-  const month = Number(parts[1]);
-  const half = month > 6 ? 2 : 1;
-  return `${year} (${year.slice(2)}${half})`;
-}
-
-function formatEuro(n: number): string {
-  return new Intl.NumberFormat("en-IE", { maximumFractionDigits: 0 }).format(
-    Math.round(n),
-  );
-}
-
-function formatKm(mileageMiles: string): string | null {
-  const miles = Number(mileageMiles.replace(/\D/g, ""));
-  if (!miles) return null;
-  return new Intl.NumberFormat("en-IE", { maximumFractionDigits: 0 }).format(
-    Math.round(miles * 1.60934),
-  );
-}
-
 function firstParam(
   params: { [key: string]: string | string[] | undefined },
   key: string,
@@ -243,36 +219,7 @@ export default async function UsedCarsPage({
         </div>
       )}
 
-      <div className={styles.grid}>
-        {data.cars.map((car, index) => {
-          const year = buildCarYear(car);
-          const km = formatKm(car.mileage);
-          const finalPrice = car.car_info?.final_price;
-          const imageUrl = `${API_BASE}/car-thumb/${car.car_id}`;
-
-          return (
-            <a key={car.car_id} href={`/car/${car.car_id}`} className={styles.card}>
-              <CarThumb src={imageUrl} alt={car.car_name} priority={index < 4} />
-              <div className={styles.cardBody}>
-                <div className={styles.cardTitle}>{car.car_name}</div>
-                <div className={styles.chips}>
-                  {year && <span className={styles.chip}>{year}</span>}
-                  {car.transmission_name && (
-                    <span className={styles.chip}>{car.transmission_name}</span>
-                  )}
-                  {car.fuel_type_name && (
-                    <span className={styles.chip}>{car.fuel_type_name}</span>
-                  )}
-                  {km && <span className={styles.chip}>{km} km</span>}
-                </div>
-              </div>
-              <div className={styles.cardPrice}>
-                {finalPrice != null ? `€${formatEuro(finalPrice)}` : ""}
-              </div>
-            </a>
-          );
-        })}
-      </div>
+      <CardsGrid cars={data.cars} />
 
       {data.cars.length === 0 && (
         <p className={styles.noResults}>No cars match these filters.</p>
