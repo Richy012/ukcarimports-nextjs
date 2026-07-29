@@ -41,9 +41,11 @@ export default function DashboardClient() {
       .then((data) => setTotalCars(typeof data?.data?.count === "number" ? data.data.count : null))
       .catch(() => setTotalCars(null));
 
-    fetch("/api/admin/leads", { headers: authHeaders() })
+    // BuyCarController::getLeads() responds {ResponseCode, data: [...]} --
+    // not a bare array.
+    fetch("/api/staff-leads", { headers: authHeaders() })
       .then((res) => res.json())
-      .then((data) => setTotalLeads(Array.isArray(data) ? data.length : 0))
+      .then((data) => setTotalLeads(Array.isArray(data?.data) ? data.data.length : 0))
       .catch(() => setTotalLeads(null));
   }, []);
 
