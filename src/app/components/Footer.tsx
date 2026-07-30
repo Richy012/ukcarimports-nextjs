@@ -12,6 +12,9 @@ export default function Footer() {
             <div>
               <h5>ADDRESS</h5>
               <p>51 Bracken Rd, Sandyford Business Park, Sandyford, Dublin, D18 CV48, Ireland</p>
+              <p style={{ fontSize: '0.85rem', opacity: 0.85 }}>
+                100% online service — no showroom. Handover &amp; collection by appointment.
+              </p>
             </div>
           </div>
           <div className={styles.box}>

@@ -240,6 +240,14 @@ export default function HowItWorksClient() {
 
       <section className={styles.whyStrip}>
         <div className={styles.whyCard}>
+          <h3>100% online — no showroom costs</h3>
+          <p>
+            Your car stays at its UK garage until you order — no forecourt, no showroom overheads
+            baked into the price. Delivered to your door anywhere in Ireland, or collected in Dublin
+            by appointment.
+          </p>
+        </div>
+        <div className={styles.whyCard}>
           <h3>Why it costs less</h3>
           <p>
             We reclaim the 20% UK VAT and customs duty where possible, reducing the base Irish Revenue
