@@ -92,11 +92,26 @@
   stroke-width: 3;
 }
 
-.nodeIcon {
-  font-size: 18px;
-  text-anchor: middle;
-  dominant-baseline: middle;
+.nodeSvgIcon {
+  color: #4b4b4b;
   pointer-events: none;
+  transition: color 0.3s ease;
+}
+
+.nodeActive .nodeSvgIcon {
+  color: #fff;
+}
+
+.nodeDone .nodeSvgIcon {
+  color: #b01112;
+}
+
+.node:hover .nodeSvgIcon {
+  color: #b01112;
+}
+
+.nodeActive:hover .nodeSvgIcon {
+  color: #fff;
 }
 
 .nodeLabel {
@@ -153,9 +168,8 @@
   fill: #999;
 }
 
-.centerIcon {
-  font-size: 34px;
-  text-anchor: middle;
+.centerSvgIcon {
+  color: #b01112;
 }
 
 /* Detail panel */

@@ -2,10 +2,21 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import {
+  Search,
+  BadgeEuro,
+  BellRing,
+  HandCoins,
+  ClipboardCheck,
+  Truck,
+  Stamp,
+  CarFront,
+  type LucideIcon,
+} from "lucide-react";
 import styles from "./page.module.css";
 
 interface Step {
-  icon: string;
+  icon: LucideIcon;
   short: string;
   title: string;
   body: string;
@@ -14,51 +25,51 @@ interface Step {
 
 const STEPS: Step[] = [
   {
-    icon: "🔍",
+    icon: Search,
     short: "Search",
     title: "Search 200,000+ UK cars",
     body: "Every car listed is at an established garage in Great Britain, priced fully landed — transport, customs duty, VAT, VRT and our handling all included. The price you see is the price you pay.",
     cta: { label: "Browse used cars", href: "/used-cars" },
   },
   {
-    icon: "💶",
+    icon: BadgeEuro,
     short: "Compare",
     title: "See the real Irish saving",
     body: "Our price-comparison engine benchmarks every car against real Irish market prices, every week. The exceptional deals — we call them flyers — sell fast, so we flag them for you to move early.",
   },
   {
-    icon: "🔔",
+    icon: BellRing,
     short: "Alerts",
     title: "Save cars & searches",
     body: "Create a free account and save a car or a search. When a matching or similar car lands on the site, you get an email alert — before it's gone.",
     cta: { label: "Create an account", href: "/sign-up" },
   },
   {
-    icon: "📝",
+    icon: HandCoins,
     short: "Deposit",
     title: "Reserve it with a deposit",
     body: "Found the one? Place a €2,000 deposit — no payment is taken online; we contact you first to confirm the details. The deposit secures the car with the garage.",
   },
   {
-    icon: "🔧",
+    icon: ClipboardCheck,
     short: "Inspection",
     title: "Independent inspection",
     body: "A qualified mechanic completes a full mechanical and condition inspection with photos and a history check. Not happy with the report? Walk away and your deposit is refunded minus the €395 inspection fee. And we guarantee your car arrives as described in the report.",
   },
   {
-    icon: "🚚",
+    icon: Truck,
     short: "Import",
     title: "We handle the import",
     body: "Once you approve, we invoice the balance, purchase the car, reclaim the UK VAT (which reduces the Irish VAT you pay), complete customs clearance and trailer the car to Dublin.",
   },
   {
-    icon: "🇮🇪",
+    icon: Stamp,
     short: "VRT",
     title: "VRT & Irish registration",
     body: "We book and complete the VRT appointment on your behalf and your new Irish plates are fitted. We tell you exactly which documents are needed to register the car in your name.",
   },
   {
-    icon: "🔑",
+    icon: CarFront,
     short: "Handover",
     title: "Delivery or collection",
     body: "Free home delivery within Greater Dublin, a €100 contribution towards delivery elsewhere in Ireland, or collect the car yourself. Typical time from deposit to delivery: about two weeks.",
@@ -164,21 +175,31 @@ export default function HowItWorksClient() {
                 >
                   {isActive && <circle cx={x} cy={y} r={30} className={styles.pulse} />}
                   <circle cx={x} cy={y} r={24} className={styles.nodeCircle} />
-                  <text x={x} y={y + 1} className={styles.nodeIcon}>
-                    {s.icon}
-                  </text>
+                  <s.icon
+                    x={x - 11}
+                    y={y - 11}
+                    width={22}
+                    height={22}
+                    strokeWidth={1.75}
+                    className={styles.nodeSvgIcon}
+                  />
                   <text x={x} y={y + 40} className={styles.nodeLabel}>
                     {s.short}
                   </text>
                 </g>
               );
             })}
-            <text x={CENTER} y={CENTER - 14} className={styles.centerStep}>
+            <text x={CENTER} y={CENTER - 22} className={styles.centerStep}>
               STEP {active + 1} OF {STEPS.length}
             </text>
-            <text x={CENTER} y={CENTER + 26} className={styles.centerIcon}>
-              {step.icon}
-            </text>
+            <step.icon
+              x={CENTER - 19}
+              y={CENTER - 8}
+              width={38}
+              height={38}
+              strokeWidth={1.5}
+              className={styles.centerSvgIcon}
+            />
           </svg>
         </div>
 
