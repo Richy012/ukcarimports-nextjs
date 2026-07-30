@@ -1,0 +1,204 @@
+.page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 28px 20px 64px;
+}
+
+.breadcrumb {
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 16px;
+}
+
+.breadcrumb a {
+  color: #b01112;
+}
+
+.breadcrumb span {
+  margin: 0 4px;
+}
+
+.page h1 {
+  color: #0a0a0a;
+  margin: 0 0 12px;
+  font-size: 1.7rem;
+}
+
+.intro {
+  color: #444;
+  line-height: 1.7;
+  max-width: 760px;
+  margin: 0 0 22px;
+}
+
+.statRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.statCard {
+  border: 1px solid #e5e3e5;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.statValue {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #b01112;
+}
+
+.statLabel {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.ctaRow {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 34px;
+}
+
+.ctaPrimary {
+  background: #b01112;
+  color: #fff;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-weight: 600;
+}
+
+.ctaSecondary {
+  border: 2px solid #b01112;
+  color: #b01112;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-weight: 600;
+}
+
+.fliers {
+  margin-bottom: 34px;
+}
+
+.fliers h2,
+.models h2,
+.faq h2 {
+  font-size: 1.25rem;
+  margin: 0 0 8px;
+}
+
+.fliersSub {
+  color: #666;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  max-width: 720px;
+  margin: 0 0 14px;
+}
+
+.flierGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.flierCard {
+  border: 1px solid #f0dfa0;
+  background: #fffbea;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: inherit;
+}
+
+.flierBadge {
+  background: #fef08a;
+  color: #854d0e;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 4px;
+  padding: 2px 8px;
+  width: fit-content;
+}
+
+.flierName {
+  font-weight: 600;
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
+.flierPrices {
+  font-size: 0.85rem;
+  color: #444;
+}
+
+.flierSaving {
+  font-size: 0.82rem;
+  color: #1f7a4d;
+  font-weight: 600;
+}
+
+.models {
+  margin-bottom: 34px;
+}
+
+.modelGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.modelCard {
+  border: 1px solid #e5e3e5;
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: inherit;
+  font-size: 0.92rem;
+}
+
+.modelCard:hover {
+  border-color: #b01112;
+}
+
+.modelCount {
+  color: #777;
+  font-size: 0.8rem;
+}
+
+.faq {
+  margin-bottom: 20px;
+  max-width: 780px;
+}
+
+.faqItem {
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+}
+
+.faqItem summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.faqItem p {
+  color: #444;
+  line-height: 1.7;
+  margin: 8px 0 0;
+  font-size: 0.92rem;
+}
+
+.footnote {
+  color: #999;
+  font-size: 0.78rem;
+}

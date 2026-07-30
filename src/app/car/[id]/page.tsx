@@ -64,12 +64,29 @@ interface CarDetail {
   mot_date?: string;
   total_service?: string;
   co2_emission?: string;
-  interior_feat?: string[];
-  exterior_feat?: string[];
-  safety_feat?: string[];
-  performance_spec?: string[];
-  driver_convenience_feat?: string[];
-  technical_feat?: string[];
+  interior_feat?: string[] | string;
+  exterior_feat?: string[] | string;
+  safety_feat?: string[] | string;
+  performance_spec?: string[] | string;
+  driver_convenience_feat?: string[] | string;
+  technical_feat?: string[] | string;
+  equipment_declaration?: string;
+}
+
+// The API sends the grouped feature fields as JSON-encoded strings
+// ('["Emergency Braking",...]'), exactly as the legacy SPA consumed them.
+// Accept both shapes so a future API change to real arrays keeps working.
+function parseFeatureList(v?: string[] | string): string[] {
+  if (Array.isArray(v)) return v;
+  if (typeof v === "string" && v.trim() !== "") {
+    try {
+      const parsed = JSON.parse(v);
+      if (Array.isArray(parsed)) return parsed.filter((x) => typeof x === "string" && x.trim() !== "");
+    } catch {
+      /* fall through */
+    }
+  }
+  return [];
 }
 
 function splitSpecPair(raw: string): { label: string; value: string } {
@@ -227,15 +244,21 @@ export default async function CarDetailPage({
 
       <section className={styles.signposts}>
         {(() => {
+          const equipment = (car.equipment_declaration ?? "")
+            .split(",")
+            .map((s) => s.trim())
+            .filter((s) => s !== "");
           const featureGroups = [
-            { label: "Interior", items: car.interior_feat },
-            { label: "Exterior", items: car.exterior_feat },
-            { label: "Safety & Security", items: car.safety_feat },
-            { label: "Driver Convenience", items: car.driver_convenience_feat },
-            { label: "Technical", items: car.technical_feat },
-          ].filter((g) => Array.isArray(g.items) && g.items.length > 0);
-          const hasPerformance = Array.isArray(car.performance_spec) && car.performance_spec.length > 0;
-          if (featureGroups.length === 0 && !hasPerformance && car.features_options.length === 0) return null;
+            { label: "Safety", items: parseFeatureList(car.safety_feat) },
+            { label: "Exterior", items: parseFeatureList(car.exterior_feat) },
+            { label: "Interior", items: parseFeatureList(car.interior_feat) },
+            { label: "Driver Convenience", items: parseFeatureList(car.driver_convenience_feat) },
+            { label: "Technical", items: parseFeatureList(car.technical_feat) },
+          ].filter((g) => g.items.length > 0);
+          const performance = parseFeatureList(car.performance_spec);
+          const hasPerformance = performance.length > 0;
+          if (equipment.length === 0 && featureGroups.length === 0 && !hasPerformance && car.features_options.length === 0)
+            return null;
 
           return (
             <details className={styles.signpost}>
@@ -245,7 +268,7 @@ export default async function CarDetailPage({
                   <div className={styles.featureGroup}>
                     <h3>Performance</h3>
                     <dl className={styles.specGrid}>
-                      {car.performance_spec!.map((raw) => {
+                      {performance.map((raw) => {
                         const { label, value } = splitSpecPair(raw);
                         return (
                           <div key={raw} className={styles.specRow}>
@@ -257,11 +280,25 @@ export default async function CarDetailPage({
                     </dl>
                   </div>
                 )}
+                {equipment.length > 0 && (
+                  <div className={styles.featureGroup}>
+                    <h3>Equipment ({equipment.length})</h3>
+                    <ul className={styles.featuresList}>
+                      {equipment.map((f) => (
+                        <li key={f} className={styles.featureItem}>
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
                 {featureGroups.map((g) => (
                   <div key={g.label} className={styles.featureGroup}>
-                    <h3>{g.label}</h3>
+                    <h3>
+                      {g.label} ({g.items.length})
+                    </h3>
                     <ul className={styles.featuresList}>
-                      {g.items!.map((f) => (
+                      {g.items.map((f) => (
                         <li key={f} className={styles.featureItem}>
                           {f}
                         </li>
@@ -269,7 +306,7 @@ export default async function CarDetailPage({
                     </ul>
                   </div>
                 ))}
-                {featureGroups.length === 0 && !hasPerformance && car.features_options.length > 0 && (
+                {equipment.length === 0 && featureGroups.length === 0 && !hasPerformance && car.features_options.length > 0 && (
                   <ul className={styles.featuresList}>
                     {car.features_options.map((f) => (
                       <li key={f} className={styles.featureItem}>
