@@ -89,6 +89,39 @@ function parseFeatureList(v?: string[] | string): string[] {
   return [];
 }
 
+// Irish annual motor tax from CO2, per the two statutory schedules:
+// NEDC bands for cars first registered 1 Jul 2008 - 31 Dec 2020, WLTP bands
+// from 1 Jan 2021 (source verified against the published rate tables,
+// owner-approved 2026-07-30). EVs are a flat EUR 120. Pre-2008 cars are
+// engine-cc based and out of scope (returns null).
+function irishMotorTax(co2Raw: string | undefined, regYear: number | null, isElectric: boolean): number | null {
+  if (isElectric) return 120;
+  if (!co2Raw || regYear === null || regYear < 2008) return null;
+  const co2 = parseInt(co2Raw, 10);
+  if (Number.isNaN(co2)) return null;
+  const nedc: [number, number][] = [
+    [1, 120], [80, 170], [100, 180], [110, 190], [120, 200], [130, 270],
+    [140, 280], [155, 400], [170, 600], [190, 790], [225, 1250],
+  ];
+  const wltp: [number, number][] = [
+    [0, 120], [50, 140], [80, 150], [90, 160], [100, 170], [110, 180],
+    [120, 190], [130, 200], [140, 210], [150, 270], [160, 280], [170, 420],
+    [190, 600], [200, 790], [225, 1250],
+  ];
+  const bands = regYear >= 2021 ? wltp : nedc;
+  for (const [max, rate] of bands) {
+    if (co2 <= max) return rate;
+  }
+  return 2400;
+}
+
+function regYearOf(car: CarDetail): number | null {
+  const m = (car.registration_date || "").match(/(\d{4})/);
+  if (m) return parseInt(m[1], 10);
+  const y = (car.car_name || "").match(/\b(20\d{2})\b/);
+  return y ? parseInt(y[1], 10) : null;
+}
+
 function splitSpecPair(raw: string): { label: string; value: string } {
   // performance_spec entries come through as a label glued directly to its
   // value with no separator (e.g. "Top speed154mph") -- split at the
@@ -165,6 +198,14 @@ export default async function CarDetailPage({
     car.engine && { label: "Engine", value: car.engine },
     car.seats && { label: "Seats", value: car.seats },
     car.color_name && { label: "Colour", value: titleCase(car.color_name) },
+    (() => {
+      const tax = irishMotorTax(
+        car.co2_emission,
+        regYearOf(car),
+        (car.fuel_type_name || "").toLowerCase() === "electric"
+      );
+      return tax !== null && { label: "Motor Tax (annual)", value: `€${tax.toLocaleString()}` };
+    })(),
     car.co2_emission && { label: "CO2 Emissions", value: car.co2_emission },
     car.owner && { label: "Number of Owners", value: car.owner },
   ].filter(Boolean) as { label: string; value: string }[];
@@ -322,25 +363,11 @@ export default async function CarDetailPage({
         })()}
 
         {car.co2_emission && (() => {
-          // Irish annual motor tax, CO2-based bands (private cars, current
-          // schedule). Labelled an estimate: Revenue assigns the final band
-          // at registration.
-          const co2 = parseInt(car.co2_emission, 10);
-          let motorTax: number | null = null;
-          if (!Number.isNaN(co2)) {
-            const bands: [number, number][] = [
-              [0, 120], [50, 140], [80, 150], [90, 160], [100, 170],
-              [110, 180], [120, 190], [130, 200], [140, 210], [150, 270],
-              [160, 280], [170, 420], [190, 600], [200, 790], [225, 1250],
-            ];
-            motorTax = 2400;
-            for (const [max, rate] of bands) {
-              if (co2 <= max) {
-                motorTax = rate;
-                break;
-              }
-            }
-          }
+          const motorTax = irishMotorTax(
+            car.co2_emission,
+            regYearOf(car),
+            (car.fuel_type_name || "").toLowerCase() === "electric"
+          );
           const mpgRaw = parseFeatureList(car.performance_spec).find((s) =>
             s.toLowerCase().startsWith("miles per gallon")
           );
@@ -352,16 +379,16 @@ export default async function CarDetailPage({
               <summary className={styles.signpostSummary}>Running Costs</summary>
               <div className={styles.signpostBody}>
                 <dl className={styles.specGrid}>
+                  {motorTax !== null && (
+                    <div className={styles.specRow}>
+                      <dt className={styles.specLabel}>Motor Tax (annual)</dt>
+                      <dd className={styles.specValue}>€{motorTax.toLocaleString()}</dd>
+                    </div>
+                  )}
                   <div className={styles.specRow}>
                     <dt className={styles.specLabel}>CO2 Emissions</dt>
                     <dd className={styles.specValue}>{car.co2_emission}</dd>
                   </div>
-                  {motorTax !== null && (
-                    <div className={styles.specRow}>
-                      <dt className={styles.specLabel}>Motor tax (est. annual)</dt>
-                      <dd className={styles.specValue}>€{motorTax.toLocaleString()}</dd>
-                    </div>
-                  )}
                   {mpg !== null && (
                     <div className={styles.specRow}>
                       <dt className={styles.specLabel}>Fuel consumption</dt>
@@ -373,8 +400,8 @@ export default async function CarDetailPage({
                 </dl>
                 <p className={styles.signpostNote}>
                   VRT and NOx levy for this CO2 figure are already included in the price above. Motor
-                  tax is estimated from the current CO2 bands — Revenue confirms the band at
-                  registration.
+                  tax is calculated from the official CO2 band for this car&apos;s registration date
+                  ({regYearOf(car) !== null && regYearOf(car)! >= 2021 ? "WLTP" : "NEDC"} schedule).
                 </p>
               </div>
             </details>
