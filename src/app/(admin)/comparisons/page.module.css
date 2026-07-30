@@ -1,0 +1,223 @@
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.heading {
+  margin: 0;
+}
+
+.statsRow {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  min-width: 130px;
+}
+
+.statCardFlier {
+  background: #fffbea;
+  border-color: #f0dfa0;
+}
+
+.statValue {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.statLabel {
+  font-size: 12px;
+  color: #666;
+}
+
+.tabRow {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.tab,
+.tabActive {
+  padding: 7px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.tabActive {
+  background: #111827;
+  color: #fff;
+  border-color: #111827;
+}
+
+.filterRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.filterRow select {
+  margin-left: 6px;
+  padding: 4px 8px;
+}
+
+.flierToggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.searchForm input {
+  padding: 5px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  min-width: 210px;
+  font-size: 13px;
+}
+
+.countText {
+  color: var(--text-secondary, #666);
+}
+
+.tableWrap {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tableHead,
+.tableRow {
+  display: grid;
+  gap: 8px;
+  padding: 10px 14px;
+  align-items: center;
+  font-size: 13px;
+}
+
+.matchGrid {
+  grid-template-columns: 2.1fr 1.9fr 0.9fr 0.9fr 1fr 1.2fr;
+}
+
+.rawGrid {
+  grid-template-columns: 2.4fr 0.6fr 0.9fr 1.1fr 0.8fr 1.4fr;
+}
+
+.tableHead {
+  background: #fafafa;
+  color: #666;
+  font-size: 12px;
+}
+
+.tableRow {
+  border-top: 1px solid #eee;
+}
+
+.tableRow:hover {
+  background: #fafafa;
+}
+
+.flierRow {
+  background: #fffbea;
+}
+
+.flierRow:hover {
+  background: #fdf5d7;
+}
+
+.carCell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.carSub {
+  font-size: 12px;
+  color: #777;
+  overflow-wrap: anywhere;
+}
+
+.carSub a {
+  color: #2563eb;
+}
+
+.badgeFlier {
+  background: #fef08a;
+  color: #854d0e;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 1px 6px;
+  margin-left: 8px;
+  white-space: nowrap;
+}
+
+.savingPos {
+  color: #1f7a4d;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+}
+
+.savingNeg {
+  color: #b91c1c;
+  display: flex;
+  flex-direction: column;
+}
+
+.savingPos .carSub,
+.savingNeg .carSub {
+  font-weight: 400;
+}
+
+.flierGap {
+  display: block;
+  color: #854d0e;
+  font-weight: 600;
+}
+
+.emptyRow {
+  padding: 24px 14px;
+  font-size: 13px;
+  color: #777;
+}
+
+.pagerRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 14px;
+  font-size: 13px;
+}
+
+.pagerRow button {
+  padding: 5px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.pagerRow button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
