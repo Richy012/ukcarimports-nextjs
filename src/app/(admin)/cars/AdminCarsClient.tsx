@@ -61,7 +61,9 @@ interface CarDetail {
   vrt_statcode: string | null;
   vrt_omsp: string | null;
   nox_value: number | null;
-  nox_source: "statcode" | "scraped" | null;
+  nox_source: "statcode" | "scraped" | "engine_default" | "ev_zero" | null;
+  nox_charge: number | null;
+  fuel_type: string | null;
   exchange_rate: number | null;
   raw_price_gbp: string | null;
   auction_company_name: string | null;
@@ -303,9 +305,12 @@ export default function AdminCarsClient() {
                               <span>
                                 <span>NOx</span>
                                 <span>
-                                  {detail.nox_value !== null
-                                    ? `${detail.nox_value} (${detail.nox_source})`
-                                    : "No NOx data"}
+                                  {detail.nox_charge !== null ? `${eur(detail.nox_charge)} — ` : ""}
+                                  {detail.nox_source === "statcode" && "statcode NOx levy"}
+                                  {detail.nox_source === "scraped" && `${detail.nox_value} mg/km (scraped)`}
+                                  {detail.nox_source === "engine_default" &&
+                                    `${detail.fuel_type ?? "engine"}-type default (${detail.nox_value} mg)`}
+                                  {detail.nox_source === "ev_zero" && "EV — zero VRT"}
                                 </span>
                               </span>
                             </div>
