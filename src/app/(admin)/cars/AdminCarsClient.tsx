@@ -2,7 +2,16 @@
 
 import { useEffect, useState } from "react";
 import { staffAuthHeaders } from "@/lib/auth";
+import EmailModal from "./EmailModal";
 import styles from "./page.module.css";
+
+const EMAIL_TEMPLATES = [
+  { key: "deposit_reply", label: "Deposit reply" },
+  { key: "invoice", label: "Invoice" },
+  { key: "inspection_report", label: "Inspection report" },
+  { key: "vrt_documents", label: "VRT documents" },
+  { key: "new_registration", label: "New registration" },
+];
 
 interface CarRow {
   car_id: string;
@@ -128,6 +137,7 @@ export default function AdminCarsClient() {
   }
 
   const [actionBusy, setActionBusy] = useState<string | null>(null);
+  const [emailModal, setEmailModal] = useState<{ carId: string; templateKey: string } | null>(null);
 
   function toggleFreeze(carId: string) {
     setActionBusy(carId);
@@ -347,6 +357,20 @@ export default function AdminCarsClient() {
                             Mark sold — remove from site
                           </button>
                         </div>
+
+                        <div className={styles.emailBtnRow}>
+                          <span className={styles.detailLabel}>Generate email:</span>
+                          {EMAIL_TEMPLATES.map((tpl) => (
+                            <button
+                              key={tpl.key}
+                              type="button"
+                              className={styles.emailBtn}
+                              onClick={() => setEmailModal({ carId: car.car_id, templateKey: tpl.key })}
+                            >
+                              {tpl.label}
+                            </button>
+                          ))}
+                        </div>
                       </>
                     )}
                   </div>
@@ -372,6 +396,14 @@ export default function AdminCarsClient() {
           Next
         </button>
       </div>
+
+      {emailModal && (
+        <EmailModal
+          carId={emailModal.carId}
+          templateKey={emailModal.templateKey}
+          onClose={() => setEmailModal(null)}
+        />
+      )}
     </>
   );
 }

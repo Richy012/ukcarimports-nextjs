@@ -227,3 +227,139 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.emailBtnRow {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.emailBtn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  border: 1px solid #71717180;
+  background: #fff;
+  color: #454443;
+}
+
+.emailBtn:hover {
+  border-color: #b60b0c;
+  color: #b60b0c;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modalBox {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 980px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.modalTitle {
+  margin: 0;
+  font-size: 18px;
+}
+
+.modalClose {
+  border: none;
+  background: none;
+  font-size: 26px;
+  cursor: pointer;
+  color: #666;
+  line-height: 1;
+}
+
+.modalColumns {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 20px;
+}
+
+@media (max-width: 800px) {
+  .modalColumns {
+    grid-template-columns: 1fr;
+  }
+}
+
+.modalFields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modalField {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 12px;
+  color: #666;
+  text-transform: capitalize;
+}
+
+.modalField input,
+.modalField textarea {
+  border: 1px solid #71717180;
+  border-radius: 5px;
+  padding: 6px 8px;
+  font-size: 13px;
+  font-family: inherit;
+  text-transform: none;
+}
+
+.modalPreview {
+  background: #f6f6f6;
+  border-radius: 8px;
+  padding: 14px;
+  overflow-x: auto;
+}
+
+.previewSubject {
+  font-weight: 600;
+  font-size: 14px;
+  margin: 0 0 10px;
+}
+
+.previewBody {
+  white-space: pre-wrap;
+  font-family: inherit;
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.modalActions {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.modalHint {
+  font-size: 12px;
+  color: #999;
+}

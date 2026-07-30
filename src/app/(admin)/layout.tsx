@@ -11,6 +11,7 @@ import styles from "./layout.module.css";
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/cars", label: "Cars" },
+  { href: "/templates", label: "Templates" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
