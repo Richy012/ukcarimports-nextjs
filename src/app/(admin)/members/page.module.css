@@ -1,0 +1,191 @@
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.heading {
+  margin: 0;
+}
+
+.filterRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+}
+
+.filterRow input {
+  padding: 5px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  min-width: 220px;
+  font-size: 13px;
+}
+
+.countText {
+  color: var(--text-secondary, #666);
+}
+
+.tableWrap {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tableHead,
+.tableRow {
+  display: grid;
+  grid-template-columns: 2fr 0.8fr 0.7fr 0.9fr 0.8fr 1fr 80px;
+  gap: 8px;
+  padding: 10px 14px;
+  align-items: center;
+  font-size: 13px;
+}
+
+.tableHead {
+  background: #fafafa;
+  color: #666;
+  font-size: 12px;
+}
+
+.tableRow {
+  border-top: 1px solid #eee;
+}
+
+.tableRow:hover {
+  background: #fafafa;
+}
+
+.cellStack {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.memberLink {
+  color: #2563eb;
+  font-weight: 500;
+}
+
+.sub {
+  font-size: 12px;
+  color: #777;
+  overflow-wrap: anywhere;
+}
+
+.badgeActive,
+.badgeInactive {
+  font-size: 12px;
+  border-radius: 4px;
+  padding: 2px 8px;
+  width: fit-content;
+  text-transform: capitalize;
+}
+
+.badgeActive {
+  background: #eafbea;
+  color: #1f7a4d;
+}
+
+.badgeInactive {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.deleteBtn {
+  padding: 4px 10px;
+  border: 1px solid #fca5a5;
+  border-radius: 6px;
+  background: #fff;
+  color: #b91c1c;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.deleteBtn:disabled {
+  opacity: 0.5;
+}
+
+.emptyRow {
+  padding: 24px 14px;
+  font-size: 13px;
+  color: #777;
+}
+
+/* Member detail page */
+
+.backLink {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: #2563eb;
+  font-size: 13px;
+}
+
+.memberCard {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  font-size: 13px;
+}
+
+.memberCard .sub {
+  display: block;
+}
+
+.notifHead,
+.notifRow {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr 1.8fr 0.9fr 0.9fr 0.9fr;
+  gap: 8px;
+  padding: 10px 14px;
+  align-items: center;
+  font-size: 13px;
+}
+
+.notifHead {
+  background: #fafafa;
+  color: #666;
+  font-size: 12px;
+}
+
+.notifRow {
+  border-top: 1px solid #eee;
+}
+
+.badgeAvailable,
+.badgePendingVrt,
+.badgeSold {
+  font-size: 12px;
+  border-radius: 4px;
+  padding: 2px 8px;
+  width: fit-content;
+}
+
+.badgeAvailable {
+  background: #eafbea;
+  color: #1f7a4d;
+}
+
+.badgePendingVrt {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badgeSold {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.deletedTag {
+  font-size: 11px;
+  color: #991b1b;
+}

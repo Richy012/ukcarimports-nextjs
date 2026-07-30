@@ -11,6 +11,8 @@ import styles from "./layout.module.css";
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/cars", label: "Cars" },
+  { href: "/leads", label: "Leads" },
+  { href: "/members", label: "Members" },
   { href: "/comparisons", label: "Comparisons" },
   { href: "/templates", label: "Templates" },
 ];
