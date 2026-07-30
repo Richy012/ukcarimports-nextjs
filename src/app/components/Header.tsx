@@ -9,7 +9,7 @@ const NAV_LINKS = [
   { href: "/", label: "HOME" },
   { href: "/used-cars", label: "USED CARS" },
   { href: "/car-sourcing", label: "Car Sourcing" },
-  { href: "/how-it-works.html", label: "How It Works", external: true },
+  { href: "/how-it-works", label: "How It Works", external: true },
 ];
 
 // Secondary/company pages grouped into one dropdown -- matches the standard
