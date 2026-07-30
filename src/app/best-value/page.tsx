@@ -17,7 +17,12 @@ interface BestValueCar {
   car_name: string;
   featured_image: string;
   car_info?: { final_price?: number };
-  best_value: { saving_pct: number; irish_price: number; snapshot_date: string };
+  best_value: {
+    saving_pct: number;
+    irish_price: number | null;
+    basis: "matched" | "segment";
+    snapshot_date: string;
+  };
 }
 
 async function getBestValue() {
@@ -42,16 +47,18 @@ export default async function BestValuePage() {
         <h1 className={styles.sectionTitle}>Best value vs Ireland</h1>
         <p className={styles.sectionSub}>
           {count.toLocaleString()}
-          {" live cars at least 10% cheaper than the real Irish asking "}
-          price for an equivalent car — every saving benchmarked against an actual Irish ad,
-          matched and refreshed weekly. Prices are fully landed: VRT, VAT, customs &amp;
-          delivery included.
+          {" live cars at least 10% cheaper than Irish equivalents — either matched "}
+          directly to a real Irish ad, or a model-year whose class averages 10%+ savings
+          across 5 or more real comparisons (&ldquo;typically&rdquo;). Refreshed weekly;
+          prices fully landed: VRT, VAT, customs &amp; delivery included.
         </p>
         <div className={styles.arrivalGrid}>
           {cars.map((c) => (
             <Link key={c.car_id} href={`/car/${c.car_id}`} className={styles.arrivalCard}>
               <span className={styles.valueBadge}>
-                {Math.round(c.best_value.saving_pct)}% under Irish price
+                {c.best_value.basis === "segment"
+                  ? `Typically ${Math.round(c.best_value.saving_pct)}% under Irish price`
+                  : `${Math.round(c.best_value.saving_pct)}% under Irish price`}
               </span>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={c.featured_image} alt={c.car_name} loading="lazy" />
@@ -61,9 +68,11 @@ export default async function BestValuePage() {
                   ? `€${Math.round(c.car_info.final_price).toLocaleString()}`
                   : "POA"}
                 <em> all-in</em>
-                <span className={styles.valueIrish}>
-                  €{Math.round(c.best_value.irish_price).toLocaleString()} in Ireland
-                </span>
+                {c.best_value.irish_price !== null && (
+                  <span className={styles.valueIrish}>
+                    €{Math.round(c.best_value.irish_price).toLocaleString()} in Ireland
+                  </span>
+                )}
               </span>
             </Link>
           ))}

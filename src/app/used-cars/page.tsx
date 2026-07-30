@@ -3,6 +3,7 @@
 // browser gets real car data in the initial HTML response instead of an
 // empty <div id="root"> that waits on a full SPA boot before anything paints.
 import FilterBar from "./FilterBar";
+import { getStockCount } from "@/lib/stockCount";
 import styles from "./page.module.css";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
@@ -245,10 +246,20 @@ export default async function UsedCarsPage({
   // state/dirty flag would keep showing whatever the user had mid-edit.
   const stateKey = JSON.stringify({ filters, searchChips, versionChips, currentSort, page: currentPage });
 
+  // ONE number across the site (owner requirement): the unfiltered headline
+  // uses the same shared cached canonical count as the homepage
+  // (getStockCount) so the two pages can never disagree. Once the user
+  // filters, the count is a live filter-result figure and may differ.
+  const isDefaultView = Object.keys(params).filter((k) => k !== "page").length === 0;
+  const displayCount = isDefaultView ? await getStockCount() : data.count;
+
   return (
     <main className={styles.main}>
       <h1 className={styles.heading}>Used cars for sale</h1>
-      <p className={styles.count}>Total vehicles: {data.count.toLocaleString("en-IE")}</p>
+      <p className={styles.count}>
+        {isDefaultView ? "Total vehicles" : "Vehicles matching your filters"}:{" "}
+        {displayCount.toLocaleString("en-IE")}
+      </p>
 
       <FilterBar
         key={stateKey}

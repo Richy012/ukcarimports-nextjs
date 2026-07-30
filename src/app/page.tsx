@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import HomeSearchPanel from "./HomeSearchPanel";
 import ProcessTimeline from "./ProcessTimeline";
+import { getStockCount } from "@/lib/stockCount";
 import styles from "./page.module.css";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
@@ -23,7 +24,12 @@ interface HomeCar {
 }
 
 interface BestValueCar extends HomeCar {
-  best_value: { saving_pct: number; irish_price: number; snapshot_date: string };
+  best_value: {
+    saving_pct: number;
+    irish_price: number | null;
+    basis: "matched" | "segment";
+    snapshot_date: string;
+  };
 }
 
 async function getHomeData() {
@@ -34,24 +40,17 @@ async function getHomeData() {
     makes: [] as { make: string; slug: string; n: number }[],
   };
   try {
-    const [carsRes, indexRes, bvRes] = await Promise.all([
-      fetch(`${API_BASE}/allcarsnew/0/1`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ is_manheim_car: "0", premium_car: "0", vrtFilter: "Yes" }),
-        next: { revalidate: 900 },
-      }),
+    const [count, indexRes, bvRes] = await Promise.all([
+      getStockCount(),
       fetch(`${API_BASE}/import-landing-index`, { next: { revalidate: 3600 } }),
       fetch(`${API_BASE}/best-value/0/4`, { next: { revalidate: 900 } }),
     ]);
-    const carsJson = await carsRes.json();
     const indexJson = await indexRes.json();
     const bvJson = await bvRes.json();
     const bestValue: BestValueCar[] = (bvJson?.data?.cars ?? []).filter(
       (c: BestValueCar) => c.featured_image && c.best_value
     );
     const bvCount: number = bvJson?.data?.count ?? 0;
-    const count: number = carsJson?.data?.count ?? 0;
     const makes: { make: string; slug: string; n: number }[] = (indexJson?.data?.makes ?? []).slice(0, 8);
     return { bestValue, bvCount, count, makes };
   } catch {
@@ -116,7 +115,9 @@ export default async function HomePage() {
               {bestValue.map((c) => (
                 <Link key={c.car_id} href={`/car/${c.car_id}`} className={styles.arrivalCard}>
                   <span className={styles.valueBadge}>
-                    {Math.round(c.best_value.saving_pct)}% under Irish price
+                    {c.best_value.basis === "segment"
+                      ? `Typically ${Math.round(c.best_value.saving_pct)}% under Irish price`
+                      : `${Math.round(c.best_value.saving_pct)}% under Irish price`}
                   </span>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={c.featured_image} alt={c.car_name} loading="lazy" />
@@ -126,9 +127,11 @@ export default async function HomePage() {
                       ? `€${Math.round(c.car_info.final_price).toLocaleString()}`
                       : "POA"}
                     <em> all-in</em>
-                    <span className={styles.valueIrish}>
-                      €{Math.round(c.best_value.irish_price).toLocaleString()} in Ireland
-                    </span>
+                    {c.best_value.irish_price !== null && (
+                      <span className={styles.valueIrish}>
+                        €{Math.round(c.best_value.irish_price).toLocaleString()} in Ireland
+                      </span>
+                    )}
                   </span>
                 </Link>
               ))}
