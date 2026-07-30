@@ -69,28 +69,16 @@ export default async function HomePage() {
               Over {count > 0 ? count.toLocaleString() : "200,000"} cars to choose from
             </p>
             <h1 className={styles.heroHeadline}>
-              The price you see
+              Importing a car
               <br />
-              is the price <em>you pay.</em>
+              should feel <em>this simple.</em>
             </h1>
-            <ul className={styles.heroBullets}>
-              <li>VRT, VAT, customs &amp; delivery — all included</li>
-              <li>Independent mechanical inspection before you commit</li>
-              <li>Your maximum exposure: €0 — deposits fully refundable</li>
-            </ul>
-            <div className={styles.heroCtas}>
-              <Link href="/how-it-works" className={styles.heroCtaPrimary}>
-                How it works
-              </Link>
-              <a href="tel:015568261" className={styles.heroCtaGhost}>
-                01-556 8261
-              </a>
-            </div>
+            <div className={styles.heroDash} />
+            <HomeSearchPanel
+              makes={makes.map((m) => ({ make: m.make, n: m.n }))}
+              totalCount={count}
+            />
           </div>
-          <HomeSearchPanel
-            makes={makes.map((m) => ({ make: m.make, n: m.n }))}
-            totalCount={count}
-          />
         </div>
       </section>
 

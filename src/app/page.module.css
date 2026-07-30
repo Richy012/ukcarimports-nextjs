@@ -7,29 +7,48 @@
    render, no baked text — copy lives in HTML). Left-weighted scrim creates
    the text zone; gold accents match the render's palette. */
 .hero {
-  background-color: #14100e;
+  background-color: #16110e;
   background-image:
-    linear-gradient(to right, rgba(16, 12, 10, 0.92) 0%, rgba(16, 12, 10, 0.6) 48%, rgba(16, 12, 10, 0.24) 100%),
+    linear-gradient(to right, #16110e 30%, rgba(22, 17, 14, 0.55) 55%, rgba(22, 17, 14, 0) 78%),
     url("/assets/images/hero-dusk.jpg");
-  background-size: cover;
+  background-size: auto 100%;
   background-position: right center;
+  background-repeat: no-repeat;
   border-bottom: 1px solid #2a221d;
 }
-
 
 .heroInner {
   max-width: 1080px;
   margin: 0 auto;
-  padding: 44px 20px 40px;
-  display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  gap: 36px;
-  align-items: start;
+  padding: 46px 20px 46px;
+  min-height: 540px;
+  display: flex;
+  align-items: center;
+}
+
+/* Text + search live in the mock's left zone; the car stays unobstructed */
+.heroCopy {
+  max-width: 480px;
+  width: 100%;
+}
+
+.heroDash {
+  width: 76px;
+  height: 2px;
+  background: #c89b4a;
+  margin: 4px 0 24px;
 }
 
 @media (max-width: 820px) {
+  .hero {
+    background-size: cover;
+    background-image:
+      linear-gradient(rgba(22, 17, 14, 0.72), rgba(22, 17, 14, 0.72)),
+      url("/assets/images/hero-dusk.jpg");
+  }
   .heroInner {
-    grid-template-columns: 1fr;
+    min-height: 0;
+    padding: 36px 20px 40px;
   }
 }
 
