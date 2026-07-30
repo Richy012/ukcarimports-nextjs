@@ -321,22 +321,65 @@ export default async function CarDetailPage({
           );
         })()}
 
-        {car.co2_emission && (
-          <details className={styles.signpost}>
-            <summary className={styles.signpostSummary}>Running Costs</summary>
-            <div className={styles.signpostBody}>
-              <dl className={styles.specGrid}>
-                <div className={styles.specRow}>
-                  <dt className={styles.specLabel}>CO2 Emissions</dt>
-                  <dd className={styles.specValue}>{car.co2_emission}</dd>
-                </div>
-              </dl>
-              <p className={styles.signpostNote}>
-                VRT and NOx levy for this CO2 figure are already included in the price above.
-              </p>
-            </div>
-          </details>
-        )}
+        {car.co2_emission && (() => {
+          // Irish annual motor tax, CO2-based bands (private cars, current
+          // schedule). Labelled an estimate: Revenue assigns the final band
+          // at registration.
+          const co2 = parseInt(car.co2_emission, 10);
+          let motorTax: number | null = null;
+          if (!Number.isNaN(co2)) {
+            const bands: [number, number][] = [
+              [0, 120], [50, 140], [80, 150], [90, 160], [100, 170],
+              [110, 180], [120, 190], [130, 200], [140, 210], [150, 270],
+              [160, 280], [170, 420], [190, 600], [200, 790], [225, 1250],
+            ];
+            motorTax = 2400;
+            for (const [max, rate] of bands) {
+              if (co2 <= max) {
+                motorTax = rate;
+                break;
+              }
+            }
+          }
+          const mpgRaw = parseFeatureList(car.performance_spec).find((s) =>
+            s.toLowerCase().startsWith("miles per gallon")
+          );
+          const mpgMatch = mpgRaw ? mpgRaw.match(/([\d.]+)\s*mpg/i) : null;
+          const mpg = mpgMatch ? parseFloat(mpgMatch[1]) : null;
+
+          return (
+            <details className={styles.signpost}>
+              <summary className={styles.signpostSummary}>Running Costs</summary>
+              <div className={styles.signpostBody}>
+                <dl className={styles.specGrid}>
+                  <div className={styles.specRow}>
+                    <dt className={styles.specLabel}>CO2 Emissions</dt>
+                    <dd className={styles.specValue}>{car.co2_emission}</dd>
+                  </div>
+                  {motorTax !== null && (
+                    <div className={styles.specRow}>
+                      <dt className={styles.specLabel}>Motor tax (est. annual)</dt>
+                      <dd className={styles.specValue}>€{motorTax.toLocaleString()}</dd>
+                    </div>
+                  )}
+                  {mpg !== null && (
+                    <div className={styles.specRow}>
+                      <dt className={styles.specLabel}>Fuel consumption</dt>
+                      <dd className={styles.specValue}>
+                        {mpg} mpg ({(282.48 / mpg).toFixed(1)} L/100km)
+                      </dd>
+                    </div>
+                  )}
+                </dl>
+                <p className={styles.signpostNote}>
+                  VRT and NOx levy for this CO2 figure are already included in the price above. Motor
+                  tax is estimated from the current CO2 bands — Revenue confirms the band at
+                  registration.
+                </p>
+              </div>
+            </details>
+          );
+        })()}
 
         {(car.service_history || car.mot_date || car.total_service) && (
           <details className={styles.signpost}>
