@@ -52,26 +52,34 @@
   width: clamp(280px, 30vw, 360px);
 }
 
+/* Mobile: show the artwork's own left text zone (cropped slice, ~250% scale)
+   so the typography IS the original — owner rejected substitute fonts.
+   Displayed image ≈ 140vw tall; text zone bottom ≈ 105vw. */
 @media (max-width: 820px) {
   .hero {
     aspect-ratio: auto;
-    background-image:
-      linear-gradient(rgba(22, 17, 14, 0.72), rgba(22, 17, 14, 0.72)),
-      url("/assets/images/hero-full.jpg");
-    padding: 36px 20px 40px;
+    background-image: url("/assets/images/hero-full.jpg");
+    background-size: 235% auto;
+    background-position: 0 -8vw;
+    /* top padding (not child margin — margin would collapse through the
+       section) reserves the artwork's baked logo + headline + dash zone */
+    padding: 93vw 20px 30px;
   }
   .heroCopy {
-    display: block;
-    max-width: 480px;
+    display: none;
   }
   .heroCount {
-    display: none;
+    position: static;
+    display: block;
+    margin: 0 0 14px 5.5vw;
+    font-size: 0.72rem;
   }
   .heroPanelDock {
     position: static;
     transform: none;
     width: 100%;
     max-width: 480px;
+    margin: 0 auto;
   }
 }
 
