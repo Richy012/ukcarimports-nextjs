@@ -89,6 +89,58 @@ export default function PriceBreakdown({
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [payRedirecting, setPayRedirecting] = useState(false);
   const [payError, setPayError] = useState("");
+  const [availability, setAvailability] = useState<"unknown" | "checking" | "available" | "sold" | "timeout">(
+    "unknown"
+  );
+  const [availMake, setAvailMake] = useState<string | null>(null);
+
+  // Fired when the modal opens: DB answers instantly for known-sold cars;
+  // otherwise the scraper fleet verifies the live ad while the customer types.
+  async function startAvailabilityCheck() {
+    if (availability !== "unknown") return;
+    setAvailability("checking");
+    try {
+      const res = await fetch("/api/check-availability", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ car_id: carId }),
+      });
+      const data = await res.json();
+      const d = data?.data;
+      if (!d) {
+        setAvailability("timeout");
+        return;
+      }
+      setAvailMake(d.make ?? null);
+      if (d.status === "sold" || d.status === "available") {
+        setAvailability(d.status);
+        return;
+      }
+      let polls = 0;
+      const poll = async () => {
+        polls += 1;
+        try {
+          const r = await fetch(`/api/availability-result/${d.check_id}`);
+          const j = await r.json();
+          const s = j?.data?.status;
+          if (s === "sold" || s === "available") {
+            setAvailability(s);
+            return;
+          }
+          if (s === "timeout" || polls >= 12) {
+            setAvailability("timeout");
+            return;
+          }
+        } catch {
+          /* keep polling */
+        }
+        setTimeout(poll, 5000);
+      };
+      setTimeout(poll, 5000);
+    } catch {
+      setAvailability("timeout");
+    }
+  }
 
   async function startOnlineDeposit() {
     setPayRedirecting(true);
@@ -287,7 +339,14 @@ export default function PriceBreakdown({
         </dl>
       )}
 
-      <button type="button" className={styles.depositButton} onClick={() => setShowModal(true)}>
+      <button
+        type="button"
+        className={styles.depositButton}
+        onClick={() => {
+          setShowModal(true);
+          startAvailabilityCheck();
+        }}
+      >
         Place A Deposit
       </button>
 
@@ -298,25 +357,54 @@ export default function PriceBreakdown({
               ×
             </button>
 
-            {submitted ? (
+            {availability === "sold" ? (
+              <>
+                <h2 className={styles.depositHeading}>
+                  Sorry — this {availMake ? availMake.replace(/\b\w/g, (c) => c.toUpperCase()) : "car"} has
+                  now sold
+                </h2>
+                <p>
+                  The seller has just marked it gone — the best-value cars move fast. No money has
+                  been taken.
+                </p>
+                <p>
+                  New stock lands every day: save a search for one like this and we&apos;ll email you
+                  the moment a match arrives.
+                </p>
+                <a href="/used-cars" className={styles.payNowButton} style={{ display: "block", textAlign: "center", textDecoration: "none" }}>
+                  Browse similar cars
+                </a>
+              </>
+            ) : submitted ? (
               <>
                 <h2 className={styles.depositHeading}>Thanks — deposit request sent</h2>
                 <p>We&apos;ll get back to you shortly to complete your purchase of {carName}.</p>
 
                 <div className={styles.payNowBlock}>
-                  <p className={styles.payNowLead}>
-                    Want to secure it right now? Pay the €2,000 deposit online — you&apos;ll be taken
-                    to Stripe&apos;s secure checkout (cards, Apple&nbsp;Pay and Google&nbsp;Pay).
-                  </p>
-                  <button
-                    type="button"
-                    className={styles.payNowButton}
-                    disabled={payRedirecting}
-                    onClick={startOnlineDeposit}
-                  >
-                    {payRedirecting ? "Opening secure checkout..." : "Pay €2,000 deposit securely"}
-                  </button>
-                  {payError && <p className={styles.error}>{payError}</p>}
+                  {availability === "available" ? (
+                    <>
+                      <p className={styles.payNowLead}>
+                        ✓ Availability confirmed. Want to secure it right now? Pay the €2,000 deposit
+                        online — you&apos;ll be taken to Stripe&apos;s secure checkout (cards,
+                        Apple&nbsp;Pay and Google&nbsp;Pay).
+                      </p>
+                      <button
+                        type="button"
+                        className={styles.payNowButton}
+                        disabled={payRedirecting}
+                        onClick={startOnlineDeposit}
+                      >
+                        {payRedirecting ? "Opening secure checkout..." : "Pay €2,000 deposit securely"}
+                      </button>
+                      {payError && <p className={styles.error}>{payError}</p>}
+                    </>
+                  ) : (
+                    <p className={styles.payNowLead}>
+                      We&apos;re just confirming the car is still available with the seller —
+                      we&apos;ll email you a secure payment link the moment it&apos;s verified, so
+                      you never pay for a car that&apos;s already gone.
+                    </p>
+                  )}
                   <p className={styles.payNowSmall}>
                     <strong>Your maximum exposure is €395 — and only if you chose the inspection.</strong>{" "}
                     Walk away after the report and the rest is refunded. No inspection? The deposit is
