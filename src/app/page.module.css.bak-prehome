@@ -1,0 +1,89 @@
+.hero {
+  background: #f3f3f3;
+  padding: 40px 16px;
+}
+
+.heroInner {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.heroTitle {
+  font-size: 28px;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0 0 20px;
+  color: #0a0a0a;
+}
+
+.contentSection {
+  padding: 40px 16px;
+  text-align: center;
+}
+
+.contentHeading {
+  margin: 0 0 12px;
+}
+
+.reviews {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 30px 16px;
+  background: #fafafa;
+  font-family: sans-serif;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 40px 16px;
+  gap: 24px;
+}
+
+.footerLeft {
+  flex: 1;
+  min-width: 260px;
+}
+
+.footerRight {
+  flex: 1;
+  min-width: 260px;
+}
+
+.footerBox {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin: 16px 0;
+}
+
+.footerLeft h2 {
+  margin: 0 0 16px;
+  font-size: 22px;
+}
+
+.footerBox h5 {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #454443;
+}
+
+.footerBox p {
+  margin: 0;
+  color: #666;
+}
+
+.footerBox img {
+  flex-shrink: 0;
+}
+
+.map {
+  display: block;
+  border-radius: 6px;
+}

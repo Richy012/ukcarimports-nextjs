@@ -1,176 +1,196 @@
 import type { Metadata } from "next";
-import SearchWidget from "./SearchWidget";
+import Link from "next/link";
+import HomeSearchPanel from "./HomeSearchPanel";
+import ProcessTimeline from "./ProcessTimeline";
 import styles from "./page.module.css";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
 
+export const revalidate = 900;
+
 export const metadata: Metadata = {
-  title: "Leading Irish Importer of Quality UK Used Cars - UK Car Imports",
+  title: "UK Car Imports — The Price You See Is The Price You Pay",
   description:
-    "Safe and easy way to buy UK used cars from Ireland - VRT & NOx fees due per car. Optional mechanical & condition inspection reports. Optional warranty cover & VRT processing. Let our professionals do the work - UK Car Imports",
+    "Import your next car from the UK: 200,000+ cars priced fully landed for Ireland — VRT, VAT, customs & delivery included. Independent inspection, Irish plates in ~2 weeks. Est. 2013.",
 };
 
-const DEFAULT_FILTER_BODY = {
-  is_manheim_car: "0",
-  premium_car: 0,
-  minPrice: "",
-  maxPrice: "",
-  minYear: "",
-  maxYear: "",
-  Make: "",
-  Model: "",
-  Fuel: "",
-  seats: "",
-  body_style: "",
-  Condition: "",
-  minMileage: "",
-  maxMileage: "",
-  minEnginesize: "",
-  maxEnginesize: "",
-  transmission_type: "",
-  engine: "",
-  color: "",
-  vrtFilter: "Yes",
-};
-
-async function postFilter(path: string) {
-  const res = await fetch(`${API_BASE}/${path}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(DEFAULT_FILTER_BODY),
-    cache: "no-store",
-  });
-  return res.json();
+interface HomeCar {
+  car_id: string;
+  car_name: string;
+  featured_image: string;
+  mileage: string;
+  car_info?: { final_price?: number };
 }
 
-interface HomepageContent {
-  data: {
-    aboutus: string;
-    howitworks: string;
-    ourtrade: string;
-    whyus: string;
+async function getHomeData() {
+  const empty = {
+    cars: [] as HomeCar[],
+    count: 0,
+    makes: [] as { make: string; slug: string; n: number }[],
   };
+  try {
+    const [carsRes, indexRes] = await Promise.all([
+      fetch(`${API_BASE}/allcarsnew/0/8`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ is_manheim_car: "0", premium_car: "0", vrtFilter: "Yes" }),
+        next: { revalidate: 900 },
+      }),
+      fetch(`${API_BASE}/import-landing-index`, { next: { revalidate: 3600 } }),
+    ]);
+    const carsJson = await carsRes.json();
+    const indexJson = await indexRes.json();
+    const cars: HomeCar[] = (carsJson?.data?.cars ?? [])
+      .filter((c: HomeCar) => c.featured_image)
+      .slice(0, 4);
+    const count: number = carsJson?.data?.count ?? 0;
+    const makes: { make: string; slug: string; n: number }[] = (indexJson?.data?.makes ?? []).slice(0, 8);
+    return { cars, count, makes };
+  } catch {
+    return empty;
+  }
 }
 
-async function getHomepageContent(): Promise<HomepageContent> {
-  const res = await fetch(`${API_BASE}/get-homepage-content`, {
-    cache: "no-store",
-  });
-  return res.json();
-}
+const REVIEWS = [
+  { name: "Shauna W.", quote: "Just under two weeks from initial contact to the car being delivered." },
+  { name: "Declan W.", quote: "Higher spec cars, for cheaper — you can't go wrong." },
+  { name: "Galatia C.", quote: "An Irish-plated car, ordered from your computer, within 2 weeks." },
+];
 
 export default async function HomePage() {
-  const [homepage, makesData, fuelsData, bodyStylesData, transmissionsData] =
-    await Promise.all([
-      getHomepageContent(),
-      postFilter("makes"),
-      postFilter("fuel-types"),
-      postFilter("body-styles"),
-      postFilter("transmission-types"),
-    ]);
-
-  const makes = (makesData.make || [])
-    .filter((m: { make: string }) => m.make)
-    .map((m: { make: string; total: number }) => ({ label: m.make, total: m.total }));
-  const fuels = (fuelsData.fuel_type || [])
-    .filter((f: { fuel_type: string }) => f.fuel_type)
-    .map((f: { fuel_type: string; total: number }) => ({ label: f.fuel_type, total: f.total }));
-  const bodyStyles = (bodyStylesData.body_style || [])
-    .filter((b: { body_style: string }) => b.body_style)
-    .map((b: { body_style: string; total: number }) => ({ label: b.body_style, total: b.total }));
-  const transmissions = (transmissionsData.transmission || [])
-    .filter((t: { car_transmission: string }) => t.car_transmission)
-    .map((t: { car_transmission: string; total: number }) => ({
-      label: t.car_transmission,
-      total: t.total,
-    }));
-
-  const { aboutus, howitworks, ourtrade, whyus } = homepage.data;
+  const { cars, count, makes } = await getHomeData();
 
   return (
     <main>
       <section className={styles.hero}>
         <div className={styles.heroInner}>
-          <h1 className={styles.heroTitle}>Let&apos;s Find A Car For You</h1>
-          <SearchWidget
-            initialMakes={makes}
-            initialFuels={fuels}
-            initialBodyStyles={bodyStyles}
-            initialTransmissions={transmissions}
+          <div className={styles.heroCopy}>
+            <p className={styles.heroEyebrow}>
+              Over {count > 0 ? count.toLocaleString() : "200,000"} cars to choose from
+            </p>
+            <h1 className={styles.heroHeadline}>
+              The price you see
+              <br />
+              is the price <em>you pay.</em>
+            </h1>
+            <ul className={styles.heroBullets}>
+              <li>VRT, VAT, customs &amp; delivery — all included</li>
+              <li>Independent mechanical inspection before you commit</li>
+              <li>Your maximum exposure: €0 — deposits fully refundable</li>
+            </ul>
+            <div className={styles.heroCtas}>
+              <Link href="/how-it-works" className={styles.heroCtaPrimary}>
+                How it works
+              </Link>
+              <a href="tel:015568261" className={styles.heroCtaGhost}>
+                01-556 8261
+              </a>
+            </div>
+          </div>
+          <HomeSearchPanel
+            makes={makes.map((m) => ({ make: m.make, n: m.n }))}
+            totalCount={count}
           />
         </div>
       </section>
 
-      {aboutus && (
-        <div dangerouslySetInnerHTML={{ __html: aboutus }} />
-      )}
+      <section className={styles.trustStrip}>
+        <span>13 years in business</span>
+        <span>
+          <span className={styles.stars}>★★★★★</span> <strong>4.6</strong> · 122 Google reviews
+        </span>
+        <span>Irish plates in ~2 weeks</span>
+      </section>
 
-      {howitworks && (
-        <section className={styles.contentSection}>
-          <h2 className={styles.contentHeading}>HOW IT WORKS?</h2>
-          <div dangerouslySetInnerHTML={{ __html: howitworks }} />
+      {cars.length > 0 && (
+        <section className={styles.arrivals}>
+          <h2 className={styles.sectionTitle}>Just added</h2>
+          <p className={styles.sectionSub}>
+            Thousands of new cars land every week — the UK market restocks daily; Irish forecourts
+            don&apos;t.
+          </p>
+          <div className={styles.arrivalGrid}>
+            {cars.map((c) => (
+              <Link key={c.car_id} href={`/car/${c.car_id}`} className={styles.arrivalCard}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={c.featured_image} alt={c.car_name} loading="lazy" />
+                <span className={styles.arrivalName}>{c.car_name}</span>
+                <span className={styles.arrivalPrice}>
+                  {c.car_info?.final_price
+                    ? `€${Math.round(c.car_info.final_price).toLocaleString()}`
+                    : "POA"}
+                  <em> all-in</em>
+                </span>
+              </Link>
+            ))}
+          </div>
+          <p className={styles.arrivalsMore}>
+            <Link href="/used-cars">Browse all {count.toLocaleString()} cars &rarr;</Link>
+          </p>
         </section>
       )}
 
-      {ourtrade && (
-        <section className={styles.contentSection}>
-          <h2 className={styles.contentHeading}>Our Trade In Service</h2>
-          <div dangerouslySetInnerHTML={{ __html: ourtrade }} />
-        </section>
-      )}
+      <ProcessTimeline />
 
-      {whyus && <div dangerouslySetInnerHTML={{ __html: whyus }} />}
-
-      <div className={styles.reviews}>
-        <img
-          src="https://ukcarimports.ie/assets/images/Reviewsicon.webp"
-          alt="Reviews"
-          width={200}
-          height={60}
-        />
-        <span>See what others are saying about us on Google</span>
-      </div>
-
-      <div className={styles.footer}>
-        <div className={styles.footerLeft}>
-          <h2>OUR OFFICES</h2>
-          <div className={styles.footerBox}>
-            <img
-              src="https://ukcarimports.ie/assets/images/icon-4.png"
-              alt=""
-              width={60}
-              height={60}
-            />
-            <div>
-              <h5>ADDRESS</h5>
-              <p>51 Bracken Rd, Sandyford Business Park, Sandyford, Dublin, D18 CV48, Ireland</p>
-            </div>
-          </div>
-          <div className={styles.footerBox}>
-            <img
-              src="https://ukcarimports.ie/assets/images/icon-5.png"
-              alt=""
-              width={60}
-              height={60}
-            />
-            <div>
-              <h5>EMAIL</h5>
-              <p>info@ukcarimports.ie</p>
-            </div>
-          </div>
+      <section className={styles.makes}>
+        <h2 className={styles.sectionTitle}>Browse by make</h2>
+        <div className={styles.makeChips}>
+          {makes.map((m) => (
+            <Link key={m.slug} href={`/import/${m.slug}`} className={styles.makeChip}>
+              {m.make.replace(/\b\w/g, (c) => c.toUpperCase())} <span>{m.n.toLocaleString()}</span>
+            </Link>
+          ))}
+          <Link href="/used-cars" className={styles.makeChipAll}>
+            All makes &rarr;
+          </Link>
         </div>
-        <div className={styles.footerRight}>
-          <iframe
-            className={styles.map}
-            style={{ border: 0 }}
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2385.907439518616!2d-6.218018634164293!3d53.27327807996377!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4867054677fba92f%3A0x23d83dd2dc00eb6e!2sUK%20Car%20Imports!5e0!3m2!1sen!2sin!4v1589012063630!5m2!1sen!2sin"
-            width="100%"
-            height="500"
-            loading="lazy"
-            title="UK Car Imports office location"
-          />
+      </section>
+
+      <section className={styles.alertBand}>
+        <div className={styles.alertBandInner}>
+          <div>
+            <h2>Haven&apos;t found the one yet?</h2>
+            <p>
+              Thousands of new cars land every week. Save a search and we&apos;ll email you the
+              moment yours arrives — the best ones fly.
+            </p>
+          </div>
+          <Link href="/sign-up" className={styles.alertBandCta}>
+            Create my alert
+          </Link>
         </div>
-      </div>
+      </section>
+
+      <section className={styles.reviews}>
+        <h2 className={styles.sectionTitle}>What our customers say</h2>
+        <p className={styles.sectionSub}>
+          <span className={styles.stars}>★★★★★</span> 4.6 from 122 Google reviews
+        </p>
+        <div className={styles.reviewGrid}>
+          {REVIEWS.map((r) => (
+            <figure key={r.name} className={styles.reviewCard}>
+              <blockquote>&ldquo;{r.quote}&rdquo;</blockquote>
+              <figcaption>
+                — {r.name} <span>· Posted on Google</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.closing}>
+        <div className={styles.closingInner}>
+          <div>
+            <p className={styles.closingLead}>100% online — no showroom, no showroom costs.</p>
+            <p className={styles.closingSub}>
+              Handover &amp; collection by appointment · Sandyford, Dublin 18 · Est. 2013
+            </p>
+          </div>
+          <Link href="/used-cars" className={styles.closingCta}>
+            Browse {count.toLocaleString()} cars
+          </Link>
+        </div>
+      </section>
     </main>
   );
 }
