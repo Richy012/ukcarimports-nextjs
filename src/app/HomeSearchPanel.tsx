@@ -58,7 +58,7 @@ export default function HomeSearchPanel({
 
   return (
     <div className={styles.searchPanel}>
-      <div className={styles.searchPanelHeader}>Let&apos;s Find You a Car</div>
+      <div className={styles.searchPanelHeader}>LET&apos;S FIND A CAR FOR YOU!</div>
       <div className={styles.searchPanelBody}>
         <select value={make} onChange={(e) => setMake(e.target.value)} aria-label="Make">
           <option value="">Any make</option>

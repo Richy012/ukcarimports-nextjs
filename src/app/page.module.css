@@ -289,6 +289,15 @@
   background: #2a2a2e;
 }
 
+/* Single-column mobile: show the photo's own 4:3 framing instead of a
+   letterbox crop — the 150px strip was cutting cars out of centre. */
+@media (max-width: 700px) {
+  .arrivalCard img {
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+}
+
 .arrivalName {
   padding: 10px 12px 2px;
   font-size: 0.85rem;
@@ -324,6 +333,57 @@
   color: #b01112;
   font-weight: 600;
   font-size: 0.92rem;
+}
+
+/* Best value vs Ireland — pale green band (wm-green carries the watermark) */
+
+.valueBand {
+  border-top: 1px solid #e2efe6;
+  border-bottom: 1px solid #e2efe6;
+}
+
+.valueInner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 40px 20px 34px;
+}
+
+.valueBand .arrivalCard {
+  position: relative;
+  background: #fff;
+  border-color: #d9ebde;
+}
+
+.valueBand .arrivalCard:hover {
+  border-color: #1d7a3a;
+}
+
+.valueBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+  background: #1d7a3a;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.valueIrish {
+  display: block;
+  color: #8a958c;
+  text-decoration: line-through;
+  font-weight: 400;
+  font-size: 0.76rem;
+  margin-top: 2px;
+}
+
+.valueBand .arrivalsMore a {
+  color: #1d7a3a;
 }
 
 /* Flattened process timeline */

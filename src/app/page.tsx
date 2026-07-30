@@ -22,30 +22,38 @@ interface HomeCar {
   car_info?: { final_price?: number };
 }
 
+interface BestValueCar extends HomeCar {
+  best_value: { saving_pct: number; irish_price: number; snapshot_date: string };
+}
+
 async function getHomeData() {
   const empty = {
-    cars: [] as HomeCar[],
+    bestValue: [] as BestValueCar[],
+    bvCount: 0,
     count: 0,
     makes: [] as { make: string; slug: string; n: number }[],
   };
   try {
-    const [carsRes, indexRes] = await Promise.all([
-      fetch(`${API_BASE}/allcarsnew/0/8`, {
+    const [carsRes, indexRes, bvRes] = await Promise.all([
+      fetch(`${API_BASE}/allcarsnew/0/1`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ is_manheim_car: "0", premium_car: "0", vrtFilter: "Yes" }),
         next: { revalidate: 900 },
       }),
       fetch(`${API_BASE}/import-landing-index`, { next: { revalidate: 3600 } }),
+      fetch(`${API_BASE}/best-value/0/4`, { next: { revalidate: 900 } }),
     ]);
     const carsJson = await carsRes.json();
     const indexJson = await indexRes.json();
-    const cars: HomeCar[] = (carsJson?.data?.cars ?? [])
-      .filter((c: HomeCar) => c.featured_image)
-      .slice(0, 4);
+    const bvJson = await bvRes.json();
+    const bestValue: BestValueCar[] = (bvJson?.data?.cars ?? []).filter(
+      (c: BestValueCar) => c.featured_image && c.best_value
+    );
+    const bvCount: number = bvJson?.data?.count ?? 0;
     const count: number = carsJson?.data?.count ?? 0;
     const makes: { make: string; slug: string; n: number }[] = (indexJson?.data?.makes ?? []).slice(0, 8);
-    return { cars, count, makes };
+    return { bestValue, bvCount, count, makes };
   } catch {
     return empty;
   }
@@ -58,7 +66,7 @@ const REVIEWS = [
 ];
 
 export default async function HomePage() {
-  const { cars, count, makes } = await getHomeData();
+  const { bestValue, bvCount, count, makes } = await getHomeData();
 
   return (
     <main>
@@ -96,31 +104,41 @@ export default async function HomePage() {
         <span>Irish plates in ~2 weeks</span>
       </section>
 
-      {cars.length > 0 && (
-        <section className={styles.arrivals}>
-          <h2 className={styles.sectionTitle}>Just added</h2>
-          <p className={styles.sectionSub}>
-            Thousands of new cars land every week — the UK market restocks daily; Irish forecourts
-            don&apos;t.
-          </p>
-          <div className={styles.arrivalGrid}>
-            {cars.map((c) => (
-              <Link key={c.car_id} href={`/car/${c.car_id}`} className={styles.arrivalCard}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={c.featured_image} alt={c.car_name} loading="lazy" />
-                <span className={styles.arrivalName}>{c.car_name}</span>
-                <span className={styles.arrivalPrice}>
-                  {c.car_info?.final_price
-                    ? `€${Math.round(c.car_info.final_price).toLocaleString()}`
-                    : "POA"}
-                  <em> all-in</em>
-                </span>
+      {bestValue.length > 0 && (
+        <section className={`${styles.valueBand} wm-green`}>
+          <div className={styles.valueInner}>
+            <h2 className={styles.sectionTitle}>Best value vs Ireland</h2>
+            <p className={styles.sectionSub}>
+              Every saving is benchmarked against the real Irish asking price for an equivalent
+              car — matched and refreshed weekly.
+            </p>
+            <div className={styles.arrivalGrid}>
+              {bestValue.map((c) => (
+                <Link key={c.car_id} href={`/car/${c.car_id}`} className={styles.arrivalCard}>
+                  <span className={styles.valueBadge}>
+                    {Math.round(c.best_value.saving_pct)}% under Irish price
+                  </span>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={c.featured_image} alt={c.car_name} loading="lazy" />
+                  <span className={styles.arrivalName}>{c.car_name}</span>
+                  <span className={styles.arrivalPrice}>
+                    {c.car_info?.final_price
+                      ? `€${Math.round(c.car_info.final_price).toLocaleString()}`
+                      : "POA"}
+                    <em> all-in</em>
+                    <span className={styles.valueIrish}>
+                      €{Math.round(c.best_value.irish_price).toLocaleString()} in Ireland
+                    </span>
+                  </span>
+                </Link>
+              ))}
+            </div>
+            <p className={styles.arrivalsMore}>
+              <Link href="/best-value">
+                See all {bvCount.toLocaleString()} cars 10%+ under Irish prices &rarr;
               </Link>
-            ))}
+            </p>
           </div>
-          <p className={styles.arrivalsMore}>
-            <Link href="/used-cars">Browse all {count.toLocaleString()} cars &rarr;</Link>
-          </p>
         </section>
       )}
 
