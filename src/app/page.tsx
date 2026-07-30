@@ -135,7 +135,7 @@ export default async function HomePage() {
             </div>
             <p className={styles.arrivalsMore}>
               <Link href="/best-value">
-                See all {bvCount.toLocaleString()} cars 10%+ under Irish prices &rarr;
+                {`See all ${bvCount.toLocaleString()} cars 10%+ under Irish prices`} &rarr;
               </Link>
             </p>
           </div>
