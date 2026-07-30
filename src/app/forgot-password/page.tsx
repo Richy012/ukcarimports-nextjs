@@ -12,13 +12,6 @@ export const metadata: Metadata = {
 export default function ForgotPasswordPage() {
   return (
     <main className={styles.page}>
-      <img
-        src="/assets/images/logo.png"
-        alt="UK Car Imports"
-        width={60}
-        height={60}
-        className={styles.logo}
-      />
       <h1 className={styles.heading}>Forgot your password?</h1>
       <p className={styles.subtext}>
         Enter the email address on your account and we&apos;ll send you a link to reset it.

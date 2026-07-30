@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { clearToken, isTokenValid, isAdminTokenValid } from "@/lib/auth";
 import styles from "./Header.module.css";
 
@@ -33,6 +34,8 @@ const ACCOUNT_LINKS = [
 type MenuKey = "resources" | "account" | "auth" | null;
 
 export default function Header() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const [open, setOpen] = useState(false);
   // Single source of truth for which dropdown is open -- three independent
   // booleans previously let "More" and "My Account" both be open at once
@@ -82,9 +85,15 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.bar}>
-        <Link href="/" className={styles.brand} onClick={closeAll}>
-          <img src="/assets/images/logo.png" alt="UK Car Imports" width={60} height={60} />
-        </Link>
+        {/* Homepage hero artwork already carries the logo — showing it twice
+            stacked reads as a mistake (owner direction 2026-07-30) */}
+        {isHome ? (
+          <span className={styles.brand} aria-hidden="true" />
+        ) : (
+          <Link href="/" className={styles.brand} onClick={closeAll}>
+            <img src="/assets/images/logo.png" alt="UK Car Imports" width={60} height={60} />
+          </Link>
+        )}
 
         <button
           type="button"

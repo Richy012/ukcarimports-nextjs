@@ -12,13 +12,6 @@ export const metadata: Metadata = {
 export default function SignInPage() {
   return (
     <main className={styles.page}>
-      <img
-        src="/assets/images/logo.png"
-        alt="UK Car Imports"
-        width={60}
-        height={60}
-        className={styles.logo}
-      />
       <h1 className={styles.heading}>Welcome back</h1>
       <p className={styles.subtext}>Sign in to see your saved cars, saved searches, and notifications.</p>
       <SignInForm />

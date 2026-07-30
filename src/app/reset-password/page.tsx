@@ -21,13 +21,6 @@ export default async function ResetPasswordPage({
 
   return (
     <main className={styles.page}>
-      <img
-        src="/assets/images/logo.png"
-        alt="UK Car Imports"
-        width={60}
-        height={60}
-        className={styles.logo}
-      />
       <h1 className={styles.heading}>Choose a new password</h1>
       <ResetPasswordForm u={u} t={t} e={e} />
     </main>

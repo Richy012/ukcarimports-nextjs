@@ -12,13 +12,6 @@ export const metadata: Metadata = {
 export default function SignUpPage() {
   return (
     <main className={styles.page}>
-      <img
-        src="/assets/images/logo.png"
-        alt="UK Car Imports"
-        width={60}
-        height={60}
-        className={styles.logo}
-      />
       <h1 className={styles.heading}>Create your account</h1>
       <p className={styles.subtext}>Save cars, save searches, and get emailed when a match appears.</p>
       <SignUpForm />

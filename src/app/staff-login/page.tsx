@@ -12,13 +12,6 @@ export const metadata: Metadata = {
 export default function StaffLoginPage() {
   return (
     <main className={styles.page}>
-      <img
-        src="/assets/images/logo.png"
-        alt="UK Car Imports"
-        width={60}
-        height={60}
-        className={styles.logo}
-      />
       <h1 className={styles.heading}>Staff Access</h1>
       <StaffLoginForm />
     </main>
