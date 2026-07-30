@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function SignInPage() {
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} wm-light`}>
       <h1 className={styles.heading}>Welcome back</h1>
       <p className={styles.subtext}>Sign in to see your saved cars, saved searches, and notifications.</p>
       <SignInForm />

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function SignUpPage() {
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} wm-light`}>
       <h1 className={styles.heading}>Create your account</h1>
       <p className={styles.subtext}>Save cars, save searches, and get emailed when a match appears.</p>
       <SignUpForm />

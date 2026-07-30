@@ -9,7 +9,13 @@ export const metadata: Metadata = {
 
 export default function CarSourcingPage() {
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} wm-light`}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/assets/images/banner-port.jpg"
+        alt="The price you see is the price you pay — every vehicle includes VRT, VAT, customs and delivery"
+        className="brand-banner"
+      />
       <div className={styles.info}>
         <h1 className={styles.heading}>Car Sourcing</h1>
         <p>

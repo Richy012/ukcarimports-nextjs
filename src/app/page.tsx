@@ -141,7 +141,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className={styles.alertBand}>
+      <section className={`${styles.alertBand} wm-red`}>
         <div className={styles.alertBandInner}>
           <div>
             <h2>Haven&apos;t found the one yet?</h2>

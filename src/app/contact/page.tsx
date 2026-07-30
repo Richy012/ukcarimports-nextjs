@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} wm-light`}>
       <div className={styles.grid}>
         <div className={styles.offices}>
           <h2>OUR OFFICES</h2>

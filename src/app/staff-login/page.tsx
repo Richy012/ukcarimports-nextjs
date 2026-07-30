@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function StaffLoginPage() {
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} wm-light`}>
       <h1 className={styles.heading}>Staff Access</h1>
       <StaffLoginForm />
     </main>
