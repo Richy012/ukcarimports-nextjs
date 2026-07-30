@@ -137,12 +137,10 @@ export default function ImportLanding({ data, makeSlug }: { data: LandingData; m
           <span className={styles.statValue}>{euro(data.price_avg)}</span>
           <span className={styles.statLabel}>average price</span>
         </div>
-        {ukCheaperShare !== null && (
-          <div className={styles.statCard}>
-            <span className={styles.statValue}>{ukCheaperShare}%</span>
-            <span className={styles.statLabel}>beat Irish prices this week*</span>
-          </div>
-        )}
+        {/* Comparison-engine stats deliberately NOT rendered publicly yet:
+            owner's rule — no market-comparison numbers in front of customers
+            until the matching data passes his sign-off (credibility first).
+            Re-enable by restoring this block and the fliers section below. */}
       </div>
 
       <div className={styles.ctaRow}>
@@ -154,30 +152,8 @@ export default function ImportLanding({ data, makeSlug }: { data: LandingData; m
         </Link>
       </div>
 
-      {data.fliers.length > 0 && (
-        <section className={styles.fliers}>
-          <h2>This week&apos;s standout {subject} deals</h2>
-          <p className={styles.fliersSub}>
-            Our price-comparison engine benchmarks every car against real Irish asking prices weekly.
-            These are current flyers — deals well beyond what their segment typically shows. They
-            sell fast.
-          </p>
-          <div className={styles.flierGrid}>
-            {data.fliers.map((f) => (
-              <Link key={f.car_id} href={`/car/${f.car_id}`} className={styles.flierCard}>
-                <span className={styles.flierBadge}>⚡ Flyer</span>
-                <span className={styles.flierName}>{f.car_name}</span>
-                <span className={styles.flierPrices}>
-                  <strong>{euro(f.our_price)}</strong> landed vs {euro(f.irish_price)} Irish asking
-                </span>
-                <span className={styles.flierSaving}>
-                  {f.saving_pct > 0 ? `${Math.round(f.saving_pct)}% below the Irish price` : "See details"}
-                </span>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
+      {/* Flyer cards withheld from public pages pending owner sign-off on
+          comparison data quality — see note above. */}
 
       {data.models.length > 0 && (
         <section className={styles.models}>
@@ -203,12 +179,6 @@ export default function ImportLanding({ data, makeSlug }: { data: LandingData; m
         ))}
       </section>
 
-      {data.comparison && (
-        <p className={styles.footnote}>
-          *Based on {data.comparison.total.toLocaleString()} {subject} cars matched against comparable
-          Irish listings in our weekly market benchmark ({data.comparison.snapshot_date}).
-        </p>
-      )}
     </main>
   );
 }
