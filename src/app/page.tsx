@@ -113,7 +113,8 @@ export default async function HomePage() {
             </p>
             <div className={styles.arrivalGrid}>
               {bestValue.map((c) => (
-                <Link key={c.car_id} href={`/car/${c.car_id}`} className={styles.arrivalCard}>
+                <div key={c.car_id} className={styles.valueItem}>
+                <Link href={`/car/${c.car_id}`} className={styles.arrivalCard}>
                   <span className={styles.valueBadge}>
                     {c.best_value.basis === "segment"
                       ? `Typically ${Math.round(c.best_value.saving_pct)}% under Irish price`
@@ -134,6 +135,10 @@ export default async function HomePage() {
                     )}
                   </span>
                 </Link>
+                <Link href={`/best-value/why/${c.car_id}`} className={styles.valueWhy}>
+                  The maths behind this deal &rarr;
+                </Link>
+                </div>
               ))}
             </div>
             <p className={styles.arrivalsMore}>

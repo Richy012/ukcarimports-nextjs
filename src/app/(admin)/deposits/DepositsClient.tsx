@@ -68,6 +68,31 @@ export default function DepositsClient() {
       .finally(() => setBusyId(null));
   }
 
+  // Only never-paid records (abandoned checkouts, test rows) can be deleted;
+  // the backend refuses paid/refunded rows — those are accounting records.
+  function remove(row: DepositRow) {
+    if (
+      !window.confirm(
+        `Delete this "${row.status}" deposit record for ${row.customer_name}?\n\nNo money was taken on this record. This only removes the row — it cannot be undone.`
+      )
+    )
+      return;
+    setBusyId(row.id);
+    fetch(`/api/staff-deposit-delete/${row.id}`, {
+      method: "POST",
+      headers: staffAuthHeaders(),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.ResponseCode == 1) {
+          load();
+        } else {
+          alert(data?.ResponseText || "Delete failed");
+        }
+      })
+      .finally(() => setBusyId(null));
+  }
+
   return (
     <>
       <div className={styles.headerRow}>
@@ -141,6 +166,18 @@ export default function DepositsClient() {
                       </button>
                     </>
                   )}
+                  {row.status !== "paid" &&
+                    row.status !== "refunded_partial" &&
+                    row.status !== "refunded_full" && (
+                      <button
+                        type="button"
+                        className={styles.refundBtnGhost}
+                        disabled={busyId === row.id}
+                        onClick={() => remove(row)}
+                      >
+                        Delete
+                      </button>
+                    )}
                 </div>
               </div>
             );

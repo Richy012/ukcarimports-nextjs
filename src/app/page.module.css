@@ -380,6 +380,86 @@
   color: #1d7a3a;
 }
 
+.valueItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.valueItem .arrivalCard {
+  flex: 1;
+}
+
+.valueWhy {
+  display: block;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #1d7a3a;
+  margin-top: 6px;
+}
+
+.valueWhy:hover {
+  text-decoration: underline;
+}
+
+/* "Show the maths" audit page */
+
+.whyPage {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 34px 20px 50px;
+}
+
+.whyBlock {
+  background: #fff;
+  border: 1px solid #e2efe6;
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin: 16px 0;
+}
+
+.whyBlock h2 {
+  font-size: 1.05rem;
+  margin: 0 0 10px;
+  color: #1d7a3a;
+}
+
+.whyBlock ul {
+  margin: 0;
+  padding-left: 18px;
+  color: #444;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.whyFormula {
+  background: #f3faf6;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 1rem;
+}
+
+.whyTableWrap {
+  overflow-x: auto;
+}
+
+.whyTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.whyTable th,
+.whyTable td {
+  text-align: left;
+  padding: 6px 8px;
+  border-bottom: 1px solid #eee;
+  white-space: nowrap;
+}
+
+.whyTable a {
+  color: #1d7a3a;
+}
+
 /* Flattened process timeline */
 
 .tlSection {
