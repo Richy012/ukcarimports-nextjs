@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { staffAuthHeaders } from "@/lib/auth";
 import EmailModal from "./EmailModal";
+import AdminFilterBar, { AdminFilters, DEFAULT_FILTERS } from "./AdminFilterBar";
 import styles from "./page.module.css";
 
 const EMAIL_TEMPLATES = [
@@ -94,11 +95,29 @@ function vrtBadge(car: CarRow) {
   return <span className={styles.badgeMatch}>Match</span>;
 }
 
+// Translates the filter-bar state into the exact param names
+// buildCarsQueryFromParams() reads; empty selections are omitted entirely.
+function filtersToParams(filters: AdminFilters): Record<string, string> {
+  const out: Record<string, string> = { vrt: filters.vrt };
+  const direct: Array<keyof AdminFilters> = [
+    "Make", "Model", "Fuel", "transmission_type", "body_style",
+    "minPrice", "maxPrice", "minYear", "maxYear", "minMileage", "maxMileage",
+  ];
+  for (const key of direct) {
+    if (filters[key]) out[key] = filters[key];
+  }
+  if (filters.sort === "price_asc") out.pricefilter = "ASC";
+  if (filters.sort === "price_desc") out.pricefilter = "DESC";
+  if (filters.sort === "mileage_asc") out.mileagefilter = "ASC";
+  if (filters.sort === "mileage_desc") out.mileagefilter = "DESC";
+  return out;
+}
+
 export default function AdminCarsClient() {
   const [cars, setCars] = useState<CarRow[]>([]);
   const [count, setCount] = useState(0);
   const [page, setPage] = useState(0);
-  const [vrtFilter, setVrtFilter] = useState<"All" | "Yes" | "No">("All");
+  const [filters, setFilters] = useState<AdminFilters>(DEFAULT_FILTERS);
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [details, setDetails] = useState<Record<string, CarDetail>>({});
@@ -109,7 +128,7 @@ export default function AdminCarsClient() {
     fetch("/api/staff-cars", {
       method: "POST",
       headers: { "Content-Type": "application/json", ...staffAuthHeaders() },
-      body: JSON.stringify({ pagenum: page, limit: LIMIT, vrt: vrtFilter }),
+      body: JSON.stringify({ pagenum: page, limit: LIMIT, ...filtersToParams(filters) }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -117,7 +136,7 @@ export default function AdminCarsClient() {
         setCount(data?.data?.count ?? 0);
       })
       .finally(() => setLoading(false));
-  }, [page, vrtFilter]);
+  }, [page, filters]);
 
   function toggleExpand(carId: string) {
     if (expandedId === carId) {
@@ -183,24 +202,17 @@ export default function AdminCarsClient() {
     <>
       <div className={styles.headerRow}>
         <h1 className={styles.heading}>Cars</h1>
-        <div className={styles.filterRow}>
-          <label>
-            VRT:{" "}
-            <select
-              value={vrtFilter}
-              onChange={(e) => {
-                setPage(0);
-                setVrtFilter(e.target.value as "All" | "Yes" | "No");
-              }}
-            >
-              <option value="All">All</option>
-              <option value="Yes">Has VRT</option>
-              <option value="No">No VRT</option>
-            </select>
-          </label>
-          <span className={styles.countText}>{count.toLocaleString()} cars</span>
-        </div>
       </div>
+
+      <AdminFilterBar
+        filters={filters}
+        onChange={(patch) => {
+          setPage(0);
+          setFilters((prev) => ({ ...prev, ...patch }));
+        }}
+        count={count}
+        loading={loading}
+      />
 
       <div className={styles.tableWrap}>
         <div className={styles.tableHead}>
