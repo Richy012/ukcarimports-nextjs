@@ -87,7 +87,10 @@ export default async function HomePage() {
       </section>
 
       <section className={styles.trustStrip}>
-        <span>13 years in business</span>
+        <span>
+          <strong>The price you see is the price you pay</strong>
+          {" — VRT, VAT & delivery included"}
+        </span>
         <span>
           <span className={styles.stars}>★★★★★</span> <strong>4.6</strong> · 122 Google reviews
         </span>
