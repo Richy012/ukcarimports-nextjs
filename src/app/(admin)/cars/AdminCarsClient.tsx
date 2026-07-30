@@ -325,7 +325,17 @@ export default function AdminCarsClient() {
                         </div>
 
                         <p className={styles.urlNote}>
-                          Source URL not captured in scraped data (car_url stores only the internal car_id).
+                          <a
+                            href={`https://www.autotrader.co.uk/car-details/${detail.car_url ?? car.car_id}`}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            See at AutoTrader
+                          </a>
+                          {" · "}
+                          <a href={`https://ukcarimports.ie/car/${car.car_id}`} target="_blank" rel="noreferrer">
+                            View on site
+                          </a>
                         </p>
 
                         {detail.price_history.length > 0 && (
