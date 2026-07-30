@@ -183,3 +183,47 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.actionsRow {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #ddd;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.actionBtn,
+.actionBtnActive,
+.actionBtnDanger {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  border: 1px solid #71717180;
+  background: #fff;
+  color: #454443;
+}
+
+.actionBtnActive {
+  background: #eef4ff;
+  border-color: #2563eb;
+  color: #1d4ed8;
+}
+
+.actionBtnDanger {
+  border-color: #b60b0c;
+  color: #b60b0c;
+}
+
+.actionBtnDanger:hover {
+  background: #b60b0c;
+  color: #fff;
+}
+
+.actionBtn:disabled,
+.actionBtnActive:disabled,
+.actionBtnDanger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -58,6 +58,7 @@ interface CarDetail {
   auction_company_name: string | null;
   car_url: string | null;
   created_at: string | null;
+  price_frozen: boolean;
   price_history: PriceHistoryRow[];
 }
 
@@ -124,6 +125,44 @@ export default function AdminCarsClient() {
         })
         .finally(() => setDetailLoading(null));
     }
+  }
+
+  const [actionBusy, setActionBusy] = useState<string | null>(null);
+
+  function toggleFreeze(carId: string) {
+    setActionBusy(carId);
+    fetch(`/api/staff-car-freeze/${carId}`, { method: "POST", headers: staffAuthHeaders() })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.ResponseCode == 1) {
+          setDetails((prev) => ({
+            ...prev,
+            [carId]: { ...prev[carId], price_frozen: !!data.frozen },
+          }));
+        } else if (data?.ResponseText) {
+          alert(data.ResponseText);
+        }
+      })
+      .finally(() => setActionBusy(null));
+  }
+
+  function markSold(carId: string, carName: string) {
+    if (!window.confirm(`Mark "${carName}" as SOLD?\n\nThis removes the car from the live site immediately.`)) {
+      return;
+    }
+    setActionBusy(carId);
+    fetch(`/api/staff-car-sold/${carId}`, { method: "POST", headers: staffAuthHeaders() })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.ResponseCode == 1) {
+          setCars((prev) => prev.filter((c) => c.car_id !== carId));
+          setCount((prev) => Math.max(0, prev - 1));
+          setExpandedId(null);
+        } else if (data?.ResponseText) {
+          alert(data.ResponseText);
+        }
+      })
+      .finally(() => setActionBusy(null));
   }
 
   const totalPages = Math.max(1, Math.ceil(count / LIMIT));
@@ -289,6 +328,25 @@ export default function AdminCarsClient() {
                             ))}
                           </div>
                         )}
+
+                        <div className={styles.actionsRow}>
+                          <button
+                            type="button"
+                            className={detail.price_frozen ? styles.actionBtnActive : styles.actionBtn}
+                            disabled={actionBusy === car.car_id}
+                            onClick={() => toggleFreeze(car.car_id)}
+                          >
+                            {detail.price_frozen ? "🔒 Price frozen — click to unfreeze" : "Freeze price (save advert)"}
+                          </button>
+                          <button
+                            type="button"
+                            className={styles.actionBtnDanger}
+                            disabled={actionBusy === car.car_id}
+                            onClick={() => markSold(car.car_id, `${car.make_name || car.make} ${car.model_name || car.model}`)}
+                          >
+                            Mark sold — remove from site
+                          </button>
+                        </div>
                       </>
                     )}
                   </div>
