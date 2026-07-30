@@ -127,11 +127,22 @@ export default function LeadsClient() {
                 <span className={styles.sub}>{lead.Email}</span>
                 <span className={styles.sub}>{lead.Phone}</span>
               </div>
-              <span className={styles.sub}>
-                <a href={`https://ukcarimports.ie/car/${lead.car_id}`} target="_blank" rel="noreferrer">
-                  {lead.car_id}
-                </a>
-              </span>
+              <div className={styles.cellStack}>
+                <span className={styles.sub}>
+                  <a
+                    href={`https://www.autotrader.co.uk/car-details/${lead.car_id}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    See at AutoTrader
+                  </a>
+                </span>
+                <span className={styles.sub}>
+                  <a href={`https://ukcarimports.ie/car/${lead.car_id}`} target="_blank" rel="noreferrer">
+                    {lead.car_id}
+                  </a>
+                </span>
+              </div>
               <div className={styles.cellStack}>
                 {extras(lead).length === 0 && <span className={styles.sub}>-</span>}
                 {extras(lead).map((x) => (

@@ -318,9 +318,10 @@ export default function PriceBreakdown({
                   </button>
                   {payError && <p className={styles.error}>{payError}</p>}
                   <p className={styles.payNowSmall}>
-                    Refundable per our Terms: walk away after the inspection and it&apos;s returned
-                    minus the €395 inspection fee. Prefer a bank transfer? No problem — we&apos;ll be
-                    in touch either way.
+                    <strong>Your maximum exposure is €395 — and only if you chose the inspection.</strong>{" "}
+                    Walk away after the report and the rest is refunded. No inspection? The deposit is
+                    fully refundable. Prefer a bank transfer? No problem — we&apos;ll be in touch
+                    either way.
                   </p>
                 </div>
               </>
