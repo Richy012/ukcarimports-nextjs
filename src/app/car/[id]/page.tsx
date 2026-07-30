@@ -165,6 +165,7 @@ export default async function CarDetailPage({
     car.engine && { label: "Engine", value: car.engine },
     car.seats && { label: "Seats", value: car.seats },
     car.color_name && { label: "Colour", value: titleCase(car.color_name) },
+    car.co2_emission && { label: "CO2 Emissions", value: car.co2_emission },
     car.owner && { label: "Number of Owners", value: car.owner },
   ].filter(Boolean) as { label: string; value: string }[];
 
