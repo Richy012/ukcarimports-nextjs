@@ -63,22 +63,26 @@ export default async function HomePage() {
   return (
     <main>
       <section className={styles.hero}>
-        <div className={styles.heroInner}>
-          <div className={styles.heroCopy}>
-            <p className={styles.heroEyebrow}>
-              Over {count > 0 ? count.toLocaleString() : "200,000"} cars to choose from
-            </p>
-            <h1 className={styles.heroHeadline}>
-              Importing a car
-              <br />
-              should feel <em>this simple.</em>
-            </h1>
-            <div className={styles.heroDash} />
-            <HomeSearchPanel
-              makes={makes.map((m) => ({ make: m.make, n: m.n }))}
-              totalCount={count}
-            />
-          </div>
+        {/* Mobile-only text: on desktop the composite image carries logo + headline */}
+        <div className={styles.heroCopy}>
+          <p className={styles.heroEyebrow}>
+            Over {count > 0 ? count.toLocaleString() : "200,000"} cars to choose from
+          </p>
+          <h1 className={styles.heroHeadline}>
+            Importing a car
+            <br />
+            should feel <em>this simple.</em>
+          </h1>
+          <div className={styles.heroDash} />
+        </div>
+        <p className={styles.heroCount}>
+          Over {count > 0 ? count.toLocaleString() : "200,000"} cars to choose from
+        </p>
+        <div className={styles.heroPanelDock}>
+          <HomeSearchPanel
+            makes={makes.map((m) => ({ make: m.make, n: m.n }))}
+            totalCount={count}
+          />
         </div>
       </section>
 
