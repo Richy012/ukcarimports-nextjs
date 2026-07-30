@@ -678,3 +678,45 @@
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
+
+/* Online deposit payment (Stripe Checkout) offer after lead submit */
+
+.payNowBlock {
+  margin-top: 18px;
+  border-top: 1px solid #eee;
+  padding-top: 16px;
+}
+
+.payNowLead {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0 0 12px;
+}
+
+.payNowButton {
+  width: 100%;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 8px;
+  background: #635bff;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.payNowButton:hover {
+  background: #5851e6;
+}
+
+.payNowButton:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.payNowSmall {
+  font-size: 0.8rem;
+  color: #777;
+  line-height: 1.5;
+  margin: 10px 0 0;
+}

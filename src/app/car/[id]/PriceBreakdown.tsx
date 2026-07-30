@@ -87,6 +87,29 @@ export default function PriceBreakdown({
   const [submitError, setSubmitError] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [payRedirecting, setPayRedirecting] = useState(false);
+  const [payError, setPayError] = useState("");
+
+  async function startOnlineDeposit() {
+    setPayRedirecting(true);
+    setPayError("");
+    try {
+      const res = await fetch("/api/create-deposit-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ car_id: carId, name, email, phone }),
+      });
+      const data = await res.json();
+      if (data?.ResponseCode == 1 && data.url) {
+        window.location.href = data.url;
+        return;
+      }
+      setPayError(data?.ResponseText || "Could not open the payment page. Please try again.");
+    } catch {
+      setPayError("Could not open the payment page. Please try again.");
+    }
+    setPayRedirecting(false);
+  }
 
   const isElectric = (fuelTypeName || "").toLowerCase() === "electric";
   const warrantyTiers = getWarrantyTiers(carInfo, isElectric);
@@ -279,6 +302,27 @@ export default function PriceBreakdown({
               <>
                 <h2 className={styles.depositHeading}>Thanks — deposit request sent</h2>
                 <p>We&apos;ll get back to you shortly to complete your purchase of {carName}.</p>
+
+                <div className={styles.payNowBlock}>
+                  <p className={styles.payNowLead}>
+                    Want to secure it right now? Pay the €2,000 deposit online — you&apos;ll be taken
+                    to Stripe&apos;s secure checkout (cards, Apple&nbsp;Pay and Google&nbsp;Pay).
+                  </p>
+                  <button
+                    type="button"
+                    className={styles.payNowButton}
+                    disabled={payRedirecting}
+                    onClick={startOnlineDeposit}
+                  >
+                    {payRedirecting ? "Opening secure checkout..." : "Pay €2,000 deposit securely"}
+                  </button>
+                  {payError && <p className={styles.error}>{payError}</p>}
+                  <p className={styles.payNowSmall}>
+                    Refundable per our Terms: walk away after the inspection and it&apos;s returned
+                    minus the €395 inspection fee. Prefer a bank transfer? No problem — we&apos;ll be
+                    in touch either way.
+                  </p>
+                </div>
               </>
             ) : (
               <>
