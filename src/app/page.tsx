@@ -89,7 +89,6 @@ export default async function HomePage() {
       <section className={styles.trustStrip}>
         <span>
           <strong>The price you see is the price you pay</strong>
-          {" — VRT, VAT & delivery included"}
         </span>
         <span>
           <span className={styles.stars}>★★★★★</span> <strong>4.6</strong> · 122 Google reviews
@@ -141,7 +140,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className={`${styles.alertBand} wm-red`}>
+      <section className={styles.alertBand}>
         <div className={styles.alertBandInner}>
           <div>
             <h2>Haven&apos;t found the one yet?</h2>
