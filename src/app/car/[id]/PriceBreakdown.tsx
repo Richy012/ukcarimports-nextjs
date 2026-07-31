@@ -22,6 +22,7 @@ interface CarInfo {
   converted_price: number;
   shipping_fee: number;
   customs_agent_fee: number;
+  customs_clearance_fee?: number;
   after_irish_vat: number;
   fee: number;
   final_price: number;
@@ -303,10 +304,12 @@ export default function PriceBreakdown({
             <dd>€{formatEuro(carInfo.converted_price)}</dd>
           </div>
           <div className={styles.breakdownRow}>
-            <dt>Customs clearance</dt>
+            <dt>Shipping</dt>
             <dd>€{formatEuro(carInfo.shipping_fee)}</dd>
           </div>
           <div className={styles.breakdownRow}>
+            <dt>Customs clearance</dt>
+            <dd>€{formatEuro(carInfo.customs_clearance_fee ?? 200)}</dd>
             <dt>Transport (UK garage &rarr; Dublin)</dt>
             <dd>€{formatEuro(carInfo.customs_agent_fee)}</dd>
           </div>
