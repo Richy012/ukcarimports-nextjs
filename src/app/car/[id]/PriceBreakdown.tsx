@@ -303,11 +303,11 @@ export default function PriceBreakdown({
             <dd>€{formatEuro(carInfo.converted_price)}</dd>
           </div>
           <div className={styles.breakdownRow}>
-            <dt>Shipping</dt>
+            <dt>Customs clearance</dt>
             <dd>€{formatEuro(carInfo.shipping_fee)}</dd>
           </div>
           <div className={styles.breakdownRow}>
-            <dt>Transport &amp; customs agent</dt>
+            <dt>Transport (UK garage &rarr; Dublin)</dt>
             <dd>€{formatEuro(carInfo.customs_agent_fee)}</dd>
           </div>
           {carInfo.duty_applied && (
