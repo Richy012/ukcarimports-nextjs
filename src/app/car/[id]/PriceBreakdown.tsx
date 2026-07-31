@@ -65,12 +65,14 @@ function getWarrantyTiers(carInfo: CarInfo, isElectric: boolean): WarrantyTier[]
 export default function PriceBreakdown({
   carId,
   carName,
+  vrm,
   carInfo,
   vrtRate,
   fuelTypeName,
 }: {
   carId: string;
   carName: string;
+  vrm?: string | null;
   carInfo: CarInfo;
   vrtRate: number;
   fuelTypeName?: string;
@@ -360,7 +362,7 @@ export default function PriceBreakdown({
           startAvailabilityCheck();
         }}
       >
-        Place A Deposit
+        {vrm ? `Place A Deposit on ${String(vrm).toUpperCase()}` : "Place A Deposit"}
       </button>
 
       {showModal && (

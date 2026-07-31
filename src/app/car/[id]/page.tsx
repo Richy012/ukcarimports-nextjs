@@ -192,6 +192,7 @@ export default async function CarDetailPage({
 
   const specs = [
     year && { label: "Year", value: year },
+    car.vrm && { label: "Registration", value: String(car.vrm).toUpperCase() },
     car.body_style_name && { label: "Body", value: car.body_style_name },
     car.fuel_type_name && { label: "Fuel", value: car.fuel_type_name },
     car.transmission_name && { label: "Transmission", value: car.transmission_name },
@@ -235,6 +236,7 @@ export default async function CarDetailPage({
             <PriceBreakdown
               carId={car.car_id}
               carName={car.car_name}
+              vrm={car.vrm ?? null}
               carInfo={car.car_info}
               vrtRate={car.vrt_rate ?? 0}
               fuelTypeName={car.fuel_type_name}
@@ -265,7 +267,9 @@ export default async function CarDetailPage({
                   rel="noreferrer"
                   className={styles.specLink}
                 >
-                  {car.vrm ? "View this car MOT history" : "Check"}
+                  {car.vrm
+                    ? `View the MOT history of ${String(car.vrm).toUpperCase()}`
+                    : "Check"}
                 </a>
               </dd>
             </div>
