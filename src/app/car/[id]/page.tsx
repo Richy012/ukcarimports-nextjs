@@ -38,6 +38,7 @@ interface RelatedCar {
 }
 
 interface CarDetail {
+  vrm?: string | null;
   car_id: string;
   car_name: string;
   make_name: string;
@@ -250,8 +251,21 @@ export default async function CarDetailPage({
             <div className={styles.specRow}>
               <dt className={styles.specLabel}>MOT History</dt>
               <dd className={styles.specValue}>
-                <a href="https://www.check-mot.service.gov.uk/" target="_blank" rel="noreferrer" className={styles.specLink}>
-                  Check
+                {/* Deep-link straight to THIS car MOT history when we have
+                    the plate (captured from the ad by the housekeeper, v7).
+                    UK MOT records show the mileage at every test, which is how
+                    a buyer spots clocking. Falls back to the generic lookup. */}
+                <a
+                  href={
+                    car.vrm
+                      ? `https://www.check-mot.service.gov.uk/results?registration=${encodeURIComponent(String(car.vrm).replace(/\s+/g, ""))}`
+                      : "https://www.check-mot.service.gov.uk/"
+                  }
+                  target="_blank"
+                  rel="noreferrer"
+                  className={styles.specLink}
+                >
+                  {car.vrm ? "View this car MOT history" : "Check"}
                 </a>
               </dd>
             </div>
