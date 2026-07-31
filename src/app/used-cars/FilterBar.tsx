@@ -73,6 +73,9 @@ const YEAR_OPTIONS = ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2
 const PRICE_OPTIONS = Array.from({ length: (500000 - 15000) / 5000 + 1 }, (_, i) => 15000 + i * 5000);
 const MILEAGE_OPTIONS = Array.from({ length: 500000 / 5000 + 1 }, (_, i) => i * 5000);
 
+// vrtFilter + the €15k floor are the standing public-display rules the
+// legacy site always applied (no POA cars, no sub-€15k stock) — keep every
+// count and listing on the same population as the canonical stock number.
 const FILTER_BODY_DEFAULTS = {
   is_manheim_car: "0",
   premium_car: 0,
@@ -332,7 +335,7 @@ export default function FilterBar({
             maxEnginesize,
             minYear,
             maxYear,
-            minPrice,
+            minPrice: minPrice || "15000",
             maxPrice,
             minMileage,
             maxMileage,
@@ -387,7 +390,7 @@ export default function FilterBar({
           maxEnginesize,
           minYear,
           maxYear,
-          minPrice,
+          minPrice: minPrice || "15000",
           maxPrice,
           minMileage,
           maxMileage,

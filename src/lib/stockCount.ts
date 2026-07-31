@@ -8,10 +8,17 @@
 // 15-minute window — that is what makes the number consistent everywhere.
 const API_BASE = "https://api.ukcarimports.ie/public";
 
+// The two standing business rules the legacy site always applied (owner
+// confirmed 2026-07-31 when the counts diverged): never show a car without a
+// confirmed VRT match (no POA — "the price you see is the price you pay"),
+// and never show stock landing under €15,000 (uneconomic to import).
+export const PUBLIC_FLOOR_EUR = "15000";
+
 export const CANONICAL_BROWSE_BODY = {
   is_manheim_car: "0",
   premium_car: "0",
-  minPrice: "",
+  vrtFilter: "Yes",
+  minPrice: PUBLIC_FLOOR_EUR,
   maxPrice: "",
   minYear: "",
   maxYear: "",

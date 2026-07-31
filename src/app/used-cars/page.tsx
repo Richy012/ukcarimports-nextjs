@@ -98,7 +98,10 @@ async function getCars(
     body: JSON.stringify({
       is_manheim_car: "0",
       premium_car: "0",
-      minPrice: filters.minPrice,
+      // Standing public-display rules (same as lib/stockCount + FilterBar):
+      // VRT-priceable cars only, landed price >= €15,000.
+      vrtFilter: "Yes",
+      minPrice: filters.minPrice || "15000",
       maxPrice: filters.maxPrice,
       minYear: filters.minYear,
       maxYear: filters.maxYear,
