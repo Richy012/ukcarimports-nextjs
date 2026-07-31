@@ -258,9 +258,9 @@ export default async function CarDetailPage({
             <div className={styles.specRow}>
               <dt className={styles.specLabel}>Mechanical &amp; Condition Report</dt>
               <dd className={styles.specValue}>
-                <Link href="/mechanical-inspection" className={styles.specLink}>
-                  What we check
-                </Link>
+                <a href={`${API_BASE}/report/Mech_And_Cond_Report.pdf`} target="_blank" rel="noreferrer" className={styles.specLink}>
+                  View
+                </a>
               </dd>
             </div>
           </dl>
