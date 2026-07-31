@@ -220,7 +220,14 @@ export default async function CarDetailPage({
       <h1 className={styles.heading}>{car.car_name}</h1>
 
       <div className={styles.layout}>
-        <CarGallery heroSrc={car.featured_image} carName={car.car_name} photos={allPhotos} />
+        <div className={styles.galleryColumn}>
+          <CarGallery heroSrc={car.featured_image} carName={car.car_name} photos={allPhotos} />
+          <p className={styles.howItWorksLink}>
+            <Link href="/how-it-works">
+              How importing works &mdash; from this page to Irish plates in about two weeks &rarr;
+            </Link>
+          </p>
+        </div>
 
         <div className={styles.summary}>
           {car.car_info && (
@@ -261,15 +268,6 @@ export default async function CarDetailPage({
           {car.auction_company_name && (
             <p className={styles.sellerLine}>Seller/Garage: By {car.auction_company_name}</p>
           )}
-
-          <div className={styles.deliveryBox}>
-            <h3 className={styles.deliveryHeading}>Delivery &amp; Collection</h3>
-            <p>
-              Every car we sell is imported, duty/VRT-processed, and delivered
-              by us directly — collect from our Sandyford, Dublin office, or
-              arrange home delivery nationwide.
-            </p>
-          </div>
 
           <ul className={styles.historyChecklist}>
             <li><Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} /> History checked before purchase</li>
