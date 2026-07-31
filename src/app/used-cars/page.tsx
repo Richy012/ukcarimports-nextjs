@@ -119,8 +119,11 @@ async function getCars(
       engine: "",
       pagenum: pageNum,
       limit: PAGE_SIZE,
-      price_sort: filters.price_sort,
-      mileage_sort: filters.mileage_sort,
+      // The API reads these as pricefilter/mileagefilter (CarsNewTwoController
+      // lines 229-230). Sending price_sort/mileage_sort meant neither sort ever
+      // reached the query and every "sort by" selection was silently ignored.
+      pricefilter: filters.price_sort,
+      mileagefilter: filters.mileage_sort,
       color: filters.color,
       search: searchChips.join(" "),
       searchChips,
