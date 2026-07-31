@@ -195,7 +195,12 @@ export default async function UsedCarsPage({
     maxEnginesize: firstParam(params, "maxEnginesize"),
     minYear: firstParam(params, "minYear"),
     maxYear: firstParam(params, "maxYear"),
-    minPrice: firstParam(params, "minPrice"),
+    // Absolute floor: even a hand-typed ?minPrice=5000 URL cannot dip below
+    // the €15k public-display rule.
+    minPrice:
+      firstParam(params, "minPrice") && Number(firstParam(params, "minPrice")) < 15000
+        ? "15000"
+        : firstParam(params, "minPrice"),
     maxPrice: firstParam(params, "maxPrice"),
     minMileage: firstParam(params, "minMileage"),
     maxMileage: firstParam(params, "maxMileage"),
