@@ -121,8 +121,6 @@ export default function CardsGrid({ cars }: { cars: Car[] }) {
           <Link key={car.car_id} href={`/car/${car.car_id}`} className={styles.card}>
             {car.premium_car === 1 ? (
               <span className={`${styles.badge} ${styles.badgePremium}`}>★ Premium</span>
-            ) : car.is_manheim_car === "1" ? (
-              <span className={`${styles.badge} ${styles.badgeAuction}`}>Auction Vehicle</span>
             ) : null}
             <button
               type="button"

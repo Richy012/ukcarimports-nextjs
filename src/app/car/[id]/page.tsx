@@ -289,7 +289,7 @@ export default async function CarDetailPage({
 
           <ul className={styles.historyChecklist}>
             <li><Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} /> History checked before purchase</li>
-            <li><Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} /> Inspected after deposit</li>
+            <li><Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} /> Inspected after deposit, on request</li>
             {car.service_history ? (
               <li>
                 <Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} /> Service history
