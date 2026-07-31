@@ -139,12 +139,32 @@ button.navLink {
 }
 
 @media (max-width: 900px) {
+  /* The open nav is width:100% with order:3, but .bar never wrapped, so it
+     stayed on the same flex line as the logo and toggle -- squeezing them and
+     leaving the hamburger floating over the menu items. Wrapping drops the nav
+     onto its own row underneath, and aligning to the top line keeps the toggle
+     beside the logo instead of centred against the tall open menu. */
+  .bar {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .brand,
+  .toggle {
+    align-self: center;
+  }
+
   .toggle {
     display: flex;
   }
 
   .nav {
     display: none;
+    /* The base .nav sets flex:1, i.e. flex-basis:0% -- which wins over
+       width:100% when sizing a flex item. Without an explicit basis the nav
+       never forced a wrap, so it shared the row with the logo and toggle and
+       shoved the hamburger into the middle of the open menu. */
+    flex: 0 0 100%;
     width: 100%;
     order: 3;
   }
