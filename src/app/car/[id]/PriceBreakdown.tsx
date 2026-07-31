@@ -307,21 +307,23 @@ export default function PriceBreakdown({
             <dt>Shipping</dt>
             <dd>€{formatEuro(carInfo.shipping_fee)}</dd>
           </div>
-          <div className={styles.breakdownRow}>
-            <dt>Customs clearance</dt>
-            <dd>€{formatEuro(carInfo.customs_clearance_fee ?? 200)}</dd>
-            <dt>Transport (UK garage &rarr; Dublin)</dt>
-            <dd>€{formatEuro(carInfo.customs_agent_fee)}</dd>
-          </div>
           {carInfo.duty_applied && (
             <div className={styles.breakdownRow}>
-              <dt>Import duty</dt>
+              <dt>Import duty (10%)</dt>
               <dd>Applied</dd>
             </div>
           )}
           <div className={styles.breakdownRow}>
-            <dt>Irish VAT-adjusted subtotal</dt>
+            <dt>Subtotal after duty &amp; Irish VAT</dt>
             <dd>€{formatEuro(carInfo.after_irish_vat)}</dd>
+          </div>
+          <div className={styles.breakdownRow}>
+            <dt>Customs clearance</dt>
+            <dd>€{formatEuro(carInfo.customs_clearance_fee ?? 200)}</dd>
+          </div>
+          <div className={styles.breakdownRow}>
+            <dt>Transport (UK garage &rarr; Dublin)</dt>
+            <dd>€{formatEuro(carInfo.customs_agent_fee)}</dd>
           </div>
           <div className={styles.breakdownRow}>
             <dt>VRT</dt>
