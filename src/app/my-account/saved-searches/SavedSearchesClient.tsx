@@ -1,5 +1,6 @@
 "use client";
 
+import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { API_BASE, authHeaders, isTokenValid } from "@/lib/auth";
@@ -81,7 +82,7 @@ export default function SavedSearchesClient() {
         <div className={styles.searchList}>
           {searches.map((s) => (
             <div className={styles.searchCard} key={s.id}>
-              <span className={styles.searchIcon} aria-hidden="true">🔍</span>
+              <span className={styles.searchIcon} aria-hidden="true"><Search size={16} strokeWidth={1.75} /></span>
               <div className={styles.searchBody}>
                 <div className={styles.searchLabel}>{s.label}</div>
                 <div className={styles.searchMeta}>Saved on {s.created_at}</div>

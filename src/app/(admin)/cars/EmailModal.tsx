@@ -1,5 +1,6 @@
 "use client";
 
+import { Check } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { staffAuthHeaders } from "@/lib/auth";
 import styles from "./page.module.css";
@@ -125,7 +126,7 @@ export default function EmailModal({
 
             <div className={styles.modalActions}>
               <button type="button" className={styles.actionBtn} onClick={copyAll}>
-                {copied ? "✓ Copied to clipboard" : "Copy email to clipboard"}
+                {copied ? <><Check size={14} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px" }} /> Copied to clipboard</> : "Copy email to clipboard"}
               </button>
               <span className={styles.modalHint}>
                 Edit the template wording itself under Admin &rarr; Templates.

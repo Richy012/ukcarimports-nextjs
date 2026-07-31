@@ -1,5 +1,6 @@
 "use client";
 
+import { Camera, ThumbsDown, ThumbsUp } from "lucide-react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { API_BASE, authHeaders, isTokenValid } from "@/lib/auth";
@@ -22,7 +23,7 @@ function NotificationThumb({ carId, alt }: { carId: string; alt: string }) {
   if (failed) {
     return (
       <div className={styles.notifThumbFallback}>
-        <span>📷</span>
+        <span><Camera size={24} strokeWidth={1.5} aria-hidden="true" /></span>
       </div>
     );
   }
@@ -150,7 +151,7 @@ export default function NotificationsClient() {
                     onClick={() => setFeedback(n.id, "like")}
                     title="More like this"
                   >
-                    👍
+                    <ThumbsUp size={18} strokeWidth={1.75} aria-hidden="true" />
                   </button>
                   <button
                     type="button"
@@ -160,7 +161,7 @@ export default function NotificationsClient() {
                     onClick={() => setFeedback(n.id, "dislike")}
                     title="Fewer like this"
                   >
-                    👎
+                    <ThumbsDown size={18} strokeWidth={1.75} aria-hidden="true" />
                   </button>
                   <button type="button" className={styles.deleteBtn} onClick={() => deleteNotification(n.id)}>
                     Delete

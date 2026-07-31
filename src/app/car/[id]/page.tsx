@@ -1,3 +1,4 @@
+import { Check } from "lucide-react";
 // Server Component -- same SSR approach as /used-cars: real data in the
 // initial HTML response instead of waiting on a full SPA boot.
 import Link from "next/link";
@@ -271,11 +272,11 @@ export default async function CarDetailPage({
           </div>
 
           <ul className={styles.historyChecklist}>
-            <li>✓ History checked before purchase</li>
-            <li>✓ Inspected after deposit</li>
+            <li><Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} /> History checked before purchase</li>
+            <li><Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} /> Inspected after deposit</li>
             {car.service_history ? (
               <li>
-                ✓ Service history
+                <Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} /> Service history
                 {car.last_service ? ` — last serviced ${car.last_service}` : ""}
                 {car.last_service_mileage ? ` at ${car.last_service_mileage} km` : ""}
               </li>

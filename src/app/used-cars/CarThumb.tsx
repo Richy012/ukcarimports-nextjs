@@ -1,5 +1,6 @@
 "use client";
 
+import { Camera } from "lucide-react";
 import { useState } from "react";
 import styles from "./page.module.css";
 
@@ -17,7 +18,7 @@ export default function CarThumb({
   if (failed) {
     return (
       <div className={styles.cardImageFallback}>
-        <span className={styles.cardImageFallbackIcon}>📷</span>
+        <span className={styles.cardImageFallbackIcon}><Camera size={28} strokeWidth={1.5} aria-hidden="true" /></span>
         <span>Image not available</span>
       </div>
     );

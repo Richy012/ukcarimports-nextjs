@@ -1,5 +1,6 @@
 "use client";
 
+import { Check } from "lucide-react";
 import { useEffect, useState } from "react";
 import { staffAuthHeaders } from "@/lib/auth";
 import styles from "./page.module.css";
@@ -119,7 +120,7 @@ export default function TemplatesClient() {
                   {saving === tpl.template_key
                     ? "Saving..."
                     : savedKey === tpl.template_key
-                      ? "✓ Saved"
+                      ? <><Check size={14} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px" }} /> Saved</>
                       : "Save template"}
                 </button>
               </div>

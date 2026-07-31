@@ -1,5 +1,6 @@
 "use client";
 
+import { Check } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -61,7 +62,7 @@ export default function DepositSuccessClient() {
 
       {state === "paid" && info && (
         <div className={styles.card}>
-          <div className={styles.tick}>✓</div>
+          <div className={styles.tick}><Check size={34} strokeWidth={2.5} aria-hidden="true" /></div>
           <h1>Deposit received — the car is being secured</h1>
           <p>
             Thanks {info.customer_name}. Your €{Math.round(info.amount_cents / 100).toLocaleString()}{" "}

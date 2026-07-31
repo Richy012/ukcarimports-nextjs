@@ -1,5 +1,6 @@
 "use client";
 
+import { CircleCheck } from "lucide-react";
 import { useState } from "react";
 import Script from "next/script";
 import styles from "./page.module.css";
@@ -384,7 +385,7 @@ export default function PriceBreakdown({
                   {availability === "available" ? (
                     <>
                       <p className={styles.payNowLead}>
-                        ✓ Availability confirmed. Want to secure it right now? Pay the €2,000 deposit
+                        <CircleCheck size={15} strokeWidth={1.75} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 4 }} /> Availability confirmed. Want to secure it right now? Pay the €2,000 deposit
                         online — you&apos;ll be taken to Stripe&apos;s secure checkout (cards,
                         Apple&nbsp;Pay and Google&nbsp;Pay).
                       </p>

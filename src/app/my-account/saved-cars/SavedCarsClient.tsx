@@ -1,5 +1,6 @@
 "use client";
 
+import { Camera, ThumbsDown, ThumbsUp } from "lucide-react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { API_BASE, authHeaders, isTokenValid } from "@/lib/auth";
@@ -39,7 +40,7 @@ function CarImage({ carId, alt }: { carId: string; alt: string }) {
   if (failed) {
     return (
       <div className={styles.cardImageFallback}>
-        <span>📷</span>
+        <span><Camera size={24} strokeWidth={1.5} aria-hidden="true" /></span>
         <span>Photo not available</span>
       </div>
     );
@@ -229,7 +230,7 @@ export default function SavedCarsClient() {
                         aria-pressed={fb === "like"}
                         onClick={() => sendFeedback(savedId, "like")}
                       >
-                        👍
+                        <ThumbsUp size={18} strokeWidth={1.75} aria-hidden="true" />
                       </button>
                       <button
                         type="button"
@@ -239,7 +240,7 @@ export default function SavedCarsClient() {
                         aria-pressed={fb === "dislike"}
                         onClick={() => sendFeedback(savedId, "dislike")}
                       >
-                        👎
+                        <ThumbsDown size={18} strokeWidth={1.75} aria-hidden="true" />
                       </button>
                     </div>
                   )}
