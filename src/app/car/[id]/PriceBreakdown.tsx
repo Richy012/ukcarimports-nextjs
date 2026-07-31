@@ -1,5 +1,6 @@
 "use client";
 
+import { gtmPush } from "@/lib/gtm";
 import { CircleCheck } from "lucide-react";
 import { useState } from "react";
 import Script from "next/script";
@@ -154,6 +155,12 @@ export default function PriceBreakdown({
       });
       const data = await res.json();
       if (data?.ResponseCode == 1 && data.url) {
+        gtmPush({
+          event: "begin_checkout",
+          currency: "EUR",
+          value: 2000,
+          checkout_kind: "vehicle_deposit",
+        });
         window.location.href = data.url;
         return;
       }

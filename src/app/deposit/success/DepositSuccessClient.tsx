@@ -1,5 +1,6 @@
 "use client";
 
+import { gtmPush } from "@/lib/gtm";
 import { Check } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
@@ -36,6 +37,13 @@ export default function DepositSuccessClient() {
           if (cancelled) return;
           const d = data?.data;
           if (d?.status === "paid") {
+            gtmPush({
+              event: "purchase",
+              currency: "EUR",
+              value: 2000,
+              transaction_id: sessionId,
+              checkout_kind: "vehicle_deposit",
+            });
             setInfo(d);
             setState("paid");
           } else if (d && attempts < 5) {
