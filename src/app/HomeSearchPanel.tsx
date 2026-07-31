@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { CANONICAL_BROWSE_BODY } from "@/lib/stockCount";
 import styles from "./page.module.css";
+
+const API_BASE = "https://api.ukcarimports.ie/public";
 
 interface MakeOption {
   make: string;
@@ -23,6 +26,41 @@ export default function HomeSearchPanel({
   const [model, setModel] = useState("");
   const [budget, setBudget] = useState("");
   const [models, setModels] = useState<{ car_model: string; total: number }[]>([]);
+  const [count, setCount] = useState(totalCount);
+
+  // Live count: the button re-counts as make/model/budget change, exactly
+  // like the used-cars filter bar — a static number next to chosen filters
+  // reads as broken (owner caught it).
+  useEffect(() => {
+    if (!make && !model && !budget) {
+      setCount(totalCount);
+      return;
+    }
+    const ctrl = new AbortController();
+    const t = setTimeout(() => {
+      fetch(`${API_BASE}/allcarsnew/0/1`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...CANONICAL_BROWSE_BODY,
+          Make: make,
+          Model: model,
+          maxPrice: budget,
+        }),
+        signal: ctrl.signal,
+      })
+        .then((r) => r.json())
+        .then((d) => {
+          const c = d?.data?.count;
+          if (typeof c === "number") setCount(c);
+        })
+        .catch(() => {});
+    }, 250);
+    return () => {
+      clearTimeout(t);
+      ctrl.abort();
+    };
+  }, [make, model, budget, totalCount]);
 
   useEffect(() => {
     setModel("");
@@ -90,7 +128,7 @@ export default function HomeSearchPanel({
           ))}
         </select>
         <button type="button" className={styles.searchPanelButton} onClick={search}>
-          Search {totalCount.toLocaleString()} cars
+          Search {count.toLocaleString()} cars
         </button>
         <button
           type="button"

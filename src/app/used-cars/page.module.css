@@ -44,7 +44,7 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 20px;
 }
 
@@ -267,4 +267,11 @@
 
 .cardImageFallbackIcon {
   font-size: 28px;
+}
+
+.loadingMore {
+  text-align: center;
+  color: #888;
+  padding: 16px 0 6px;
+  font-size: 0.9rem;
 }

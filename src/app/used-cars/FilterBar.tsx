@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import CardsGrid from "./CardsGrid";
@@ -247,6 +247,16 @@ export default function FilterBar({
   const [liveCount, setLiveCount] = useState(initialCount);
   const [countLoading, setCountLoading] = useState(false);
 
+  // Infinite scroll (AutoTrader-style, owner request 2026-07-31): more cars
+  // append as the sentinel below the grid nears the viewport. The classic
+  // ?page links stay in the server HTML for crawlers/no-JS, but hide once
+  // scroll-loading has taken over.
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [loadedPage, setLoadedPage] = useState(currentPage);
+  const endRef = useRef<HTMLDivElement | null>(null);
+  const busyRef = useRef(false);
+  const loadMoreRef = useRef<() => void>(() => {});
+
   // True once the user changes anything from the URL-applied state -- while
   // true we're showing a live preview (page 1 only, no sort applied server
   // side yet), so real pagination controls don't make sense until Apply.
@@ -338,7 +348,10 @@ export default function FilterBar({
         });
         const data = await res.json();
         if (typeof data?.data?.count === "number") setLiveCount(data.data.count);
-        if (Array.isArray(data?.data?.cars)) setLiveCars(data.data.cars);
+        if (Array.isArray(data?.data?.cars)) {
+          setLiveCars(data.data.cars);
+          setLoadedPage(1);
+        }
       } catch {
         // Leave the last known results showing rather than a jarring reset.
       } finally {
@@ -348,6 +361,76 @@ export default function FilterBar({
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [make, model, fuel, bodyStyle, transmission, seats, color, minEnginesize, maxEnginesize, minYear, maxYear, minPrice, maxPrice, minMileage, maxMileage, searchChips, versionChips, sort]);
+
+  // Reassigned every render so the IntersectionObserver callback always sees
+  // the current filter state without re-registering the observer.
+  loadMoreRef.current = async () => {
+    if (busyRef.current || loadingMore) return;
+    if (liveCars.length >= liveCount) return;
+    busyRef.current = true;
+    setLoadingMore(true);
+    try {
+      const { price_sort, mileage_sort } = sortToParams(sort);
+      const res = await fetch("/api/car-count", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...FILTER_BODY_DEFAULTS,
+          Make: make,
+          Model: model,
+          Fuel: fuel,
+          body_style: bodyStyle,
+          transmission_type: transmission,
+          seats,
+          color,
+          minEnginesize,
+          maxEnginesize,
+          minYear,
+          maxYear,
+          minPrice,
+          maxPrice,
+          minMileage,
+          maxMileage,
+          search: searchChips.join(" "),
+          searchChips,
+          version: versionChips.join(" "),
+          versionChips,
+          price_sort,
+          mileage_sort,
+          pagenum: loadedPage + 1,
+          limit: 25,
+        }),
+      });
+      const data = await res.json();
+      const batch: Car[] = Array.isArray(data?.data?.cars) ? data.data.cars : [];
+      if (batch.length) {
+        setLiveCars((prev) => {
+          const seen = new Set(prev.map((c) => c.car_id));
+          return [...prev, ...batch.filter((c) => !seen.has(c.car_id))];
+        });
+      }
+      setLoadedPage((p) => p + 1);
+      if (typeof data?.data?.count === "number") setLiveCount(data.data.count);
+    } catch {
+      // Quiet failure: the sentinel will simply retry on the next intersect.
+    } finally {
+      busyRef.current = false;
+      setLoadingMore(false);
+    }
+  };
+
+  useEffect(() => {
+    const el = endRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) loadMoreRef.current();
+      },
+      { rootMargin: "800px 0px" },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   function handleMakeChange(newMake: string) {
     setMake(newMake);
@@ -557,7 +640,15 @@ export default function FilterBar({
         <p className={pageStyles.noResults}>No cars match these filters.</p>
       )}
 
-      {!dirty && liveCars.length > 0 && totalPages > 1 && (
+      <div ref={endRef} aria-hidden="true" />
+      {loadingMore && <p className={pageStyles.loadingMore}>Loading more cars&hellip;</p>}
+      {liveCars.length > 0 && liveCars.length >= liveCount && (
+        <p className={pageStyles.loadingMore}>
+          That&rsquo;s all {liveCount.toLocaleString("en-IE")} — every matching car is above.
+        </p>
+      )}
+
+      {!dirty && loadedPage === currentPage && liveCars.length > 0 && totalPages > 1 && (
         <nav className={pageStyles.pagination} aria-label="Pagination">
           {prevHref ? (
             <Link href={prevHref} className={pageStyles.pageLink}>&larr; Previous</Link>
