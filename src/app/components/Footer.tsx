@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Mail, MapPin } from "lucide-react";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
@@ -8,7 +9,7 @@ export default function Footer() {
         <div className={styles.offices}>
           <h2>OUR OFFICES</h2>
           <div className={styles.box}>
-            <img src="https://ukcarimports.ie/assets/images/icon-4.png" alt="" width={60} height={60} />
+            <MapPin size={44} strokeWidth={1.25} color="#b60b0c" aria-hidden="true" />
             <div>
               <h5>ADDRESS</h5>
               <p>51 Bracken Rd, Sandyford Business Park, Sandyford, Dublin, D18 CV48, Ireland</p>
@@ -18,7 +19,7 @@ export default function Footer() {
             </div>
           </div>
           <div className={styles.box}>
-            <img src="https://ukcarimports.ie/assets/images/icon-5.png" alt="" width={60} height={60} />
+            <Mail size={44} strokeWidth={1.25} color="#b60b0c" aria-hidden="true" />
             <div>
               <h5>EMAIL</h5>
               <p>info@ukcarimports.ie</p>

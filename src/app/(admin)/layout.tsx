@@ -3,19 +3,32 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import {
+  CarFront,
+  FileText,
+  HandCoins,
+  LayoutDashboard,
+  LogOut,
+  Scale,
+  UserPlus,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
 import { clearStaffToken, isAdminTokenValid } from "@/lib/auth";
 import styles from "./layout.module.css";
 
 // Only Dashboard is real so far -- more admin sections get added here as
 // each one is actually built, same convention as MyAccountLayout's nav list.
-const NAV_ITEMS = [
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/cars", label: "Cars" },
-  { href: "/leads", label: "Leads" },
-  { href: "/deposits", label: "Deposits" },
-  { href: "/members", label: "Members" },
-  { href: "/comparisons", label: "Comparisons" },
-  { href: "/templates", label: "Templates" },
+// Icons are the same Lucide family as the How It Works journey (owner:
+// propagate that icon language everywhere, admin included).
+const NAV_ITEMS: { href: string; label: string; icon: LucideIcon }[] = [
+  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/cars", label: "Cars", icon: CarFront },
+  { href: "/leads", label: "Leads", icon: UserPlus },
+  { href: "/deposits", label: "Deposits", icon: HandCoins },
+  { href: "/members", label: "Members", icon: Users },
+  { href: "/comparisons", label: "Comparisons", icon: Scale },
+  { href: "/templates", label: "Templates", icon: FileText },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -49,11 +62,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               href={item.href}
               className={pathname === item.href ? styles.navLinkActive : styles.navLink}
             >
+              <item.icon size={16} strokeWidth={1.75} aria-hidden="true" style={{ verticalAlign: "-3px", marginRight: 8 }} />
               {item.label}
             </Link>
           ))}
         </nav>
         <button type="button" className={styles.logoutBtn} onClick={handleLogout}>
+          <LogOut size={15} strokeWidth={1.75} aria-hidden="true" style={{ verticalAlign: "-3px", marginRight: 8 }} />
           Log out
         </button>
       </aside>

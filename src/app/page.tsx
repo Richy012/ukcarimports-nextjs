@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BadgeEuro, CarFront } from "lucide-react";
 import HomeSearchPanel from "./HomeSearchPanel";
 import ProcessTimeline from "./ProcessTimeline";
 import { getStockCount } from "@/lib/stockCount";
@@ -95,12 +96,16 @@ export default async function HomePage() {
 
       <section className={styles.trustStrip}>
         <span>
+          <BadgeEuro size={16} strokeWidth={1.75} aria-hidden="true" style={{ verticalAlign: "-3px", marginRight: 6 }} />
           <strong>The price you see is the price you pay</strong>
         </span>
         <span>
           <span className={styles.stars}>★★★★★</span> <strong>4.6</strong> · 122 Google reviews
         </span>
-        <span>Irish plates in ~2 weeks</span>
+        <span>
+          <CarFront size={16} strokeWidth={1.75} aria-hidden="true" style={{ verticalAlign: "-3px", marginRight: 6 }} />
+          Irish plates in ~2 weeks
+        </span>
       </section>
 
       {bestValue.length > 0 && (

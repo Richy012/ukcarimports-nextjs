@@ -2,13 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { BellRing, Heart, LogOut, Search, type LucideIcon } from "lucide-react";
 import { clearToken } from "@/lib/auth";
 import styles from "./layout.module.css";
 
-const NAV_ITEMS = [
-  { href: "/my-account/saved-cars", label: "Saved Cars", icon: "♡" },
-  { href: "/my-account/saved-searches", label: "Saved Searches", icon: "🔍" },
-  { href: "/my-account/notifications", label: "Notifications", icon: "🔔" },
+// Same Lucide icon family as the How It Works journey (site-wide icon language).
+const NAV_ITEMS: { href: string; label: string; icon: LucideIcon }[] = [
+  { href: "/my-account/saved-cars", label: "Saved Cars", icon: Heart },
+  { href: "/my-account/saved-searches", label: "Saved Searches", icon: Search },
+  { href: "/my-account/notifications", label: "Notifications", icon: BellRing },
 ];
 
 export default function MyAccountLayout({ children }: { children: React.ReactNode }) {
@@ -30,12 +32,15 @@ export default function MyAccountLayout({ children }: { children: React.ReactNod
               href={item.href}
               className={pathname === item.href ? styles.navLinkActive : styles.navLink}
             >
-              <span className={styles.navIcon} aria-hidden="true">{item.icon}</span>
+              <span className={styles.navIcon} aria-hidden="true">
+                <item.icon size={16} strokeWidth={1.75} style={{ verticalAlign: "-3px" }} />
+              </span>
               {item.label}
             </Link>
           ))}
         </nav>
         <button type="button" className={styles.logoutBtn} onClick={handleLogout}>
+          <LogOut size={15} strokeWidth={1.75} aria-hidden="true" style={{ verticalAlign: "-3px", marginRight: 8 }} />
           Log out
         </button>
       </aside>
