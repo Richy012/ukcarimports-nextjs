@@ -1,102 +1,56 @@
+/* About Us -- typography and container match /used-cars exactly so the site
+   reads as one design. Measured, not guessed: system sans stack, 28px/700
+   headings, #171717 text, 1200px container. */
+
 .page {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 30px 16px 50px;
+  padding: 24px 16px 60px;
 }
-
-.page h1 {
-  font-size: 1.8rem;
-  margin: 0 0 20px;
-}
-
-.page :global(section.info) {
-  padding-top: 10px;
-}
-
-.faqList {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.faqItem {
-  border: 1px solid #e2e2e2;
-  border-radius: 6px;
-  padding: 14px 18px;
-}
-
-.faqQuestion {
-  cursor: pointer;
-  font-weight: 600;
-  list-style: none;
-}
-
-.faqQuestion::-webkit-details-marker {
-  display: none;
-}
-
-.faqQuestion::before {
-  content: "+ ";
-  color: #b60b0c;
-  font-weight: 700;
-}
-
-.faqItem[open] .faqQuestion::before {
-  content: "\2212 ";
-}
-
-.faqAnswer {
-  margin-top: 12px;
-  color: #444;
-  line-height: 1.6;
-}
-
-/* ---- page framing, in the rebuild's design language --------------------- */
 
 .eyebrow {
   font-size: 0.74rem;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: #b01112;
-  font-weight: 650;
-  margin: 0 0 10px;
+  color: #b60b0c;
+  font-weight: 700;
+  margin: 0 0 8px;
 }
 
 .page h1 {
-  font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
-  font-size: 2.1rem;
-  line-height: 1.15;
-  color: #1b1614;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  margin: 0 0 14px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #171717;
+  line-height: 1.2;
+  margin: 0 0 12px;
 }
 
 .lede {
-  font-size: 1.04rem;
-  line-height: 1.65;
-  color: #4a423e;
-  max-width: 60ch;
-  margin: 0 0 30px;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #444;
+  max-width: 70ch;
+  margin: 0 0 34px;
 }
 
-/* ---- CMS content ---------------------------------------------------------
-   The stored HTML carries the legacy site's classes (richard_info,
-   half_richard_info_*, find-car, facts). Style those rather than editing the
-   content, so it stays editable in admin.                                    */
+/* ---- CMS content --------------------------------------------------------
+   The stored HTML carries the legacy site's classes. Style those rather than
+   editing the content, so the copy stays editable in admin.                 */
 
 .cms :global(section.info) { padding: 0; }
 
 .cms :global(.richard_info) {
   display: flex;
   flex-wrap: wrap;
-  gap: 32px;
+  gap: 34px;
   align-items: flex-start;
-  margin: 0 0 30px;
+  margin: 0 0 34px;
 }
 
+/* Portrait / logo column. */
 .cms :global(.half_richard_info_left) {
-  flex: 0 0 190px;
+  flex: 0 0 200px;
   text-align: center;
 }
 
@@ -104,52 +58,54 @@
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 10px;
+  border-radius: 6px;
   margin-bottom: 14px;
 }
 
-/* Name / company: the section title the page was missing. */
 .cms :global(.half_richard_info_left h3) {
-  font-family: Georgia, "Iowan Old Style", serif;
-  font-size: 1.12rem;
-  color: #1b1614;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #171717;
   margin: 0 0 5px;
-  font-weight: 600;
-  letter-spacing: 0;
-  text-transform: none;
 }
 
 .cms :global(.half_richard_info_left h4) {
   font-size: 0.72rem;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
-  color: #b01112;
+  color: #b60b0c;
+  font-weight: 700;
   margin: 0;
-  font-weight: 650;
   line-height: 1.5;
 }
 
-.cms :global(.half_richard_info_right) {
-  flex: 1 1 340px;
+/* THE FIX: this column holds the body copy. Without a flex basis it wrapped
+   onto its own line and the text fell beneath the portrait. */
+.cms :global(.col-md-10) {
+  flex: 1 1 380px;
   min-width: 0;
 }
 
 .cms :global(.half_richard_info_right p) {
-  margin: 0 0 15px;
-  line-height: 1.72;
-  color: #4a423e;
+  margin: 0 0 16px;
+  line-height: 1.7;
+  color: #171717;
+  font-size: 1rem;
 }
+
+.cms :global(.half_richard_info_right p:last-child) { margin-bottom: 0; }
 
 .cms :global(.col-md-12.half_richard_info_right) {
   flex-basis: 100%;
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
-/* Banner breaks the text column. */
+/* Banner breaks out of the container, as on the live page. */
 .cms :global(section.find-car) {
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  margin-bottom: 36px;
+  margin-bottom: 40px;
   display: block;
 }
 
@@ -163,52 +119,50 @@
 .cms :global(section.why_us) {
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  background: #faf8f6;
-  border-top: 1px solid #e6dfd9;
-  border-bottom: 1px solid #e6dfd9;
-  padding: 42px 20px 34px;
-  margin-top: 14px;
+  background: #f4f4f4;
+  padding: 46px 20px 38px;
+  margin-top: 16px;
 }
 
 .cms :global(.facts) {
-  max-width: 900px;
+  max-width: 1168px;
   margin: 0 auto;
 }
 
 .cms :global(.facts h2) {
-  font-family: Georgia, "Iowan Old Style", serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   text-align: center;
-  color: #1b1614;
-  font-size: 1.6rem;
-  font-weight: 600;
-  letter-spacing: -0.005em;
-  text-transform: none;
-  margin: 0 0 28px;
+  color: #171717;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 30px;
 }
 
 .cms :global(.facts p) {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  margin: 0 0 15px;
+  margin: 0 0 16px;
   line-height: 1.65;
-  color: #3c3733;
+  color: #171717;
+  font-size: 1rem;
 }
 
 .cms :global(.facts p img) {
   flex: 0 0 auto;
-  width: 17px;
+  width: 18px;
   height: auto;
-  margin-top: 4px;
+  margin-top: 3px;
 }
 
-@media (max-width: 640px) {
-  .page h1 { font-size: 1.7rem; }
+@media (max-width: 760px) {
+  .page h1 { font-size: 24px; }
   .cms :global(.richard_info) { gap: 20px; }
   .cms :global(.half_richard_info_left) {
     flex: 0 0 100%;
-    max-width: 190px;
+    max-width: 200px;
     margin: 0 auto;
   }
-  .cms :global(section.why_us) { padding: 30px 18px 24px; }
+  .cms :global(.col-md-10) { flex: 1 1 100%; }
+  .cms :global(section.why_us) { padding: 32px 18px 26px; }
 }
