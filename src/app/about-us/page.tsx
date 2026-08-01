@@ -23,6 +23,7 @@ export default async function AboutUsPage() {
 
   return (
     <main className={`${styles.page} wm-light`}>
+      <h1>About Us</h1>
       <div dangerouslySetInnerHTML={{ __html: content }} />
     </main>
   );
