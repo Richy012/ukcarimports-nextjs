@@ -22,7 +22,7 @@ export default async function AboutUsPage() {
   const content = await getContent("aboutus");
 
   return (
-    <main className={`${styles.page} wm-light`}>
+    <main className={styles.page}>
       <h1>About Us</h1>
       <div dangerouslySetInnerHTML={{ __html: content }} />
     </main>

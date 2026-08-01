@@ -20,7 +20,7 @@ export default async function ResetPasswordPage({
   const e = typeof params.e === "string" ? params.e : "";
 
   return (
-    <main className={`${styles.page} wm-light`}>
+    <main className={styles.page}>
       <h1 className={styles.heading}>Choose a new password</h1>
       <ResetPasswordForm u={u} t={t} e={e} />
     </main>

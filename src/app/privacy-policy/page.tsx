@@ -22,7 +22,7 @@ export default async function PrivacyPolicyPage() {
   const content = await getContent("privacypolicy");
 
   return (
-    <main className={`${styles.page} wm-light`}>
+    <main className={styles.page}>
       <div dangerouslySetInnerHTML={{ __html: content }} />
     </main>
   );

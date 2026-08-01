@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function CarSourcingPage() {
   return (
-    <main className={`${styles.page} wm-light`}>
+    <main className={styles.page}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/assets/images/banner-port.jpg"

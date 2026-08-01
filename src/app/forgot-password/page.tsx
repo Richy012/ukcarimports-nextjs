@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function ForgotPasswordPage() {
   return (
-    <main className={`${styles.page} wm-light`}>
+    <main className={styles.page}>
       <h1 className={styles.heading}>Forgot your password?</h1>
       <p className={styles.subtext}>
         Enter the email address on your account and we&apos;ll send you a link to reset it.

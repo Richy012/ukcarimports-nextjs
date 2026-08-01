@@ -30,7 +30,7 @@ export default async function FaqPage() {
   const faqs = await getFaqs();
 
   return (
-    <main className={`${styles.page} wm-light`}>
+    <main className={styles.page}>
       <h1>Frequently Asked Questions</h1>
       <div className={styles.faqList}>
         {faqs.map((faq, index) => (

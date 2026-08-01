@@ -22,7 +22,7 @@ export default function MyAccountLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className={`${styles.shell} wm-light`}>
+    <div className={styles.shell}>
       <aside className={styles.sidebar}>
         <h2 className={styles.sidebarHeading}>My Account</h2>
         <nav className={styles.nav}>

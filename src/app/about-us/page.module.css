@@ -50,3 +50,48 @@
   color: #444;
   line-height: 1.6;
 }
+
+
+/* CMS content ships bare <img> tags with no sizing -- constrain them here
+   rather than editing the stored HTML, so the copy stays editable in admin. */
+.page :global(img) {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Portrait: a headshot, not a hero. */
+.page :global(img[src*="richard"]) {
+  max-width: 260px;
+  border-radius: 8px;
+  float: left;
+  margin: 4px 22px 12px 0;
+}
+
+/* Company mark: sits centred between sections. */
+.page :global(img[src*="logogray"]) {
+  max-width: 190px;
+  display: block;
+  margin: 28px auto;
+}
+
+/* Banner keeps full width, just softened. */
+.page :global(img[src*="bmwpc"]) {
+  border-radius: 10px;
+  margin: 18px 0;
+}
+
+/* Tick bullets are inline glyphs, not blocks. */
+.page :global(img[src*="tick"]) {
+  width: 17px;
+  height: auto;
+  vertical-align: -3px;
+  margin-right: 9px;
+}
+
+@media (max-width: 600px) {
+  .page :global(img[src*="richard"]) {
+    float: none;
+    display: block;
+    margin: 0 auto 18px;
+  }
+}
