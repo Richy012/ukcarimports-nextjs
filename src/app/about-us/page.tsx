@@ -23,8 +23,14 @@ export default async function AboutUsPage() {
 
   return (
     <main className={styles.page}>
+      <p className={styles.eyebrow}>Est. 2013 &middot; Sandyford, Dublin</p>
       <h1>About Us</h1>
-      <div dangerouslySetInnerHTML={{ __html: content }} />
+      <p className={styles.lede}>
+        Ireland&apos;s largest UK vehicle import specialist. Every car we list carries
+        the full landed cost &mdash; VRT, VAT, duty and delivery &mdash; so the price you
+        see is the price you pay.
+      </p>
+      <div className={styles.cms} dangerouslySetInnerHTML={{ __html: content }} />
     </main>
   );
 }
