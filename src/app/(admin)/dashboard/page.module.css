@@ -32,3 +32,129 @@
   font-size: 13px;
   color: #666;
 }
+
+/* ---- Data collection panel ---------------------------------------------- */
+
+.panel {
+  margin-top: 30px;
+  background: #fff;
+  border: 1px solid #e6e2de;
+  border-radius: 10px;
+  padding: 20px 22px 16px;
+}
+
+.panelHeading {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #171717;
+  margin: 0 0 4px;
+}
+
+.panelMeta {
+  font-size: 0.86rem;
+  color: #6b6560;
+  margin: 0 0 16px;
+}
+
+.panelError {
+  font-size: 0.9rem;
+  color: #b60b0c;
+  margin: 0;
+}
+
+.tableScroll {
+  overflow-x: auto;
+}
+
+.healthTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  min-width: 640px;
+}
+
+.healthTable thead th {
+  text-align: left;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8a827c;
+  font-weight: 700;
+  padding: 0 12px 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.healthTable tbody td {
+  padding: 12px 12px 12px 0;
+  border-bottom: 1px solid #f3f1ef;
+  vertical-align: top;
+}
+
+.streamLabel {
+  display: block;
+  color: #171717;
+  font-weight: 600;
+}
+
+.streamNote {
+  display: block;
+  font-size: 0.76rem;
+  color: #8a827c;
+  margin-top: 2px;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: #171717;
+}
+
+.ofTotal {
+  color: #8a827c;
+  font-size: 0.8rem;
+}
+
+.barTrack {
+  width: 120px;
+  height: 6px;
+  background: #efecea;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.barFill {
+  height: 100%;
+  background: #b60b0c;
+}
+
+.pct {
+  font-size: 0.78rem;
+  color: #6b6560;
+}
+
+.rate {
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+/* Movement is the signal that matters: a flat stream is a broken stream. */
+.rate_ok {
+  color: #1d7a3a;
+  font-weight: 600;
+}
+
+.rate_idle {
+  color: #b60b0c;
+  font-weight: 600;
+}
+
+.rate_na {
+  color: #8a827c;
+}
+
+.panelFoot {
+  font-size: 0.75rem;
+  color: #9a938d;
+  margin: 12px 0 0;
+}

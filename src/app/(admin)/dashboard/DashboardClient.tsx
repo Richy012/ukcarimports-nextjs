@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { staffAuthHeaders } from "@/lib/auth";
+import CollectionHealth from "./CollectionHealth";
 import styles from "./page.module.css";
 
 export default function DashboardClient() {
@@ -64,6 +65,7 @@ export default function DashboardClient() {
           <span className={styles.statUnit}>Leads</span>
         </div>
       </div>
+      <CollectionHealth />
     </>
   );
 }
