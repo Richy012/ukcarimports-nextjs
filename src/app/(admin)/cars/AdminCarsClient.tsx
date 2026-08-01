@@ -106,10 +106,14 @@ function filtersToParams(filters: AdminFilters): Record<string, string> {
   for (const key of direct) {
     if (filters[key]) out[key] = filters[key];
   }
-  if (filters.sort === "price_asc") out.pricefilter = "ASC";
-  if (filters.sort === "price_desc") out.pricefilter = "DESC";
-  if (filters.sort === "mileage_asc") out.mileagefilter = "ASC";
-  if (filters.sort === "mileage_desc") out.mileagefilter = "DESC";
+  // The API tests these for the literal string "low" and treats anything else
+  // as descending (CarsNewTwoController: $priceSort == low ? asc : desc),
+  // so sending ASC/DESC made "ascending" return the most expensive first and
+  // both mileage directions behave identically.
+  if (filters.sort === "price_asc") out.pricefilter = "low";
+  if (filters.sort === "price_desc") out.pricefilter = "high";
+  if (filters.sort === "mileage_asc") out.mileagefilter = "low";
+  if (filters.sort === "mileage_desc") out.mileagefilter = "high";
   return out;
 }
 
