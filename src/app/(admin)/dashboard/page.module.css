@@ -158,3 +158,10 @@
   color: #9a938d;
   margin: 12px 0 0;
 }
+
+/* status tones: stalled must be unmissable */
+.rate_done { color: #1d7a3a; font-weight: 600; }
+.rate_running { color: #1d7a3a; font-weight: 600; }
+.rate_stalled { color: #b60b0c; font-weight: 700; }
+.rate_todo { color: #8a827c; }
+.rowMuted { opacity: 0.62; }

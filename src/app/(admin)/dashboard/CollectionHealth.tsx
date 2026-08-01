@@ -7,16 +7,20 @@ import styles from "./page.module.css";
 interface Stream {
   key: string;
   label: string;
-  collected: number;
-  of: number;
+  built: boolean;
+  done: number;
+  applicable: number;
+  remaining: number;
   pct: number;
-  last_hour: number | null;
+  per_hour: number | null;
+  eta_hours: number | null;
   note: string;
 }
 
 interface Health {
   generated_at: string;
   total_cars: number;
+  dealer_cars: number;
   housekeeper_visits_last_hour: number;
   new_cars_last_hour: number;
   streams: Stream[];
@@ -24,13 +28,20 @@ interface Health {
 
 const n = (v: number) => v.toLocaleString("en-IE");
 
-// A count alone cannot tell "collecting" from "stopped" -- that is precisely
-// how the seller-name capture stayed broken for a fortnight. So the rate is
-// the headline and the total is the supporting detail.
-function rateLabel(s: Stream): { text: string; tone: "ok" | "idle" | "na" } {
-  if (s.last_hour === null) return { text: "resolved on demand", tone: "na" };
-  if (s.last_hour > 0) return { text: `+${n(s.last_hour)} in the last hour`, tone: "ok" };
-  return { text: "nothing in the last hour", tone: "idle" };
+function eta(hours: number | null): string {
+  if (hours === null) return "—";
+  if (hours < 1) return "under an hour";
+  if (hours < 48) return `${Math.round(hours)} hours`;
+  return `${(hours / 24).toFixed(1)} days`;
+}
+
+// The status is the whole point: a stream sitting still is a broken stream,
+// and that is invisible if you only ever look at a total.
+function status(s: Stream): { text: string; tone: "done" | "running" | "stalled" | "todo" } {
+  if (!s.built) return { text: "not built", tone: "todo" };
+  if (s.remaining === 0) return { text: "complete", tone: "done" };
+  if (s.per_hour && s.per_hour > 0) return { text: `+${n(s.per_hour)}/hr`, tone: "running" };
+  return { text: "stalled", tone: "stalled" };
 }
 
 export default function CollectionHealth() {
@@ -51,7 +62,6 @@ export default function CollectionHealth() {
         .catch((e) => !cancelled && setError(e.message));
     };
     load();
-    // Cheap query, and the point of the panel is that it is current.
     const id = setInterval(load, 60_000);
     return () => {
       cancelled = true;
@@ -63,7 +73,7 @@ export default function CollectionHealth() {
     return (
       <section className={styles.panel}>
         <h2 className={styles.panelHeading}>Data collection</h2>
-        <p className={styles.panelError}>Could not load collection health: {error}</p>
+        <p className={styles.panelError}>Could not load: {error}</p>
       </section>
     );
   }
@@ -81,8 +91,9 @@ export default function CollectionHealth() {
     <section className={styles.panel}>
       <h2 className={styles.panelHeading}>Data collection</h2>
       <p className={styles.panelMeta}>
-        {n(health.housekeeper_visits_last_hour)} cars re-checked and {n(health.new_cars_last_hour)} new
-        arrivals in the last hour, across {n(health.total_cars)} cars.
+        {n(health.total_cars)} cars live, {n(health.dealer_cars)} from dealers ·{" "}
+        {n(health.housekeeper_visits_last_hour)} re-checked and {n(health.new_cars_last_hour)} new in the
+        last hour
       </p>
 
       <div className={styles.tableScroll}>
@@ -90,33 +101,40 @@ export default function CollectionHealth() {
           <thead>
             <tr>
               <th>Stream</th>
-              <th>Collected</th>
-              <th>Coverage</th>
-              <th>Movement</th>
+              <th>Done</th>
+              <th>Remaining</th>
+              <th>Progress</th>
+              <th>Rate</th>
+              <th>Time to finish</th>
             </tr>
           </thead>
           <tbody>
             {health.streams.map((s) => {
-              const rate = rateLabel(s);
+              const st = status(s);
               return (
-                <tr key={s.key}>
+                <tr key={s.key} className={s.built ? undefined : styles.rowMuted}>
                   <td>
                     <span className={styles.streamLabel}>{s.label}</span>
                     <span className={styles.streamNote}>{s.note}</span>
                   </td>
                   <td className={styles.num}>
-                    {n(s.collected)}
-                    <span className={styles.ofTotal}> of {n(s.of)}</span>
+                    {n(s.done)}
+                    <span className={styles.ofTotal}> of {n(s.applicable)}</span>
                   </td>
+                  <td className={styles.num}>{s.remaining > 0 ? n(s.remaining) : "—"}</td>
                   <td className={styles.num}>
                     <div className={styles.barTrack}>
-                      <div className={styles.barFill} style={{ width: `${Math.min(100, s.pct)}%` }} />
+                      <div
+                        className={styles.barFill}
+                        style={{ width: `${Math.min(100, s.pct)}%` }}
+                      />
                     </div>
                     <span className={styles.pct}>{s.pct}%</span>
                   </td>
                   <td>
-                    <span className={`${styles.rate} ${styles[`rate_${rate.tone}`]}`}>{rate.text}</span>
+                    <span className={`${styles.rate} ${styles[`rate_${st.tone}`]}`}>{st.text}</span>
                   </td>
+                  <td className={styles.num}>{s.built ? eta(s.eta_hours) : "—"}</td>
                 </tr>
               );
             })}
@@ -125,7 +143,8 @@ export default function CollectionHealth() {
       </div>
 
       <p className={styles.panelFoot}>
-        Updated {new Date(health.generated_at).toLocaleTimeString("en-IE")} · refreshes every minute
+        Updated {new Date(health.generated_at).toLocaleTimeString("en-IE")} · refreshes every minute ·
+        a stream showing <strong>stalled</strong> has collected nothing in the last hour
       </p>
     </section>
   );
