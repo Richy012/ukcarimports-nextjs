@@ -165,3 +165,54 @@
 .rate_stalled { color: #b60b0c; font-weight: 700; }
 .rate_todo { color: #8a827c; }
 .rowMuted { opacity: 0.62; }
+
+/* ---- Health register -------------------------------------------------- */
+
+.registerLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 0 0 14px;
+  font-size: 0.8rem;
+  color: #7d726c;
+}
+
+.registerLegend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.pill {
+  display: inline-block;
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 650;
+  padding: 3px 9px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+/* Green / amber / red so the three states read at a glance, which is the whole
+   point of the register - an amber row should be visibly different from a red
+   one without reading the label. */
+.pillSeen  { background: #eaf3ed; color: #2f7d4f; }
+.pillPart  { background: #f8f1e0; color: #b3790f; }
+.pillBlind { background: #f9e9e7; color: #c0281f; }
+
+.registerGroup {
+  background: #faf8f6;
+  font-weight: 650;
+  color: #1b1614;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.registerCadence {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.76rem;
+  white-space: nowrap;
+  color: #4a423e;
+}

@@ -6,23 +6,27 @@ import { notFound } from "next/navigation";
 import PriceBreakdown from "./PriceBreakdown";
 import CarGallery from "./CarGallery";
 import styles from "./page.module.css";
+import AdminCarLink from "./AdminCarLink";
+import { stripStaffPriceFields } from "@/lib/publicCar";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
-
 interface CarImage {
   id: number;
   image: string;
 }
 
 interface CarInfo {
-  converted_price: number;
-  shipping_fee: number;
-  customs_agent_fee: number;
-  after_irish_vat: number;
-  fee: number;
+  // Optional because stripStaffPriceFields() deletes them before this object reaches
+  // a client component -- see the comment there.
+  converted_price?: number;
+  shipping_fee?: number;
+  customs_agent_fee?: number;
+  customs_clearance_fee?: number;
+  after_irish_vat?: number;
+  fee?: number;
+  duty_applied?: boolean;
   final_price: number;
   before_vrt_final_price?: number;
-  duty_applied: boolean;
   mechanical_inspection_fee: number;
   warranty_premium_max_eligible: boolean;
   warranty_premium_plus_eligible: boolean;
@@ -220,6 +224,7 @@ export default async function CarDetailPage({
       </Link>
 
       <h1 className={styles.heading}>{car.car_name}</h1>
+      <AdminCarLink carId={id} />
 
       <div className={styles.layout}>
         <div className={styles.galleryColumn}>
@@ -237,7 +242,7 @@ export default async function CarDetailPage({
               carId={car.car_id}
               carName={car.car_name}
               vrm={car.vrm ?? null}
-              carInfo={car.car_info}
+              carInfo={stripStaffPriceFields(car.car_info)}
               vrtRate={car.vrt_rate ?? 0}
               fuelTypeName={car.fuel_type_name}
             />

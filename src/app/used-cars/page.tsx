@@ -5,6 +5,7 @@
 import FilterBar from "./FilterBar";
 import { getStockCount } from "@/lib/stockCount";
 import styles from "./page.module.css";
+import { stripStaffPriceFields } from "@/lib/publicCar";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
 const PAGE_SIZE = 25;
@@ -297,7 +298,7 @@ export default async function UsedCarsPage({
         currentSearchChips={searchChips}
         currentVersionChips={versionChips}
         currentSort={currentSort}
-        initialCars={data.cars}
+        initialCars={data.cars.map(stripStaffPriceFields)}
         initialCount={data.count}
         currentPage={currentPage}
         totalPages={totalPages}

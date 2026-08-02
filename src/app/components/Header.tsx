@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { clearToken, isTokenValid, isAdminTokenValid } from "@/lib/auth";
+import { clearToken, clearStaffToken, isTokenValid, isAdminTokenValid } from "@/lib/auth";
 import styles from "./Header.module.css";
 
 const NAV_LINKS = [
@@ -76,8 +76,12 @@ export default function Header() {
   }
 
   function logout() {
+    // Both, always. Clearing only the customer token left a staff session live
+    // and the admin pages still reachable after "Logout".
     clearToken();
+    clearStaffToken();
     setIsLoggedIn(false);
+    setIsStaff(false);
     closeAll();
     window.location.href = "/";
   }
@@ -189,6 +193,13 @@ export default function Header() {
                       Register
                     </Link>
                   </li>
+                  {isStaff && (
+                    <li>
+                      <button type="button" className={styles.accountMenuLink} onClick={logout}>
+                        Log out
+                      </button>
+                    </li>
+                  )}
                 </ul>
               </li>
             )}

@@ -2,7 +2,8 @@
 
 import { gtmPush } from "@/lib/gtm";
 import { CircleCheck } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { isAdminTokenValid, staffAuthHeaders } from "@/lib/auth";
 import Script from "next/script";
 import styles from "./page.module.css";
 
@@ -18,16 +19,29 @@ declare global {
   }
 }
 
-interface CarInfo {
-  converted_price: number;
+/**
+ * The admin-only cost breakdown, fetched separately from an endpoint that
+ * checks the staff token server-side. These numbers are NOT in the page
+ * payload for anyone - page.tsx deletes them - so a visitor or a signed-in
+ * member cannot read them from DevTools.
+ *
+ * Field names follow the admin endpoint, which differs from car_info: the
+ * VAT-free vehicle price is vat_free_eur there and converted_price here, and
+ * the service fee is service_fee rather than fee.
+ */
+interface StaffBreakdown {
+  vat_free_eur: number;
   shipping_fee: number;
   customs_agent_fee: number;
   customs_clearance_fee?: number;
   after_irish_vat: number;
-  fee: number;
+  service_fee: number;
+  duty_applied: boolean;
+}
+
+interface CarInfo {
   final_price: number;
   before_vrt_final_price?: number;
-  duty_applied: boolean;
   mechanical_inspection_fee: number;
   warranty_premium_max_eligible: boolean;
   warranty_premium_plus_eligible: boolean;
@@ -78,6 +92,24 @@ export default function PriceBreakdown({
   fuelTypeName?: string;
 }) {
   const [showBreakdown, setShowBreakdown] = useState(false);
+  // Staff only. The breakdown itemises our cost base and margin, so it is not
+  // shown to the public or to signed-in members.
+  const [isStaff, setIsStaff] = useState(false);
+  useEffect(() => {
+    setIsStaff(isAdminTokenValid());
+  }, []);
+
+  // Requested only when the toggle is actually opened, and only with a valid
+  // staff token - so for everyone else there is no response in the network tab
+  // to inspect either.
+  const [staff, setStaff] = useState<StaffBreakdown | null>(null);
+  useEffect(() => {
+    if (!showBreakdown || staff || !isAdminTokenValid()) return;
+    fetch(`/api/staff-car-detail/${carId}`, { headers: staffAuthHeaders() })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => setStaff(d?.data?.breakdown ?? null))
+      .catch(() => setStaff(null));
+  }, [showBreakdown, staff, carId]);
   const [includeInspection, setIncludeInspection] = useState(false);
   const [includeWarranty, setIncludeWarranty] = useState(false);
   const [selectedWarrantyKey, setSelectedWarrantyKey] = useState("");
@@ -295,21 +327,23 @@ export default function PriceBreakdown({
         </div>
       )}
 
-      <button type="button" className={styles.breakdownToggle} onClick={() => setShowBreakdown((v) => !v)}>
-        {showBreakdown ? "Hide price breakdown" : "Show price breakdown"}
-      </button>
+      {isStaff && (
+        <button type="button" className={styles.breakdownToggle} onClick={() => setShowBreakdown((v) => !v)}>
+          {showBreakdown ? "Hide price breakdown" : "Show price breakdown"}
+        </button>
+      )}
 
-      {showBreakdown && (
+      {isStaff && showBreakdown && staff && (
         <dl className={styles.breakdownList}>
           <div className={styles.breakdownRow}>
             <dt>Vehicle price (UK VAT removed)</dt>
-            <dd>€{formatEuro(carInfo.converted_price)}</dd>
+            <dd>€{formatEuro(staff.vat_free_eur)}</dd>
           </div>
           <div className={styles.breakdownRow}>
             <dt>Shipping</dt>
-            <dd>€{formatEuro(carInfo.shipping_fee)}</dd>
+            <dd>€{formatEuro(staff.shipping_fee)}</dd>
           </div>
-          {carInfo.duty_applied && (
+          {staff.duty_applied && (
             <div className={styles.breakdownRow}>
               <dt>Import duty (10%)</dt>
               <dd>Applied</dd>
@@ -317,15 +351,15 @@ export default function PriceBreakdown({
           )}
           <div className={styles.breakdownRow}>
             <dt>Subtotal after duty &amp; Irish VAT</dt>
-            <dd>€{formatEuro(carInfo.after_irish_vat)}</dd>
+            <dd>€{formatEuro(staff.after_irish_vat)}</dd>
           </div>
           <div className={styles.breakdownRow}>
             <dt>Customs clearance</dt>
-            <dd>€{formatEuro(carInfo.customs_clearance_fee ?? 200)}</dd>
+            <dd>€{formatEuro(staff.customs_clearance_fee ?? 200)}</dd>
           </div>
           <div className={styles.breakdownRow}>
             <dt>Transport (UK garage &rarr; Dublin)</dt>
-            <dd>€{formatEuro(carInfo.customs_agent_fee)}</dd>
+            <dd>€{formatEuro(staff.customs_agent_fee)}</dd>
           </div>
           <div className={styles.breakdownRow}>
             <dt>VRT</dt>
@@ -333,7 +367,7 @@ export default function PriceBreakdown({
           </div>
           <div className={styles.breakdownRow}>
             <dt>Service fee</dt>
-            <dd>€{formatEuro(carInfo.fee)}</dd>
+            <dd>€{formatEuro(staff.service_fee)}</dd>
           </div>
           {includeInspection && (
             <div className={styles.breakdownRow}>

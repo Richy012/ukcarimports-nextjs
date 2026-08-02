@@ -20,6 +20,7 @@
   border-bottom: 1px solid #2a221d;
 }
 
+
 .heroCopy {
   display: none;
 }
@@ -49,7 +50,7 @@
   right: 5%;
   top: 50%;
   transform: translateY(-50%);
-  width: clamp(280px, 30vw, 360px);
+  width: clamp(340px, 26vw, 470px);
 }
 
 /* Mobile: show the artwork's own left text zone (cropped slice, ~250% scale)
@@ -182,17 +183,19 @@
 
 .searchPanelBody {
   background: #fff;
-  padding: 16px;
+  /* Roomier: the panel should read square-ish and have obvious space for more
+     filters, rather than being a shallow wide box. */
+  padding: 22px 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
 }
 
 .searchPanelBody select {
-  padding: 11px 12px;
+  padding: 14px 13px;
   border: 1px solid #d1cdc9;
   border-radius: 8px;
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   background: #fff;
   color: #333;
 }
@@ -206,8 +209,8 @@
   color: #fff;
   border: none;
   border-radius: 8px;
-  padding: 13px;
-  font-size: 1rem;
+  padding: 15px;
+  font-size: 1.02rem;
   font-weight: 600;
   cursor: pointer;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
@@ -253,6 +256,30 @@
   border-bottom: 1px solid #eee;
   font-size: 0.88rem;
   color: #444;
+}
+
+/* Keep each item's icon beside its text. Without this the text wraps below the
+   icon on narrow screens and the icon is left hanging on its own line. */
+.trustStrip > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-align: left;
+}
+
+.trustStrip > span svg {
+  flex: 0 0 auto;
+  margin-right: 0 !important;
+  vertical-align: middle !important;
+}
+
+@media (max-width: 700px) {
+  .trustStrip {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.85rem;
+  }
 }
 
 .stars {
@@ -786,4 +813,32 @@
   border-radius: 8px;
   padding: 12px 26px;
   font-weight: 600;
+}
+
+/* ART DIRECTION: one crop per breakpoint. Each removes only sky above and road
+   below - the logo, headline, dash and the whole car are present in all three -
+   so a wide screen gets a wide, short hero instead of a 1072px one.
+
+   .heroCount's top is not a guess: the count belongs 31px below the baked dash
+   (dash bottom measured at y=712 of 941, count at y=743), so each value is
+   simply where y=743 falls in that crop. */
+
+@media (min-width: 821px) {
+  .hero {
+    background-image: url("/assets/images/hero-w22.jpg");
+    aspect-ratio: 1672 / 760;
+  }
+  .heroCount {
+    top: 85.92%;
+  }
+}
+
+@media (min-width: 1400px) {
+  .hero {
+    background-image: url("/assets/images/hero-w24.jpg");
+    aspect-ratio: 1672 / 687;
+  }
+  .heroCount {
+    top: 91.7%;
+  }
 }

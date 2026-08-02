@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { staffAuthHeaders } from "@/lib/auth";
 import CollectionHealth from "./CollectionHealth";
+import HealthRegister from "./HealthRegister";
+import Servers from "./Servers";
 import styles from "./page.module.css";
 
 export default function DashboardClient() {
@@ -66,6 +68,8 @@ export default function DashboardClient() {
         </div>
       </div>
       <CollectionHealth />
+      <HealthRegister />
+      <Servers />
     </>
   );
 }

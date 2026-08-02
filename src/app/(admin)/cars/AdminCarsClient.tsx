@@ -127,20 +127,55 @@ export default function AdminCarsClient() {
   const [details, setDetails] = useState<Record<string, CarDetail>>({});
   const [detailLoading, setDetailLoading] = useState<string | null>(null);
 
+  // ?car=<id> arrives from the admin link on a public car page. Read from
+  // window rather than useSearchParams to avoid forcing a Suspense boundary.
+  const [deepCarId, setDeepCarId] = useState<string | null>(null);
+  // urlRead gates the first fetch. Without it the effect below runs once with
+  // deepCarId still null (unfiltered, 206k rows) and again once the id arrives;
+  // the slower unfiltered query lands last and wins.
+  const [urlRead, setUrlRead] = useState(false);
   useEffect(() => {
+    const v = new URLSearchParams(window.location.search).get("car");
+    if (v) setDeepCarId(v);
+    setUrlRead(true);
+  }, []);
+
+  useEffect(() => {
+    if (!urlRead) return;
     setLoading(true);
     fetch("/api/staff-cars", {
       method: "POST",
       headers: { "Content-Type": "application/json", ...staffAuthHeaders() },
-      body: JSON.stringify({ pagenum: page, limit: LIMIT, ...filtersToParams(filters) }),
+      body: JSON.stringify({
+        pagenum: page,
+        limit: LIMIT,
+        ...filtersToParams(filters),
+        ...(deepCarId ? { car_id: deepCarId } : {}),
+      }),
     })
       .then((res) => res.json())
       .then((data) => {
-        setCars(data?.data?.cars ?? []);
+        const rows = data?.data?.cars ?? [];
+        setCars(rows);
         setCount(data?.data?.count ?? 0);
+        // Open it straight away - the point of the link is to land on the
+        // breakdown, not on a collapsed row.
+        if (deepCarId && rows.some((c: CarRow) => c.car_id === deepCarId)) {
+          setExpandedId(deepCarId);
+          if (!details[deepCarId]) {
+            setDetailLoading(deepCarId);
+            fetch(`/api/staff-car-detail/${deepCarId}`, { headers: staffAuthHeaders() })
+              .then((r) => r.json())
+              .then((d) => {
+                if (d?.data) setDetails((prev) => ({ ...prev, [deepCarId]: d.data }));
+              })
+              .finally(() => setDetailLoading(null));
+          }
+        }
       })
       .finally(() => setLoading(false));
-  }, [page, filters]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, filters, deepCarId, urlRead]);
 
   function toggleExpand(carId: string) {
     if (expandedId === carId) {
