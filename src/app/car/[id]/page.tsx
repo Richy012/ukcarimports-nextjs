@@ -391,7 +391,7 @@ export default async function CarDetailPage({
           return (
             <>
               {(equipment.length > 0 || featureGroups.length > 0 || car.features_options.length > 0) && (
-                <details className={styles.signpost}>
+                <details className={styles.signpost} open>
                   <summary className={styles.signpostSummary}>Features</summary>
                   <div className={styles.signpostBody}>
                     {equipment.length > 0 && (
@@ -434,7 +434,7 @@ export default async function CarDetailPage({
               )}
 
               {hasPerformance && (
-                <details className={styles.signpost} open>
+                <details className={styles.signpost}>
                   <summary className={styles.signpostSummary}>Performance</summary>
                   <div className={styles.signpostBody}>
                     <dl className={styles.specGrid}>
