@@ -29,6 +29,8 @@ interface WhyMatch {
 interface WhyData {
   car_id: string;
   car_name: string;
+  make: string;
+  model: string;
   year: number;
   live_price: number | null;
   snapshot_date: string;
@@ -222,7 +224,7 @@ export default async function BestValueWhyPage(props: {
       {data.segment_ads && data.segment_ads.length > 0 && (
         <section className={styles.whyBlock}>
           <h2>
-            The Irish market: {data.car_name.split(" ").slice(0, 2).join(" ")} ({data.year}) —{" "}
+            The Irish market: <span style={{ textTransform: "capitalize" }}>{data.make} {data.model}</span> ({data.year}) —{" "}
             {data.segment_ads.length} matched Irish {data.segment_ads.length === 1 ? "listing" : "listings"}
           </h2>
           <p>
@@ -257,7 +259,8 @@ export default async function BestValueWhyPage(props: {
       )}
 
       <section className={styles.whyBlock}>
-        <h2>The rules, in plain terms</h2>
+        <details>
+        <summary style={{ cursor: "pointer", fontWeight: 700, fontSize: "1.05rem" }}>How we work this out — the rules</summary>
         <ul>
           <li>A saving only counts against a <strong>real Irish asking price</strong>, never a prediction.</li>
           <li><strong>Bestseller: €2,500+ under the Irish market. #1 Bestseller: €5,000+.</strong> Euro figures, not percentages — €2,800 off a €48k car is real money even when the percentage looks small.</li>
@@ -267,6 +270,7 @@ export default async function BestValueWhyPage(props: {
           <li>We do not adjust for mileage or specification — we measured both (about €585 per 10,000 km against about €765 of extra spec on our side) and they cancel to within about €55, so we compare prices exactly as listed.</li>
           <li>Savings above 45% are excluded as implausible; every figure is re-checked against our live price, so the badge always equals the arithmetic of the prices shown. Irish figures are asking prices; ours is the final all-in price.</li>
         </ul>
+        </details>
       </section>
     </main>
   );
