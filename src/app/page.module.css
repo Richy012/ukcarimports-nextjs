@@ -436,6 +436,12 @@
 
 .valueItem .arrivalCard {
   flex: 1;
+  /* Anchor for the absolute .valueBadge: on the homepage the .valueBand
+     descendant rule already makes the card relative, but the standalone
+     /best-value page has no .valueBand wrapper — without this the badge
+     escapes to <body> and hides behind the fixed header (pre-existing,
+     found 2026-08-03). */
+  position: relative;
 }
 
 .valueWhy {
