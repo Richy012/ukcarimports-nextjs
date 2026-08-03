@@ -7,9 +7,9 @@ const API_BASE = "https://api.ukcarimports.ie/public";
 export const revalidate = 900;
 
 export const metadata: Metadata = {
-  title: "Best Value UK Imports — 10%+ Under Irish Prices",
+  title: "The Bestseller Series — UK Imports Priced Under the Irish Market",
   description:
-    "Live UK cars priced fully landed for Ireland that are at least 10% cheaper than the real Irish asking price for an equivalent car. Matched and refreshed weekly.",
+    "Live UK cars, fully landed for Ireland, priced at least €2,500 under the real Irish market — matched to a real Irish ad or the Irish median for the exact model and year. Refreshed weekly, checked live.",
 };
 
 interface BestValueCar {
@@ -18,11 +18,25 @@ interface BestValueCar {
   featured_image: string;
   car_info?: { final_price?: number };
   best_value: {
-    saving_pct: number;
+    tier: "bestseller" | "number_one" | "trending";
+    saving_eur: number;
+    saving_pct: number | null;
     irish_price: number | null;
-    basis: "matched" | "segment";
+    basis: "matched" | "segment" | "both";
     snapshot_date: string;
   };
+}
+
+// Euro-first badge text, same conventions as the listing tiles: full tiers
+// state the live figure, Trending hedges (rounded €500, "around").
+function badgeText(bv: BestValueCar["best_value"]): string {
+  const sav = Math.round(bv.saving_eur);
+  if (bv.tier === "number_one") return `#1 Bestseller — €${sav.toLocaleString()} less than in Ireland`;
+  if (bv.tier === "bestseller") return `Bestseller — €${sav.toLocaleString()} less than in Ireland`;
+  const rounded = Math.round(sav / 500) * 500;
+  return rounded >= 1000
+    ? `Trending Bestseller — around €${rounded.toLocaleString()} less in Ireland`
+    : "Trending Bestseller";
 }
 
 async function getBestValue() {
@@ -44,23 +58,21 @@ export default async function BestValuePage() {
   return (
     <main className="wm-green">
       <div className={styles.valueInner}>
-        <h1 className={styles.sectionTitle}>Best value vs Ireland</h1>
+        <h1 className={styles.sectionTitle}>The Bestseller Series</h1>
         <p className={styles.sectionSub}>
           {count.toLocaleString()}
-          {" live cars at least 10% cheaper than Irish equivalents — either matched "}
-          directly to a real Irish ad, or a model-year whose class averages 10%+ savings
-          across 5 or more real comparisons (&ldquo;typically&rdquo;). Refreshed weekly;
-          prices fully landed: VRT, VAT, customs &amp; delivery included.
+          {" live cars priced at least €2,500 under the Irish market — matched directly "}
+          to a real Irish ad, or priced against the Irish median asking price for their
+          exact model and year (10 or more real listings). €5,000+ makes a{" "}
+          <strong>#1 Bestseller</strong>. Refreshed weekly, savings checked live;
+          our prices fully landed: VRT, VAT, customs &amp; delivery included.
+          Irish figures are asking prices; ours is the final price.
         </p>
         <div className={styles.arrivalGrid}>
           {cars.map((c) => (
             <div key={c.car_id} className={styles.valueItem}>
             <Link href={`/car/${c.car_id}`} className={styles.arrivalCard}>
-              <span className={styles.valueBadge}>
-                {c.best_value.basis === "segment"
-                  ? `Typically ${Math.round(c.best_value.saving_pct)}% under Irish price`
-                  : `${Math.round(c.best_value.saving_pct)}% under Irish price`}
-              </span>
+              <span className={styles.valueBadge}>{badgeText(c.best_value)}</span>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={c.featured_image} alt={c.car_name} loading="lazy" />
               <span className={styles.arrivalName}>{c.car_name}</span>

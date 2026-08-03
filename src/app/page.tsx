@@ -25,12 +25,28 @@ interface HomeCar {
 }
 
 interface BestValueCar extends HomeCar {
+  make_name?: string;
+  model_name?: string;
   best_value: {
-    saving_pct: number;
+    tier: "bestseller" | "number_one" | "trending";
+    saving_eur: number;
+    saving_pct: number | null;
     irish_price: number | null;
-    basis: "matched" | "segment";
+    basis: "matched" | "segment" | "both";
     snapshot_date: string;
   };
+}
+
+// Euro-first badge text, same conventions as the listing tiles: full tiers
+// state the live figure, Trending hedges (rounded €500, "around").
+function bestValueBadgeText(bv: BestValueCar["best_value"]): string {
+  const sav = Math.round(bv.saving_eur);
+  if (bv.tier === "number_one") return `#1 Bestseller — €${sav.toLocaleString()} less than in Ireland`;
+  if (bv.tier === "bestseller") return `Bestseller — €${sav.toLocaleString()} less than in Ireland`;
+  const rounded = Math.round(sav / 500) * 500;
+  return rounded >= 1000
+    ? `Trending Bestseller — around €${rounded.toLocaleString()} less in Ireland`
+    : "Trending Bestseller";
 }
 
 async function getHomeData() {
@@ -44,13 +60,23 @@ async function getHomeData() {
     const [count, indexRes, bvRes] = await Promise.all([
       getStockCount(),
       fetch(`${API_BASE}/import-landing-index`, { next: { revalidate: 3600 } }),
-      fetch(`${API_BASE}/best-value/0/4`, { next: { revalidate: 900 } }),
+      // Fetch a deeper slice and dedupe by model below: the list is ordered
+      // by saving, and the biggest savings often cluster in one model (the
+      // BMW XM effect) — four identical cars is a broken-looking band.
+      fetch(`${API_BASE}/best-value/0/16`, { next: { revalidate: 900 } }),
     ]);
     const indexJson = await indexRes.json();
     const bvJson = await bvRes.json();
-    const bestValue: BestValueCar[] = (bvJson?.data?.cars ?? []).filter(
-      (c: BestValueCar) => c.featured_image && c.best_value
-    );
+    const seenModels = new Set<string>();
+    const bestValue: BestValueCar[] = (bvJson?.data?.cars ?? [])
+      .filter((c: BestValueCar) => c.featured_image && c.best_value)
+      .filter((c: BestValueCar) => {
+        const key = `${c.make_name ?? ""}|${c.model_name ?? ""}`;
+        if (seenModels.has(key)) return false;
+        seenModels.add(key);
+        return true;
+      })
+      .slice(0, 4);
     const bvCount: number = bvJson?.data?.count ?? 0;
     const makes: { make: string; slug: string; n: number }[] = (indexJson?.data?.makes ?? []).slice(0, 8);
     return { bestValue, bvCount, count, makes };
@@ -111,19 +137,17 @@ export default async function HomePage() {
       {bestValue.length > 0 && (
         <section className={`${styles.valueBand} wm-green`}>
           <div className={styles.valueInner}>
-            <h2 className={styles.sectionTitle}>Best value vs Ireland</h2>
+            <h2 className={styles.sectionTitle}>The Bestseller Series</h2>
             <p className={styles.sectionSub}>
-              Every saving is benchmarked against the real Irish asking price for an equivalent
-              car — matched and refreshed weekly.
+              Every euro is benchmarked against a real Irish asking price or the Irish
+              median for the exact model and year — refreshed weekly, checked live.
             </p>
             <div className={styles.arrivalGrid}>
               {bestValue.map((c) => (
                 <div key={c.car_id} className={styles.valueItem}>
                 <Link href={`/car/${c.car_id}`} className={styles.arrivalCard}>
                   <span className={styles.valueBadge}>
-                    {c.best_value.basis === "segment"
-                      ? `Typically ${Math.round(c.best_value.saving_pct)}% under Irish price`
-                      : `${Math.round(c.best_value.saving_pct)}% under Irish price`}
+                    {bestValueBadgeText(c.best_value)}
                   </span>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={c.featured_image} alt={c.car_name} loading="lazy" />
@@ -148,7 +172,7 @@ export default async function HomePage() {
             </div>
             <p className={styles.arrivalsMore}>
               <Link href="/best-value">
-                {`See all ${bvCount.toLocaleString()} cars 10%+ under Irish prices`} &rarr;
+                {`See all ${bvCount.toLocaleString()} Bestsellers — priced under the Irish market`} &rarr;
               </Link>
             </p>
           </div>
