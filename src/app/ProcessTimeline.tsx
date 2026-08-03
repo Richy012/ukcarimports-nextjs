@@ -19,7 +19,7 @@ import styles from "./page.module.css";
 // how-it-works/HowItWorksClient.tsx (same journey, horizontal rendering).
 const STEPS: { icon: LucideIcon; short: string; title: string; body: string }[] = [
   { icon: Search, short: "Search", title: "Search 217,000+ UK cars", body: "Every car priced fully landed — VRT, VAT, customs and delivery included." },
-  { icon: BadgeEuro, short: "Compare", title: "See the real Irish saving", body: "Benchmarked against real Irish asking prices every week." },
+  { icon: BadgeEuro, short: "Compare", title: "See the real Irish saving", body: "The Bestseller Index™ — every make and model benchmarked weekly against real Irish asking prices." },
   { icon: BellRing, short: "Alerts", title: "Save cars & searches", body: "We email you the moment a matching car lands — before it's gone." },
   { icon: HandCoins, short: "Deposit", title: "Reserve with a €2,000 deposit", body: "Pay securely online. Your maximum exposure: €0 without an inspection." },
   { icon: ClipboardCheck, short: "Inspection", title: "Independent inspection", body: "Full mechanical report with photos before you commit. Walk away? Refunded." },

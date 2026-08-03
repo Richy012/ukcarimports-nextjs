@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   Search,
+  BadgeEuro,
   BellRing,
   HandCoins,
   ClipboardCheck,
@@ -29,6 +30,12 @@ const STEPS: Step[] = [
     title: "Search 200,000+ UK cars",
     body: "Every car listed is at an established garage in Great Britain, priced fully landed — transport, customs duty, VAT, VRT and our handling all included. The price you see is the price you pay.",
     cta: { label: "Browse used cars", href: "/used-cars" },
+  },
+  {
+    icon: BadgeEuro,
+    short: "Compare",
+    title: "See the real Irish saving",
+    body: "The Bestseller Index™: every make and model we stock, benchmarked weekly against real Irish asking prices — the first methodical UK-vs-Ireland price comparison of its kind. Cars €2,500+ under the Irish market earn a Bestseller badge, and every badge links to the full maths.",
   },
   {
     icon: BellRing,
