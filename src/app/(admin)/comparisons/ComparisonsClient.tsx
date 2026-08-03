@@ -184,7 +184,7 @@ export default function ComparisonsClient() {
           </div>
           <div className={`${styles.statCard} ${styles.statCardFlier}`}>
             <span className={styles.statValue}>{stats.fliers.toLocaleString()}</span>
-            <span className={styles.statLabel}>Fliers</span>
+            <span className={styles.statLabel}>Bestsellers</span>
           </div>
           <div className={styles.statCard}>
             <span className={styles.statValue}>{stats.avg_saving_pct}%</span>
@@ -243,7 +243,7 @@ export default function ComparisonsClient() {
                   setPage(0);
                 }}
               />
-              &#9889; Fliers only
+              &#9889; Bestsellers only
             </label>
             <label>
               Make
@@ -272,7 +272,7 @@ export default function ComparisonsClient() {
                 }}
               >
                 <option value="saving">Best saving %</option>
-                <option value="flier_gap">Flier gap vs segment</option>
+                <option value="flier_gap">Bestseller gap vs segment</option>
                 <option value="delta">Biggest &euro; saving</option>
                 <option value="price">Lowest UK price</option>
               </select>
@@ -320,7 +320,7 @@ export default function ComparisonsClient() {
                     <div className={styles.carCell}>
                       <span>
                         {row.make} {row.model} ({row.uk_year})
-                        {row.is_flier ? <span className={styles.badgeFlier}>&#9889; Flier</span> : null}
+                        {row.is_flier ? <span className={styles.badgeFlier}>&#9889; Bestseller</span> : null}
                       </span>
                       <span className={styles.carSub}>{row.uk_version}</span>
                       <span className={styles.carSub}>
