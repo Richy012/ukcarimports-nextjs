@@ -103,6 +103,16 @@ export default function PriceBreakdown({
     setIsStaff(isAdminTokenValid());
   }, []);
 
+  // "Reserve Now" deep link (My Notifications): land with the deposit modal
+  // already open, exactly as if Place A Deposit had been clicked.
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("reserve") === "1") {
+      setShowModal(true);
+      startAvailabilityCheck();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Requested only when the toggle is actually opened, and only with a valid
   // staff token - so for everyone else there is no response in the network tab
   // to inspect either.

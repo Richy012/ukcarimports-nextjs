@@ -143,6 +143,11 @@ export default function NotificationsClient() {
                 </div>
 
                 <div className={styles.notifActions}>
+                  {n.availability === "available" && (
+                    <Link href={`/car/${n.car_id}?reserve=1`} className={styles.reserveBtn}>
+                      Reserve Now
+                    </Link>
+                  )}
                   <button
                     type="button"
                     className={styles.feedbackBtn}
