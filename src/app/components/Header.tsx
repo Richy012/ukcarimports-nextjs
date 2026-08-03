@@ -9,6 +9,7 @@ import styles from "./Header.module.css";
 const NAV_LINKS = [
   { href: "/", label: "HOME" },
   { href: "/used-cars", label: "USED CARS" },
+  { href: "/bestseller-index", label: "Bestseller Index" },
   { href: "/car-sourcing", label: "Car Sourcing" },
   { href: "/how-it-works", label: "How It Works" },
 ];
@@ -19,7 +20,6 @@ const NAV_LINKS = [
 // top-level item count now that account links also live in their own
 // dropdown.
 const RESOURCE_LINKS = [
-  { href: "/bestseller-index", label: "Bestseller Index" },
   { href: "/about-us", label: "About Us" },
   { href: "/contact", label: "Contact" },
   { href: "/blog", label: "Blog" },

@@ -48,13 +48,13 @@ const STEPS: Step[] = [
     icon: HandCoins,
     short: "Deposit",
     title: "Reserve it with a deposit",
-    body: "Found the one? Place a €2,000 deposit to secure the car with the garage. Your maximum exposure is €0 without an inspection — or €395 if you choose one. Pay securely online or by bank transfer.",
+    body: "Found the one? Place a €2,000 deposit to secure the car with the garage. Pay securely online by card, Apple Pay or Google Pay, or by bank transfer.",
   },
   {
     icon: ClipboardCheck,
     short: "Inspection",
     title: "Independent inspection",
-    body: "Optional but recommended: a qualified mechanic completes a full mechanical and condition inspection with photos and a history check. Not happy with the report? Walk away and your deposit is refunded minus only the €395 inspection fee. We guarantee your car arrives as described in the report.",
+    body: "Optional but recommended: a qualified mechanic completes a full mechanical and condition inspection with photos and a history check. We guarantee your car arrives as described in the report.",
   },
   {
     icon: Truck,
@@ -295,14 +295,6 @@ export default function HowItWorksClient({ stockLabel }: { stockLabel?: string }
           <p>
             Listed prices include transport, customs duty where applicable, VAT, VRT and our handling.
             A warranty (from €295) is the only optional extra.
-          </p>
-        </div>
-        <div className={styles.whyCard}>
-          <h3>Your maximum exposure: €0</h3>
-          <p>
-            Skip the inspection and your €2,000 deposit is fully refundable — exposure €0. Want the
-            independent inspection? €395 is the only amount ever at stake if the report changes your
-            mind.
           </p>
         </div>
       </section>

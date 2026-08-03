@@ -5,6 +5,7 @@ import { CarFront, CircleCheck, ClipboardCheck, HandCoins, Lock, ShieldCheck, Sh
 import { useEffect, useState } from "react";
 import { isAdminTokenValid, staffAuthHeaders } from "@/lib/auth";
 import Script from "next/script";
+import Link from "next/link";
 import styles from "./page.module.css";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
@@ -491,10 +492,7 @@ export default function PriceBreakdown({
                     </p>
                   )}
                   <p className={styles.payNowSmall}>
-                    <strong>Your maximum exposure is €395 — and only if you chose the inspection.</strong>{" "}
-                    Walk away after the report and the rest is refunded. No inspection? The deposit is
-                    fully refundable. Prefer a bank transfer? No problem — we&apos;ll be in touch
-                    either way.
+                    Prefer a bank transfer? No problem — we&apos;ll be in touch either way.
                   </p>
                 </div>
               </>
@@ -502,7 +500,7 @@ export default function PriceBreakdown({
               <>
                 <h2 className={styles.depositHeading}>Reserve this car</h2>
                 <div className={styles.depositJourney}>
-                  <span><HandCoins size={16} strokeWidth={1.75} aria-hidden="true" /> €2,000 today — refundable</span>
+                  <span><HandCoins size={16} strokeWidth={1.75} aria-hidden="true" /> €2,000 deposit today</span>
                   <span><ClipboardCheck size={16} strokeWidth={1.75} aria-hidden="true" /> Optional €395 inspection</span>
                   <span><ShieldPlus size={16} strokeWidth={1.75} aria-hidden="true" /> Optional warranty from €295</span>
                   <span><CarFront size={16} strokeWidth={1.75} aria-hidden="true" /> Irish plates in ~2 weeks</span>
@@ -512,7 +510,8 @@ export default function PriceBreakdown({
                   <span>
                     <strong>New — pay online, securely.</strong> Your €2,000 deposit can now be
                     paid through <strong>Stripe</strong> — card, Apple&nbsp;Pay or Google&nbsp;Pay,
-                    with bank-level encryption. Fully refundable without the optional inspection.
+                    with bank-level encryption. Refund terms are set out in our{" "}
+                    <Link href="/terms-and-conditions">Terms &amp; Conditions</Link>.
                   </span>
                 </div>
 
