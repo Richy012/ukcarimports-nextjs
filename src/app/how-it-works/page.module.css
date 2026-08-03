@@ -248,17 +248,22 @@
 
 .dot,
 .dotActive {
-  width: 9px;
-  height: 9px;
+  /* 24x24 hit area with a 9px visible dot: the background is painted only
+     into the content box, so the target meets the minimum without the
+     design changing. */
+  width: 24px;
+  height: 24px;
+  box-sizing: border-box;
+  padding: 7.5px;
+  background-clip: content-box;
   border-radius: 50%;
   border: none;
-  background: #dcdadc;
+  background-color: #dcdadc;
   cursor: pointer;
-  padding: 0;
 }
 
 .dotActive {
-  background: #b01112;
+  background-color: #b01112;
 }
 
 /* Why strip */
@@ -335,7 +340,7 @@
 
 .reviewCard figcaption {
   font-size: 0.85rem;
-  color: #777;
+  color: #5a5a5a;
 }
 
 /* Final CTA */

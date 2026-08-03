@@ -62,7 +62,7 @@
   margin-bottom: 14px;
 }
 
-.cms :global(.half_richard_info_left h3) {
+.cms :global(.half_richard_info_left h2) {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 1.05rem;
   font-weight: 700;
@@ -70,7 +70,7 @@
   margin: 0 0 5px;
 }
 
-.cms :global(.half_richard_info_left h4) {
+.cms :global(.half_richard_info_left h3) {
   font-size: 0.72rem;
   letter-spacing: 0.11em;
   text-transform: uppercase;

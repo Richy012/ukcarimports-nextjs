@@ -297,7 +297,7 @@
 
 .sectionSub {
   text-align: center;
-  color: #777;
+  color: #5a5a5a;
   font-size: 0.9rem;
   margin: 0 0 22px;
 }
@@ -361,7 +361,7 @@
 }
 
 .arrivalPrice em {
-  color: #999;
+  color: #595959;
   font-weight: 400;
   font-size: 0.72rem;
   font-style: normal;
@@ -457,7 +457,7 @@
 
 .valueIrish {
   display: block;
-  color: #8a958c;
+  color: #55605a;
   text-decoration: line-through;
   font-weight: 400;
   font-size: 0.76rem;
@@ -726,7 +726,7 @@
 }
 
 .makeChip span {
-  color: #999;
+  color: #595959;
   font-size: 0.78rem;
 }
 
@@ -815,7 +815,7 @@
 }
 
 .reviewCard figcaption span {
-  color: #999;
+  color: #595959;
   font-weight: 400;
   font-size: 0.78rem;
 }
@@ -917,6 +917,6 @@
   transform: translateX(-50%);
   font-size: 12px;
   font-weight: 800;
-  color: #32cd32;
+  color: #2e7d32;
   white-space: nowrap;
 }

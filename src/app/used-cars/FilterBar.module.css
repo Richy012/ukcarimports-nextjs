@@ -84,8 +84,10 @@
 }
 
 .chipHint {
-  font-size: 11px;
-  color: #999;
+  /* Was 11px #999 on #f9f9f9 -- 2.7:1, below the 4.5:1 minimum for small
+     text, and too small to read. */
+  font-size: 13px;
+  color: #595959;
   margin: 6px 0 0;
 }
 

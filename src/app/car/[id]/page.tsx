@@ -396,7 +396,7 @@ export default async function CarDetailPage({
                   <div className={styles.signpostBody}>
                     {equipment.length > 0 && (
                       <div className={styles.featureGroup}>
-                        <h3>Equipment ({equipment.length})</h3>
+                        <h2>Equipment ({equipment.length})</h2>
                         <ul className={styles.featuresList}>
                           {equipment.map((f) => (
                             <li key={f} className={styles.featureItem}>
@@ -408,9 +408,9 @@ export default async function CarDetailPage({
                     )}
                     {featureGroups.map((g) => (
                       <div key={g.label} className={styles.featureGroup}>
-                        <h3>
+                        <h2>
                           {g.label} ({g.items.length})
-                        </h3>
+                        </h2>
                         <ul className={styles.featuresList}>
                           {g.items.map((f) => (
                             <li key={f} className={styles.featureItem}>
@@ -543,7 +543,7 @@ export default async function CarDetailPage({
           <div className={styles.relatedGrid}>
             {relatedCars.map((rc) => (
               <Link key={rc.car_id} href={`/car/${rc.car_id}`} className={styles.relatedCard}>
-                <img src={rc.featured_image} alt={rc.car_name} width={200} height={150} loading="lazy" />
+                <img src={rc.featured_image} alt="" width={200} height={150} loading="lazy" />
                 <span>{rc.car_name}</span>
               </Link>
             ))}

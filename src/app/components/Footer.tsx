@@ -11,7 +11,7 @@ export default function Footer() {
           <div className={styles.box}>
             <MapPin size={44} strokeWidth={1.25} color="#b60b0c" aria-hidden="true" />
             <div>
-              <h5>ADDRESS</h5>
+              <h3>ADDRESS</h3>
               <p>51 Bracken Rd, Sandyford Business Park, Sandyford, Dublin, D18 CV48, Ireland</p>
               <p className={styles.onlineOnly}>
                 <span>ONLINE ONLY</span> No showroom — handover &amp; collection by appointment.
@@ -21,7 +21,7 @@ export default function Footer() {
           <div className={styles.box}>
             <Mail size={44} strokeWidth={1.25} color="#b60b0c" aria-hidden="true" />
             <div>
-              <h5>EMAIL</h5>
+              <h3>EMAIL</h3>
               <p>info@ukcarimports.ie</p>
             </div>
           </div>

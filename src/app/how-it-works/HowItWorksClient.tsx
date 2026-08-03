@@ -203,7 +203,7 @@ export default function HowItWorksClient({ stockLabel }: { stockLabel?: string }
                   className={`${styles.node} ${isActive ? styles.nodeActive : ""} ${isDone ? styles.nodeDone : ""}`}
                   onClick={() => select(i)}
                   role="button"
-                  aria-label={`Step ${i + 1}: ${s.title}`}
+                  aria-label={`${s.short}: step ${i + 1}, ${s.title}`}
                   tabIndex={0}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") select(i);
