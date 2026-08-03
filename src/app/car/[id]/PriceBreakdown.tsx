@@ -30,6 +30,8 @@ declare global {
  * the service fee is service_fee rather than fee.
  */
 interface StaffBreakdown {
+  export_fee_gbp?: number | null;
+  export_fee_dealer?: string | null;
   vat_free_eur: number;
   shipping_fee: number;
   customs_agent_fee: number;
@@ -358,6 +360,12 @@ export default function PriceBreakdown({
             <dt>Subtotal after duty &amp; Irish VAT</dt>
             <dd>€{formatEuro(staff.after_irish_vat)}</dd>
           </div>
+          {staff.export_fee_gbp ? (
+            <div className={styles.breakdownRow}>
+              <dt>Export/trade fee — {staff.export_fee_dealer}</dt>
+              <dd>£{staff.export_fee_gbp} (in vehicle price)</dd>
+            </div>
+          ) : null}
           <div className={styles.breakdownRow}>
             <dt>Customs clearance</dt>
             <dd>€{formatEuro(staff.customs_clearance_fee ?? 200)}</dd>

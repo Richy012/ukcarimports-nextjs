@@ -197,6 +197,7 @@ export default async function CarDetailPage({
   const specs = [
     year && { label: "Year", value: year },
     car.vrm && { label: "Registration", value: String(car.vrm).toUpperCase() },
+    car.registration_date && { label: "First Registered", value: car.registration_date },
     car.body_style_name && { label: "Body", value: car.body_style_name },
     car.fuel_type_name && { label: "Fuel", value: car.fuel_type_name },
     car.transmission_name && { label: "Transmission", value: car.transmission_name },

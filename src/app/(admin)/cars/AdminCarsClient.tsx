@@ -53,6 +53,8 @@ interface CarDetail {
     shipping_fee: number;
     customs_agent_fee: number;
     customs_clearance_fee?: number;
+    export_fee_gbp?: number | null;
+    export_fee_dealer?: string | null;
     service_fee: number;
     mechanical_inspection_fee: number;
     vrt_rate: number;
@@ -327,6 +329,12 @@ export default function AdminCarsClient() {
                           <div>
                             <p className={styles.detailLabel}>Fees</p>
                             <div className={styles.detailRows}>
+                              {detail.breakdown.export_fee_gbp ? (
+                                <span>
+                                  <span>Export fee — {detail.breakdown.export_fee_dealer}</span>
+                                  <span>£{detail.breakdown.export_fee_gbp} in sterling price</span>
+                                </span>
+                              ) : null}
                               <span>
                                 <span>Customs clearance</span>
                                 <span>{eur(detail.breakdown.customs_clearance_fee ?? 200)}</span>
