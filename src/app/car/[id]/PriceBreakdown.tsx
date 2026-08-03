@@ -287,7 +287,7 @@ export default function PriceBreakdown({
 
       <div className={styles.price}>€{formatEuro(displayedTotal)}</div>
       <div className={styles.priceNote}>
-        Price is all inclusive &mdash; to have your car here, in your name, on Irish plates
+        Price is all inclusive &mdash; that is to have your car here in ROI, in your name, on Irish plates
       </div>
 
       <label className={styles.inspectionToggle}>
