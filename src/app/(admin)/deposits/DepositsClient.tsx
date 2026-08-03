@@ -22,7 +22,7 @@ interface DepositRow {
 const STATUS_LABEL: Record<string, { label: string; cls: string }> = {
   pending: { label: "Checkout opened", cls: "badgeGrey" },
   paid: { label: "PAID", cls: "badgePaid" },
-  refunded_partial: { label: "Refunded − €395", cls: "badgeRefund" },
+  refunded_partial: { label: "Refunded, less €395 fee", cls: "badgeRefund" },
   refunded_full: { label: "Refunded in full", cls: "badgeRefund" },
   canceled: { label: "Canceled", cls: "badgeGrey" },
 };
@@ -153,8 +153,9 @@ export default function DepositsClient() {
                         className={styles.refundBtn}
                         disabled={busyId === row.id}
                         onClick={() => refund(row, "partial")}
+                        title="Refunds the deposit balance; the €395 inspection fee is retained"
                       >
-                        Refund − €395
+                        Refund {euro(row.amount_cents - 39500)} (keep €395)
                       </button>
                       <button
                         type="button"

@@ -78,10 +78,10 @@ export default function DepositSuccessClient() {
             receipt.
           </p>
           <p>
-            Next step: we secure the car with the garage and book the independent mechanical
-            inspection. You&apos;ll receive the full report with photos before another cent changes
-            hands — and if you decide not to proceed, the deposit is refunded minus the €395
-            inspection fee, exactly as per our{" "}
+            Next, we secure the car with the garage. If you selected a mechanical inspection,
+            we&apos;ll organise that too — you&apos;ll receive the full report with photos before
+            another cent changes hands, and if you then decide not to proceed, your deposit is
+            refunded minus the €395 inspection fee, exactly as per our{" "}
             <Link href="/terms-and-conditions">Terms &amp; Conditions</Link>.
           </p>
           <Link href={`/car/${info.car_id}`} className={styles.backLink}>

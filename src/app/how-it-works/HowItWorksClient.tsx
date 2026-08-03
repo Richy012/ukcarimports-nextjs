@@ -27,7 +27,7 @@ const STEPS: Step[] = [
   {
     icon: Search,
     short: "Search",
-    title: "Search 200,000+ UK cars",
+    title: "Search UK cars",
     body: "Every car listed is at an established garage in Great Britain, priced fully landed — transport, customs duty, VAT, VRT and our handling all included. The price you see is the price you pay.",
     cta: { label: "Browse used cars", href: "/used-cars" },
   },
@@ -114,7 +114,7 @@ function ringPoint(index: number, r: number): { x: number; y: number } {
   return { x: CENTER + r * Math.cos(angle), y: CENTER + r * Math.sin(angle) };
 }
 
-export default function HowItWorksClient() {
+export default function HowItWorksClient({ stockLabel }: { stockLabel?: string }) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const pauseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -135,7 +135,13 @@ export default function HowItWorksClient() {
 
   const circumference = 2 * Math.PI * R;
   const progress = ((active + 1) / STEPS.length) * circumference;
-  const step = STEPS[active];
+  // Live stock figure in step 1's headline — same source as the homepage.
+  const steps = stockLabel
+    ? STEPS.map((s) =>
+        s.short === "Search" ? { ...s, title: `Search ${stockLabel} UK cars` } : s,
+      )
+    : STEPS;
+  const step = steps[active];
 
   return (
     <main className={styles.page}>
@@ -187,7 +193,7 @@ export default function HowItWorksClient() {
                 </g>
               );
             })()}
-            {STEPS.map((s, i) => {
+            {steps.map((s, i) => {
               const { x, y } = nodePosition(i);
               const isActive = i === active;
               const isDone = i < active;
@@ -251,7 +257,7 @@ export default function HowItWorksClient() {
               &larr;
             </button>
             <div className={styles.dots}>
-              {STEPS.map((s, i) => (
+              {steps.map((s, i) => (
                 <button
                   key={s.short}
                   type="button"

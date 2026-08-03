@@ -3,7 +3,7 @@ import Link from "next/link";
 import { BadgeEuro, CarFront } from "lucide-react";
 import HomeSearchPanel from "./HomeSearchPanel";
 import ProcessTimeline from "./ProcessTimeline";
-import { getStockCount } from "@/lib/stockCount";
+import { getStockCount, formatApproxStock } from "@/lib/stockCount";
 import styles from "./page.module.css";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
@@ -13,7 +13,7 @@ export const revalidate = 900;
 export const metadata: Metadata = {
   title: "UK Car Imports — The Price You See Is The Price You Pay",
   description:
-    "Import your next car from the UK: 200,000+ cars priced fully landed for Ireland — VRT, VAT, customs & delivery included. Independent inspection, Irish plates in ~2 weeks. Est. 2013.",
+    "Import your next car from the UK: 135,000+ cars priced fully landed for Ireland — VRT, VAT, customs & delivery included. Independent inspection, Irish plates in ~2 weeks. Est. 2013.",
 };
 
 interface HomeCar {
@@ -112,7 +112,7 @@ export default async function HomePage() {
         {/* Mobile-only text: on desktop the composite image carries logo + headline */}
         <div className={styles.heroCopy}>
           <p className={styles.heroEyebrow}>
-            Over {count > 0 ? count.toLocaleString() : "200,000"} cars to choose from
+            Over {count > 0 ? count.toLocaleString() : "135,000"} cars to choose from
           </p>
           <h1 className={styles.heroHeadline}>
             Importing a car
@@ -122,7 +122,7 @@ export default async function HomePage() {
           <div className={styles.heroDash} />
         </div>
         <p className={styles.heroCount}>
-          Over {count > 0 ? count.toLocaleString() : "200,000"} cars to choose from
+          Over {count > 0 ? count.toLocaleString() : "135,000"} cars to choose from
         </p>
         <div className={styles.heroPanelDock}>
           <HomeSearchPanel
@@ -196,7 +196,7 @@ export default async function HomePage() {
         </section>
       )}
 
-      <ProcessTimeline />
+      <ProcessTimeline stockLabel={formatApproxStock(count)} />
 
       <section className={styles.makes}>
         <h2 className={styles.sectionTitle}>Browse by make</h2>

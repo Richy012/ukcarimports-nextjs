@@ -18,7 +18,7 @@ import styles from "./page.module.css";
 // The How It Works wheel, flattened. Keep step copy in sync with
 // how-it-works/HowItWorksClient.tsx (same journey, horizontal rendering).
 const STEPS: { icon: LucideIcon; short: string; title: string; body: string }[] = [
-  { icon: Search, short: "Search", title: "Search 217,000+ UK cars", body: "Every car priced fully landed — VRT, VAT, customs and delivery included." },
+  { icon: Search, short: "Search", title: "Search UK cars", body: "Every car priced fully landed — VRT, VAT, customs and delivery included." },
   { icon: BadgeEuro, short: "Compare", title: "See the real Irish saving", body: "The Bestseller Index™ — every make and model benchmarked weekly against real Irish asking prices." },
   { icon: BellRing, short: "Alerts", title: "Save cars & searches", body: "We email you the moment a matching car lands — before it's gone." },
   { icon: HandCoins, short: "Deposit", title: "Reserve with a €2,000 deposit", body: "Pay securely online. Your maximum exposure: €0 without an inspection." },
@@ -28,7 +28,7 @@ const STEPS: { icon: LucideIcon; short: string; title: string; body: string }[] 
   { icon: CarFront, short: "Handover", title: "Delivery or collection", body: "To your door anywhere in Ireland — about two weeks all-in." },
 ];
 
-export default function ProcessTimeline() {
+export default function ProcessTimeline({ stockLabel }: { stockLabel?: string }) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const pauseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -46,7 +46,14 @@ export default function ProcessTimeline() {
     pauseTimer.current = setTimeout(() => setPaused(false), 12000);
   }
 
-  const step = STEPS[active];
+  // Step 1's headline carries the live stock figure (getStockCount is the one
+  // number for the whole site); the rest of the steps are static copy.
+  const steps = stockLabel
+    ? STEPS.map((s) =>
+        s.short === "Search" ? { ...s, title: `Search ${stockLabel} UK cars` } : s,
+      )
+    : STEPS;
+  const step = steps[active];
 
   return (
     <section
@@ -83,7 +90,7 @@ export default function ProcessTimeline() {
           );
         })()}
         <div className={styles.tlSteps}>
-          {STEPS.map((s, i) => {
+          {steps.map((s, i) => {
             const isActive = i === active;
             const isDone = i < active;
             return (
