@@ -13,7 +13,11 @@ const PAGE_SIZE = 25;
 const FACET_FILTER_BODY = {
   is_manheim_car: "0",
   premium_car: 0,
-  minPrice: "",
+  // The €15k public floor applies to facet counts too — without it the
+  // dropdowns promise more cars than the listing (which enforces the floor)
+  // can show. Same owner complaint as the Bestseller counts: "said 198,
+  // returned 0" in miniature.
+  minPrice: "15000",
   maxPrice: "",
   minYear: "",
   maxYear: "",
@@ -38,11 +42,11 @@ interface FacetOption {
   total: number;
 }
 
-async function postFacet(path: string) {
+async function postFacet(path: string, extra: Record<string, unknown> = {}) {
   const res = await fetch(`${API_BASE}/${path}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(FACET_FILTER_BODY),
+    body: JSON.stringify({ ...FACET_FILTER_BODY, ...extra }),
     cache: "no-store",
   });
   return res.json();
@@ -223,14 +227,18 @@ export default async function UsedCarsPage({
   const requestedPage = Number(firstParam(params, "page")) || 1;
   const page = Math.max(1, Math.floor(requestedPage));
 
+  // With the Bestseller toggle applied, dropdown counts must describe the
+  // badge set — the owner picked "abarth (198)" off a full-stock count and
+  // got 0 results.
+  const facetExtra = filters.bestseller ? { bestsellerSeries: filters.bestseller } : {};
   const [{ data }, makesData, fuelsData, bodyStylesData, transmissionsData, seatsData] =
     await Promise.all([
       getCars(filters, searchChips, versionChips, page),
-      postFacet("makes"),
-      postFacet("fuel-types"),
-      postFacet("body-styles"),
-      postFacet("transmission-types"),
-      postFacet("seats"),
+      postFacet("makes", facetExtra),
+      postFacet("fuel-types", facetExtra),
+      postFacet("body-styles", facetExtra),
+      postFacet("transmission-types", facetExtra),
+      postFacet("seats", facetExtra),
     ]);
   const totalPages = Math.max(1, Math.ceil(data.count / PAGE_SIZE));
   const currentPage = Math.min(page, totalPages);

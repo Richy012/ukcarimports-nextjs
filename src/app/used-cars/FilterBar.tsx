@@ -82,7 +82,10 @@ const MILEAGE_OPTIONS = Array.from({ length: 500000 / 5000 + 1 }, (_, i) => i * 
 const FILTER_BODY_DEFAULTS = {
   is_manheim_car: "0",
   premium_car: 0,
-  minPrice: "",
+  // €15k public floor in the model-dropdown counts too — keeps every count
+  // on the same population as the listing itself (the live preview already
+  // forces it via minPrice || "15000").
+  minPrice: "15000",
   maxPrice: "",
   minYear: "",
   maxYear: "",
@@ -299,7 +302,9 @@ export default function FilterBar({
       const res = await fetch("/api/models", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...FILTER_BODY_DEFAULTS, Make: forMake }),
+        // Model counts must describe the badge set when the Bestseller
+        // toggle is on, same as every other facet.
+        body: JSON.stringify({ ...FILTER_BODY_DEFAULTS, Make: forMake, bestsellerSeries: bestseller }),
       });
       const data = await res.json();
       setModels(
