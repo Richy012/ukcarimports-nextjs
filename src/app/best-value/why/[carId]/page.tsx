@@ -86,7 +86,7 @@ export default async function BestValueWhyPage(props: {
         <h1 className={styles.sectionTitle}>No comparison data for this car</h1>
         <p className={styles.sectionSub}>
           It may have been matched in an earlier snapshot, or sold.{" "}
-          <Link href="/best-value">Back to the Bestseller Series &rarr;</Link>
+          <Link href="/used-cars?bestseller=1">Browse all Bestsellers &rarr;</Link>
         </p>
       </main>
     );
@@ -109,7 +109,7 @@ export default async function BestValueWhyPage(props: {
     <main className={styles.whyPage}>
       <p className={styles.sectionSub}>
         <Link href={`/car/${data.car_id}`}>&larr; Back to this car</Link> ·{" "}
-        <Link href="/best-value">All Bestsellers</Link>
+        <Link href="/used-cars?bestseller=1">All Bestsellers</Link>
       </p>
       <h1 className={styles.sectionTitle}>{data.car_name}</h1>
       <p className={styles.sectionSub}>

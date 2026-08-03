@@ -180,7 +180,7 @@ export default async function HomePage() {
               ))}
             </div>
             <p className={styles.arrivalsMore}>
-              <Link href="/best-value">
+              <Link href="/used-cars?bestseller=1">
                 {`See all ${bvCount.toLocaleString()} Bestsellers — priced under the Irish market`} &rarr;
               </Link>
             </p>
