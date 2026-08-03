@@ -3,6 +3,10 @@
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 
+// How far a lightbox photo may be enlarged past its own pixel size. Above
+// roughly this, our 480px-wide stock photos start to look soft.
+const MAX_UPSCALE = 1.75;
+
 interface CarImage {
   id: number;
   image: string;
@@ -155,9 +159,23 @@ export default function CarGallery({
 
           <div className={styles.lightboxImageWrap} onClick={(e) => e.stopPropagation()}>
             <img
+              /* Fresh element per photo so the cap below is recomputed rather
+                 than inherited from the previous image. */
+              key={openIndex}
               src={gallery[openIndex].image}
               alt={`${carName} photo ${openIndex + 1} of ${gallery.length}`}
               className={styles.lightboxImage}
+              onLoad={(e) => {
+                // Stored photos are a mix of 800px and 480px wide, often within
+                // one car. Stretching them to fill the frame made the small
+                // ones visibly soft next to the large ones. Allow a little
+                // enlargement so photos still fill a reasonable area, but never
+                // enough to turn a 480px photo to mush.
+                const el = e.currentTarget;
+                if (!el.naturalWidth) return;
+                el.style.maxWidth = `min(100%, ${Math.round(el.naturalWidth * MAX_UPSCALE)}px)`;
+                el.style.maxHeight = `min(100%, ${Math.round(el.naturalHeight * MAX_UPSCALE)}px)`;
+              }}
             />
           </div>
 
