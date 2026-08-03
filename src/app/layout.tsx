@@ -1,20 +1,9 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Geist, Geist_Mono } from "next/font/google";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { GTM_ID } from "@/lib/gtm";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: {
@@ -31,10 +20,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
+    <html lang="en" className="h-full antialiased">
+      <head>
+        {/* Every car photo is served from the API origin, so the connection is
+            worth opening before the first <img> is discovered. */}
+        <link rel="preconnect" href="https://api.ukcarimports.ie" />
+        <link rel="dns-prefetch" href="https://api.ukcarimports.ie" />
+      </head>
       <body className="min-h-full flex flex-col">
         {/* Same GTM container as the legacy site — analytics continuity
             across cutover. afterInteractive keeps it off the critical path. */}
