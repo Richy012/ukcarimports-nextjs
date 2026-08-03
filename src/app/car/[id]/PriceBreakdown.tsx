@@ -1,7 +1,7 @@
 "use client";
 
 import { gtmPush } from "@/lib/gtm";
-import { CarFront, CircleCheck, ClipboardCheck, HandCoins, Lock, ShieldCheck } from "lucide-react";
+import { CarFront, CircleCheck, ClipboardCheck, HandCoins, Lock, ShieldCheck, ShieldPlus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { isAdminTokenValid, staffAuthHeaders } from "@/lib/auth";
 import Script from "next/script";
@@ -486,6 +486,7 @@ export default function PriceBreakdown({
                 <div className={styles.depositJourney}>
                   <span><HandCoins size={16} strokeWidth={1.75} aria-hidden="true" /> €2,000 today — refundable</span>
                   <span><ClipboardCheck size={16} strokeWidth={1.75} aria-hidden="true" /> Optional €395 inspection</span>
+                  <span><ShieldPlus size={16} strokeWidth={1.75} aria-hidden="true" /> Optional warranty from €295</span>
                   <span><CarFront size={16} strokeWidth={1.75} aria-hidden="true" /> Irish plates in ~2 weeks</span>
                 </div>
                 <div className={styles.stripeStrip}>
