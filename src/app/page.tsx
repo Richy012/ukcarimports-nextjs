@@ -3,6 +3,7 @@ import Link from "next/link";
 import { BadgeEuro, CarFront } from "lucide-react";
 import HomeSearchPanel from "./HomeSearchPanel";
 import ProcessTimeline from "./ProcessTimeline";
+import ReviewCarousel from "./ReviewCarousel";
 import { getStockCount, formatStockCount } from "@/lib/stockCount";
 import styles from "./page.module.css";
 
@@ -232,16 +233,7 @@ export default async function HomePage() {
         <p className={styles.sectionSub}>
           <span className={styles.stars}>★★★★★</span> 4.6 from 122 Google reviews
         </p>
-        <div className={styles.reviewGrid}>
-          {REVIEWS.map((r) => (
-            <figure key={r.name} className={styles.reviewCard}>
-              <blockquote>&ldquo;{r.quote}&rdquo;</blockquote>
-              <figcaption>
-                — {r.name} <span>· Posted on Google</span>
-              </figcaption>
-            </figure>
-          ))}
-        </div>
+        <ReviewCarousel reviews={REVIEWS} />
       </section>
 
       <section className={styles.closing}>

@@ -798,6 +798,8 @@
   border-radius: 12px;
   padding: 18px;
   margin: 0;
+  /* fixed floor so swapping quotes of different lengths cannot shift layout */
+  min-height: 132px;
 }
 
 .reviewCard blockquote {
