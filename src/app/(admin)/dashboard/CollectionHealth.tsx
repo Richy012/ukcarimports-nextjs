@@ -144,7 +144,8 @@ export default function CollectionHealth() {
 
       <p className={styles.panelFoot}>
         Updated {new Date(health.generated_at).toLocaleTimeString("en-IE")} · refreshes every minute ·
-        a stream showing <strong>stalled</strong> has collected nothing in the last hour
+        rates are measured growth against a stored snapshot ~6 hours back, so they cannot be fooled
+        by quiet hours · a stream showing <strong>stalled</strong> has collected nothing in the last hour
       </p>
     </section>
   );
