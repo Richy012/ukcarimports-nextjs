@@ -372,3 +372,17 @@
   border: 2px solid #b01112;
   color: #b01112;
 }
+
+.centerTime {
+  font-size: 12px;
+  font-weight: 600;
+  text-anchor: middle;
+  fill: #999;
+}
+
+.centerTimeStrong {
+  font-size: 16px;
+  font-weight: 800;
+  text-anchor: middle;
+  fill: #b60b0c;
+}

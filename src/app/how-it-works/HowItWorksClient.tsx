@@ -193,6 +193,12 @@ export default function HowItWorksClient() {
               strokeWidth={1.5}
               className={styles.centerSvgIcon}
             />
+            <text x={CENTER} y={CENTER + 52} className={styles.centerTime}>
+              Deposit to handover
+            </text>
+            <text x={CENTER} y={CENTER + 70} className={styles.centerTimeStrong}>
+              ~2 weeks
+            </text>
           </svg>
         </div>
 
