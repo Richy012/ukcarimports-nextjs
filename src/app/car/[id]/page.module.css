@@ -319,12 +319,11 @@
 .depositModal {
   position: relative;
   width: 100%;
-  max-width: 480px;
-  max-height: 90vh;
-  overflow-y: auto;
+  max-width: 580px;
   background: #fff;
-  border-radius: 8px;
-  padding: 30px 24px;
+  border-radius: 10px;
+  padding: 0;
+  overflow: hidden;
 }
 
 .depositClose {
@@ -749,4 +748,135 @@
   font-weight: 600;
   text-decoration: underline;
   cursor: pointer;
+}
+
+
+/* --- Place a Deposit modal, redesigned 2026-08-03 (owner: "create something
+   new"). Cinematic full-width car header with the brand gold dash, a
+   reservation journey strip, trinity-knot watermark texture on the form
+   (global .wm-light), and Stripe security stated twice: announced up top,
+   sealed under the button. All functionality unchanged. --- */
+.depositHero {
+  position: relative;
+  height: 210px;
+  background-color: #171717;
+  background-size: cover;
+  background-position: center;
+}
+.depositHeroShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(23, 23, 23, 0.1) 30%, rgba(23, 23, 23, 0.88) 100%);
+}
+.depositHeroText {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 16px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.depositHeroName {
+  font-weight: 600;
+  font-size: 0.98rem;
+  line-height: 1.35;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+}
+.depositGoldDash {
+  width: 44px;
+  height: 3px;
+  background: #c9a24b;
+  border-radius: 2px;
+}
+.depositHeroPrice {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+}
+.depositBody {
+  padding: 22px 28px 22px;
+  max-height: calc(90vh - 210px);
+  overflow-y: auto;
+}
+.depositJourney {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 10px 0 12px;
+  font-size: 0.8rem;
+  color: #444;
+}
+.depositJourney span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.depositJourney svg {
+  color: #b60b0c;
+}
+.stripeStrip {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: #f7f6ff;
+  border: 1px solid #e3e0fa;
+  border-left: 3px solid #635bff;
+  color: #333;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  margin: 0 0 16px;
+}
+.stripeStrip svg {
+  flex-shrink: 0;
+  color: #635bff;
+  margin-top: 1px;
+}
+.securePayBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin: 10px 0 0;
+  font-size: 0.75rem;
+  color: #777;
+}
+.securePayBar svg {
+  color: #635bff;
+}
+.securePayBar strong {
+  color: #555;
+}
+.depositSubmit {
+  background: linear-gradient(180deg, #c31213 0%, #b60b0c 55%, #a30a0b 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), inset 0 -2px 0 rgba(0, 0, 0, 0.22);
+}
+.depositSubmit:active {
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+.depositClose {
+  z-index: 2;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+.depositClose:hover {
+  color: #f3c6c6;
+}
+@media (max-width: 700px) {
+  .depositHero {
+    height: 150px;
+  }
+  .depositHeroPrice {
+    font-size: 1.25rem;
+  }
+  .depositBody {
+    padding: 18px 16px;
+    max-height: calc(90vh - 150px);
+  }
 }

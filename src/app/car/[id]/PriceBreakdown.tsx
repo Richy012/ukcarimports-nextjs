@@ -1,7 +1,7 @@
 "use client";
 
 import { gtmPush } from "@/lib/gtm";
-import { CircleCheck } from "lucide-react";
+import { CarFront, CircleCheck, ClipboardCheck, HandCoins, Lock, ShieldCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { isAdminTokenValid, staffAuthHeaders } from "@/lib/auth";
 import Script from "next/script";
@@ -79,6 +79,7 @@ function getWarrantyTiers(carInfo: CarInfo, isElectric: boolean): WarrantyTier[]
 export default function PriceBreakdown({
   carId,
   carName,
+  heroImage,
   vrm,
   carInfo,
   vrtRate,
@@ -86,6 +87,7 @@ export default function PriceBreakdown({
 }: {
   carId: string;
   carName: string;
+  heroImage?: string | null;
   vrm?: string | null;
   carInfo: CarInfo;
   vrtRate: number;
@@ -409,6 +411,19 @@ export default function PriceBreakdown({
               ×
             </button>
 
+            <div
+              className={styles.depositHero}
+              style={heroImage ? { backgroundImage: `url(${heroImage})` } : undefined}
+            >
+              <div className={styles.depositHeroShade} />
+              <div className={styles.depositHeroText}>
+                <span className={styles.depositHeroName}>{carName}</span>
+                <span className={styles.depositGoldDash} aria-hidden="true" />
+                <span className={styles.depositHeroPrice}>{finalPriceLabel}</span>
+              </div>
+            </div>
+            <div className={`${styles.depositBody} wm-light`}>
+
             {availability === "sold" ? (
               <>
                 <h2 className={styles.depositHeading}>
@@ -467,8 +482,20 @@ export default function PriceBreakdown({
               </>
             ) : (
               <>
-                <h2 className={styles.depositHeading}>Place A Deposit</h2>
-                <p className={styles.depositCarName}>{carName}</p>
+                <h2 className={styles.depositHeading}>Reserve this car</h2>
+                <div className={styles.depositJourney}>
+                  <span><HandCoins size={16} strokeWidth={1.75} aria-hidden="true" /> €2,000 today — refundable</span>
+                  <span><ClipboardCheck size={16} strokeWidth={1.75} aria-hidden="true" /> Optional €395 inspection</span>
+                  <span><CarFront size={16} strokeWidth={1.75} aria-hidden="true" /> Irish plates in ~2 weeks</span>
+                </div>
+                <div className={styles.stripeStrip}>
+                  <ShieldCheck size={18} strokeWidth={1.75} aria-hidden="true" />
+                  <span>
+                    <strong>New — pay online, securely.</strong> Your €2,000 deposit can now be
+                    paid through <strong>Stripe</strong> — card, Apple&nbsp;Pay or Google&nbsp;Pay,
+                    with bank-level encryption. Fully refundable without the optional inspection.
+                  </span>
+                </div>
 
                 <form className={styles.depositForm} onSubmit={handleSubmitDeposit} noValidate>
                   <div className={styles.field}>
@@ -510,10 +537,16 @@ export default function PriceBreakdown({
                     {submitting ? "Please wait..." : finalPriceLabel}
                   </button>
 
+                  <p className={styles.securePayBar}>
+                    <Lock size={13} strokeWidth={2} aria-hidden="true" /> Payments secured by{" "}
+                    <strong>Stripe</strong> · Card · Apple&nbsp;Pay · Google&nbsp;Pay
+                  </p>
+
                   {submitError && <p className={styles.error}>{submitError}</p>}
                 </form>
               </>
             )}
+              </div>
           </div>
         </div>
       )}

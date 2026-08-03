@@ -241,6 +241,7 @@ export default async function CarDetailPage({
             <PriceBreakdown
               carId={car.car_id}
               carName={car.car_name}
+              heroImage={car.featured_image ?? null}
               vrm={car.vrm ?? null}
               carInfo={stripStaffPriceFields(car.car_info)}
               vrtRate={car.vrt_rate ?? 0}
