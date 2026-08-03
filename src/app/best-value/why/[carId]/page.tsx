@@ -190,8 +190,12 @@ export default async function BestValueWhyPage(props: {
             ))}
           </ul>
           <p style={{ fontSize: "0.85rem", color: "#777" }}>
-            We deliberately don&rsquo;t reproduce other sellers&rsquo; advert details &mdash; the
-            comparison uses the advertised asking price only.
+            We would like to publish the full detail of every comparison, but other sellers&rsquo;
+            adverts are their own &mdash; it isn&rsquo;t our place to republish their car data,
+            especially where our cars compete directly with theirs on price. So the comparison
+            uses the advertised asking price only. Best practice is followed throughout: real
+            advertised prices, recorded weekly and compared like for like, with Claude AI involved
+            in the statistical modelling behind this price comparison.
           </p>
         </section>
       )}
@@ -206,7 +210,7 @@ export default async function BestValueWhyPage(props: {
             ({data.year})
           </h2>
           <p>
-            {data.segment_market.listings} live Irish{" "}
+            {data.segment_market.listings} contemporary Irish{" "}
             {data.segment_market.listings === 1 ? "listing" : "listings"} for this model and year,
             asking roughly {eur(data.segment_market.low)}&ndash;{eur(data.segment_market.high)}.
           </p>
