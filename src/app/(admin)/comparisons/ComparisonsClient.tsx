@@ -89,6 +89,9 @@ export default function ComparisonsClient() {
   const [rawLoading, setRawLoading] = useState(false);
   const [rawMake, setRawMake] = useState("");
   const [rawSearch, setRawSearch] = useState("");
+  const [rawDate, setRawDate] = useState("");
+  const [rawDates, setRawDates] = useState<string[]>([]);
+  const [rawCurrentDate, setRawCurrentDate] = useState("");
   const [rawSearchDraft, setRawSearchDraft] = useState("");
   const [rawPage, setRawPage] = useState(0);
 
@@ -130,6 +133,7 @@ export default function ComparisonsClient() {
       method: "POST",
       headers: { "Content-Type": "application/json", ...staffAuthHeaders() },
       body: JSON.stringify({
+        snapshot_date: rawDate || undefined,
         make: rawMake || undefined,
         search: rawSearch || undefined,
         pagenum: rawPage,
@@ -141,9 +145,11 @@ export default function ComparisonsClient() {
         setRawRows(data?.data?.rows ?? []);
         setRawCount(data?.data?.count ?? 0);
         setRawMakes(data?.data?.makes ?? []);
+        setRawDates(data?.data?.snapshot_dates ?? []);
+        setRawCurrentDate(data?.data?.snapshot_date ?? "");
       })
       .finally(() => setRawLoading(false));
-  }, [rawMake, rawSearch, rawPage]);
+  }, [rawMake, rawSearch, rawPage, rawDate]);
 
   useEffect(() => {
     if (tab === "raw") loadRaw();
@@ -359,6 +365,21 @@ export default function ComparisonsClient() {
 
       {tab === "raw" && (
         <>
+          <div className={styles.tabs}>
+            {rawDates.map((d) => (
+              <button
+                key={d}
+                type="button"
+                className={rawCurrentDate === d ? styles.tabActive : styles.tab}
+                onClick={() => {
+                  setRawDate(d);
+                  setRawPage(0);
+                }}
+              >
+                Week of {d}
+              </button>
+            ))}
+          </div>
           <div className={styles.filterRow}>
             <label>
               Make
