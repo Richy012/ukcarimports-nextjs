@@ -96,6 +96,14 @@ const REVIEWS = [
 ];
 
 const AUTO_ADVANCE_MS = 5000;
+
+// The detail panel is the largest text on this page, so it is what Largest
+// Contentful Paint measures. Every rotation repaints it and counts as a NEW
+// LCP candidate, which pushed measured LCP out to 5.5s (render delay 4,863ms
+// -- almost exactly one rotation). Holding the first rotation back keeps LCP
+// on the first paint, and gives a visitor time to read step one before it
+// moves. Rotation also only runs while the wheel is actually on screen.
+const FIRST_ROTATION_DELAY_MS = 9000;
 const R = 150;
 const CENTER = 200;
 
@@ -119,14 +127,42 @@ export default function HowItWorksClient({ stockLabel }: { stockLabel?: string }
   const [paused, setPaused] = useState(false);
   const pauseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const wheelRef = useRef<HTMLDivElement | null>(null);
+  const [armed, setArmed] = useState(false);
+  const [hasChanged, setHasChanged] = useState(false);
+  const [inView, setInView] = useState(false);
+
   useEffect(() => {
-    if (paused) return;
-    const id = setInterval(() => setActive((prev) => (prev + 1) % STEPS.length), AUTO_ADVANCE_MS);
+    const t = setTimeout(() => setArmed(true), FIRST_ROTATION_DELAY_MS);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    const el = wheelRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setInView(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.25 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (paused || !armed || !inView) return;
+    const id = setInterval(() => {
+      setHasChanged(true);
+      setActive((prev) => (prev + 1) % STEPS.length);
+    }, AUTO_ADVANCE_MS);
     return () => clearInterval(id);
-  }, [paused]);
+  }, [paused, armed, inView]);
 
   // A manual selection pauses the rotation briefly so the visitor can read.
   const select = useCallback((index: number) => {
+    setHasChanged(true);
     setActive(index);
     setPaused(true);
     if (pauseTimer.current) clearTimeout(pauseTimer.current);
@@ -161,7 +197,7 @@ export default function HowItWorksClient({ stockLabel }: { stockLabel?: string }
           setPaused(false);
         }}
       >
-        <div className={styles.wheelWrap}>
+        <div className={styles.wheelWrap} ref={wheelRef}>
           <svg viewBox="0 0 400 400" className={styles.wheel} role="img" aria-label="The import process, step by step">
             <circle cx={CENTER} cy={CENTER} r={R} className={styles.ringTrack} />
             <circle
@@ -239,7 +275,7 @@ export default function HowItWorksClient({ stockLabel }: { stockLabel?: string }
           </svg>
         </div>
 
-        <div className={styles.detailPanel} key={active}>
+        <div className={`${styles.detailPanel} ${hasChanged ? styles.detailPanelFade : ""}`} key={active}>
           <span className={styles.detailStepTag}>Step {active + 1}</span>
           <h2>{step.title}</h2>
           <p>{step.body}</p>

@@ -135,19 +135,20 @@
   opacity: 0.6;
   animation: pulseAnim 1.6s ease-out infinite;
   transform-origin: center;
+  transform-box: fill-box;
   pointer-events: none;
 }
 
+/* Scale, not r/stroke-width: those two cannot be composited, so the old
+   version did main-thread layout work on every frame, forever. */
 @keyframes pulseAnim {
   0% {
     opacity: 0.6;
-    stroke-width: 2;
-    r: 26;
+    transform: scale(0.87);
   }
   100% {
     opacity: 0;
-    stroke-width: 1;
-    r: 38;
+    transform: scale(1.27);
   }
 }
 
@@ -175,6 +176,11 @@
 /* Detail panel */
 
 .detailPanel {
+  /* No entry animation: this is the page's largest text and it is already in
+     the server-rendered HTML, so it must paint immediately. */
+}
+
+.detailPanelFade {
   animation: fadeIn 0.35s ease;
 }
 

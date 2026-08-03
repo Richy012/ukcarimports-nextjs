@@ -48,6 +48,68 @@
   min-width: 260px;
 }
 
+/* Placeholder shown until someone asks for the map. Same height as the embed
+   so nothing shifts when it mounts. */
+.mapFacade {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #f7f7f5;
+}
+
+.mapFacadeText {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #454443;
+  max-width: 300px;
+}
+
+.mapFacadeActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.mapFacadeBtn {
+  border: none;
+  background: #b60b0c;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.mapFacadeBtn:hover {
+  background: #9a0a0b;
+}
+
+.mapFacadeLink {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #454443;
+  border: 1px solid #cfcfcf;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.mapFacadeLink:hover {
+  border-color: #b60b0c;
+  color: #b60b0c;
+}
+
 .bottom {
   border-top: 1px solid #ddd;
   padding: 20px 16px;

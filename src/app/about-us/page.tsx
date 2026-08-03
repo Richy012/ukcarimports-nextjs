@@ -22,9 +22,26 @@ async function getContent(slug: string): Promise<string> {
 // render time rather than edited in the database. Two accessibility failures
 // come from it: decorative images with no alt attribute at all, and headings
 // that start at h3 under the page h1, which skips a level.
+// Intrinsic sizes of the images this page ships. Without width/height the
+// browser cannot reserve space, and the text below them jumps once they load
+// -- measured CLS 0.162 on mobile.
+const CMS_IMAGE_SIZES: Record<string, [number, number]> = {
+  "bmwpc.jpg": [1200, 486],
+  "richard-v2.jpg": [700, 875],
+  "logogray.jpg": [250, 250],
+  "tick.png": [16, 16],
+};
+
 function tidyCmsHtml(html: string): string {
   return html
     .replace(/<img(?![^>]*\salt=)([^>]*?)\s*\/?>/gi, '<img$1 alt="">')
+    .replace(/<img([^>]*?)>/gi, (m, attrs: string) => {
+      if (/\swidth=/i.test(attrs)) return m;
+      const src = /src="([^"]*)"/i.exec(attrs)?.[1] ?? "";
+      const file = src.split("/").pop() ?? "";
+      const dims = CMS_IMAGE_SIZES[file];
+      return dims ? `<img${attrs} width="${dims[0]}" height="${dims[1]}">` : m;
+    })
     .replace(
       /<(\/?)h([34])(\s|>)/gi,
       (_m, slash: string, level: string, tail: string) =>
