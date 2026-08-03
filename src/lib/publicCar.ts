@@ -54,3 +54,31 @@ export function stripStaffPriceFields<T extends object>(obj: T): T {
   }
   return out as T;
 }
+
+/**
+ * Listing-tile projection. The listing API returns whole database rows;
+ * serialising them into SSR HTML + the RSC payload made /used-cars ~725KB
+ * for 25 tiles (measured 2026-08-03). Tiles render exactly these fields,
+ * so nothing else leaves the server. Also subsumes stripStaffPriceFields
+ * for the listing path: car_info is reduced to final_price alone.
+ */
+export function toTileCar<T extends object>(tileSource: T): T {
+  const car = tileSource as Record<string, unknown>;
+  const info = (car.car_info ?? null) as { final_price?: number } | null;
+  return {
+    car_id: car.car_id,
+    car_name: car.car_name,
+    registration_date: car.registration_date,
+    transmission_name: car.transmission_name,
+    fuel_type_name: car.fuel_type_name,
+    mileage: car.mileage,
+    premium_car: car.premium_car,
+    is_manheim_car: car.is_manheim_car,
+    car_info: info ? { final_price: info.final_price } : null,
+    thumb_v: car.thumb_v ?? null,
+    photo_count: car.photo_count,
+    photo_ids: car.photo_ids,
+    bestseller_tier: car.bestseller_tier ?? null,
+    bestseller_saving_eur: car.bestseller_saving_eur ?? null,
+  } as unknown as T;
+}

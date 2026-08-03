@@ -2,6 +2,7 @@
 // api/models/route.ts: Cloudflare's api-cors-backstop rule blocks browser
 // calls from staging.ukcarimports.ie straight to api.ukcarimports.ie.
 import { NextRequest, NextResponse } from "next/server";
+import { toTileCar } from "@/lib/publicCar";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
 
@@ -14,5 +15,9 @@ export async function POST(req: NextRequest) {
     cache: "no-store",
   });
   const data = await res.json();
+  // Project rows to tile fields: full rows made every scroll batch ~700KB.
+  if (Array.isArray(data?.data?.cars)) {
+    data.data.cars = data.data.cars.map(toTileCar);
+  }
   return NextResponse.json(data, { status: res.status });
 }
