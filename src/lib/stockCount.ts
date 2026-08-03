@@ -46,13 +46,11 @@ export const CANONICAL_BROWSE_BODY = {
   vrt: "",
 };
 
-// Headline copy says "N+ cars", so it must round DOWN — never claim stock we
-// do not have. Nearest 1,000 keeps it honest and stops the wording churning
-// every 15-minute revalidate. Falls back to a deliberately conservative
-// figure if the count call fails.
-export function formatApproxStock(count: number): string {
-  if (!count || count < 1000) return "135,000+";
-  return `${(Math.floor(count / 1000) * 1000).toLocaleString()}+`;
+// The exact number of cars live on the site right now (owner, 2026-08-03).
+// Returns undefined if the count call failed, so the headline drops the
+// figure entirely rather than printing a zero or a made-up round number.
+export function formatStockCount(count: number): string | undefined {
+  return count > 0 ? count.toLocaleString() : undefined;
 }
 
 export async function getStockCount(): Promise<number> {

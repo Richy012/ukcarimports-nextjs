@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import HowItWorksClient from "./HowItWorksClient";
-import { getStockCount, formatApproxStock } from "@/lib/stockCount";
+import { getStockCount, formatStockCount } from "@/lib/stockCount";
 
 export const metadata: Metadata = {
   title: "How It Works",
@@ -13,5 +13,5 @@ export const revalidate = 900;
 
 export default async function HowItWorksPage() {
   const count = await getStockCount();
-  return <HowItWorksClient stockLabel={formatApproxStock(count)} />;
+  return <HowItWorksClient stockLabel={formatStockCount(count)} />;
 }

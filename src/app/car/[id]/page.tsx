@@ -327,16 +327,25 @@ export default async function CarDetailPage({
             <p className={styles.sellerLine}>Seller/Garage: By {car.auction_company_name}</p>
           )}
 
-          <ul className={styles.historyChecklist}>
+          <div className={styles.assuranceBox}>
+            <ul className={styles.historyChecklist}>
             <li><Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} /> History checked before purchase</li>
             <li><Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} /> Inspected after deposit, on request</li>
-            {car.service_history ? (
-              <li>
-                <Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} /> Service history
-                {car.last_service ? ` — last serviced ${car.last_service}` : ""}
-                {car.last_service_mileage ? ` at ${car.last_service_mileage} km` : ""}
-              </li>
-            ) : null}
+            {(car.service_history || car.capture?.last_service_date) && (() => {
+              const when = car.last_service
+                || (car.capture?.last_service_date ? displayDate(car.capture.last_service_date) : "");
+              const at = car.last_service_mileage
+                ? ` at ${car.last_service_mileage} km`
+                : car.capture?.last_service_miles
+                  ? ` at ${car.capture.last_service_miles.toLocaleString()} miles`
+                  : "";
+              return (
+                <li>
+                  <Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} /> Service history
+                  {when ? ` — last serviced ${when}${at}` : ""}
+                </li>
+              );
+            })()}
             {car.capture?.history_flags.includes("not_stolen") && (
               <li><Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} /> Not recorded stolen</li>
             )}
@@ -352,14 +361,9 @@ export default async function CarDetailPage({
                 {car.capture.history_checks_passed} vehicle history checks passed
               </li>
             ) : null}
-            {car.capture?.last_service_date && (
-              <li>
-                <Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} /> Last
-                serviced {displayDate(car.capture.last_service_date)}
-                {car.capture.last_service_miles ? ` at ${car.capture.last_service_miles.toLocaleString()} miles` : ""}
-              </li>
-            )}
+
           </ul>
+          </div>
         </div>
       </div>
 
@@ -381,13 +385,15 @@ export default async function CarDetailPage({
           if (equipment.length === 0 && featureGroups.length === 0 && !hasPerformance && car.features_options.length === 0)
             return null;
 
+          // Performance and Features are separate boxes (owner, 2026-08-03):
+          // Performance sits directly below the Specification grid, Features
+          // stands on its own.
           return (
-            <details className={styles.signpost}>
-              <summary className={styles.signpostSummary}>Full Specification &amp; Features</summary>
-              <div className={styles.signpostBody}>
-                {hasPerformance && (
-                  <div className={styles.featureGroup}>
-                    <h3>Performance</h3>
+            <>
+              {hasPerformance && (
+                <details className={styles.signpost} open>
+                  <summary className={styles.signpostSummary}>Performance</summary>
+                  <div className={styles.signpostBody}>
                     <dl className={styles.specGrid}>
                       {performance.map((raw) => {
                         const { label, value } = splitSpecPair(raw);
@@ -400,44 +406,52 @@ export default async function CarDetailPage({
                       })}
                     </dl>
                   </div>
-                )}
-                {equipment.length > 0 && (
-                  <div className={styles.featureGroup}>
-                    <h3>Equipment ({equipment.length})</h3>
-                    <ul className={styles.featuresList}>
-                      {equipment.map((f) => (
-                        <li key={f} className={styles.featureItem}>
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {featureGroups.map((g) => (
-                  <div key={g.label} className={styles.featureGroup}>
-                    <h3>
-                      {g.label} ({g.items.length})
-                    </h3>
-                    <ul className={styles.featuresList}>
-                      {g.items.map((f) => (
-                        <li key={f} className={styles.featureItem}>
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-                {equipment.length === 0 && featureGroups.length === 0 && !hasPerformance && car.features_options.length > 0 && (
-                  <ul className={styles.featuresList}>
-                    {car.features_options.map((f) => (
-                      <li key={f} className={styles.featureItem}>
-                        {f}
-                      </li>
+                </details>
+              )}
+
+              {(equipment.length > 0 || featureGroups.length > 0 || car.features_options.length > 0) && (
+                <details className={styles.signpost}>
+                  <summary className={styles.signpostSummary}>Features</summary>
+                  <div className={styles.signpostBody}>
+                    {equipment.length > 0 && (
+                      <div className={styles.featureGroup}>
+                        <h3>Equipment ({equipment.length})</h3>
+                        <ul className={styles.featuresList}>
+                          {equipment.map((f) => (
+                            <li key={f} className={styles.featureItem}>
+                              {f}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {featureGroups.map((g) => (
+                      <div key={g.label} className={styles.featureGroup}>
+                        <h3>
+                          {g.label} ({g.items.length})
+                        </h3>
+                        <ul className={styles.featuresList}>
+                          {g.items.map((f) => (
+                            <li key={f} className={styles.featureItem}>
+                              {f}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     ))}
-                  </ul>
-                )}
-              </div>
-            </details>
+                    {equipment.length === 0 && featureGroups.length === 0 && car.features_options.length > 0 && (
+                      <ul className={styles.featuresList}>
+                        {car.features_options.map((f) => (
+                          <li key={f} className={styles.featureItem}>
+                            {f}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </details>
+              )}
+            </>
           );
         })()}
 

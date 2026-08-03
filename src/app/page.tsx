@@ -3,7 +3,7 @@ import Link from "next/link";
 import { BadgeEuro, CarFront } from "lucide-react";
 import HomeSearchPanel from "./HomeSearchPanel";
 import ProcessTimeline from "./ProcessTimeline";
-import { getStockCount, formatApproxStock } from "@/lib/stockCount";
+import { getStockCount, formatStockCount } from "@/lib/stockCount";
 import styles from "./page.module.css";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
@@ -196,7 +196,7 @@ export default async function HomePage() {
         </section>
       )}
 
-      <ProcessTimeline stockLabel={formatApproxStock(count)} />
+      <ProcessTimeline stockLabel={formatStockCount(count)} />
 
       <section className={styles.makes}>
         <h2 className={styles.sectionTitle}>Browse by make</h2>
