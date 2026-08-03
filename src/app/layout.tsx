@@ -29,8 +29,12 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         {/* Same GTM container as the legacy site — analytics continuity
-            across cutover. afterInteractive keeps it off the critical path. */}
-        <Script id="gtm" strategy="afterInteractive">
+            across cutover. lazyOnload, NOT afterInteractive: measured with
+            Lighthouse 2026-08-03, GTM is 320KB across gtag.js + gtm.js -- the
+            two largest resources on the page -- and blocked the main thread
+            for 340ms. This page LCP is a text heading with Load Time 0 and a
+            Render Delay of 1,848ms, i.e. purely main-thread blocked. */}
+        <Script id="gtm" strategy="lazyOnload">
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
