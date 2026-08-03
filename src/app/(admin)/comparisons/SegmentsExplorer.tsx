@@ -10,7 +10,7 @@ import styles from "./page.module.css";
  * every saving are computed live on each request, so a sold car leaves the view
  * immediately and a price change shows at once.
  *
- * Flyer = EUR 2,500+ under the Irish median. Rare Flyer = EUR 5,000+.
+ * Bestseller = EUR 2,500+ under the Irish median. #1 Bestseller = EUR 5,000+.
  */
 
 interface Row {
@@ -127,8 +127,8 @@ export default function SegmentsExplorer() {
                 <th>Our avg</th>
                 <th>Irish median</th>
                 <th>Trend</th>
-                <th>Flyers</th>
-                <th>Rare</th>
+                <th>Bestsellers</th>
+                <th>#1</th>
               </tr>
             </thead>
             <tbody>
@@ -181,8 +181,8 @@ export default function SegmentsExplorer() {
                       <td>{eur(c.our_price)}</td>
                       <td className={Number(c.saving) > 0 ? styles.good : styles.bad}>
                         {Number(c.saving) > 0 ? `−${eur(c.saving)}` : `+${eur(Math.abs(Number(c.saving)))}`}
-                        {Number(c.saving) >= 5000 && <span className={styles.rareFlyer}>⚡ Rare Flyer</span>}
-                        {Number(c.saving) >= 2500 && Number(c.saving) < 5000 && <span className={styles.flyer}>Flyer</span>}
+                        {Number(c.saving) >= 5000 && <span className={styles.rareFlyer}>⚡ #1 Bestseller</span>}
+                        {Number(c.saving) >= 2500 && Number(c.saving) < 5000 && <span className={styles.flyer}>Bestseller</span>}
                       </td>
                     </tr>
                   ))}
@@ -217,7 +217,7 @@ export default function SegmentsExplorer() {
       <p className={styles.panelFoot}>
         Irish prices from the Carzone snapshot of {snapshot || "—"}; our prices and every
         saving computed live, so sold cars drop out and price changes show at once.
-        <strong> Flyer</strong> = €2,500+ under the Irish median · <strong>Rare Flyer</strong> = €5,000+.
+        <strong> Bestseller</strong> = €2,500+ under the Irish median · <strong>#1 Bestseller</strong> = €5,000+.
         <em> Verified</em> = 10+ Irish listings · <em>Trend</em> = 5–9 · <em>Thin</em> = under 5.
       </p>
     </>
