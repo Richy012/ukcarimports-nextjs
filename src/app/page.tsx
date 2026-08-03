@@ -64,23 +64,31 @@ async function getHomeData() {
     const [count, indexRes, bvRes] = await Promise.all([
       getStockCount(),
       fetch(`${API_BASE}/import-landing-index`, { next: { revalidate: 3600 } }),
-      // Fetch a deeper slice and dedupe by model below: the list is ordered
-      // by saving, and the biggest savings often cluster in one model (the
-      // BMW XM effect) — four identical cars is a broken-looking band.
-      fetch(`${API_BASE}/best-value/0/16`, { next: { revalidate: 900 } }),
+      // Fetch a deep slice and diversify below: the list is ordered by
+      // saving, and the biggest savings cluster in one model (the BMW XM
+      // effect) — a band of identical cars looks broken. 60 is the
+      // endpoint's max page size.
+      fetch(`${API_BASE}/best-value/0/60`, { next: { revalidate: 900 } }),
     ]);
     const indexJson = await indexRes.json();
     const bvJson = await bvRes.json();
+    // Eight cars, eight different models, at most two per make (owner spec
+    // 2026-08-03: "eight different types of cars rather than all the same")
+    // — still in biggest-saving order within those rules.
     const seenModels = new Set<string>();
+    const perMake = new Map<string, number>();
     const bestValue: BestValueCar[] = (bvJson?.data?.cars ?? [])
       .filter((c: BestValueCar) => c.featured_image && c.best_value)
       .filter((c: BestValueCar) => {
-        const key = `${c.make_name ?? ""}|${c.model_name ?? ""}`;
-        if (seenModels.has(key)) return false;
-        seenModels.add(key);
+        const make = c.make_name ?? "";
+        const modelKey = `${make}|${c.model_name ?? ""}`;
+        if (seenModels.has(modelKey)) return false;
+        if ((perMake.get(make) ?? 0) >= 2) return false;
+        seenModels.add(modelKey);
+        perMake.set(make, (perMake.get(make) ?? 0) + 1);
         return true;
       })
-      .slice(0, 4);
+      .slice(0, 8);
     const bvCount: number = bvJson?.data?.count ?? 0;
     const makes: { make: string; slug: string; n: number }[] = (indexJson?.data?.makes ?? []).slice(0, 8);
     return { bestValue, bvCount, count, makes };
