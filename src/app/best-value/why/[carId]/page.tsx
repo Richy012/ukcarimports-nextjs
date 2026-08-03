@@ -194,8 +194,10 @@ export default async function BestValueWhyPage(props: {
             adverts are their own &mdash; it isn&rsquo;t our place to republish their car data,
             especially where our cars compete directly with theirs on price. So the comparison
             uses the advertised asking price only. Best practice is followed throughout: real
-            advertised prices, recorded weekly and compared like for like, with Claude AI involved
-            in the statistical modelling behind this price comparison.
+            advertised prices, recorded weekly and compared like for like, with Claude AI &mdash;
+            Fable 5, Anthropic&rsquo;s most advanced model &mdash; involved in the statistical
+            modelling behind this price comparison. The best tools available, used properly, for
+            the most reliable results.
           </p>
         </section>
       )}
