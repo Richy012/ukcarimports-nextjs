@@ -887,3 +887,22 @@
     top: 91.7%;
   }
 }
+
+.tlTwoWeeks {
+  position: absolute;
+  top: 6px;
+  height: 2.5px;
+  background: #32cd32;
+  border-radius: 2px;
+}
+
+.tlTwoWeeksLabel {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  font-weight: 800;
+  color: #32cd32;
+  white-space: nowrap;
+}

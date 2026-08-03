@@ -66,6 +66,22 @@ export default function ProcessTimeline() {
           className={styles.tlProgress}
           style={{ width: `${(active / (STEPS.length - 1)) * 94}%` }}
         />
+        {(() => {
+          const n = STEPS.length;
+          const start = STEPS.findIndex((st) => st.short === "Deposit");
+          const end = STEPS.findIndex((st) => st.short === "Handover");
+          const left = ((start + 0.5) / n) * 100;
+          const width = ((end - start) / n) * 100;
+          return (
+            <div
+              className={styles.tlTwoWeeks}
+              style={{ left: left + "%", width: width + "%" }}
+              aria-label="Deposit to handover takes about two weeks"
+            >
+              <span className={styles.tlTwoWeeksLabel}>2 weeks</span>
+            </div>
+          );
+        })()}
         <div className={styles.tlSteps}>
           {STEPS.map((s, i) => {
             const isActive = i === active;
