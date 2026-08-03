@@ -11,6 +11,10 @@ test.describe("header navigation", () => {
   for (const link of MAIN_LINKS) {
     test(`nav link goes to ${link.path}`, async ({ page, isMobile }) => {
       await page.goto("/");
+      // Wait for hydration: until the client router mounts, Next's Link
+      // swallows the click and the URL never changes -- a harness race that
+      // reads as a dead nav link (verified working in a real browser).
+      await page.waitForLoadState("networkidle");
       if (isMobile) {
         await page.getByRole("button", { name: /toggle navigation menu/i }).click();
       }
@@ -58,8 +62,9 @@ test.describe("mobile menu", () => {
 
   test("More dropdown reveals its links", async ({ page }) => {
     await page.goto("/");
+    await page.waitForLoadState("networkidle");
     await page.getByRole("button", { name: /toggle navigation menu/i }).click();
-    const more = page.getByRole("button", { name: /more/i });
+    const more = page.locator("header").getByRole("button", { name: /^more/i });
     await more.click();
     await expect(more).toHaveAttribute("aria-expanded", "true");
     for (const name of [/about us/i, /contact/i, /blog/i, /faq/i]) {

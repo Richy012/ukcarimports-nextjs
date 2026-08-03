@@ -10,7 +10,7 @@ const NAV_LINKS = [
   { href: "/", label: "HOME" },
   { href: "/used-cars", label: "USED CARS" },
   { href: "/car-sourcing", label: "Car Sourcing" },
-  { href: "/how-it-works", label: "How It Works", external: true },
+  { href: "/how-it-works", label: "How It Works" },
 ];
 
 // Secondary/company pages grouped into one dropdown -- matches the standard
@@ -116,15 +116,9 @@ export default function Header() {
           <ul className={styles.navList}>
             {NAV_LINKS.map((link) => (
               <li key={link.href} onClick={() => setOpen(false)}>
-                {link.external ? (
-                  <a href={link.href} target="_blank" rel="noopener noreferrer" className={styles.navLink}>
-                    {link.label}
-                  </a>
-                ) : (
-                  <Link href={link.href} className={styles.navLink}>
-                    {link.label}
-                  </Link>
-                )}
+                <Link href={link.href} className={styles.navLink}>
+                  {link.label}
+                </Link>
               </li>
             ))}
 

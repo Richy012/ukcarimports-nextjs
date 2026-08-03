@@ -10,7 +10,12 @@ function pricesFrom(texts: string[]): number[] {
 async function cardPrices(page: import("@playwright/test").Page) {
   const cards = page.locator('a[href^="/car/"]');
   await expect(cards.first()).toBeVisible();
-  return pricesFrom(await cards.allInnerTexts());
+  // Read the price ELEMENT, never the whole card: Bestseller badges carry
+  // their own euro figure ("EUR 2,827 less than in Ireland") and a card-wide
+  // regex picks that up instead of the price, which looks exactly like a
+  // sorting bug. Class names are hashed, so match the stable prefix.
+  const priceEls = page.locator('a[href^="/car/"] div[class*="cardPrice"]');
+  return pricesFrom(await priceEls.allInnerTexts());
 }
 
 // Regression: the frontend sent price_sort/mileage_sort but the API reads
