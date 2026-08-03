@@ -344,8 +344,8 @@ export default function AdminCarsClient() {
                                 <span>{eur(detail.breakdown.service_fee)}</span>
                               </span>
                               <span>
-                                <span>Mech. inspection</span>
-                                <span>{eur(detail.breakdown.mechanical_inspection_fee)}</span>
+                                <span>Mech. inspection (only if selected)</span>
+                                <span>+{eur(detail.breakdown.mechanical_inspection_fee)}</span>
                               </span>
                             </div>
                           </div>
