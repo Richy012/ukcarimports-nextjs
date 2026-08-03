@@ -326,3 +326,11 @@
   padding: 16px 0 6px;
   font-size: 0.9rem;
 }
+
+.keepScrolling {
+  text-align: center;
+  padding: 1.1rem 0 0.4rem;
+  color: #555;
+  font-size: 0.95rem;
+  font-weight: 600;
+}

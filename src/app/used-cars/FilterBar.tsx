@@ -671,7 +671,13 @@ export default function FilterBar({
       )}
 
       <div ref={endRef} aria-hidden="true" />
-      {loadingMore && <p className={pageStyles.loadingMore}>Loading more cars&hellip;</p>}
+      {liveCars.length > 0 && liveCars.length < liveCount && (
+        <p className={pageStyles.keepScrolling}>
+          {loadingMore
+            ? "Loading more cars\u2026"
+            : `\u2193 Keep scrolling \u2014 ${(liveCount - liveCars.length).toLocaleString("en-IE")} more cars load automatically`}
+        </p>
+      )}
       {liveCars.length > 0 && liveCars.length >= liveCount && (
         <p className={pageStyles.loadingMore}>
           That&rsquo;s all {liveCount.toLocaleString("en-IE")} — every matching car is above.
@@ -679,6 +685,7 @@ export default function FilterBar({
       )}
 
       {!dirty && loadedPage === currentPage && liveCars.length > 0 && totalPages > 1 && (
+        <noscript>
         <nav className={pageStyles.pagination} aria-label="Pagination">
           {prevHref ? (
             <Link href={prevHref} className={pageStyles.pageLink}>&larr; Previous</Link>
@@ -696,6 +703,7 @@ export default function FilterBar({
             <span className={pageStyles.pageLinkDisabled}>Next &rarr;</span>
           )}
         </nav>
+        </noscript>
       )}
     </>
   );
