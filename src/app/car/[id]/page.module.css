@@ -891,3 +891,44 @@
 .depositSummary strong {
   color: #171717;
 }
+
+.headingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.headingRow .heading {
+  margin-bottom: 0;
+}
+
+.saveBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1rem;
+  border: 1.5px solid #b60b0c;
+  border-radius: 6px;
+  background: #fff;
+  color: #b60b0c;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+
+.saveBtn:hover {
+  background: #fdf1f1;
+}
+
+.saveBtnSaved {
+  background: #b60b0c;
+  color: #fff;
+}
+
+.saveBtnSaved:hover {
+  background: #9c0a0b;
+}

@@ -7,6 +7,7 @@ import PriceBreakdown from "./PriceBreakdown";
 import CarGallery from "./CarGallery";
 import styles from "./page.module.css";
 import AdminCarLink from "./AdminCarLink";
+import SaveCarButton from "./SaveCarButton";
 import { stripStaffPriceFields } from "@/lib/publicCar";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
@@ -224,7 +225,10 @@ export default async function CarDetailPage({
         &larr; Back to all cars
       </Link>
 
-      <h1 className={styles.heading}>{car.car_name}</h1>
+      <div className={styles.headingRow}>
+        <h1 className={styles.heading}>{car.car_name}</h1>
+        <SaveCarButton carId={id} />
+      </div>
       <AdminCarLink carId={id} />
 
       <div className={styles.layout}>
