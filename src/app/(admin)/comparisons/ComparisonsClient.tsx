@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { staffAuthHeaders } from "@/lib/auth";
 import styles from "./page.module.css";
+import SegmentsExplorer from "./SegmentsExplorer";
 
 interface ComparisonRow {
   id: number;
@@ -68,7 +69,7 @@ function num(v: number | null | undefined): string {
 }
 
 export default function ComparisonsClient() {
-  const [tab, setTab] = useState<"matches" | "raw">("matches");
+  const [tab, setTab] = useState<"matches" | "segments" | "raw">("matches");
   const [stats, setStats] = useState<Stats | null>(null);
 
   const [rows, setRows] = useState<ComparisonRow[]>([]);
@@ -199,6 +200,13 @@ export default function ComparisonsClient() {
           onClick={() => setTab("matches")}
         >
           UK vs Ireland matches
+        </button>
+        <button
+          type="button"
+          className={tab === "segments" ? styles.tabActive : styles.tab}
+          onClick={() => setTab("segments")}
+        >
+          Segments
         </button>
         <button
           type="button"
@@ -362,6 +370,8 @@ export default function ComparisonsClient() {
           </div>
         </>
       )}
+
+      {tab === "segments" && <SegmentsExplorer />}
 
       {tab === "raw" && (
         <>

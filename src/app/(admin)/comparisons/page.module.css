@@ -221,3 +221,27 @@
   opacity: 0.4;
   cursor: default;
 }
+
+/* --- Segments explorer (2026-08-03): make -> model -> year -> cars --- */
+.segBreadcrumb {
+  display: flex; align-items: center; gap: 8px;
+  margin: 0 0 14px; font-size: 0.9rem; flex-wrap: wrap;
+}
+.segBreadcrumb button {
+  background: none; border: none; padding: 0; cursor: pointer;
+  color: #b60b0c; font-size: 0.9rem; text-decoration: underline;
+}
+.segBreadcrumb span { color: #999; }
+.segRow { cursor: pointer; }
+.segRow:hover { background: #fafafa; }
+.segSplit { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 1000px) { .segSplit { grid-template-columns: 1fr; } }
+.segHeading { font-size: 0.95rem; margin: 0 0 8px; color: #454443; }
+.badgeVerified { background: #e7f5e9; color: #1c7a2e; padding: 2px 7px; border-radius: 3px; font-size: 0.72rem; }
+.badgeTrend { background: #fff4e0; color: #a35c00; padding: 2px 7px; border-radius: 3px; font-size: 0.72rem; }
+.badgeThin { background: #f0f0f0; color: #777; padding: 2px 7px; border-radius: 3px; font-size: 0.72rem; }
+.good { color: #1c7a2e; }
+.bad { color: #888; }
+.flyer { background: #e7f5e9; color: #1c7a2e; padding: 1px 6px; border-radius: 3px; font-size: 0.7rem; margin-left: 6px; }
+.rareFlyer { background: #fff2cc; color: #8a6100; padding: 1px 6px; border-radius: 3px; font-size: 0.7rem; margin-left: 6px; font-weight: 600; }
+.muted { color: #888; font-size: 0.9rem; }
