@@ -390,25 +390,6 @@ export default async function CarDetailPage({
           // stands on its own.
           return (
             <>
-              {hasPerformance && (
-                <details className={styles.signpost} open>
-                  <summary className={styles.signpostSummary}>Performance</summary>
-                  <div className={styles.signpostBody}>
-                    <dl className={styles.specGrid}>
-                      {performance.map((raw) => {
-                        const { label, value } = splitSpecPair(raw);
-                        return (
-                          <div key={raw} className={styles.specRow}>
-                            <dt className={styles.specLabel}>{label}</dt>
-                            <dd className={styles.specValue}>{value}</dd>
-                          </div>
-                        );
-                      })}
-                    </dl>
-                  </div>
-                </details>
-              )}
-
               {(equipment.length > 0 || featureGroups.length > 0 || car.features_options.length > 0) && (
                 <details className={styles.signpost}>
                   <summary className={styles.signpostSummary}>Features</summary>
@@ -448,6 +429,25 @@ export default async function CarDetailPage({
                         ))}
                       </ul>
                     )}
+                  </div>
+                </details>
+              )}
+
+              {hasPerformance && (
+                <details className={styles.signpost} open>
+                  <summary className={styles.signpostSummary}>Performance</summary>
+                  <div className={styles.signpostBody}>
+                    <dl className={styles.specGrid}>
+                      {performance.map((raw) => {
+                        const { label, value } = splitSpecPair(raw);
+                        return (
+                          <div key={raw} className={styles.specRow}>
+                            <dt className={styles.specLabel}>{label}</dt>
+                            <dd className={styles.specValue}>{value}</dd>
+                          </div>
+                        );
+                      })}
+                    </dl>
                   </div>
                 </details>
               )}
