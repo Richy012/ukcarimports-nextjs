@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import styles from "../../../page.module.css";
-import AdminCzLink from "./AdminCzLink";
+import AdminWhyDetails from "./AdminWhyDetails";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
 
@@ -13,15 +13,10 @@ export const metadata: Metadata = {
 };
 
 interface WhyMatch {
-  irish_version: string;
   irish_year: number;
-  irish_mileage_km: number | null;
   irish_price: number;
-  irish_county: string | null;
-  irish_dealer: string | null;
-  irish_url: string | null;
   match_score: number;
-  snapshot_saving_pct: number;
+  mileage_relation: "higher" | "lower" | "similar" | null;
   live_saving_pct: number | null;
   direction: string;
 }
@@ -46,13 +41,7 @@ interface WhyData {
     saving_eur: number;
   } | null;
   matches: WhyMatch[];
-  segment_ads: {
-    irish_version: string;
-    irish_year: number;
-    irish_mileage_km: number | null;
-    irish_price: number;
-    irish_county: string | null;
-  }[];
+  segment_market: { listings: number; low: number; high: number } | null;
   segment: {
     make: string;
     model: string;
@@ -187,76 +176,44 @@ export default async function BestValueWhyPage(props: {
 
       {data.matches.length > 0 && (
         <section className={styles.whyBlock}>
-          <h2>The real Irish ads behind this ({data.matches.length})</h2>
-          <div className={styles.whyTableWrap}>
-            <table className={styles.whyTable}>
-              <thead>
-                <tr>
-                  <th>Irish version</th>
-                  <th>Year</th>
-                  <th>Mileage</th>
-                  <th>County</th>
-                  <th>Asking</th>
-                  <th>Match</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.matches.map((m, i) => (
-                  <tr key={i}>
-                    <td>{m.irish_version}</td>
-                    <td>{m.irish_year}</td>
-                    <td>{m.irish_mileage_km ? `${m.irish_mileage_km.toLocaleString()} km` : "—"}</td>
-                    <td>{m.irish_county ?? "—"}</td>
-                    <td>{eur(m.irish_price)}</td>
-                    <td>{confidenceLabel(m.match_score)}</td>
-                    <td>
-                      <AdminCzLink url={m.irish_url} />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <h2>The real Irish {data.matches.length === 1 ? "advert" : "adverts"} behind this</h2>
+          <ul>
+            {data.matches.map((m, i) => (
+              <li key={i}>
+                A live Irish advert for the same model ({m.irish_year}) &mdash;{" "}
+                {confidenceLabel(m.match_score).toLowerCase()}
+                {m.mileage_relation === "higher" && ", carrying higher mileage than ours"}
+                {m.mileage_relation === "lower" && ", carrying lower mileage than ours"}
+                {m.mileage_relation === "similar" && ", with similar mileage to ours"} &mdash; asking{" "}
+                <strong>{eur(m.irish_price)}</strong>.
+              </li>
+            ))}
+          </ul>
+          <p style={{ fontSize: "0.85rem", color: "#777" }}>
+            We deliberately don&rsquo;t reproduce other sellers&rsquo; advert details &mdash; the
+            comparison uses the advertised asking price only.
+          </p>
         </section>
       )}
 
-      {data.segment_ads && data.segment_ads.length > 0 && (
+      {data.segment_market && (
         <section className={styles.whyBlock}>
           <h2>
-            The Irish market: <span style={{ textTransform: "capitalize" }}>{data.make} {data.model}</span> ({data.year}) —{" "}
-            {data.segment_ads.length} matched Irish {data.segment_ads.length === 1 ? "listing" : "listings"}
+            The Irish market:{" "}
+            <span style={{ textTransform: "capitalize" }}>
+              {data.make} {data.model}
+            </span>{" "}
+            ({data.year})
           </h2>
           <p>
-            Every distinct Irish advert our matching found for this exact model and year, listed
-            once, cheapest first. This is the market the saving is measured against.
+            {data.segment_market.listings} live Irish{" "}
+            {data.segment_market.listings === 1 ? "listing" : "listings"} for this model and year,
+            asking roughly {eur(data.segment_market.low)}&ndash;{eur(data.segment_market.high)}.
           </p>
-          <div className={styles.whyTableWrap}>
-            <table className={styles.whyTable}>
-              <thead>
-                <tr>
-                  <th>Irish version</th>
-                  <th>Year</th>
-                  <th>Mileage</th>
-                  <th>County</th>
-                  <th>Asking</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.segment_ads.map((a, i) => (
-                  <tr key={i}>
-                    <td>{a.irish_version}</td>
-                    <td>{a.irish_year}</td>
-                    <td>{a.irish_mileage_km ? `${a.irish_mileage_km.toLocaleString()} km` : "—"}</td>
-                    <td>{a.irish_county ?? "—"}</td>
-                    <td>{eur(a.irish_price)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
         </section>
       )}
+
+      <AdminWhyDetails carId={data.car_id} />
 
       <section className={styles.whyBlock}>
         <details>
