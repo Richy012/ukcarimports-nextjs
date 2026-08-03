@@ -75,6 +75,7 @@ interface CarDetail {
   transport_postcode?: string | null;
   car_url: string | null;
   created_at: string | null;
+  registration_date: string | null;
   price_frozen: boolean;
   price_history: PriceHistoryRow[];
 }
@@ -390,6 +391,9 @@ export default function AdminCarsClient() {
                         <div className={styles.totalsRow}>
                           <span>
                             Added <strong>{detail.created_at ?? "-"}</strong>
+                          </span>
+                          <span>
+                            First registered <strong>{detail.registration_date ?? "-"}</strong>
                           </span>
                           <span>
                             Before VRT <strong>{eur(detail.breakdown.total_price_before_vrt)}</strong>
