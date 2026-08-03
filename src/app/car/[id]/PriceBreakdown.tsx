@@ -422,7 +422,7 @@ export default function PriceBreakdown({
                 <span className={styles.depositHeroPrice}>{finalPriceLabel}</span>
               </div>
             </div>
-            <div className={`${styles.depositBody} wm-light`}>
+            <div className={styles.depositBody}>
 
             {availability === "sold" ? (
               <>
@@ -517,8 +517,8 @@ export default function PriceBreakdown({
                   </div>
 
                   <div className={styles.depositSummary}>
-                    <div>Mechanical Inspection: {includeInspection ? `Included (+€${formatEuro(carInfo.mechanical_inspection_fee)})` : "Not included"}</div>
-                    <div>Warranty: {includeWarranty && selectedTier ? `${selectedTier.label} 12 Months (+€${selectedTier.price})` : "Not included"}</div>
+                    <div>Mechanical Inspection: {includeInspection ? `Included (+€${formatEuro(carInfo.mechanical_inspection_fee)})` : <strong>Not included</strong>}</div>
+                    <div>Warranty: {includeWarranty && selectedTier ? `${selectedTier.label} 12 Months (+€${selectedTier.price})` : <strong>Not included</strong>}</div>
                   </div>
 
                   <label className={styles.checkboxField}>
