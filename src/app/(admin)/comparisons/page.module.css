@@ -251,3 +251,7 @@
 .segSearch input { padding: 6px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.85rem; min-width: 200px; }
 .segSearch button { padding: 6px 12px; border: 1px solid #ddd; background: #fff; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
 .segChevron { color: #b60b0c; font-weight: 700; text-align: right; width: 24px; }
+
+.sortable { cursor: pointer; user-select: none; white-space: nowrap; }
+.sortable:hover { color: #b60b0c; }
+.sortArrow { color: #b60b0c; font-size: 0.7rem; }

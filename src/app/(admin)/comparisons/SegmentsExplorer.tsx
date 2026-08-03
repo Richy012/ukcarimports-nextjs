@@ -65,6 +65,8 @@ export default function SegmentsExplorer() {
   const [level, setLevel] = useState("flat");
   const [snapshot, setSnapshot] = useState("");
   const [loading, setLoading] = useState(true);
+  const [sortKey, setSortKey] = useState<string>("flyers");
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
 
   const load = useCallback(() => {
     setLoading(true);
@@ -104,6 +106,46 @@ export default function SegmentsExplorer() {
     else if (level === "models") setModel(label);
     else if (level === "years") setYear(Number(label));
   };
+
+  const sortBy = (key: string) => {
+    if (sortKey === key) {
+      setSortDir(sortDir === "desc" ? "asc" : "desc");
+    } else {
+      setSortKey(key);
+      setSortDir(key === "label" ? "asc" : "desc");
+    }
+  };
+
+  // Client-side: the flat list is capped at 2,000 rows, so sorting in the
+  // browser is instant and avoids a round trip per click.
+  const EVIDENCE_RANK: Record<string, number> = { verified: 3, trend: 2, thin: 1 };
+  const sortedRows = [...rows].sort((a, b) => {
+    const dir = sortDir === "asc" ? 1 : -1;
+    let av: number | string;
+    let bv: number | string;
+    if (sortKey === "label") {
+      av = String(a.label);
+      bv = String(b.label);
+      return av.localeCompare(bv) * dir;
+    }
+    if (sortKey === "evidence") {
+      av = EVIDENCE_RANK[a.evidence] ?? 0;
+      bv = EVIDENCE_RANK[b.evidence] ?? 0;
+    } else {
+      av = Number((a as unknown as Record<string, number>)[sortKey] ?? 0);
+      bv = Number((b as unknown as Record<string, number>)[sortKey] ?? 0);
+    }
+    return (Number(av) - Number(bv)) * dir;
+  });
+
+  const th = (key: string, label: string) => (
+    <th className={styles.sortable} onClick={() => sortBy(key)}>
+      {label}
+      <span className={styles.sortArrow}>
+        {sortKey === key ? (sortDir === "desc" ? " ▼" : " ▲") : ""}
+      </span>
+    </th>
+  );
 
   const trend = (v: number | null) =>
     Number(v) > 0
@@ -152,26 +194,26 @@ export default function SegmentsExplorer() {
         <>
           <p className={styles.muted}>
             {rows.length.toLocaleString()} {level === "flat" ? "segments" : level} ·
-            click any row to open it
+            click a column heading to sort, or any row to open it
           </p>
           <div className={styles.tableWrap}>
             <table className={styles.table}>
               <thead>
                 <tr>
-                  <th>{level === "flat" ? "Segment" : level === "makes" ? "Make" : level === "models" ? "Model" : "Year"}</th>
-                  <th>Our cars</th>
-                  <th>Irish ads</th>
-                  <th>Evidence</th>
-                  <th>Our avg</th>
-                  <th>Irish median</th>
-                  <th>Trend</th>
-                  <th>Bestsellers</th>
-                  <th>#1</th>
+                  {th("label", level === "flat" ? "Segment" : level === "makes" ? "Make" : level === "models" ? "Model" : "Year")}
+                  {th("live_cars", "Our cars")}
+                  {th("irish_ads", "Irish ads")}
+                  {th("evidence", "Evidence")}
+                  {th("our_avg_price", "Our avg")}
+                  {th("irish_avg_median", "Irish median")}
+                  {th("avg_saving", "Trend")}
+                  {th("flyers", "Bestsellers")}
+                  {th("rare_flyers", "#1")}
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                {rows.map((r) => (
+                {sortedRows.map((r) => (
                   <tr key={r.label} className={styles.segRow}
                       onClick={() => (level === "flat" ? openSegment(r) : drill(r.label))}>
                     <td><strong>{title(r.label)}</strong></td>
