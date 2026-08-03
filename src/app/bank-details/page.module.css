@@ -1,0 +1,102 @@
+.page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 30px 16px 50px;
+}
+
+.page h1 {
+  font-size: 1.8rem;
+  margin: 0 0 16px;
+}
+
+.lead {
+  color: #444;
+  line-height: 1.6;
+  margin: 0 0 22px;
+}
+
+.card {
+  border: 1px solid #e6e8eb;
+  border-radius: 12px;
+  padding: 6px 20px;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 14px 0;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.table tr + tr th,
+.table tr + tr td {
+  border-top: 1px solid #eef0f2;
+}
+
+.table th {
+  width: 42%;
+  color: #6b7280;
+  font-weight: 500;
+  font-size: 0.92rem;
+  padding-right: 16px;
+}
+
+.table td {
+  font-weight: 600;
+  color: #171717;
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  word-break: break-all;
+}
+
+.note {
+  margin-top: 22px;
+  background: #fafafa;
+  border: 1px solid #e6e8eb;
+  border-radius: 10px;
+  padding: 16px 20px;
+}
+
+.note p {
+  margin: 0 0 10px;
+  color: #444;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.note p:last-child {
+  margin-bottom: 0;
+}
+
+.help {
+  margin-top: 22px;
+  color: #444;
+  line-height: 1.6;
+}
+
+.help a {
+  color: #b60b0c;
+  font-weight: 600;
+}
+
+@media (max-width: 560px) {
+  .table th {
+    width: 40%;
+    font-size: 0.85rem;
+  }
+
+  .table td {
+    font-size: 0.95rem;
+  }
+}
