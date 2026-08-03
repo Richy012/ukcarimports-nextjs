@@ -85,6 +85,7 @@ interface Filters {
   maxMileage: string;
   price_sort: string;
   mileage_sort: string;
+  bestseller: string;
 }
 
 async function getCars(
@@ -131,6 +132,9 @@ async function getCars(
       version: versionChips.join(" "),
       versionChips,
       vrt: "",
+      // Bestseller Series: only cars carrying a live badge (priced €2,500+
+      // under the Irish market under the frozen two-route rule).
+      bestsellerSeries: filters.bestseller,
     }),
     // Inventory changes frequently (see llms.txt note written earlier) --
     // this is not content that should be statically cached across visitors.
@@ -210,6 +214,7 @@ export default async function UsedCarsPage({
     maxMileage: firstParam(params, "maxMileage"),
     price_sort: firstParam(params, "price_sort"),
     mileage_sort: firstParam(params, "mileage_sort"),
+    bestseller: firstParam(params, "bestseller"),
   };
   const searchChips = allParams(params, "searchChips");
   const versionChips = allParams(params, "versionChips");
@@ -298,6 +303,7 @@ export default async function UsedCarsPage({
         currentSearchChips={searchChips}
         currentVersionChips={versionChips}
         currentSort={currentSort}
+        currentBestseller={filters.bestseller}
         initialCars={data.cars.map(stripStaffPriceFields)}
         initialCount={data.count}
         currentPage={currentPage}

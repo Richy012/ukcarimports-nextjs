@@ -104,6 +104,57 @@
   background: #454443;
 }
 
+/* Bestseller Series tile badges — colourful and engaging by design (owner
+   brief), but honest: the euro line is the live saving vs the Irish market. */
+.badgeBestseller,
+.badgeNumberOne,
+.badgeTrending {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 5px 11px 6px;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  /* house bevel: bright top edge, dark bottom edge */
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+}
+
+.badgeBestseller {
+  background: linear-gradient(135deg, #d21415 0%, #b60b0c 55%, #8f0809 100%);
+}
+
+.badgeNumberOne {
+  background: linear-gradient(135deg, #8f0809 0%, #6e0506 60%, #4f0304 100%);
+}
+
+.badgeNumberOne .badgeTierLine {
+  color: #f5c542; /* the brand gold dash */
+}
+
+.badgeTrending {
+  background: linear-gradient(135deg, #1273d4 0%, #0b5cb6 55%, #094a92 100%);
+}
+
+.badgeTierLine {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+.badgeSavingLine {
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  opacity: 0.95;
+}
+
+/* Premium badge drops below a Bestseller badge instead of overlapping it. */
+.badgeBelow {
+  top: 56px;
+}
+
 .cardImage {
   width: 100%;
   height: 210px;

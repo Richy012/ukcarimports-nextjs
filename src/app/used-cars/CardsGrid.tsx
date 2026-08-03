@@ -23,6 +23,39 @@ interface Car {
   thumb_v?: string | null;
   photo_count?: number;
   photo_ids?: number[];
+  bestseller_tier?: string | null;
+  bestseller_saving_eur?: number | null;
+}
+
+// Tile badge for the Bestseller Series. The euro figure is the live saving
+// vs the Irish market (refreshed every 15 min server-side). Trending badges
+// hedge: evidence is real but thin, so the figure is rounded to the nearest
+// €500 and phrased as "around", never shown under €1,000 (wording guard —
+// see the comparison-method notes).
+function bestsellerBadge(car: Car): { cls: string; label: string; saving: string } | null {
+  const tier = car.bestseller_tier;
+  if (!tier) return null;
+  const sav = Number(car.bestseller_saving_eur ?? 0);
+  if (tier === "number_one") {
+    return {
+      cls: "badgeNumberOne",
+      label: "#1 Bestseller",
+      saving: sav >= 1000 ? `€${formatEuro(sav)} less than in Ireland` : "",
+    };
+  }
+  if (tier === "bestseller") {
+    return {
+      cls: "badgeBestseller",
+      label: "Bestseller",
+      saving: sav >= 1000 ? `€${formatEuro(sav)} less than in Ireland` : "",
+    };
+  }
+  const rounded = Math.round(sav / 500) * 500;
+  return {
+    cls: "badgeTrending",
+    label: "Trending Bestseller",
+    saving: rounded >= 1000 ? `around €${formatEuro(rounded)} less in Ireland` : "",
+  };
 }
 
 function buildCarYear(car: Car): string {
@@ -117,10 +150,18 @@ export default function CardsGrid({ cars }: { cars: Car[] }) {
         const imageUrl = `${API_BASE}/car-thumb/${car.car_id}${car.thumb_v ? `?v=${car.thumb_v}` : ""}`;
         const isSaved = savedIds.has(car.car_id);
 
+        const badge = bestsellerBadge(car);
+
         return (
           <Link key={car.car_id} href={`/car/${car.car_id}`} className={styles.card}>
+            {badge ? (
+              <span className={`${styles.badge} ${styles[badge.cls]}`}>
+                <span className={styles.badgeTierLine}>&#9889; {badge.label}</span>
+                {badge.saving ? <span className={styles.badgeSavingLine}>{badge.saving}</span> : null}
+              </span>
+            ) : null}
             {car.premium_car === 1 ? (
-              <span className={`${styles.badge} ${styles.badgePremium}`}>★ Premium</span>
+              <span className={`${styles.badge} ${styles.badgePremium} ${badge ? styles.badgeBelow : ""}`}>★ Premium</span>
             ) : null}
             <button
               type="button"

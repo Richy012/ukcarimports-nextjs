@@ -24,6 +24,8 @@ interface Car {
   premium_car: number;
   is_manheim_car: string;
   car_info?: { final_price?: number };
+  bestseller_tier?: string | null;
+  bestseller_saving_eur?: number | null;
 }
 
 interface FilterBarProps {
@@ -50,6 +52,7 @@ interface FilterBarProps {
   currentSearchChips: string[];
   currentVersionChips: string[];
   currentSort: string;
+  currentBestseller: string;
   initialCars: Car[];
   initialCount: number;
   currentPage: number;
@@ -218,6 +221,7 @@ export default function FilterBar({
   currentSearchChips,
   currentVersionChips,
   currentSort,
+  currentBestseller,
   initialCars,
   initialCount,
   currentPage,
@@ -244,6 +248,7 @@ export default function FilterBar({
   const [searchChips, setSearchChips] = useState<string[]>(currentSearchChips);
   const [versionChips, setVersionChips] = useState<string[]>(currentVersionChips);
   const [sort, setSort] = useState(currentSort);
+  const [bestseller, setBestseller] = useState(currentBestseller);
   const [models, setModels] = useState<Option[]>([]);
   const [modelsLoading, setModelsLoading] = useState(false);
   const [liveCars, setLiveCars] = useState<Car[]>(initialCars);
@@ -280,6 +285,7 @@ export default function FilterBar({
     minMileage !== currentMinMileage ||
     maxMileage !== currentMaxMileage ||
     sort !== currentSort ||
+    bestseller !== currentBestseller ||
     searchChips.join(" ") !== currentSearchChips.join(" ") ||
     versionChips.join(" ") !== currentVersionChips.join(" ");
 
@@ -345,6 +351,7 @@ export default function FilterBar({
             versionChips,
             price_sort,
             mileage_sort,
+            bestsellerSeries: bestseller,
             pagenum: 0,
             limit: 25,
           }),
@@ -363,7 +370,7 @@ export default function FilterBar({
     }, 400);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [make, model, fuel, bodyStyle, transmission, seats, color, minEnginesize, maxEnginesize, minYear, maxYear, minPrice, maxPrice, minMileage, maxMileage, searchChips, versionChips, sort]);
+  }, [make, model, fuel, bodyStyle, transmission, seats, color, minEnginesize, maxEnginesize, minYear, maxYear, minPrice, maxPrice, minMileage, maxMileage, searchChips, versionChips, sort, bestseller]);
 
   // Reassigned every render so the IntersectionObserver callback always sees
   // the current filter state without re-registering the observer.
@@ -400,6 +407,7 @@ export default function FilterBar({
           versionChips,
           price_sort,
           mileage_sort,
+          bestsellerSeries: bestseller,
           pagenum: loadedPage + 1,
           limit: 25,
         }),
@@ -463,6 +471,7 @@ export default function FilterBar({
     versionChips.forEach((c) => params.append("versionChips", c));
     if (price_sort) params.set("price_sort", price_sort);
     if (mileage_sort) params.set("mileage_sort", mileage_sort);
+    if (bestseller) params.set("bestseller", bestseller);
     const qs = params.toString();
     router.push(qs ? `/used-cars?${qs}` : "/used-cars");
   }
@@ -474,14 +483,27 @@ export default function FilterBar({
   const hasAnyFilter = !!(
     make || model || fuel || bodyStyle || transmission || seats || color ||
     minEnginesize || maxEnginesize || minYear || maxYear || minPrice || maxPrice ||
-    minMileage || maxMileage || searchChips.length || versionChips.length || sort
+    minMileage || maxMileage || searchChips.length || versionChips.length || sort || bestseller
   );
 
-  const activeFilters = [make, model, fuel, bodyStyle, transmission, seats ? `${seats} seats` : "", color].filter(Boolean);
+  const activeFilters = [bestseller ? "Bestseller Series" : "", make, model, fuel, bodyStyle, transmission, seats ? `${seats} seats` : "", color].filter(Boolean);
 
   return (
     <>
       <div className={styles.wrapper}>
+        <button
+          type="button"
+          className={`${styles.bestsellerToggle} ${bestseller ? styles.bestsellerToggleOn : ""}`}
+          onClick={() => setBestseller(bestseller ? "" : "1")}
+          aria-pressed={!!bestseller}
+        >
+          <span className={styles.bestsellerFlash} aria-hidden="true">&#9889;</span>
+          Bestseller Series
+          <span className={styles.bestsellerToggleHint}>
+            {bestseller ? "Showing cars priced under the Irish market" : "Cars priced under the Irish market"}
+          </span>
+        </button>
+
         <ChipSearch
           label="Search features"
           placeholder="e.g. leather seats, Apple CarPlay"
