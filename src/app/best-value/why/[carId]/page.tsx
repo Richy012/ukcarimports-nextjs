@@ -44,6 +44,13 @@ interface WhyData {
     saving_eur: number;
   } | null;
   matches: WhyMatch[];
+  segment_ads: {
+    irish_version: string;
+    irish_year: number;
+    irish_mileage_km: number | null;
+    irish_price: number;
+    irish_county: string | null;
+  }[];
   segment: {
     make: string;
     model: string;
@@ -71,6 +78,14 @@ async function getWhy(carId: string): Promise<WhyData | null> {
   } catch {
     return null;
   }
+}
+
+// Plain-English identity grade: match_score measures advert-text mess, not
+// car dissimilarity, so customers get words rather than a raw decimal.
+function confidenceLabel(score: number): string {
+  if (score >= 0.95) return "Exact spec match";
+  if (score >= 0.8) return "Close spec match";
+  return "Similar model";
 }
 
 const eur = (n: number) => `€${Math.round(n).toLocaleString()}`;
@@ -146,8 +161,8 @@ export default async function BestValueWhyPage(props: {
           </p>
           <p>
             Qualifies because the saving clears €2,500 (a Bestseller; €5,000+ makes a #1
-            Bestseller) against a real Irish advert, match confidence{" "}
-            {qualifyingMatch.match_score}.
+            Bestseller) against a real Irish advert ({confidenceLabel(qualifyingMatch.match_score).toLowerCase()},
+            same model and year).
           </p>
         </section>
       )}
@@ -180,8 +195,7 @@ export default async function BestValueWhyPage(props: {
                   <th>Mileage</th>
                   <th>County</th>
                   <th>Asking</th>
-                  <th>Confidence</th>
-                  <th>Live saving</th>
+                  <th>Match</th>
                   <th></th>
                 </tr>
               </thead>
@@ -193,8 +207,7 @@ export default async function BestValueWhyPage(props: {
                     <td>{m.irish_mileage_km ? `${m.irish_mileage_km.toLocaleString()} km` : "—"}</td>
                     <td>{m.irish_county ?? "—"}</td>
                     <td>{eur(m.irish_price)}</td>
-                    <td>{m.match_score}</td>
-                    <td>{m.live_saving_pct !== null ? `${m.live_saving_pct}%` : "—"}</td>
+                    <td>{confidenceLabel(m.match_score)}</td>
                     <td>
                       <AdminCzLink url={m.irish_url} />
                     </td>
@@ -206,31 +219,35 @@ export default async function BestValueWhyPage(props: {
         </section>
       )}
 
-      {seg && seg.siblings.length > 0 && (
+      {data.segment_ads && data.segment_ads.length > 0 && (
         <section className={styles.whyBlock}>
           <h2>
-            Class evidence: {seg.make} {seg.model} ({seg.year}) — {seg.siblings.length} other
-            matched examples
+            The Irish market: {data.car_name.split(" ").slice(0, 2).join(" ")} ({data.year}) —{" "}
+            {data.segment_ads.length} matched Irish {data.segment_ads.length === 1 ? "listing" : "listings"}
           </h2>
+          <p>
+            Every distinct Irish advert our matching found for this exact model and year, listed
+            once, cheapest first. This is the market the saving is measured against.
+          </p>
           <div className={styles.whyTableWrap}>
             <table className={styles.whyTable}>
               <thead>
                 <tr>
-                  <th>Car</th>
-                  <th>Landed price</th>
-                  <th>Irish asking</th>
-                  <th>Saving</th>
+                  <th>Irish version</th>
+                  <th>Year</th>
+                  <th>Mileage</th>
+                  <th>County</th>
+                  <th>Asking</th>
                 </tr>
               </thead>
               <tbody>
-                {seg.siblings.map((s) => (
-                  <tr key={s.car_id}>
-                    <td>
-                      <Link href={`/car/${s.car_id}`}>{s.car_id}</Link>
-                    </td>
-                    <td>{eur(s.landed_price)}</td>
-                    <td>{eur(s.irish_price)}</td>
-                    <td>{s.saving_pct}%</td>
+                {data.segment_ads.map((a, i) => (
+                  <tr key={i}>
+                    <td>{a.irish_version}</td>
+                    <td>{a.irish_year}</td>
+                    <td>{a.irish_mileage_km ? `${a.irish_mileage_km.toLocaleString()} km` : "—"}</td>
+                    <td>{a.irish_county ?? "—"}</td>
+                    <td>{eur(a.irish_price)}</td>
                   </tr>
                 ))}
               </tbody>
