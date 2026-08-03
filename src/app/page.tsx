@@ -37,16 +37,20 @@ interface BestValueCar extends HomeCar {
   };
 }
 
-// Euro-first badge text, same conventions as the listing tiles: full tiers
-// state the live figure, Trending hedges (rounded €500, "around").
-function bestValueBadgeText(bv: BestValueCar["best_value"]): string {
+// Euro-first badge, compact two-line form (tier + saving), same conventions
+// as the listing tiles: full tiers state the live figure, Trending hedges
+// (rounded €500, "around").
+function bestValueBadgeParts(bv: BestValueCar["best_value"]): { tier: string; saving: string } {
   const sav = Math.round(bv.saving_eur);
-  if (bv.tier === "number_one") return `#1 Bestseller — €${sav.toLocaleString()} less than in Ireland`;
-  if (bv.tier === "bestseller") return `Bestseller — €${sav.toLocaleString()} less than in Ireland`;
+  if (bv.tier === "number_one")
+    return { tier: "#1 Bestseller", saving: `€${sav.toLocaleString()} less than in Ireland` };
+  if (bv.tier === "bestseller")
+    return { tier: "Bestseller", saving: `€${sav.toLocaleString()} less than in Ireland` };
   const rounded = Math.round(sav / 500) * 500;
-  return rounded >= 1000
-    ? `Trending Bestseller — around €${rounded.toLocaleString()} less in Ireland`
-    : "Trending Bestseller";
+  return {
+    tier: "Trending Bestseller",
+    saving: rounded >= 1000 ? `around €${rounded.toLocaleString()} less in Ireland` : "",
+  };
 }
 
 async function getHomeData() {
@@ -147,7 +151,12 @@ export default async function HomePage() {
                 <div key={c.car_id} className={styles.valueItem}>
                 <Link href={`/car/${c.car_id}`} className={styles.arrivalCard}>
                   <span className={styles.valueBadge}>
-                    {bestValueBadgeText(c.best_value)}
+                    <span className={styles.valueBadgeTier}>{bestValueBadgeParts(c.best_value).tier}</span>
+                    {bestValueBadgeParts(c.best_value).saving && (
+                      <span className={styles.valueBadgeSaving}>
+                        {bestValueBadgeParts(c.best_value).saving}
+                      </span>
+                    )}
                   </span>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={c.featured_image} alt={c.car_name} loading="lazy" />

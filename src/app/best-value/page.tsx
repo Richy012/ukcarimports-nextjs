@@ -27,16 +27,20 @@ interface BestValueCar {
   };
 }
 
-// Euro-first badge text, same conventions as the listing tiles: full tiers
-// state the live figure, Trending hedges (rounded €500, "around").
-function badgeText(bv: BestValueCar["best_value"]): string {
+// Euro-first badge, compact two-line form (tier + saving), same conventions
+// as the listing tiles: full tiers state the live figure, Trending hedges
+// (rounded €500, "around").
+function badgeParts(bv: BestValueCar["best_value"]): { tier: string; saving: string } {
   const sav = Math.round(bv.saving_eur);
-  if (bv.tier === "number_one") return `#1 Bestseller — €${sav.toLocaleString()} less than in Ireland`;
-  if (bv.tier === "bestseller") return `Bestseller — €${sav.toLocaleString()} less than in Ireland`;
+  if (bv.tier === "number_one")
+    return { tier: "#1 Bestseller", saving: `€${sav.toLocaleString()} less than in Ireland` };
+  if (bv.tier === "bestseller")
+    return { tier: "Bestseller", saving: `€${sav.toLocaleString()} less than in Ireland` };
   const rounded = Math.round(sav / 500) * 500;
-  return rounded >= 1000
-    ? `Trending Bestseller — around €${rounded.toLocaleString()} less in Ireland`
-    : "Trending Bestseller";
+  return {
+    tier: "Trending Bestseller",
+    saving: rounded >= 1000 ? `around €${rounded.toLocaleString()} less in Ireland` : "",
+  };
 }
 
 async function getBestValue() {
@@ -68,11 +72,22 @@ export default async function BestValuePage() {
           our prices fully landed: VRT, VAT, customs &amp; delivery included.
           Irish figures are asking prices; ours is the final price.
         </p>
+        <p className={styles.valueCtaRow}>
+          <Link href="/used-cars?bestseller=1" className={styles.valueCta}>
+            {`Browse & filter all ${count.toLocaleString()} Bestsellers — make, model, price, year `}
+            &rarr;
+          </Link>
+        </p>
         <div className={styles.arrivalGrid}>
           {cars.map((c) => (
             <div key={c.car_id} className={styles.valueItem}>
             <Link href={`/car/${c.car_id}`} className={styles.arrivalCard}>
-              <span className={styles.valueBadge}>{badgeText(c.best_value)}</span>
+              <span className={styles.valueBadge}>
+                <span className={styles.valueBadgeTier}>{badgeParts(c.best_value).tier}</span>
+                {badgeParts(c.best_value).saving && (
+                  <span className={styles.valueBadgeSaving}>{badgeParts(c.best_value).saving}</span>
+                )}
+              </span>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={c.featured_image} alt={c.car_name} loading="lazy" />
               <span className={styles.arrivalName}>{c.car_name}</span>
@@ -95,7 +110,11 @@ export default async function BestValuePage() {
           ))}
         </div>
         <p className={styles.arrivalsMore}>
-          <Link href="/used-cars">Browse the full stocklist &rarr;</Link>
+          <Link href="/used-cars?bestseller=1">
+            Browse &amp; filter all {count.toLocaleString()} Bestsellers &rarr;
+          </Link>
+          {" · "}
+          <Link href="/used-cars">Full stocklist &rarr;</Link>
         </p>
       </div>
     </main>
