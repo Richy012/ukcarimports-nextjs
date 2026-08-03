@@ -15,6 +15,15 @@ export async function proxyRequest(req: NextRequest, apiPath: string) {
   const authToken = req.headers.get("x-auth-token");
   if (authToken) headers["X-Auth-Token"] = authToken;
 
+  // Forward the browser's Origin. Server-to-server fetch drops it otherwise,
+  // and the API uses it to decide which site a request came from -- the
+  // deposit success/cancel URLs, and (during a deposit test window) which
+  // Stripe key to use. Without this every proxied deposit looked origin-less
+  // and fell back to the live key, so a staging test produced a cs_live_
+  // session and Stripe rejected the 4242 test card.
+  const origin = req.headers.get("origin");
+  if (origin) headers["Origin"] = origin;
+
   const hasBody = req.method !== "GET" && req.method !== "HEAD";
   const body = hasBody ? await req.text() : undefined;
 
