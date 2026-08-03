@@ -97,6 +97,16 @@ function nodePosition(index: number): { x: number; y: number } {
   return { x: CENTER + R * Math.cos(angle), y: CENTER + R * Math.sin(angle) };
 }
 
+// Inner "2 weeks" arc: Deposit round to Handover, parallel to the main ring.
+const TIMELINE_START = STEPS.findIndex((s) => s.short === "Deposit");
+const TIMELINE_END = STEPS.findIndex((s) => s.short === "Handover");
+const TIMELINE_R = R - 32;
+
+function ringPoint(index: number, r: number): { x: number; y: number } {
+  const angle = ((index / STEPS.length) * 360 - 90) * (Math.PI / 180);
+  return { x: CENTER + r * Math.cos(angle), y: CENTER + r * Math.sin(angle) };
+}
+
 export default function HowItWorksClient() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -150,6 +160,26 @@ export default function HowItWorksClient() {
               strokeDashoffset={circumference - progress}
               transform={`rotate(-90 ${CENTER} ${CENTER})`}
             />
+            {(() => {
+              const a = ringPoint(TIMELINE_START, TIMELINE_R);
+              const b = ringPoint(TIMELINE_END, TIMELINE_R);
+              const sweep = ((TIMELINE_END - TIMELINE_START) / STEPS.length) * 360;
+              const midAngle =
+                (((TIMELINE_START + TIMELINE_END) / 2 / STEPS.length) * 360 - 90) * (Math.PI / 180);
+              const lx = CENTER + (TIMELINE_R - 20) * Math.cos(midAngle);
+              const ly = CENTER + (TIMELINE_R - 20) * Math.sin(midAngle);
+              return (
+                <g aria-label="Deposit to handover takes about two weeks">
+                  <path
+                    d={`M ${a.x} ${a.y} A ${TIMELINE_R} ${TIMELINE_R} 0 ${sweep > 180 ? 1 : 0} 1 ${b.x} ${b.y}`}
+                    className={styles.timelineArc}
+                  />
+                  <text x={lx} y={ly} className={styles.timelineLabel}>
+                    2 weeks
+                  </text>
+                </g>
+              );
+            })()}
             {STEPS.map((s, i) => {
               const { x, y } = nodePosition(i);
               const isActive = i === active;
@@ -193,12 +223,6 @@ export default function HowItWorksClient() {
               strokeWidth={1.5}
               className={styles.centerSvgIcon}
             />
-            <text x={CENTER} y={CENTER + 52} className={styles.centerTime}>
-              Deposit to handover
-            </text>
-            <text x={CENTER} y={CENTER + 70} className={styles.centerTimeStrong}>
-              ~2 weeks
-            </text>
           </svg>
         </div>
 

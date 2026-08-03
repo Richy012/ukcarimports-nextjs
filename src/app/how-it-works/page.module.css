@@ -373,16 +373,19 @@
   color: #b01112;
 }
 
-.centerTime {
-  font-size: 12px;
-  font-weight: 600;
-  text-anchor: middle;
-  fill: #999;
+.timelineArc {
+  fill: none;
+  stroke: #32cd32;
+  stroke-width: 2.5;
+  stroke-linecap: round;
 }
 
-.centerTimeStrong {
-  font-size: 16px;
+.timelineLabel {
+  font-size: 13px;
   font-weight: 800;
   text-anchor: middle;
-  fill: #b60b0c;
+  fill: #32cd32;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-width: 4px;
 }
