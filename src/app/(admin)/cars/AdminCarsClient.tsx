@@ -52,6 +52,7 @@ interface CarDetail {
     after_irish_vat: number;
     shipping_fee: number;
     customs_agent_fee: number;
+    customs_clearance_fee?: number;
     service_fee: number;
     mechanical_inspection_fee: number;
     vrt_rate: number;
@@ -68,6 +69,8 @@ interface CarDetail {
   exchange_rate: number | null;
   raw_price_gbp: string | null;
   auction_company_name: string | null;
+  transport_miles?: number | null;
+  transport_postcode?: string | null;
   car_url: string | null;
   created_at: string | null;
   price_frozen: boolean;
@@ -325,7 +328,15 @@ export default function AdminCarsClient() {
                             <p className={styles.detailLabel}>Fees</p>
                             <div className={styles.detailRows}>
                               <span>
-                                <span>Customs agent</span>
+                                <span>Customs clearance</span>
+                                <span>{eur(detail.breakdown.customs_clearance_fee ?? 200)}</span>
+                              </span>
+                              <span>
+                                <span>
+                                  {detail.transport_miles
+                                    ? `Transport from ${detail.transport_postcode ?? "garage"}`
+                                    : "Transport (default)"}
+                                </span>
                                 <span>{eur(detail.breakdown.customs_agent_fee)}</span>
                               </span>
                               <span>
