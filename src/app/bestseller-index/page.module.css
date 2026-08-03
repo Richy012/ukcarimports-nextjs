@@ -1,0 +1,171 @@
+.main {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+}
+
+.hero h1 {
+  font-size: 34px;
+  font-weight: 800;
+  color: #b60b0c;
+  margin: 0 0 12px;
+}
+
+.heroSub {
+  font-size: 17px;
+  line-height: 1.55;
+  color: #333;
+  max-width: 760px;
+}
+
+.statsBand {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 34px 0 10px;
+}
+
+.statTile {
+  background: #faf9f7;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 22px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.statNumber {
+  font-size: 34px;
+  font-weight: 800;
+  color: #b60b0c;
+}
+
+.statLabel {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.4;
+}
+
+.statFootnote {
+  grid-column: 1 / -1;
+  font-size: 12.5px;
+  color: #888;
+  margin: 2px 2px 0;
+}
+
+.examples {
+  margin-top: 40px;
+}
+
+.examples h2,
+.method h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.examplesSub {
+  color: #666;
+  font-size: 14.5px;
+  margin-bottom: 14px;
+}
+
+.exampleList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid #eee;
+}
+
+.exampleRow {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 4px;
+  border-bottom: 1px solid #eee;
+}
+
+.exampleName {
+  font-weight: 600;
+  color: #171717;
+  text-decoration: none;
+  font-size: 14.5px;
+}
+
+.exampleName:hover {
+  color: #b60b0c;
+}
+
+.exampleSaving {
+  color: #14a800;
+  font-weight: 700;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.exampleMaths {
+  color: #b60b0c;
+  font-size: 13.5px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.ctaRow {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.ctaButton {
+  background: #b60b0c;
+  color: #fff;
+  font-weight: 700;
+  padding: 11px 22px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.ctaButton:hover {
+  background: #9c0a0b;
+}
+
+.ctaSecondary {
+  color: #b60b0c;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.method {
+  margin-top: 44px;
+  background: #faf9f7;
+  border-radius: 10px;
+  padding: 24px 26px;
+}
+
+.method p {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.methodNote {
+  font-size: 13px !important;
+  color: #777 !important;
+  margin-bottom: 0 !important;
+}
+
+@media (max-width: 700px) {
+  .statsBand {
+    grid-template-columns: 1fr;
+  }
+
+  .exampleRow {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}

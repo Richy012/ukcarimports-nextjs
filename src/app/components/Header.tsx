@@ -19,6 +19,7 @@ const NAV_LINKS = [
 // top-level item count now that account links also live in their own
 // dropdown.
 const RESOURCE_LINKS = [
+  { href: "/bestseller-index", label: "Bestseller Index" },
   { href: "/about-us", label: "About Us" },
   { href: "/contact", label: "Contact" },
   { href: "/blog", label: "Blog" },

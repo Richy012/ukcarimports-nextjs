@@ -40,6 +40,7 @@ export default function Footer() {
 
       <div className={styles.bottom}>
         <nav className={styles.links}>
+          <Link href="/bestseller-index">Bestseller Index</Link>
           <Link href="/terms-and-conditions">Terms &amp; Conditions</Link>
           <Link href="/privacy-policy">Privacy Policy</Link>
           <Link href="/faq">FAQ</Link>
