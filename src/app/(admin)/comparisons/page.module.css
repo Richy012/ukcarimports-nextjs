@@ -255,3 +255,16 @@
 .sortable { cursor: pointer; user-select: none; white-space: nowrap; }
 .sortable:hover { color: #b60b0c; }
 .sortArrow { color: #b60b0c; font-size: 0.7rem; }
+
+/* Trending Bestseller: real saving, thin evidence (under 3 comparisons). */
+.badgeTrending {
+  background: #eef3ff;
+  color: #24409a;
+  border: 1px solid #cddafc;
+  padding: 1px 7px;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  margin-left: 6px;
+  font-weight: 600;
+  white-space: nowrap;
+}

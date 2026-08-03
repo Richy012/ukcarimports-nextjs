@@ -29,6 +29,7 @@ interface ComparisonRow {
   direction: "uk_cheaper" | "irish_cheaper" | "similar";
   segment_avg_saving_pct: string | null;
   segment_n: number | null;
+  live_saving_eur: number | null;
   is_flier: number;
 }
 
@@ -315,12 +316,34 @@ export default function ComparisonsClient() {
                 return (
                   <div
                     key={row.id}
-                    className={`${styles.tableRow} ${styles.matchGrid} ${row.is_flier ? styles.flierRow : ""}`}
+                    className={`${styles.tableRow} ${styles.matchGrid} ${Number(row.live_saving_eur) >= 2500 ? styles.flierRow : ""}`}
                   >
                     <div className={styles.carCell}>
                       <span>
                         {row.make} {row.model} ({row.uk_year})
-                        {row.is_flier ? <span className={styles.badgeFlier}>&#9889; Bestseller</span> : null}
+                        {(() => {
+                          const sav = Number(row.live_saving_eur ?? 0);
+                          // Thin AND uncertain. One near-perfect match is real
+                          // evidence; one doubtful match is a trend at best.
+                          // Same year and we are not flattering ourselves on
+                          // mileage: the identity holds even if the advert text
+                          // scored badly. 1 mile = 1.609 km.
+                          const sameYear = Number(row.uk_year) === Number(row.cz_year);
+                          const ourKm = Number(row.uk_mileage_miles ?? 0) * 1.609;
+                          const notLeggier = ourKm > 0 && Number(row.cz_mileage_km ?? 0) > 0
+                            && ourKm <= Number(row.cz_mileage_km);
+                          const strong = Number(row.segment_n ?? 0) >= 3
+                            || Number(row.match_score ?? 0) >= 0.8
+                            || (sameYear && notLeggier);
+                          const thin = !strong;
+                          if (sav < 2500) return null;
+                          if (thin) {
+                            return <span className={styles.badgeTrending}>&#9889; Trending Bestseller</span>;
+                          }
+                          return sav >= 5000
+                            ? <span className={styles.badgeFlier}>&#9889; #1 Bestseller</span>
+                            : <span className={styles.badgeFlier}>&#9889; Bestseller</span>;
+                        })()}
                       </span>
                       <span className={styles.carSub}>{row.uk_version}</span>
                       <span className={styles.carSub}>
