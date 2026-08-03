@@ -933,3 +933,20 @@
 .saveBtnSaved:hover {
   background: #9c0a0b;
 }
+
+.highlightChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.highlightChip {
+  background: #f2f8f2;
+  border: 1px solid #bfe3bf;
+  color: #1c7a1c;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+}

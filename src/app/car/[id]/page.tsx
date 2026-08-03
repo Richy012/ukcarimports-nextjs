@@ -78,6 +78,24 @@ interface CarDetail {
   driver_convenience_feat?: string[] | string;
   technical_feat?: string[] | string;
   equipment_declaration?: string;
+  capture?: {
+    service_history: string | null;
+    mot_expiry: string | null;
+    keys: number | null;
+    history_checks_passed: number | null;
+    history_flags: string[];
+    highlights: string[];
+    last_service_date: string | null;
+    last_service_miles: number | null;
+  };
+}
+
+// ISO date (car_capture) -> readable Irish-format date, null on junk.
+function displayDate(iso?: string | null): string | null {
+  if (!iso) return null;
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return null;
+  return d.toLocaleDateString("en-IE", { day: "numeric", month: "long", year: "numeric" });
 }
 
 // The API sends the grouped feature fields as JSON-encoded strings
@@ -217,6 +235,9 @@ export default async function CarDetailPage({
     })(),
     car.co2_emission && { label: "CO2 Emissions", value: car.co2_emission },
     car.owner && { label: "Number of Owners", value: car.owner },
+    car.capture?.service_history && { label: "Service History", value: car.capture.service_history },
+    car.capture?.keys && { label: "Keys", value: String(car.capture.keys) },
+    displayDate(car.capture?.mot_expiry) && { label: "MOT Expiry", value: displayDate(car.capture?.mot_expiry) as string },
   ].filter(Boolean) as { label: string; value: string }[];
 
   return (
@@ -294,6 +315,14 @@ export default async function CarDetailPage({
             </div>
           </dl>
 
+          {car.capture?.highlights && car.capture.highlights.length > 0 && (
+            <div className={styles.highlightChips}>
+              {car.capture.highlights.map((h) => (
+                <span key={h} className={styles.highlightChip}>{h}</span>
+              ))}
+            </div>
+          )}
+
           {car.auction_company_name && (
             <p className={styles.sellerLine}>Seller/Garage: By {car.auction_company_name}</p>
           )}
@@ -308,6 +337,28 @@ export default async function CarDetailPage({
                 {car.last_service_mileage ? ` at ${car.last_service_mileage} km` : ""}
               </li>
             ) : null}
+            {car.capture?.history_flags.includes("not_stolen") && (
+              <li><Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} /> Not recorded stolen</li>
+            )}
+            {car.capture?.history_flags.includes("not_scrapped") && (
+              <li><Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} /> Not recorded scrapped</li>
+            )}
+            {car.capture?.history_flags.includes("not_written_off") && (
+              <li><Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} /> Not recorded written off</li>
+            )}
+            {car.capture?.history_checks_passed ? (
+              <li>
+                <Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} />{" "}
+                {car.capture.history_checks_passed} vehicle history checks passed
+              </li>
+            ) : null}
+            {car.capture?.last_service_date && (
+              <li>
+                <Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} /> Last
+                serviced {displayDate(car.capture.last_service_date)}
+                {car.capture.last_service_miles ? ` at ${car.capture.last_service_miles.toLocaleString()} miles` : ""}
+              </li>
+            )}
           </ul>
         </div>
       </div>
