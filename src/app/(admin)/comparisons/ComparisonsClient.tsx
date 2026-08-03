@@ -464,6 +464,7 @@ export default function ComparisonsClient() {
         </>
       )}
 
+      {tab !== "segments" && (
       <div className={styles.pagerRow}>
         <button type="button" disabled={curPage <= 0} onClick={() => setCurPage(curPage - 1)}>
           &larr; Prev
@@ -475,6 +476,7 @@ export default function ComparisonsClient() {
           Next &rarr;
         </button>
       </div>
+      )}
     </>
   );
 }

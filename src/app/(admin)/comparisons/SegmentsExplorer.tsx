@@ -5,18 +5,23 @@ import { staffAuthHeaders } from "@/lib/auth";
 import styles from "./page.module.css";
 
 /**
- * Make -> model -> year -> individual cars, with the UK-vs-Ireland differential
- * at every level. Irish medians come from the weekly snapshot; our prices and
- * every saving are computed live on each request, so a sold car leaves the view
- * immediately and a price change shows at once.
+ * Two ways in, because "show me the segments" should not need three clicks:
+ *   - All segments: every make+model+year in one searchable table.
+ *   - Browse: make -> model -> year -> individual cars.
+ *
+ * Irish medians come from the weekly snapshot; our prices and every saving are
+ * computed live per request, so a sold car leaves the view at once and a price
+ * change shows immediately.
  *
  * Bestseller = EUR 2,500+ under the Irish median. #1 Bestseller = EUR 5,000+.
  */
 
 interface Row {
   label: string;
+  mk?: string;
+  md?: string;
+  yr?: number;
   live_cars: number;
-  sold_or_gone: number;
   irish_ads: number;
   our_avg_price: number | null;
   irish_avg_median: number | null;
@@ -24,67 +29,75 @@ interface Row {
   flyers: number;
   rare_flyers: number;
   evidence: "verified" | "trend" | "thin";
-  direction: "uk_cheaper" | "irish_cheaper";
 }
 
 interface Car {
   car_id: string;
   car_name: string;
-  version: string | null;
   plain_mileage: number | null;
   our_price: number;
   irish_median: number;
-  irish_ads: number;
   saving: number;
 }
 
 interface IrishListing {
   version: string | null;
-  year: number | null;
   mileage_km: number | null;
   price_eur: string | null;
-  dealer_name: string | null;
   county: string | null;
 }
 
 const eur = (n: number | null | undefined) =>
   n === null || n === undefined ? "—" : `€${Math.round(Number(n)).toLocaleString()}`;
-
-const title = (s: string) =>
-  s.replace(/\b[a-z]/g, (c) => c.toUpperCase());
+const title = (s: string) => String(s).replace(/\b[a-z]/g, (c) => c.toUpperCase());
 
 export default function SegmentsExplorer() {
+  const [mode, setMode] = useState<"flat" | "browse">("flat");
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
-  const [year, setYear] = useState<number | 0>(0);
+  const [year, setYear] = useState(0);
+  const [search, setSearch] = useState("");
+  const [searchDraft, setSearchDraft] = useState("");
 
   const [rows, setRows] = useState<Row[]>([]);
   const [cars, setCars] = useState<Car[]>([]);
   const [irish, setIrish] = useState<IrishListing[]>([]);
-  const [level, setLevel] = useState("makes");
+  const [level, setLevel] = useState("flat");
   const [snapshot, setSnapshot] = useState("");
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(() => {
     setLoading(true);
     const qs = new URLSearchParams();
-    if (make) qs.set("make", make);
-    if (model) qs.set("model", model);
-    if (year) qs.set("year", String(year));
+    if (mode === "flat") {
+      qs.set("flat", "1");
+      if (search) qs.set("search", search);
+    } else {
+      if (make) qs.set("make", make);
+      if (model) qs.set("model", model);
+      if (year) qs.set("year", String(year));
+    }
     fetch(`/api/staff-segments?${qs.toString()}`, { headers: staffAuthHeaders() })
       .then((r) => r.json())
       .then((d) => {
         const data = d?.data ?? {};
-        setLevel(data.level ?? "makes");
+        setLevel(data.level ?? "flat");
         setRows(data.rows ?? []);
         setCars(data.cars ?? []);
         setIrish(data.irish_listings ?? []);
         if (data.snapshot_date) setSnapshot(data.snapshot_date);
       })
       .finally(() => setLoading(false));
-  }, [make, model, year]);
+  }, [mode, make, model, year, search]);
 
   useEffect(load, [load]);
+
+  const openSegment = (r: Row) => {
+    setMode("browse");
+    setMake(r.mk ?? "");
+    setModel(r.md ?? "");
+    setYear(Number(r.yr ?? 0));
+  };
 
   const drill = (label: string) => {
     if (level === "makes") setMake(label);
@@ -92,72 +105,91 @@ export default function SegmentsExplorer() {
     else if (level === "years") setYear(Number(label));
   };
 
+  const trend = (v: number | null) =>
+    Number(v) > 0
+      ? <span className={styles.good}>UK cheaper by {eur(v)}</span>
+      : <span className={styles.bad}>Irish cheaper by {eur(Math.abs(Number(v)))}</span>;
+
+  const badge = (e: string) => (
+    <span className={e === "verified" ? styles.badgeVerified : e === "trend" ? styles.badgeTrend : styles.badgeThin}>
+      {e}
+    </span>
+  );
+
   return (
     <>
-      <div className={styles.segBreadcrumb}>
-        <button type="button" onClick={() => { setMake(""); setModel(""); setYear(0); }}>
-          All makes
+      <div className={styles.segModeRow}>
+        <button type="button" className={mode === "flat" ? styles.tabActive : styles.tab}
+          onClick={() => { setMode("flat"); setMake(""); setModel(""); setYear(0); }}>
+          All segments
         </button>
-        {make && (
-          <>
-            <span>›</span>
-            <button type="button" onClick={() => { setModel(""); setYear(0); }}>{title(make)}</button>
-          </>
+        <button type="button" className={mode === "browse" ? styles.tabActive : styles.tab}
+          onClick={() => { setMode("browse"); setMake(""); setModel(""); setYear(0); }}>
+          Browse by make
+        </button>
+        {mode === "flat" && (
+          <form onSubmit={(e) => { e.preventDefault(); setSearch(searchDraft); }} className={styles.segSearch}>
+            <input value={searchDraft} onChange={(e) => setSearchDraft(e.target.value)}
+              placeholder="Search make or model…" />
+            <button type="submit">Search</button>
+            {search && <button type="button" onClick={() => { setSearch(""); setSearchDraft(""); }}>Clear</button>}
+          </form>
         )}
-        {model && (
-          <>
-            <span>›</span>
-            <button type="button" onClick={() => setYear(0)}>{title(model)}</button>
-          </>
-        )}
-        {year > 0 && (<><span>›</span><strong>{year}</strong></>)}
       </div>
+
+      {mode === "browse" && (
+        <div className={styles.segBreadcrumb}>
+          <button type="button" onClick={() => { setMake(""); setModel(""); setYear(0); }}>All makes</button>
+          {make && (<><span>›</span><button type="button" onClick={() => { setModel(""); setYear(0); }}>{title(make)}</button></>)}
+          {model && (<><span>›</span><button type="button" onClick={() => setYear(0)}>{title(model)}</button></>)}
+          {year > 0 && (<><span>›</span><strong>{year}</strong></>)}
+        </div>
+      )}
 
       {loading && <p className={styles.muted}>Loading…</p>}
 
       {!loading && level !== "cars" && (
-        <div className={styles.tableWrap}>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>{level === "makes" ? "Make" : level === "models" ? "Model" : "Year"}</th>
-                <th>Our cars</th>
-                <th>Irish ads</th>
-                <th>Evidence</th>
-                <th>Our avg</th>
-                <th>Irish median</th>
-                <th>Trend</th>
-                <th>Bestsellers</th>
-                <th>#1</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((r) => (
-                <tr key={r.label} className={styles.segRow} onClick={() => drill(r.label)}>
-                  <td><strong>{title(String(r.label))}</strong></td>
-                  <td>{r.live_cars.toLocaleString()}</td>
-                  <td>{r.irish_ads}</td>
-                  <td>
-                    <span className={
-                      r.evidence === "verified" ? styles.badgeVerified
-                      : r.evidence === "trend" ? styles.badgeTrend : styles.badgeThin}>
-                      {r.evidence}
-                    </span>
-                  </td>
-                  <td>{eur(r.our_avg_price)}</td>
-                  <td>{eur(r.irish_avg_median)}</td>
-                  <td className={Number(r.avg_saving) > 0 ? styles.good : styles.bad}>
-                    {Number(r.avg_saving) > 0
-                      ? `UK cheaper by ${eur(r.avg_saving)}`
-                      : `Irish cheaper by ${eur(Math.abs(Number(r.avg_saving)))}`}
-                  </td>
-                  <td>{r.flyers ? <strong>{r.flyers.toLocaleString()}</strong> : "—"}</td>
-                  <td>{r.rare_flyers ? <strong>{r.rare_flyers.toLocaleString()}</strong> : "—"}</td>
+        <>
+          <p className={styles.muted}>
+            {rows.length.toLocaleString()} {level === "flat" ? "segments" : level} ·
+            click any row to open it
+          </p>
+          <div className={styles.tableWrap}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>{level === "flat" ? "Segment" : level === "makes" ? "Make" : level === "models" ? "Model" : "Year"}</th>
+                  <th>Our cars</th>
+                  <th>Irish ads</th>
+                  <th>Evidence</th>
+                  <th>Our avg</th>
+                  <th>Irish median</th>
+                  <th>Trend</th>
+                  <th>Bestsellers</th>
+                  <th>#1</th>
+                  <th></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {rows.map((r) => (
+                  <tr key={r.label} className={styles.segRow}
+                      onClick={() => (level === "flat" ? openSegment(r) : drill(r.label))}>
+                    <td><strong>{title(r.label)}</strong></td>
+                    <td>{Number(r.live_cars).toLocaleString()}</td>
+                    <td>{r.irish_ads}</td>
+                    <td>{badge(r.evidence)}</td>
+                    <td>{eur(r.our_avg_price)}</td>
+                    <td>{eur(r.irish_avg_median)}</td>
+                    <td>{trend(r.avg_saving)}</td>
+                    <td>{r.flyers ? <strong>{Number(r.flyers).toLocaleString()}</strong> : "—"}</td>
+                    <td>{r.rare_flyers ? <strong>{Number(r.rare_flyers).toLocaleString()}</strong> : "—"}</td>
+                    <td className={styles.segChevron}>›</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
 
       {!loading && level === "cars" && (
@@ -166,18 +198,12 @@ export default function SegmentsExplorer() {
             <h3 className={styles.segHeading}>Our cars ({cars.length})</h3>
             <div className={styles.tableWrap}>
               <table className={styles.table}>
-                <thead>
-                  <tr><th>Car</th><th>Mileage</th><th>Our price</th><th>vs Irish median</th></tr>
-                </thead>
+                <thead><tr><th>Car</th><th>Mileage</th><th>Our price</th><th>vs Irish median</th></tr></thead>
                 <tbody>
                   {cars.map((c) => (
                     <tr key={c.car_id}>
-                      <td>
-                        <a href={`/car/${c.car_id}`} target="_blank" rel="noreferrer">
-                          {c.car_name}
-                        </a>
-                      </td>
-                      <td>{c.plain_mileage ? `${Math.round(c.plain_mileage * 1.609).toLocaleString()} km` : "—"}</td>
+                      <td><a href={`/car/${c.car_id}`} target="_blank" rel="noreferrer">{c.car_name}</a></td>
+                      <td>{c.plain_mileage ? `${Math.round(Number(c.plain_mileage) * 1.609).toLocaleString()} km` : "—"}</td>
                       <td>{eur(c.our_price)}</td>
                       <td className={Number(c.saving) > 0 ? styles.good : styles.bad}>
                         {Number(c.saving) > 0 ? `−${eur(c.saving)}` : `+${eur(Math.abs(Number(c.saving)))}`}
@@ -190,14 +216,11 @@ export default function SegmentsExplorer() {
               </table>
             </div>
           </div>
-
           <div>
             <h3 className={styles.segHeading}>The Irish listings behind it ({irish.length})</h3>
             <div className={styles.tableWrap}>
               <table className={styles.table}>
-                <thead>
-                  <tr><th>Listing</th><th>Mileage</th><th>Price</th><th>County</th></tr>
-                </thead>
+                <thead><tr><th>Listing</th><th>Mileage</th><th>Price</th><th>County</th></tr></thead>
                 <tbody>
                   {irish.map((l, i) => (
                     <tr key={i}>
@@ -215,9 +238,10 @@ export default function SegmentsExplorer() {
       )}
 
       <p className={styles.panelFoot}>
-        Irish prices from the Carzone snapshot of {snapshot || "—"}; our prices and every
-        saving computed live, so sold cars drop out and price changes show at once.
-        <strong> Bestseller</strong> = €2,500+ under the Irish median · <strong>#1 Bestseller</strong> = €5,000+.
+        Irish prices from the Carzone snapshot of {snapshot || "—"}; our prices and every saving
+        computed live, so sold cars drop out and price changes show at once.
+        <strong> Bestseller</strong> = €2,500+ under the Irish median ·
+        <strong> #1 Bestseller</strong> = €5,000+.
         <em> Verified</em> = 10+ Irish listings · <em>Trend</em> = 5–9 · <em>Thin</em> = under 5.
       </p>
     </>

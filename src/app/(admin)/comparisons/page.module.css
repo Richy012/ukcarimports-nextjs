@@ -245,3 +245,9 @@
 .flyer { background: #e7f5e9; color: #1c7a2e; padding: 1px 6px; border-radius: 3px; font-size: 0.7rem; margin-left: 6px; }
 .rareFlyer { background: #fff2cc; color: #8a6100; padding: 1px 6px; border-radius: 3px; font-size: 0.7rem; margin-left: 6px; font-weight: 600; }
 .muted { color: #888; font-size: 0.9rem; }
+
+.segModeRow { display: flex; align-items: center; gap: 8px; margin: 0 0 14px; flex-wrap: wrap; }
+.segSearch { display: flex; gap: 6px; margin-left: auto; }
+.segSearch input { padding: 6px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.85rem; min-width: 200px; }
+.segSearch button { padding: 6px 12px; border: 1px solid #ddd; background: #fff; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
+.segChevron { color: #b60b0c; font-weight: 700; text-align: right; width: 24px; }
