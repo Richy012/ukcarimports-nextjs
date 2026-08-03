@@ -282,7 +282,9 @@ export default function PriceBreakdown({
       <Script src={`https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`} strategy="afterInteractive" />
 
       <div className={styles.price}>€{formatEuro(displayedTotal)}</div>
-      <div className={styles.priceNote}>VAT, Duty &amp; VRT included</div>
+      <div className={styles.priceNote}>
+        Price is all inclusive &mdash; to have your car here, in your name, on Irish plates
+      </div>
 
       <label className={styles.inspectionToggle}>
         <input
@@ -305,6 +307,7 @@ export default function PriceBreakdown({
               }}
             />
             Warranty
+            <span className={styles.optionHint}>&mdash; click the box for more choices</span>
           </label>
           {includeWarranty && (
             <div className={styles.warrantyTierList}>
@@ -358,7 +361,7 @@ export default function PriceBreakdown({
             <dd>€{formatEuro(staff.customs_clearance_fee ?? 200)}</dd>
           </div>
           <div className={styles.breakdownRow}>
-            <dt>Transport (UK garage &rarr; Dublin)</dt>
+            <dt>Transport (garage &rarr; Liverpool port)</dt>
             <dd>€{formatEuro(staff.customs_agent_fee)}</dd>
           </div>
           <div className={styles.breakdownRow}>
