@@ -432,6 +432,17 @@ export default function FilterBar({
     } finally {
       busyRef.current = false;
       setLoadingMore(false);
+      // Chain straight into the next batch if the sentinel is still inside
+      // the prefetch margin: IntersectionObserver only fires on boundary
+      // crossings, so a fast flick past the sentinel would otherwise stall
+      // until the user scrolls again. The has-more/busy guards at the top
+      // of this function stop the chain at the end of the stock.
+      setTimeout(() => {
+        const el = endRef.current;
+        if (el && el.getBoundingClientRect().top < window.innerHeight + 2000) {
+          loadMoreRef.current();
+        }
+      }, 100);
     }
   };
 
@@ -442,7 +453,7 @@ export default function FilterBar({
       (entries) => {
         if (entries[0].isIntersecting) loadMoreRef.current();
       },
-      { rootMargin: "800px 0px" },
+      { rootMargin: "2000px 0px" },
     );
     obs.observe(el);
     return () => obs.disconnect();
