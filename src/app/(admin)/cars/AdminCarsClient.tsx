@@ -286,7 +286,15 @@ export default function AdminCarsClient() {
                       {[car.version, car.trim].filter(Boolean).join(" / ")} &middot; {car.car_year || car.year}
                     </span>
                   </span>
-                  <span>{car.mileage} km</span>
+                  {/* automerchcars_2.mileage is MILES (AutoTrader's own
+                      figure). Public pages convert; this panel printed
+                      the raw number with a km label -- owner caught it
+                      2026-08-04. */}
+                  <span>
+                    {car.mileage
+                      ? `${Math.round(Number(String(car.mileage).replace(/[^0-9]/g, "")) * 1.60934).toLocaleString()} km`
+                      : ""}
+                  </span>
                   <span>{gbp(car.price)}</span>
                   <span>{eur(car.car_info?.final_price)}</span>
                   <span>{vrtBadge(car)}</span>
