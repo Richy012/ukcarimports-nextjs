@@ -296,9 +296,79 @@ export default function FilterBar({
   // scroll-loading has taken over.
   const [loadingMore, setLoadingMore] = useState(false);
   const [loadedPage, setLoadedPage] = useState(currentPage);
+
+  // Deep-scroll return: when a car tile is clicked, bank the loaded tiles,
+  // pagination cursor and scroll position keyed to this exact query string;
+  // when the same query mounts again (browser Back), put all three back.
+  // Only the SSR batch survives Back otherwise, so the page renders short
+  // and the browser's own scroll restoration has nothing to restore into.
+  useEffect(() => {
+    const KEY = "ucScrollReturn";
+
+    function onClickCapture(e: MouseEvent) {
+      const a = (e.target as HTMLElement | null)?.closest?.('a[href^="/car/"]');
+      if (!a) return;
+      try {
+        sessionStorage.setItem(
+          KEY,
+          JSON.stringify({
+            q: window.location.search,
+            page: loadedPageRef.current,
+            y: window.scrollY,
+            t: Date.now(),
+            cars: liveCarsRef.current,
+          }),
+        );
+      } catch {
+        // Quota exceeded on an extreme scroll: drop the tail — a partial
+        // restore beats none.
+        try {
+          sessionStorage.setItem(
+            KEY,
+            JSON.stringify({
+              q: window.location.search,
+              page: loadedPageRef.current,
+              y: window.scrollY,
+              t: Date.now(),
+              cars: liveCarsRef.current.slice(0, 200),
+            }),
+          );
+        } catch {
+          /* give up quietly */
+        }
+      }
+    }
+
+    // Restore pass (runs once on mount).
+    try {
+      const raw = sessionStorage.getItem(KEY);
+      if (raw) {
+        sessionStorage.removeItem(KEY);
+        const saved = JSON.parse(raw);
+        const fresh = Date.now() - (saved?.t ?? 0) < 30 * 60 * 1000;
+        if (fresh && saved.q === window.location.search && Array.isArray(saved.cars) && saved.cars.length > 0) {
+          setLiveCars(saved.cars);
+          if (typeof saved.page === "number") setLoadedPage(saved.page);
+          requestAnimationFrame(() =>
+            requestAnimationFrame(() => window.scrollTo(0, saved.y || 0)),
+          );
+        }
+      }
+    } catch {
+      /* corrupt state: start at the top like before */
+    }
+
+    document.addEventListener("click", onClickCapture, true);
+    return () => document.removeEventListener("click", onClickCapture, true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const endRef = useRef<HTMLDivElement | null>(null);
   const busyRef = useRef(false);
   const loadMoreRef = useRef<() => void>(() => {});
+
+  // Live mirrors for the click-capture listener above (registered once).
+  const liveCarsRef = useRef<Car[]>(initialCars);
+  const loadedPageRef = useRef(currentPage);
 
   // True once the user changes anything from the URL-applied state -- while
   // true we're showing a live preview (page 1 only, no sort applied server
@@ -454,6 +524,9 @@ export default function FilterBar({
 
   // Reassigned every render so the IntersectionObserver callback always sees
   // the current filter state without re-registering the observer.
+  liveCarsRef.current = liveCars;
+  loadedPageRef.current = loadedPage;
+
   loadMoreRef.current = async () => {
     if (busyRef.current || loadingMore) return;
     if (liveCars.length >= liveCount) return;
