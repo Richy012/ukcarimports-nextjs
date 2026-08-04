@@ -65,11 +65,12 @@ async function getHomeData() {
     const [count, indexRes, bvRes] = await Promise.all([
       getStockCount(),
       fetch(`${API_BASE}/import-landing-index`, { next: { revalidate: 3600 } }),
-      // Fetch a deep slice and diversify below: the list is ordered by
-      // saving, and the biggest savings cluster in one model (the BMW XM
-      // effect) — a band of identical cars looks broken. 60 is the
-      // endpoint's max page size.
-      fetch(`${API_BASE}/best-value/0/60`, { next: { revalidate: 900 } }),
+      // rotate=daily: the API serves 60 of the ~3,000 #1 Bestsellers in an
+      // order that reshuffles every day, so the band changes each morning
+      // and every #1 car gets equal airtime over time (owner ask,
+      // 2026-08-04). Diversify below — a band of identical cars looks
+      // broken. 60 is the endpoint's max page size.
+      fetch(`${API_BASE}/best-value/0/60?rotate=daily`, { next: { revalidate: 900 } }),
     ]);
     const indexJson = await indexRes.json();
     const bvJson = await bvRes.json();
@@ -89,7 +90,12 @@ async function getHomeData() {
         perMake.set(make, (perMake.get(make) ?? 0) + 1);
         return true;
       })
-      .slice(0, 8);
+      .slice(0, 8)
+      // Display order: biggest saving first within today's random eight.
+      .sort(
+        (a: BestValueCar, b: BestValueCar) =>
+          (b.best_value?.saving_eur ?? 0) - (a.best_value?.saving_eur ?? 0),
+      );
     const bvCount: number = bvJson?.data?.count ?? 0;
     const makes: { make: string; slug: string; n: number }[] = (indexJson?.data?.makes ?? []).slice(0, 8);
     return { bestValue, bvCount, count, makes };
