@@ -19,3 +19,11 @@
   text-transform: uppercase;
   color: #9b9289;
 }
+
+/* thumbnail-size frames: fill the parent box instead of forcing 4:3 */
+.compact {
+  aspect-ratio: auto;
+  height: 100%;
+  min-height: 70px;
+  gap: 0;
+}

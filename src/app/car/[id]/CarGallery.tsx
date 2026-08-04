@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import PhotoPlaceholder from "../../components/PhotoPlaceholder";
 import styles from "./page.module.css";
 
 // How far a lightbox photo may be enlarged past its own pixel size. Above
@@ -36,6 +37,8 @@ export default function CarGallery({
 
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [gridPage, setGridPage] = useState(0);
+  const [heroFailed, setHeroFailed] = useState(false);
+  const [failedThumbs, setFailedThumbs] = useState<Set<number>>(new Set());
 
   const gridStart = gridPage * GRID_SIZE;
   const currentThumbnails = photos.slice(gridStart, gridStart + GRID_SIZE);
@@ -58,17 +61,22 @@ export default function CarGallery({
 
   return (
     <div className={styles.gallery}>
-      <img
-        src={heroSrc}
-        alt={carName}
-        width={800}
-        height={600}
-        fetchPriority="high"
-        decoding="async"
-        className={styles.heroImage}
-        onClick={() => setOpenIndex(0)}
-        style={{ cursor: "pointer" }}
-      />
+      {heroFailed ? (
+        <PhotoPlaceholder />
+      ) : (
+        <img
+          src={heroSrc}
+          alt={carName}
+          width={800}
+          height={600}
+          fetchPriority="high"
+          decoding="async"
+          className={styles.heroImage}
+          onClick={() => setOpenIndex(0)}
+          style={{ cursor: "pointer" }}
+          onError={() => setHeroFailed(true)}
+        />
+      )}
       {currentThumbnails.length > 0 && (
         <div className={styles.photoGridWrap}>
           <div className={styles.photoGrid}>
@@ -79,15 +87,20 @@ export default function CarGallery({
                 onClick={() => setOpenIndex(gridStart + i + 1)}
                 style={{ cursor: "pointer" }}
               >
-                <img
-                  src={img.image}
-                  alt=""
-                  width={260}
-                  height={140}
-                  loading="lazy"
-                  decoding="async"
-                  className={styles.thumb}
-                />
+                {failedThumbs.has(img.id) ? (
+                  <PhotoPlaceholder compact />
+                ) : (
+                  <img
+                    src={img.image}
+                    alt=""
+                    width={260}
+                    height={140}
+                    loading="lazy"
+                    decoding="async"
+                    className={styles.thumb}
+                    onError={() => setFailedThumbs((s) => new Set(s).add(img.id))}
+                  />
+                )}
               </div>
             ))}
           </div>
