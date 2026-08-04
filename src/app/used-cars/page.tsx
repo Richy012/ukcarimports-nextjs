@@ -276,7 +276,10 @@ export default async function UsedCarsPage({
   // (getStockCount) so the two pages can never disagree. Once the user
   // filters, the count is a live filter-result figure and may differ.
   const isDefaultView = Object.keys(params).filter((k) => k !== "page").length === 0;
-  const displayCount = isDefaultView ? await getStockCount() : data.count;
+  // Either source can come back null when the API is briefly slow or a count
+  // query times out; rendering null crashed the whole page with a 500
+  // (seen live 2026-08-04). Fall back rather than fail.
+  const displayCount = (isDefaultView ? await getStockCount() : data.count) ?? 0;
 
   return (
     <main className={styles.main}>
