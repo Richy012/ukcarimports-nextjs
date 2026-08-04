@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import CardsGrid from "./CardsGrid";
 import pageStyles from "./page.module.css";
+import SaveSearchPrompt from "./SaveSearchPrompt";
 import styles from "./FilterBar.module.css";
 
 interface Option {
@@ -759,6 +760,26 @@ export default function FilterBar({
       )}
 
       <CardsGrid cars={liveCars} />
+
+      <SaveSearchPrompt
+        filters={{
+          Make: make,
+          Model: model,
+          Fuel: fuel,
+          body_style: bodyStyle,
+          transmission_type: transmission,
+          seats,
+          color,
+          minYear,
+          maxYear,
+          minPrice,
+          maxPrice,
+          minMileage,
+          maxMileage,
+          bestsellerSeries: bestseller,
+        }}
+        matchCount={liveCount ?? 0}
+      />
 
       {liveCars.length === 0 && (
         <p className={pageStyles.noResults}>No cars match these filters.</p>

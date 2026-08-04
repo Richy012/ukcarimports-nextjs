@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import CarSourcingForm from "./CarSourcingForm";
+import SourcingCheck from "./SourcingCheck";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -42,6 +43,8 @@ export default function CarSourcingPage() {
           </strong>
         </p>
       </div>
+
+      <SourcingCheck />
 
       <CarSourcingForm />
 

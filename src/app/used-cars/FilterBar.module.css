@@ -263,3 +263,46 @@
     display: none;
   }
 }
+
+
+/* Alert capture under the results -- the only place a visitor who found
+   nothing can leave a trace */
+.alertPrompt {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0 8px;
+  padding: 14px 18px;
+  border: 1px solid #f0d9d9;
+  border-radius: 10px;
+  background: #fdf6f6;
+  color: #b60b0c;
+}
+.alertPromptText {
+  margin: 0;
+  flex: 1 1 260px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #333;
+}
+.alertPromptText strong { color: #171717; }
+.alertPromptText em { font-style: normal; font-weight: 600; color: #b60b0c; }
+.alertPromptBtn {
+  flex: none;
+  padding: 9px 18px;
+  border: 0;
+  border-radius: 6px;
+  background: #b60b0c;
+  color: #fff;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.alertPromptBtn:hover { background: #9a0a0b; }
+.alertPromptBtn:disabled { opacity: 0.6; cursor: default; }
+.alertPromptErr {
+  flex: 1 1 100%;
+  font-size: 13.5px;
+  color: #b60b0c;
+}

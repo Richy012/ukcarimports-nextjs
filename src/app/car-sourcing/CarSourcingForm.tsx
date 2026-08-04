@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Elements,
   CardNumberElement,
@@ -12,7 +12,16 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import styles from "./page.module.css";
 
-const stripePromise = loadStripe("pk_live_hvQGGPsKi13bSSCm2zoKHfMi00RCjfXZZS");
+// Stripe.js pulls in hCaptcha and sets third-party cookies (__cf_bm, __cflb,
+// m) the instant it loads -- on every visit, including the ones where nobody
+// pays. Deferred until the payment form is about to scroll into view (owner,
+// 2026-08-04); same lazy pattern as GTM and reCAPTCHA elsewhere.
+const STRIPE_PK = "pk_live_hvQGGPsKi13bSSCm2zoKHfMi00RCjfXZZS";
+let stripeCache: ReturnType<typeof loadStripe> | null = null;
+function getStripe() {
+  if (!stripeCache) stripeCache = loadStripe(STRIPE_PK);
+  return stripeCache;
+}
 
 const CARD_ELEMENT_STYLE = {
   base: {
@@ -224,6 +233,29 @@ export default function CarSourcingForm() {
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [errors, setErrors] = useState<Partial<FormState>>({});
   const [paid, setPaid] = useState(false);
+  // Mount Stripe just before the form reaches the viewport: real visitors
+  // never notice, and a page view that never scrolls to it costs nothing.
+  const [stripeReady, setStripeReady] = useState(false);
+  const stripeGateRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const node = stripeGateRef.current;
+    if (!node || stripeReady) return;
+    if (!("IntersectionObserver" in window)) {
+      setStripeReady(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setStripeReady(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "300px" },
+    );
+    io.observe(node);
+    return () => io.disconnect();
+  }, [stripeReady]);
 
   function onChange(field: keyof FormState, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -238,7 +270,18 @@ export default function CarSourcingForm() {
   }
 
   return (
-    <Elements stripe={stripePromise}>
+    <div ref={stripeGateRef}>
+      {stripeReady ? (
+        <ElementsBlock />
+      ) : (
+        <p className={styles.stripeLoading}>Preparing secure payment&hellip;</p>
+      )}
+    </div>
+  );
+
+  function ElementsBlock() {
+    return (
+    <Elements stripe={getStripe()}>
       <CheckoutForm
         form={form}
         errors={errors}
@@ -247,5 +290,6 @@ export default function CarSourcingForm() {
         onSuccess={() => setPaid(true)}
       />
     </Elements>
-  );
+    );
+  }
 }

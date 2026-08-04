@@ -90,3 +90,73 @@
   max-width: 100%;
   height: auto;
 }
+
+
+.stripeLoading {
+  margin: 0;
+  padding: 18px 0;
+  color: #595959;
+  font-size: 14px;
+}
+
+
+/* Free pre-check above the paid sourcing form */
+.checkBox {
+  margin: 0 0 26px;
+  padding: 18px 20px;
+  border: 1px solid #e2e2e2;
+  border-radius: 10px;
+  background: #fafaf9;
+}
+.checkHeading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 6px;
+  font-size: 17px;
+  color: #171717;
+}
+.checkLead {
+  margin: 0 0 14px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #454443;
+}
+.checkRow { display: flex; flex-wrap: wrap; gap: 10px; }
+.checkInput {
+  flex: 1 1 320px;
+  padding: 11px 13px;
+  font-size: 15px;
+  border: 1px solid #cfcfcf;
+  border-radius: 6px;
+}
+.checkBtn {
+  flex: none;
+  padding: 11px 20px;
+  border: 0;
+  border-radius: 6px;
+  background: #b60b0c;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.checkBtn:hover { background: #9a0a0b; }
+.checkBtn:disabled { opacity: 0.6; cursor: default; }
+.checkResult {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  font-size: 15px;
+  line-height: 1.55;
+}
+.checkResult p { margin: 0 0 8px; }
+.checkResult p:last-child { margin-bottom: 0; }
+.checkResult a { color: #b60b0c; text-decoration: underline; }
+.checkGood { border-color: #cfe6cf; background: #f6fbf6; }
+.checkBad { border-color: #f0d0d0; background: #fdf6f6; }
+.checkList { margin: 6px 0 10px; padding-left: 18px; }
+.checkList li { margin-bottom: 4px; }
+.checkNote { color: #595959; font-size: 14px; }
