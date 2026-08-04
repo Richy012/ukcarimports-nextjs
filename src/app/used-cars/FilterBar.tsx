@@ -354,6 +354,13 @@ export default function FilterBar({
           pendingCarRef.current = typeof saved.clickedId === "string" ? saved.clickedId : null;
           savedLenRef.current = saved.cars.length;
           busyRef.current = true; // hold the auto-loader until we've landed
+          // Veil the page while we land: Next's router applies its own
+          // remembered scroll on Back and the fight is visible otherwise.
+          document.body.style.visibility = "hidden";
+          window.setTimeout(() => {
+            document.body.style.visibility = "";
+            busyRef.current = false;
+          }, 500); // failsafe: the veil never outlives half a second
           setLiveCars(saved.cars);
           if (typeof saved.page === "number") setLoadedPage(saved.page);
         }
@@ -381,16 +388,26 @@ export default function FilterBar({
   const savedLenRef = useRef(0);
   useLayoutEffect(() => {
     if (pendingScrollRef.current === null || liveCars.length < savedLenRef.current) return;
+    const y = pendingScrollRef.current;
     const id = pendingCarRef.current;
-    const tile = id ? document.querySelector(`a[href="/car/${id}"]`) : null;
-    if (tile) {
-      tile.scrollIntoView({ block: "center" });
-    } else {
-      window.scrollTo(0, pendingScrollRef.current);
-    }
     pendingScrollRef.current = null;
     pendingCarRef.current = null;
-    busyRef.current = false; // release the auto-loader now we've landed
+    const land = () => {
+      const tile = id ? document.querySelector(`a[href="/car/${id}"]`) : null;
+      if (tile) tile.scrollIntoView({ block: "center" });
+      else window.scrollTo(0, y);
+    };
+    land();
+    // Re-assert after the router's own scroll restore has had its turn,
+    // then lift the veil: one clean appearance, already in position.
+    requestAnimationFrame(() => {
+      land();
+      window.setTimeout(() => {
+        land();
+        document.body.style.visibility = "";
+        busyRef.current = false; // release the auto-loader now we've landed
+      }, 120);
+    });
   }, [liveCars]);
 
   // True once the user changes anything from the URL-applied state -- while
