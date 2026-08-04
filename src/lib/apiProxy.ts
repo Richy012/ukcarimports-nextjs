@@ -34,5 +34,19 @@ export async function proxyRequest(req: NextRequest, apiPath: string) {
     cache: "no-store",
   });
   const data = await res.json().catch(() => ({}));
-  return NextResponse.json(data, { status: res.status });
+  // NEVER let a proxied response be cached. Found live 2026-08-04: Cloudflare
+  // had edge-cached an authenticated /api/staff-leads response and was then
+  // serving that customer data (names, emails, phones) to ANY anonymous
+  // request, and simultaneously showing staff a stale list. Auth was working
+  // correctly -- the cache was the whole leak. Private + no-store on every
+  // proxied response, belt and braces with the Cloudflare bypass rule.
+  return NextResponse.json(data, {
+    status: res.status,
+    headers: {
+      "Cache-Control": "private, no-store, no-cache, max-age=0, must-revalidate",
+      "CDN-Cache-Control": "no-store",
+      "Cloudflare-CDN-Cache-Control": "no-store",
+      Vary: "X-Auth-Token, Origin",
+    },
+  });
 }
