@@ -1,6 +1,7 @@
 "use client";
 
-import { Camera, ThumbsDown, ThumbsUp } from "lucide-react";
+import { ThumbsDown, ThumbsUp } from "lucide-react";
+import PhotoPlaceholder from "../../components/PhotoPlaceholder";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { API_BASE, authHeaders, isTokenValid } from "@/lib/auth";
@@ -38,12 +39,7 @@ function carYear(car: SavedCar): string {
 function CarImage({ carId, alt }: { carId: string; alt: string }) {
   const [failed, setFailed] = useState(false);
   if (failed) {
-    return (
-      <div className={styles.cardImageFallback}>
-        <span><Camera size={24} strokeWidth={1.5} aria-hidden="true" /></span>
-        <span>Photo not available</span>
-      </div>
-    );
+    return <PhotoPlaceholder />;
   }
   return (
     <img

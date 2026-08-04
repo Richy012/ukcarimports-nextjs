@@ -31,9 +31,10 @@ export default function SaveSearchPrompt({
   const active = Object.entries(filters).filter(([, v]) => v);
   if (active.length === 0) return null;
 
+  const pretty = (v: string) => v.replace(/\b\w/g, (c) => c.toUpperCase());
   const summary = active
     .map(([k, v]) =>
-      k === "Make" || k === "Model" || k === "Fuel" ? v : k === "maxPrice" ? `under €${Number(v).toLocaleString()}` : v,
+      k === "Make" || k === "Model" || k === "Fuel" ? pretty(v) : k === "maxPrice" ? `under €${Number(v).toLocaleString()}` : v,
     )
     .slice(0, 4)
     .join(" · ");
@@ -80,7 +81,7 @@ export default function SaveSearchPrompt({
     <div className={styles.alertPrompt}>
       <BellRing size={17} strokeWidth={1.9} aria-hidden="true" />
       <p className={styles.alertPromptText}>
-        <strong>Not found it yet?</strong> We add UK stock every day. Get an email the moment a{" "}
+        <strong>Not found it yet?</strong> We add UK stock every day. Get an email the moment the next{" "}
         {summary ? <em>{summary}</em> : "matching car"} lands.
       </p>
       <button type="button" className={styles.alertPromptBtn} onClick={save} disabled={state === "saving"}>
