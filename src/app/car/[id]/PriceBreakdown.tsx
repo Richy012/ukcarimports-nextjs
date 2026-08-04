@@ -4,12 +4,25 @@ import { gtmPush } from "@/lib/gtm";
 import { CarFront, CircleCheck, ClipboardCheck, HandCoins, Lock, ShieldCheck, ShieldPlus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { isAdminTokenValid, staffAuthHeaders } from "@/lib/auth";
-import Script from "next/script";
 import Link from "next/link";
 import styles from "./page.module.css";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
 const RECAPTCHA_SITE_KEY = "6LdJejIaAAAAABPap2izWvDOKZgwXHDlo4KVmtLs";
+
+// reCAPTCHA is ~660ms of main-thread evaluation (measured on live car pages,
+// 2026-08-04) and is only needed once a form is actually in play. Injected on
+// demand instead of at page load; grecaptcha.ready() in the submit path
+// handles the (rare) case of a submit racing the script.
+let recaptchaRequested = false;
+function loadRecaptchaScript() {
+  if (recaptchaRequested || typeof document === "undefined") return;
+  recaptchaRequested = true;
+  const s = document.createElement("script");
+  s.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
+  s.async = true;
+  document.head.appendChild(s);
+}
 
 declare global {
   interface Window {
@@ -109,6 +122,7 @@ export default function PriceBreakdown({
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("reserve") === "1") {
       setShowModal(true);
+    loadRecaptchaScript();
       startAvailabilityCheck();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -314,8 +328,6 @@ export default function PriceBreakdown({
 
   return (
     <div className={styles.priceBox}>
-      <Script src={`https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`} strategy="afterInteractive" />
-
       <div className={styles.price}>€{formatEuro(displayedTotal)}</div>
       <div className={styles.priceNote}>
         Price is all inclusive &mdash; that is to have your car here in ROI, in your name, on Irish plates
@@ -456,6 +468,7 @@ export default function PriceBreakdown({
         className={styles.depositButton}
         onClick={() => {
           setShowModal(true);
+    loadRecaptchaScript();
           startAvailabilityCheck();
         }}
       >

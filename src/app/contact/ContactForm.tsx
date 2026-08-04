@@ -1,10 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import Script from "next/script";
 import styles from "./page.module.css";
 
 const RECAPTCHA_SITE_KEY = "6LdJejIaAAAAABPap2izWvDOKZgwXHDlo4KVmtLs";
+
+// reCAPTCHA is ~660ms of main-thread evaluation (measured on live car pages,
+// 2026-08-04) and is only needed once a form is actually in play. Injected on
+// demand instead of at page load; grecaptcha.ready() in the submit path
+// handles the (rare) case of a submit racing the script.
+let recaptchaRequested = false;
+function loadRecaptchaScript() {
+  if (recaptchaRequested || typeof document === "undefined") return;
+  recaptchaRequested = true;
+  const s = document.createElement("script");
+  s.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
+  s.async = true;
+  document.head.appendChild(s);
+}
 
 declare global {
   interface Window {
@@ -77,8 +90,7 @@ export default function ContactForm() {
 
   return (
     <>
-      <Script src={`https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`} strategy="afterInteractive" />
-      <form className={styles.form} onSubmit={handleSubmit} noValidate>
+      <form onFocusCapture={loadRecaptchaScript} className={styles.form} onSubmit={handleSubmit} noValidate>
         <div className={styles.field}>
           <label htmlFor="fullname">YOUR NAME</label>
           <input

@@ -43,13 +43,13 @@ export default function RootLayout({
             Owner call 2026-08-04: "I do look at analytics" — kept, deferred. */}
         <Script id="gtm" strategy="lazyOnload">
           {`(function(){var fired=false;function load(){if(fired)return;fired=true;
-['scroll','pointerdown','keydown','touchstart'].forEach(function(e){window.removeEventListener(e,load,{passive:true});});
+['wheel','pointerdown','keydown','touchstart'].forEach(function(e){window.removeEventListener(e,load,{passive:true});});
 (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','${GTM_ID}');}
-['scroll','pointerdown','keydown','touchstart'].forEach(function(e){window.addEventListener(e,load,{passive:true});});
+['wheel','pointerdown','keydown','touchstart'].forEach(function(e){window.addEventListener(e,load,{passive:true});});
 })();`}
         </Script>
         <noscript>
