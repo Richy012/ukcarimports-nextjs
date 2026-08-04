@@ -354,19 +354,26 @@ export default function FilterBar({
           pendingCarRef.current = typeof saved.clickedId === "string" ? saved.clickedId : null;
           savedLenRef.current = saved.cars.length;
           busyRef.current = true; // hold the auto-loader until we've landed
-          // Veil the page while we land: Next's router applies its own
-          // remembered scroll on Back and the fight is visible otherwise.
-          document.body.style.visibility = "hidden";
+          // Veil the grid while we land (the page's inline script already
+          // veiled it pre-paint on document loads; this covers client-side
+          // Back, where no fresh parse happens).
+          document.documentElement.classList.add("uc-veil");
           window.setTimeout(() => {
-            document.body.style.visibility = "";
+            document.documentElement.classList.remove("uc-veil");
             busyRef.current = false;
-          }, 500); // failsafe: the veil never outlives half a second
+          }, 800); // failsafe: the veil never outlives this
           setLiveCars(saved.cars);
           if (typeof saved.page === "number") setLoadedPage(saved.page);
         }
       }
     } catch {
       /* corrupt state: start at the top like before */
+    }
+
+    // No restore engaged (fresh visit, different query, nothing saved): the
+    // inline script may still have veiled the grid — lift it immediately.
+    if (pendingScrollRef.current === null) {
+      document.documentElement.classList.remove("uc-veil");
     }
 
     document.addEventListener("click", onClickCapture, true);
@@ -404,7 +411,7 @@ export default function FilterBar({
       land();
       window.setTimeout(() => {
         land();
-        document.body.style.visibility = "";
+        document.documentElement.classList.remove("uc-veil");
         busyRef.current = false; // release the auto-loader now we've landed
       }, 120);
     });
@@ -874,7 +881,9 @@ export default function FilterBar({
         </div>
       )}
 
-      <CardsGrid cars={liveCars} />
+      <div className="js-cars-area">
+        <CardsGrid cars={liveCars} />
+      </div>
 
       <SaveSearchPrompt
         filters={{

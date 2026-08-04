@@ -289,6 +289,16 @@ export default async function UsedCarsPage({
         {displayCount.toLocaleString("en-IE")}
       </p>
 
+      {/* Pre-paint veil: if this load is a deep-scroll return, hide the
+          grid area during HTML parse — before hydration exists — so the
+          fresh top-of-list can never flash. FilterBar lands the saved
+          position and lifts it; the timeout is the parse-side failsafe. */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html:
+            "try{var r=sessionStorage.getItem(\"ucScrollReturn\");if(r){var s=JSON.parse(r);if(s&&s.q===location.search&&Date.now()-(s.t||0)<1800000){document.documentElement.classList.add(\"uc-veil\");setTimeout(function(){document.documentElement.classList.remove(\"uc-veil\")},800);}}}catch(e){}",
+        }}
+      />
       <FilterBar
         key={stateKey}
         initialMakes={makes}
