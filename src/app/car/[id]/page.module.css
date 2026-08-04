@@ -1015,3 +1015,35 @@
   color: #8a5a00;
   font-weight: 600;
 }
+
+
+/* Bestseller badge on the car page */
+.carBadge {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px 0 4px;
+  padding: 9px 14px;
+  border-radius: 8px;
+  background: #fdecec;
+  border: 1px solid #f3c9c9;
+  text-decoration: none;
+}
+.carBadgeTier {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #b60b0c;
+}
+.carBadgeSaving {
+  font-size: 15px;
+  font-weight: 600;
+  color: #171717;
+}
+.carBadgeLink {
+  font-size: 13.5px;
+  color: #b60b0c;
+  text-decoration: underline;
+}

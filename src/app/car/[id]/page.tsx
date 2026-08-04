@@ -65,6 +65,8 @@ interface CarDetail {
   car_info?: CarInfo;
   vrt_rate?: number;
   relatedcars?: RelatedCar[];
+  bestseller_tier?: string | null;
+  bestseller_saving_eur?: number | null;
   service_history?: number;
   last_service?: string;
   last_service_mileage?: string;
@@ -249,6 +251,23 @@ export default async function CarDetailPage({
       <div className={styles.headingRow}>
         <h1 className={styles.heading}>{car.car_name}</h1>
         <SaveCarButton carId={id} />
+        {car.bestseller_tier && car.bestseller_saving_eur ? (
+        <Link href={`/best-value/why/${car.car_id}`} className={styles.carBadge}>
+          <span className={styles.carBadgeTier}>
+            {car.bestseller_tier === "number_one"
+              ? "#1 Bestseller"
+              : car.bestseller_tier === "trending"
+                ? "Trending Bestseller"
+                : "Bestseller"}
+          </span>
+          <span className={styles.carBadgeSaving}>
+            {car.bestseller_tier === "trending"
+              ? `around €${(Math.round(car.bestseller_saving_eur / 500) * 500).toLocaleString()} less than in Ireland`
+              : `€${car.bestseller_saving_eur.toLocaleString()} less than in Ireland`}
+          </span>
+          <span className={styles.carBadgeLink}>See the maths &rarr;</span>
+        </Link>
+      ) : null}
       </div>
       <AdminCarLink carId={id} />
 
