@@ -171,3 +171,14 @@
   max-width: 100%;
   height: auto;
 }
+
+/* CMS body links were invisible - same colour as text, no underline
+   (found 2026-08-04 when the LinkedIn link could not be seen). */
+.cms a {
+  color: #b60b0c;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.cms a:hover {
+  color: #9a0a0b;
+}
