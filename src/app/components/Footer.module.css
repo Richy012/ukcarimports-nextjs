@@ -170,3 +170,40 @@
   letter-spacing: 0.08em;
   margin-right: 8px;
 }
+
+
+/* Arklight platform credit -- lighthouse beam circles: right, flash at the
+   viewer, left, dark behind. Opacity/transform only (composited). */
+.arklight {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px 0 0;
+  font-size: 12.5px;
+  color: #6b6a68;
+  letter-spacing: 0.02em;
+}
+.arklight strong {
+  color: #454443;
+  font-weight: 600;
+}
+.arklightMark {
+  overflow: visible;
+  flex: none;
+}
+.beamR { animation: alSwR 5s linear infinite; transform-origin: 19px 7.5px; }
+.beamL { animation: alSwL 5s linear infinite; transform-origin: 19px 7.5px; }
+.flare { animation: alFlash 5s linear infinite; transform-origin: 19px 7.5px; opacity: 0; }
+.burst { animation: alBurst 5s linear infinite; opacity: 0; }
+.lamp  { animation: alLamp 5s linear infinite; }
+@keyframes alSwR { 0%, 8% { opacity: 0; transform: scaleX(0.2); } 18% { opacity: 0.55; transform: scaleX(1); } 30%, 100% { opacity: 0; transform: scaleX(0.2); } }
+@keyframes alSwL { 0%, 52% { opacity: 0; transform: scaleX(0.2); } 64% { opacity: 0.55; transform: scaleX(1); } 76%, 100% { opacity: 0; transform: scaleX(0.2); } }
+@keyframes alFlash { 0%, 30% { opacity: 0; transform: scale(0.2); } 38% { opacity: 0.85; transform: scale(1); } 50%, 100% { opacity: 0; transform: scale(2.6); } }
+@keyframes alBurst { 0%, 31% { opacity: 0; } 38% { opacity: 1; } 48%, 100% { opacity: 0; } }
+@keyframes alLamp { 0%, 100% { opacity: 0.55; } 18% { opacity: 0.9; } 38% { opacity: 1; } 64% { opacity: 0.9; } 85% { opacity: 0.45; } }
+@media (prefers-reduced-motion: reduce) {
+  .beamR, .beamL, .flare, .burst, .lamp { animation: none; }
+  .beamR, .beamL { opacity: 0.4; }
+  .lamp { opacity: 1; }
+}
