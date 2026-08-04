@@ -67,6 +67,18 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [openMenu]);
 
+  // Grace period on hover-out: instant close made the menu vanish while the
+  // pointer crossed from the button into the list (owner, 2026-08-04).
+  const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  function scheduleClose() {
+    if (leaveTimer.current) clearTimeout(leaveTimer.current);
+    leaveTimer.current = setTimeout(() => setOpenMenu(null), 400);
+  }
+  function cancelClose() {
+    if (leaveTimer.current) clearTimeout(leaveTimer.current);
+    leaveTimer.current = null;
+  }
+
   function toggleMenu(key: MenuKey) {
     setOpenMenu((current) => (current === key ? null : key));
   }
@@ -122,7 +134,7 @@ export default function Header() {
               </li>
             ))}
 
-            <li className={styles.accountItem} onMouseLeave={() => setOpenMenu(null)}>
+            <li className={styles.accountItem} onMouseLeave={scheduleClose} onMouseEnter={cancelClose}>
               <button
                 type="button"
                 className={styles.navLink}
@@ -143,7 +155,7 @@ export default function Header() {
             </li>
 
             {isLoggedIn ? (
-              <li className={styles.accountItem} onMouseLeave={() => setOpenMenu(null)}>
+              <li className={styles.accountItem} onMouseLeave={scheduleClose} onMouseEnter={cancelClose}>
                 <button
                   type="button"
                   className={styles.navLink}
@@ -168,7 +180,7 @@ export default function Header() {
                 </ul>
               </li>
             ) : (
-              <li className={styles.accountItem} onMouseLeave={() => setOpenMenu(null)}>
+              <li className={styles.accountItem} onMouseLeave={scheduleClose} onMouseEnter={cancelClose}>
                 <button
                   type="button"
                   className={styles.navLink}
