@@ -67,6 +67,8 @@ const COLOURS = [
   "Silver", "Turquoise", "Unlisted", "White", "Yellow",
 ];
 
+const FEATURE_SEARCH_ENABLED = false;
+
 const QUICK_PICKS = ["Leather seats", "Heated seats", "Panoramic roof", "Apple CarPlay", "Android Auto", "Sat nav"];
 
 // Matches the live site's real hardcoded option lists exactly (UsedCars.jsx).
@@ -544,14 +546,19 @@ export default function FilterBar({
           </span>
         </button>
 
-        <ChipSearch
-          label="Search features"
-          placeholder="e.g. leather seats, Apple CarPlay"
-          chips={searchChips}
-          onChipsChange={setSearchChips}
-          quickPicks={QUICK_PICKS}
-          onDraftChange={setSearchDraft}
-        />
+        {/* Feature search hidden until the description backfill gives it
+            real coverage (owner call, 2026-08-04). All wiring stays live --
+            flip FEATURE_SEARCH_ENABLED to bring it back. */}
+        {FEATURE_SEARCH_ENABLED && (
+          <ChipSearch
+            label="Search features"
+            placeholder="e.g. leather seats, Apple CarPlay"
+            chips={searchChips}
+            onChipsChange={setSearchChips}
+            quickPicks={QUICK_PICKS}
+            onDraftChange={setSearchDraft}
+          />
+        )}
         <ChipSearch
           label="Version / trim"
           placeholder="e.g. Inscription"
