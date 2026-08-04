@@ -160,3 +160,14 @@
 .checkList { margin: 6px 0 10px; padding-left: 18px; }
 .checkList li { margin-bottom: 4px; }
 .checkNote { color: #595959; font-size: 14px; }
+
+
+.checkEstimate {
+  margin: 10px 0 !important;
+  padding: 10px 12px;
+  border-left: 3px solid #b60b0c;
+  background: #fff;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+.checkCaveat { display: block; margin-top: 4px; color: #6b6a68; font-size: 13.5px; }

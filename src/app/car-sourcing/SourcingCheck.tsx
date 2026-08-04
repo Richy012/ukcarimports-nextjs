@@ -12,7 +12,24 @@ type Result = {
   make: string | null;
   model: string | null;
   matches: { car_id: string; car_name: string; price: number | null; mileage: string }[];
+  estimate: { low: number; high: number; sample: number } | null;
 };
+
+function EstimateNote({ e, make, model }: { e: Result["estimate"]; make: string | null; model: string | null }) {
+  if (!e) return null;
+  const eur = (n: number) => "\u20ac" + n.toLocaleString("en-IE");
+  return (
+    <p className={styles.checkEstimate}>
+      <strong>Rough guide:</strong> {make} {model} cars on our site currently land between{" "}
+      {eur(e.low)} and {eur(e.high)} all in \u2014 VRT, VAT, customs, transport and Irish plates
+      included, based on {e.sample} we have in stock.{" "}
+      <span className={styles.checkCaveat}>
+        This is an estimate only, not a quote: year, trim and mileage move the real figure
+        considerably. We price your exact car properly once we source it.
+      </span>
+    </p>
+  );
+}
 
 /**
  * Check-before-you-pay. A customer pastes the advert they found; we tell them
@@ -82,6 +99,7 @@ export default function SourcingCheck() {
           </p>
           <p>{result.reason}</p>
           <p>
+            <EstimateNote e={result.estimate} make={result.make} model={result.model} />
             Don&rsquo;t pay the sourcing fee for this one. If you tell us the model, budget and
             mileage you&rsquo;re after we&rsquo;ll find you the same car from a seller who can
             deliver — or set up a free alert below.
@@ -104,6 +122,7 @@ export default function SourcingCheck() {
               </li>
             ))}
           </ul>
+          <EstimateNote e={result.estimate} make={result.make} model={result.model} />
           <p>
             Not the exact one?{" "}
             <Link href={`/used-cars${result.make ? `?Make=${encodeURIComponent(result.make)}` : ""}`}>
@@ -122,6 +141,7 @@ export default function SourcingCheck() {
             stock, so the €50 sourcing service below is the right route — we&rsquo;ll price it fully
             landed, VRT and all, and come back to you.
           </p>
+          <EstimateNote e={result.estimate} make={result.make} model={result.model} />
           <p className={styles.checkNote}>
             <BellRing size={15} strokeWidth={2} aria-hidden="true" /> Not in a rush?{" "}
             <Link href="/sign-up">Set up a free alert</Link> and we&rsquo;ll email you when a

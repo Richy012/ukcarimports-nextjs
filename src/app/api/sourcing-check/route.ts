@@ -56,7 +56,8 @@ const BLOCKED: { match: RegExp; name: string; reason: string }[] = [
 function guessMakeModel(url: string): { make?: string; model?: string } {
   try {
     const parts = new URL(url).pathname.toLowerCase().split("/").filter(Boolean);
-    const skip = new Set(["used-cars", "used", "cars", "car", "vehicle", "vehicles", "details", "search", "stock", "classified"]);
+    const skip = new Set(["used-cars", "used", "cars", "car", "car-details", "cardetails", "usedcars",
+    "vehicle", "vehicles", "details", "search", "stock", "classified", "buy"]);
     const words = parts.filter((p) => !skip.has(p) && !/^\d+$/.test(p) && p.length > 1 && !/^[0-9a-f-]{20,}$/.test(p));
     return { make: words[0]?.replace(/-/g, " "), model: words[1]?.replace(/-/g, " ") };
   } catch {
@@ -75,21 +76,34 @@ export async function POST(req: NextRequest) {
 
   // What we already have, so a customer never pays to source something in stock.
   let matches: { car_id: string; car_name: string; price: number | null; mileage: string }[] = [];
+  let estimate: { low: number; high: number; sample: number } | null = null;
   if (make) {
     try {
-      const res = await fetch(`${API_BASE}/get-all-used-cars`, {
+      const res = await fetch(`${API_BASE}/allcarsnew/0/24`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ Make: make, Model: model || "", minPrice: "15000", pagenum: 0, limit: 3 }),
+        body: JSON.stringify({ Make: make, Model: model || "", minPrice: "15000", pagenum: 0, limit: 24 }),
         cache: "no-store",
       });
       const json = await res.json();
-      matches = (json?.data?.cars ?? []).slice(0, 3).map((c: Record<string, unknown>) => ({
+      const all = (json?.data?.cars ?? []).map((c: Record<string, unknown>) => ({
         car_id: String(c.car_id),
         car_name: String(c.car_name ?? ""),
         price: (c.car_info as { final_price?: number } | undefined)?.final_price ?? null,
         mileage: String(c.mileage ?? ""),
       }));
+      matches = all.slice(0, 3);
+      // Rough landed-price range from what the same make/model actually costs
+      // us to land today. Deliberately a RANGE and labelled an estimate: it
+      // ignores year, trim and mileage, which move the real figure a lot.
+      const prices = all
+        .map((c: { price: number | null }) => c.price)
+        .filter((n: number | null): n is number => typeof n === "number" && n > 0)
+        .sort((a: number, b: number) => a - b);
+      if (prices.length >= 3) {
+        const at = (frac: number) => prices[Math.min(prices.length - 1, Math.floor(prices.length * frac))];
+        estimate = { low: Math.round(at(0.15) / 500) * 500, high: Math.round(at(0.85) / 500) * 500, sample: prices.length };
+      }
     } catch {
       /* a failed lookup must never block the answer */
     }
@@ -103,6 +117,7 @@ export async function POST(req: NextRequest) {
       make: make ?? null,
       model: model ?? null,
       matches,
+      estimate,
     },
     { headers: { "Cache-Control": "no-store" } },
   );
