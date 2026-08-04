@@ -122,7 +122,7 @@ export default function Header() {
               </li>
             ))}
 
-            <li className={styles.accountItem}>
+            <li className={styles.accountItem} onMouseLeave={() => setOpenMenu(null)}>
               <button
                 type="button"
                 className={styles.navLink}
@@ -143,7 +143,7 @@ export default function Header() {
             </li>
 
             {isLoggedIn ? (
-              <li className={styles.accountItem}>
+              <li className={styles.accountItem} onMouseLeave={() => setOpenMenu(null)}>
                 <button
                   type="button"
                   className={styles.navLink}
@@ -168,7 +168,7 @@ export default function Header() {
                 </ul>
               </li>
             ) : (
-              <li className={styles.accountItem}>
+              <li className={styles.accountItem} onMouseLeave={() => setOpenMenu(null)}>
                 <button
                   type="button"
                   className={styles.navLink}
