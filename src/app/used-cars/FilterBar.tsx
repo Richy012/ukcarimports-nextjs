@@ -316,6 +316,7 @@ export default function FilterBar({
             page: loadedPageRef.current,
             y: window.scrollY,
             t: Date.now(),
+            clickedId: (a.getAttribute("href") || "").split("/car/")[1] || null,
             cars: liveCarsRef.current,
           }),
         );
@@ -330,6 +331,7 @@ export default function FilterBar({
               page: loadedPageRef.current,
               y: window.scrollY,
               t: Date.now(),
+              clickedId: (a.getAttribute("href") || "").split("/car/")[1] || null,
               cars: liveCarsRef.current.slice(0, 200),
             }),
           );
@@ -349,7 +351,9 @@ export default function FilterBar({
         if (fresh && saved.q === window.location.search && Array.isArray(saved.cars) && saved.cars.length > 0) {
           if ("scrollRestoration" in history) history.scrollRestoration = "manual";
           pendingScrollRef.current = saved.y || 0;
+          pendingCarRef.current = typeof saved.clickedId === "string" ? saved.clickedId : null;
           savedLenRef.current = saved.cars.length;
+          busyRef.current = true; // hold the auto-loader until we've landed
           setLiveCars(saved.cars);
           if (typeof saved.page === "number") setLoadedPage(saved.page);
         }
@@ -373,12 +377,20 @@ export default function FilterBar({
   // Deep-scroll restore lands before paint: once the restored tiles have
   // committed (length reaches what was saved), jump in the same frame.
   const pendingScrollRef = useRef<number | null>(null);
+  const pendingCarRef = useRef<string | null>(null);
   const savedLenRef = useRef(0);
   useLayoutEffect(() => {
-    if (pendingScrollRef.current !== null && liveCars.length >= savedLenRef.current) {
+    if (pendingScrollRef.current === null || liveCars.length < savedLenRef.current) return;
+    const id = pendingCarRef.current;
+    const tile = id ? document.querySelector(`a[href="/car/${id}"]`) : null;
+    if (tile) {
+      tile.scrollIntoView({ block: "center" });
+    } else {
       window.scrollTo(0, pendingScrollRef.current);
-      pendingScrollRef.current = null;
     }
+    pendingScrollRef.current = null;
+    pendingCarRef.current = null;
+    busyRef.current = false; // release the auto-loader now we've landed
   }, [liveCars]);
 
   // True once the user changes anything from the URL-applied state -- while
