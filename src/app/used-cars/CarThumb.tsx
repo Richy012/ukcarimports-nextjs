@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PhotoPlaceholder from "../components/PhotoPlaceholder";
 import styles from "./page.module.css";
 
@@ -14,6 +14,13 @@ export default function CarThumb({
   priority: boolean;
 }) {
   const [failed, setFailed] = useState(false);
+  const ref = useRef<HTMLImageElement | null>(null);
+
+  // Eager tiles can fail before hydration; onError alone misses that.
+  useEffect(() => {
+    const el = ref.current;
+    if (el && el.complete && el.naturalWidth === 0) setFailed(true);
+  }, []);
 
   if (failed) {
     return <PhotoPlaceholder />;
@@ -21,6 +28,7 @@ export default function CarThumb({
 
   return (
     <img
+      ref={ref}
       src={src}
       alt={alt}
       width={280}

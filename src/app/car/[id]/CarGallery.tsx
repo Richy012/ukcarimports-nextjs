@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PhotoPlaceholder from "../../components/PhotoPlaceholder";
 import styles from "./page.module.css";
 
@@ -39,6 +39,14 @@ export default function CarGallery({
   const [gridPage, setGridPage] = useState(0);
   const [heroFailed, setHeroFailed] = useState(false);
   const [failedThumbs, setFailedThumbs] = useState<Set<number>>(new Set());
+  const heroRef = useRef<HTMLImageElement | null>(null);
+
+  // An eager image can finish failing BEFORE hydration, so onError never
+  // fires -- a mounted check on naturalWidth catches that case.
+  useEffect(() => {
+    const el = heroRef.current;
+    if (el && el.complete && el.naturalWidth === 0) setHeroFailed(true);
+  }, []);
 
   const gridStart = gridPage * GRID_SIZE;
   const currentThumbnails = photos.slice(gridStart, gridStart + GRID_SIZE);
@@ -65,6 +73,7 @@ export default function CarGallery({
         <PhotoPlaceholder />
       ) : (
         <img
+          ref={heroRef}
           src={heroSrc}
           alt={carName}
           width={800}
