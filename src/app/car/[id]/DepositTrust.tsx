@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Star } from "lucide-react";
+import googleReviews from "@/data/google-reviews.json";
 import styles from "./page.module.css";
 
 /**
@@ -17,44 +18,25 @@ import styles from "./page.module.css";
  * and picks by car_id so the same car always shows the same review -- a
  * customer who returns twice doesn't see the story change.
  */
-const TRUST_REVIEWS: { name: string; quote: string }[] = [
-  {
-    name: "Ruairi O.",
-    quote:
-      "Just got a 2013 VW Scirocco through UKcarimports. Fast and easy service, 2 weeks from deposit placed to picking up car with the VRT done.",
-  },
-  {
-    name: "Chris C.",
-    quote: "Collected car yesterday. Fantastic service from beginning to end. Highly recommend this service.",
-  },
-  {
-    name: "Paul D.",
-    quote:
-      "I can't speak highly enough of ukcarimports. Richard and his team were just amazing. The help and expertise was invaluable.",
-  },
-  {
-    name: "Niamh K.",
-    quote:
-      "I recommend UK Car Imports for anyone considering buying a second hand car from the UK. The website is easy to use and the service is very efficient.",
-  },
-  {
-    name: "Declan C.",
-    quote:
-      "Cannot fault this service and would certainly recommend. Very clear on what level of service that is offered, prompt replies to all of my queries.",
-  },
-  {
-    name: "Aidan M.",
-    quote: "Great service for importing car from UK. Richard was a pleasure to deal with and very smooth transaction.",
-  },
-];
+// Every five-star review with a written comment, straight from the Google
+// Business Profile export (owner, 2026-08-04: "rotate through all the good
+// ones"). Long entries are excluded here only because this slot sits beside
+// the deposit button and must stay short -- they still appear on the
+// homepage and How It Works rotators.
+const TRUST_REVIEWS: { name: string; quote: string }[] = googleReviews.filter(
+  (r) => r.quote.length >= 40 && r.quote.length <= 210,
+);
 
 export default function DepositTrust({ carId }: { carId: string }) {
-  // Deterministic per car, so it is stable across visits and across SSR/CSR.
+  // Seeded by the car AND the day, so every review gets shown across the
+  // fleet, the same car is consistent within a day, and a visitor returning
+  // tomorrow sees a different voice rather than the same one forever.
   const [index, setIndex] = useState(0);
   useEffect(() => {
     let sum = 0;
     for (let i = 0; i < carId.length; i++) sum += carId.charCodeAt(i);
-    setIndex(sum % TRUST_REVIEWS.length);
+    const day = Math.floor(Date.now() / 86400000);
+    setIndex((sum + day) % TRUST_REVIEWS.length);
   }, [carId]);
 
   const review = TRUST_REVIEWS[index];
