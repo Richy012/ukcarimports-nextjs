@@ -6,6 +6,13 @@ import { GTM_ID } from "@/lib/gtm";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  // Until cutover flips SITE_INDEXABLE=1 (env change + rebuild), every page
+  // carries noindex — staging must never compete with the live site in
+  // Google. robots.ts serves the matching Disallow. Neither existed before
+  // 2026-08-04; staging had been fully crawlable.
+  ...(process.env.SITE_INDEXABLE !== "1"
+    ? { robots: { index: false, follow: false } }
+    : {}),
   title: {
     default: "UK Car Imports – Import Your Car from the UK to Ireland",
     template: "%s | UK Car Imports",
