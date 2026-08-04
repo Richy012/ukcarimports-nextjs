@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import CardsGrid from "./CardsGrid";
@@ -302,7 +302,7 @@ export default function FilterBar({
   // when the same query mounts again (browser Back), put all three back.
   // Only the SSR batch survives Back otherwise, so the page renders short
   // and the browser's own scroll restoration has nothing to restore into.
-  useEffect(() => {
+  useLayoutEffect(() => {
     const KEY = "ucScrollReturn";
 
     function onClickCapture(e: MouseEvent) {
@@ -347,11 +347,11 @@ export default function FilterBar({
         const saved = JSON.parse(raw);
         const fresh = Date.now() - (saved?.t ?? 0) < 30 * 60 * 1000;
         if (fresh && saved.q === window.location.search && Array.isArray(saved.cars) && saved.cars.length > 0) {
+          if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+          pendingScrollRef.current = saved.y || 0;
+          savedLenRef.current = saved.cars.length;
           setLiveCars(saved.cars);
           if (typeof saved.page === "number") setLoadedPage(saved.page);
-          requestAnimationFrame(() =>
-            requestAnimationFrame(() => window.scrollTo(0, saved.y || 0)),
-          );
         }
       }
     } catch {
@@ -369,6 +369,17 @@ export default function FilterBar({
   // Live mirrors for the click-capture listener above (registered once).
   const liveCarsRef = useRef<Car[]>(initialCars);
   const loadedPageRef = useRef(currentPage);
+
+  // Deep-scroll restore lands before paint: once the restored tiles have
+  // committed (length reaches what was saved), jump in the same frame.
+  const pendingScrollRef = useRef<number | null>(null);
+  const savedLenRef = useRef(0);
+  useLayoutEffect(() => {
+    if (pendingScrollRef.current !== null && liveCars.length >= savedLenRef.current) {
+      window.scrollTo(0, pendingScrollRef.current);
+      pendingScrollRef.current = null;
+    }
+  }, [liveCars]);
 
   // True once the user changes anything from the URL-applied state -- while
   // true we're showing a live preview (page 1 only, no sort applied server
@@ -529,7 +540,9 @@ export default function FilterBar({
 
   loadMoreRef.current = async () => {
     if (busyRef.current || loadingMore) return;
-    if (liveCars.length >= liveCount) return;
+    // liveCount 0 with cars on screen = the SSR count query failed; treat as
+    // unknown and keep loading -- the batch response carries the real count.
+    if (liveCount > 0 && liveCars.length >= liveCount) return;
     busyRef.current = true;
     setLoadingMore(true);
     try {
@@ -866,7 +879,7 @@ export default function FilterBar({
             : `\u2193 Keep scrolling \u2014 ${(liveCount - liveCars.length).toLocaleString("en-IE")} more cars load automatically`}
         </p>
       )}
-      {liveCars.length > 0 && liveCars.length >= liveCount && (
+      {liveCount > 0 && liveCars.length > 0 && liveCars.length >= liveCount && (
         <p className={pageStyles.loadingMore}>
           That&rsquo;s all {liveCount.toLocaleString("en-IE")} — every matching car is above.
         </p>
