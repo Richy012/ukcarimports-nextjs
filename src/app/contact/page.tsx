@@ -15,14 +15,14 @@ export default function ContactPage() {
         <div className={styles.offices}>
           <h2>OUR OFFICES</h2>
           <div className={styles.box}>
-            <img src="https://ukcarimports.ie/assets/images/icon-4.png" alt="" width={50} height={50} />
+            <img src="/assets/images/icon-4.png" alt="" width={50} height={50} />
             <div>
               <h3>ADDRESS</h3>
               <p>51 Bracken Rd, Sandyford Business Park, Sandyford, Dublin, D18 CV48, Ireland</p>
             </div>
           </div>
           <div className={styles.box}>
-            <img src="https://ukcarimports.ie/assets/images/icon-5.png" alt="" width={50} height={50} />
+            <img src="/assets/images/icon-5.png" alt="" width={50} height={50} />
             <div>
               <h3>EMAIL</h3>
               <p>info@ukcarimports.ie</p>

@@ -31,6 +31,10 @@ export default function RootLayout({
       <head>
         {/* Every car photo is served from the API origin, so the connection is
             worth opening before the first <img> is discovered. */}
+        {/* Chrome/iOS request these unprompted; a 404 on apple-touch-icon
+            logged a console error and cost 4 Best-Practices points. */}
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
         <link rel="preconnect" href="https://api.ukcarimports.ie" />
         <link rel="dns-prefetch" href="https://api.ukcarimports.ie" />
       </head>

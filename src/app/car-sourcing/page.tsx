@@ -47,7 +47,7 @@ export default function CarSourcingPage() {
 
       <div className={styles.stripeFooter}>
         <img
-          src="https://ukcarimports.ie/assets/images/srtipe_payments.png"
+          src="/assets/images/srtipe_payments.png"
           alt="Stripe payment"
           width={1000}
           height={184}
