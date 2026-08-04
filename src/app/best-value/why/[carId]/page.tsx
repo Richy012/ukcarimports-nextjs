@@ -226,6 +226,7 @@ export default async function BestValueWhyPage(props: {
         <summary style={{ cursor: "pointer", fontWeight: 700, fontSize: "1.05rem" }}>How we work this out — the rules</summary>
         <ul>
           <li>A saving only counts against a <strong>real Irish asking price</strong>, never a prediction.</li>
+          <li>Irish evidence covers listings from the <strong>past six months</strong>, each car counted once at its most recent asking price — a car that sold at its price is proof the price was real. Measured drift is negligible (24,775 identical listings ten days apart: 91% unchanged, average move −€78).</li>
           <li><strong>Bestseller: €2,500+ under the Irish market. #1 Bestseller: €5,000+.</strong> Euro figures, not percentages — €2,800 off a €48k car is real money even when the percentage looks small.</li>
           <li>Route 1: this exact car against a real Irish advert, with strong evidence — several comparisons, high match confidence, or same year with our mileage no higher.</li>
           <li>Route 2: our all-in price against the <strong>median</strong> asking price of 10 or more real Irish listings for the exact make, model and year.</li>

@@ -98,7 +98,9 @@ export default async function BestsellerIndexPage() {
           </div>
           <p className={styles.statFootnote}>
             Live figures — refreshed every 15 minutes against our current prices. Irish market
-            snapshot: {stats.snapshot_date}.
+            snapshot: {stats.snapshot_date}. Irish evidence covers listings from the past six
+            months, each car counted once at its most recent asking price (measured on 24,775
+            identical listings ten days apart: 91% unchanged).
           </p>
         </section>
       )}
