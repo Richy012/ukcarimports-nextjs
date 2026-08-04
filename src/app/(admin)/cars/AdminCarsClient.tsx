@@ -65,7 +65,7 @@ interface CarDetail {
   vrt_statcode: string | null;
   vrt_omsp: string | null;
   nox_value: number | null;
-  nox_source: "statcode" | "scraped" | "engine_default" | "ev_zero" | null;
+  nox_source: "statcode_master" | "statcode_capped" | "statcode" | "scraped" | "engine_default" | "ev_zero" | null;
   nox_charge: number | null;
   fuel_type: string | null;
   exchange_rate: number | null;
@@ -377,7 +377,11 @@ export default function AdminCarsClient() {
                                 <span>NOx</span>
                                 <span>
                                   {detail.nox_charge !== null ? `${eur(detail.nox_charge)} — ` : ""}
-                                  {detail.nox_source === "statcode" && "statcode NOx levy"}
+                                  {detail.nox_source === "statcode_master" &&
+                                    `${detail.nox_value} mg/km (Revenue statcode)`}
+                                  {detail.nox_source === "statcode_capped" &&
+                                    `${detail.nox_value} mg/km, capped at ${(detail.fuel_type ?? "").startsWith("Diesel") ? 80 : 60} mg`}
+                                  {detail.nox_source === "statcode" && "statcode NOx levy (legacy lookup)"}
                                   {detail.nox_source === "scraped" && `${detail.nox_value} mg/km (scraped)`}
                                   {detail.nox_source === "engine_default" &&
                                     `${detail.fuel_type ?? "engine"}-type default (${detail.nox_value} mg)`}

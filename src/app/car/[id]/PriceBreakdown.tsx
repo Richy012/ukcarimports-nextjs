@@ -118,11 +118,31 @@ export default function PriceBreakdown({
   // staff token - so for everyone else there is no response in the network tab
   // to inspect either.
   const [staff, setStaff] = useState<StaffBreakdown | null>(null);
+  const [staffVrt, setStaffVrt] = useState<{
+    co2Charge: number | null;
+    co2Gkm: string | null;
+    noxCharge: number | null;
+    noxMg: number | null;
+    noxSource: string | null;
+  } | null>(null);
   useEffect(() => {
     if (!showBreakdown || staff || !isAdminTokenValid()) return;
     fetch(`/api/staff-car-detail/${carId}`, { headers: staffAuthHeaders() })
       .then((r) => (r.ok ? r.json() : null))
-      .then((d) => setStaff(d?.data?.breakdown ?? null))
+      .then((d) => {
+        setStaff(d?.data?.breakdown ?? null);
+        setStaffVrt(
+          d?.data
+            ? {
+                co2Charge: d.data.vrt_co2_charge ?? null,
+                co2Gkm: d.data.co2_gkm ?? null,
+                noxCharge: d.data.nox_charge ?? null,
+                noxMg: d.data.nox_value ?? null,
+                noxSource: d.data.nox_source ?? null,
+              }
+            : null,
+        );
+      })
       .catch(() => setStaff(null));
   }, [showBreakdown, staff, carId]);
   const [includeInspection, setIncludeInspection] = useState(false);
@@ -389,6 +409,25 @@ export default function PriceBreakdown({
             <dt>VRT</dt>
             <dd>€{formatEuro(vrtRate)}</dd>
           </div>
+          {staffVrt && staffVrt.co2Charge !== null && (
+            <div className={styles.breakdownRow}>
+              <dt style={{ paddingLeft: 14, opacity: 0.85 }}>
+                &mdash; CO&#8322; element{staffVrt.co2Gkm ? ` · ${staffVrt.co2Gkm} g/km` : ""}
+              </dt>
+              <dd>€{formatEuro(staffVrt.co2Charge)}</dd>
+            </div>
+          )}
+          {staffVrt && staffVrt.noxCharge !== null && (
+            <div className={styles.breakdownRow}>
+              <dt style={{ paddingLeft: 14, opacity: 0.85 }}>
+                &mdash; NOx element
+                {staffVrt.noxMg !== null ? ` · ${staffVrt.noxMg} mg/km` : ""}
+                {staffVrt.noxSource === "statcode_capped" ? " (capped)" : ""}
+                {staffVrt.noxSource === "engine_default" ? " (default)" : ""}
+              </dt>
+              <dd>€{formatEuro(staffVrt.noxCharge)}</dd>
+            </div>
+          )}
           <div className={styles.breakdownRow}>
             <dt>Service fee</dt>
             <dd>€{formatEuro(staff.service_fee)}</dd>
