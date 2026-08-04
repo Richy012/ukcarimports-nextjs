@@ -317,6 +317,7 @@ export default function FilterBar({
             y: window.scrollY,
             t: Date.now(),
             clickedId: (a.getAttribute("href") || "").split("/car/")[1] || null,
+            tileTop: a.getBoundingClientRect().top,
             cars: liveCarsRef.current,
           }),
         );
@@ -332,6 +333,7 @@ export default function FilterBar({
               y: window.scrollY,
               t: Date.now(),
               clickedId: (a.getAttribute("href") || "").split("/car/")[1] || null,
+              tileTop: a.getBoundingClientRect().top,
               cars: liveCarsRef.current.slice(0, 200),
             }),
           );
@@ -352,6 +354,8 @@ export default function FilterBar({
           if ("scrollRestoration" in history) history.scrollRestoration = "manual";
           pendingScrollRef.current = saved.y || 0;
           pendingCarRef.current = typeof saved.clickedId === "string" ? saved.clickedId : null;
+          pendingTopRef.current = typeof saved.tileTop === "number" ? saved.tileTop : null;
+          restoredRef.current = true; // live-preview effect must not clobber this
           savedLenRef.current = saved.cars.length;
           busyRef.current = true; // hold the auto-loader until we've landed
           // Veil the grid while we land (the page's inline script already
@@ -392,6 +396,8 @@ export default function FilterBar({
   // committed (length reaches what was saved), jump in the same frame.
   const pendingScrollRef = useRef<number | null>(null);
   const pendingCarRef = useRef<string | null>(null);
+  const pendingTopRef = useRef<number | null>(null);
+  const restoredRef = useRef(false);
   const savedLenRef = useRef(0);
   useLayoutEffect(() => {
     if (pendingScrollRef.current === null || liveCars.length < savedLenRef.current) return;
@@ -399,10 +405,20 @@ export default function FilterBar({
     const id = pendingCarRef.current;
     pendingScrollRef.current = null;
     pendingCarRef.current = null;
+    const top = pendingTopRef.current;
+    pendingTopRef.current = null;
     const land = () => {
       const tile = id ? document.querySelector(`a[href="/car/${id}"]`) : null;
-      if (tile) tile.scrollIntoView({ block: "center" });
-      else window.scrollTo(0, y);
+      if (tile) {
+        tile.scrollIntoView({ block: "center" });
+        if (top !== null) {
+          // Put the tile back at the exact height it sat when clicked.
+          const r = tile.getBoundingClientRect();
+          window.scrollBy(0, r.top - top);
+        }
+      } else {
+        window.scrollTo(0, y);
+      }
     };
     land();
     // Re-assert after the router's own scroll restore has had its turn,
@@ -475,6 +491,13 @@ export default function FilterBar({
   }, []);
 
   useEffect(() => {
+    // A restore just rebuilt the full scrolled list; this effect's mount run
+    // would replace it with page 1 and dump the visitor somewhere else --
+    // the exact "come back in a different place" bug. Skip one run.
+    if (restoredRef.current) {
+      restoredRef.current = false;
+      return;
+    }
     const timer = setTimeout(async () => {
       setCountLoading(true);
       try {
