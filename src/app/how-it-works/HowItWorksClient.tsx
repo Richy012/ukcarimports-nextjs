@@ -14,6 +14,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import styles from "./page.module.css";
+import ReviewCarousel from "../ReviewCarousel";
+import googleReviews from "@/data/google-reviews.json";
 
 interface Step {
   icon: LucideIcon;
@@ -76,24 +78,6 @@ const STEPS: Step[] = [
   },
 ];
 
-const REVIEWS = [
-  {
-    quote: "Just under two weeks from initial contact to the car being delivered.",
-    name: "Shauna W.",
-  },
-  {
-    quote: "An Irish-plated car, that you order from your computer, within 2 weeks. The mechanic inspection is comprehensive.",
-    name: "Galatia C.",
-  },
-  {
-    quote: "Clear communication and no surprises along the way. Very upfront, honest and helpful throughout.",
-    name: "Conor W.",
-  },
-  {
-    quote: "Higher spec cars, for cheaper — you can't go wrong.",
-    name: "Declan W.",
-  },
-];
 
 const AUTO_ADVANCE_MS = 5000;
 
@@ -340,14 +324,13 @@ export default function HowItWorksClient({ stockLabel }: { stockLabel?: string }
         <p className={styles.reviewsRating}>
           <span className={styles.stars}>★★★★★</span> 4.6 from 122 Google reviews
         </p>
-        <div className={styles.reviewGrid}>
-          {REVIEWS.map((r) => (
-            <figure key={r.name} className={styles.reviewCard}>
-              <blockquote>&ldquo;{r.quote}&rdquo;</blockquote>
-              <figcaption>— {r.name}, Google review</figcaption>
-            </figure>
-          ))}
-        </div>
+        <ReviewCarousel
+          reviews={googleReviews}
+          slots={4}
+          gridClass={styles.reviewGrid}
+          cardClass={styles.reviewCard}
+          captionVariant="google-review"
+        />
       </section>
 
       <section className={styles.finalCta}>

@@ -4,6 +4,7 @@ import { BadgeEuro, CarFront } from "lucide-react";
 import HomeSearchPanel from "./HomeSearchPanel";
 import ProcessTimeline from "./ProcessTimeline";
 import ReviewCarousel from "./ReviewCarousel";
+import googleReviews from "@/data/google-reviews.json";
 import { getStockCount, formatStockCount } from "@/lib/stockCount";
 import styles from "./page.module.css";
 
@@ -104,11 +105,6 @@ async function getHomeData() {
   }
 }
 
-const REVIEWS = [
-  { name: "Shauna W.", quote: "Just under two weeks from initial contact to the car being delivered." },
-  { name: "Declan W.", quote: "Higher spec cars, for cheaper — you can't go wrong." },
-  { name: "Galatia C.", quote: "An Irish-plated car, ordered from your computer, within 2 weeks." },
-];
 
 export default async function HomePage() {
   const { bestValue, bvCount, count, makes } = await getHomeData();
@@ -239,7 +235,12 @@ export default async function HomePage() {
         <p className={styles.sectionSub}>
           <span className={styles.stars}>★★★★★</span> 4.6 from 122 Google reviews
         </p>
-        <ReviewCarousel reviews={REVIEWS} />
+        <ReviewCarousel
+          reviews={googleReviews}
+          slots={3}
+          gridClass={styles.reviewGrid}
+          cardClass={styles.reviewCard}
+        />
       </section>
 
       <section className={styles.closing}>

@@ -808,6 +808,11 @@
   color: #333;
   line-height: 1.6;
   font-size: 0.93rem;
+  /* real Google reviews vary in length -- clamp so rotating cards stay even */
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .reviewCard figcaption {
