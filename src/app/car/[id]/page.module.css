@@ -1008,3 +1008,10 @@
   0%, 100% { opacity: 0.25; }
   50% { opacity: 1; }
 }
+
+
+/* Flag when the advert's last-service reading exceeds its own odometer */
+.serviceQuery {
+  color: #8a5a00;
+  font-weight: 600;
+}

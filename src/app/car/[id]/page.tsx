@@ -347,10 +347,26 @@ export default async function CarDetailPage({
                 : legacyKm
                   ? ` at ${legacyKm.toLocaleString()} km`
                   : "";
+              // The dealer's advert sometimes records a last-service reading
+              // ABOVE the odometer it quotes. We can't resolve their data, so
+              // say so plainly rather than print two numbers that disagree
+              // (owner, 2026-08-04).
+              const odoMiles = Number(String(car.mileage ?? "").replace(/[^0-9]/g, ""));
+              const svcMiles = car.capture?.last_service_miles
+                ? Number(car.capture.last_service_miles)
+                : car.last_service_mileage
+                  ? Number(String(car.last_service_mileage).replace(/[^0-9]/g, ""))
+                  : 0;
+              const mileageQuery = odoMiles > 0 && svcMiles > odoMiles;
               return (
                 <li>
                   <Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} /> Service history
                   {when ? ` — last serviced ${when}${at}` : ""}
+                  {mileageQuery && (
+                    <span className={styles.serviceQuery}>
+                      {" "}Service reading is above the listed mileage — we&rsquo;ll confirm with the garage.
+                    </span>
+                  )}
                 </li>
               );
             })()}
