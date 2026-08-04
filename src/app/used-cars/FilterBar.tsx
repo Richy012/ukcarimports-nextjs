@@ -126,12 +126,14 @@ function ChipSearch({
   chips,
   onChipsChange,
   quickPicks,
+  onDraftChange,
 }: {
   label: string;
   placeholder: string;
   chips: string[];
   onChipsChange: (chips: string[]) => void;
   quickPicks?: string[];
+  onDraftChange?: (draft: string) => void;
 }) {
   const [inputValue, setInputValue] = useState("");
 
@@ -141,10 +143,12 @@ function ChipSearch({
     const key = term.toLowerCase();
     if (chips.some((c) => c.toLowerCase() === key)) {
       setInputValue("");
+      onDraftChange?.("");
       return;
     }
     onChipsChange([...chips, term]);
     setInputValue("");
+    onDraftChange?.("");
   }
 
   function removeChip(term: string) {
@@ -159,13 +163,17 @@ function ChipSearch({
         className={styles.chipInput}
         placeholder={placeholder}
         value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
+        onChange={(e) => {
+          setInputValue(e.target.value);
+          onDraftChange?.(e.target.value);
+        }}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             e.preventDefault();
             addChip(inputValue);
           }
         }}
+        onBlur={() => addChip(inputValue)}
       />
       {quickPicks && (
         <div className={styles.quickPicks}>
@@ -250,12 +258,24 @@ export default function FilterBar({
   const [maxMileage, setMaxMileage] = useState(currentMaxMileage);
   const [searchChips, setSearchChips] = useState<string[]>(currentSearchChips);
   const [versionChips, setVersionChips] = useState<string[]>(currentVersionChips);
+  // Text typed into a chip box but not yet committed with Enter. Users type a
+  // trim and hit Apply without pressing Enter (2026-08-04, "Shiro" bug) --
+  // pending text must count as a term everywhere chips do.
+  const [searchDraft, setSearchDraft] = useState("");
+  const [versionDraft, setVersionDraft] = useState("");
+  const withDraft = (chips: string[], draft: string) => {
+    const t = draft.trim();
+    if (!t || chips.some((c) => c.toLowerCase() === t.toLowerCase())) return chips;
+    return [...chips, t];
+  };
+  const effSearchChips = withDraft(searchChips, searchDraft);
+  const effVersionChips = withDraft(versionChips, versionDraft);
   const [sort, setSort] = useState(currentSort);
   const [bestseller, setBestseller] = useState(currentBestseller);
   const [models, setModels] = useState<Option[]>([]);
   const [modelsLoading, setModelsLoading] = useState(false);
   const [liveCars, setLiveCars] = useState<Car[]>(initialCars);
-  const [liveCount, setLiveCount] = useState(initialCount);
+  const [liveCount, setLiveCount] = useState(initialCount ?? 0);
   const [countLoading, setCountLoading] = useState(false);
 
   // Infinite scroll (AutoTrader-style, owner request 2026-07-31): more cars
@@ -289,8 +309,8 @@ export default function FilterBar({
     maxMileage !== currentMaxMileage ||
     sort !== currentSort ||
     bestseller !== currentBestseller ||
-    searchChips.join(" ") !== currentSearchChips.join(" ") ||
-    versionChips.join(" ") !== currentVersionChips.join(" ");
+    effSearchChips.join(" ") !== currentSearchChips.join(" ") ||
+    effVersionChips.join(" ") !== currentVersionChips.join(" ");
 
   async function fetchModels(forMake: string) {
     if (!forMake) {
@@ -350,10 +370,10 @@ export default function FilterBar({
             maxPrice,
             minMileage,
             maxMileage,
-            search: searchChips.join(" "),
-            searchChips,
-            version: versionChips.join(" "),
-            versionChips,
+            search: effSearchChips.join(" "),
+            searchChips: effSearchChips,
+            version: effVersionChips.join(" "),
+            versionChips: effVersionChips,
             price_sort,
             mileage_sort,
             pricefilter: price_sort,
@@ -377,7 +397,7 @@ export default function FilterBar({
     }, 400);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [make, model, fuel, bodyStyle, transmission, seats, color, minEnginesize, maxEnginesize, minYear, maxYear, minPrice, maxPrice, minMileage, maxMileage, searchChips, versionChips, sort, bestseller]);
+  }, [make, model, fuel, bodyStyle, transmission, seats, color, minEnginesize, maxEnginesize, minYear, maxYear, minPrice, maxPrice, minMileage, maxMileage, searchChips, versionChips, searchDraft, versionDraft, sort, bestseller]);
 
   // Reassigned every render so the IntersectionObserver callback always sees
   // the current filter state without re-registering the observer.
@@ -408,10 +428,10 @@ export default function FilterBar({
           maxPrice,
           minMileage,
           maxMileage,
-          search: searchChips.join(" "),
-          searchChips,
-          version: versionChips.join(" "),
-          versionChips,
+          search: effSearchChips.join(" "),
+          searchChips: effSearchChips,
+          version: effVersionChips.join(" "),
+          versionChips: effVersionChips,
           price_sort,
           mileage_sort,
           pricefilter: price_sort,
@@ -487,8 +507,8 @@ export default function FilterBar({
     if (maxPrice) params.set("maxPrice", maxPrice);
     if (minMileage) params.set("minMileage", minMileage);
     if (maxMileage) params.set("maxMileage", maxMileage);
-    searchChips.forEach((c) => params.append("searchChips", c));
-    versionChips.forEach((c) => params.append("versionChips", c));
+    effSearchChips.forEach((c) => params.append("searchChips", c));
+    effVersionChips.forEach((c) => params.append("versionChips", c));
     if (price_sort) params.set("price_sort", price_sort);
     if (mileage_sort) params.set("mileage_sort", mileage_sort);
     if (bestseller) params.set("bestseller", bestseller);
@@ -530,12 +550,14 @@ export default function FilterBar({
           chips={searchChips}
           onChipsChange={setSearchChips}
           quickPicks={QUICK_PICKS}
+          onDraftChange={setSearchDraft}
         />
         <ChipSearch
           label="Version / trim"
           placeholder="e.g. Inscription"
           chips={versionChips}
           onChipsChange={setVersionChips}
+          onDraftChange={setVersionDraft}
         />
 
         <div className={styles.bar}>
@@ -669,7 +691,7 @@ export default function FilterBar({
         </div>
 
         <div className={styles.liveCount} aria-live="polite">
-          {countLoading ? "Updating…" : `${liveCount.toLocaleString("en-IE")} vehicles match`}
+          {countLoading ? "Updating…" : `${(liveCount ?? 0).toLocaleString("en-IE")} vehicles match`}
         </div>
       </div>
 
