@@ -332,12 +332,20 @@ export default async function CarDetailPage({
             <li><Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} /> History checked before purchase</li>
             <li><Check size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 6 }} /> Inspected after deposit, on request</li>
             {(car.service_history || car.capture?.last_service_date) && (() => {
-              const when = car.last_service
-                || (car.capture?.last_service_date ? displayDate(car.capture.last_service_date) : "");
-              const at = car.last_service_mileage
-                ? ` at ${car.last_service_mileage} km`
-                : car.capture?.last_service_miles
-                  ? ` at ${car.capture.last_service_miles.toLocaleString()} miles`
+              // Capture data first: it comes from AutoTrader's own history
+              // panel (date + "miles at last service"). The legacy fields
+              // parsed the ad text and got both the date (history-check date)
+              // and the units (miles labelled km) wrong on real cars.
+              const when = (car.capture?.last_service_date ? displayDate(car.capture.last_service_date) : "")
+                || car.last_service
+                || "";
+              const legacyKm = car.last_service_mileage
+                ? Math.round(parseInt(String(car.last_service_mileage).replace(/[^0-9]/g, ""), 10) * 1.60934)
+                : null;
+              const at = car.capture?.last_service_miles
+                ? ` at ${Math.round(car.capture.last_service_miles * 1.60934).toLocaleString()} km`
+                : legacyKm
+                  ? ` at ${legacyKm.toLocaleString()} km`
                   : "";
               return (
                 <li>
@@ -514,8 +522,12 @@ export default async function CarDetailPage({
                   <div className={styles.specRow}>
                     <dt className={styles.specLabel}>Last serviced</dt>
                     <dd className={styles.specValue}>
-                      {car.last_service}
-                      {car.last_service_mileage ? ` at ${car.last_service_mileage} km` : ""}
+                      {(car.capture?.last_service_date && displayDate(car.capture.last_service_date)) || car.last_service}
+                      {car.capture?.last_service_miles
+                        ? ` at ${Math.round(car.capture.last_service_miles * 1.60934).toLocaleString()} km`
+                        : car.last_service_mileage
+                          ? ` at ${Math.round(parseInt(String(car.last_service_mileage).replace(/[^0-9]/g, ""), 10) * 1.60934).toLocaleString()} km`
+                          : ""}
                     </dd>
                   </div>
                 )}
