@@ -551,6 +551,28 @@ export default function PriceBreakdown({
             ) : (
               <>
                 <h2 className={styles.depositHeading}>Reserve this car</h2>
+                {/* Live availability, shown while the form is still open.
+                    The check has always run on modal-open, but its result was
+                    only surfaced AFTER submitting -- so a customer filling the
+                    form had no idea whether the car was still there (owner,
+                    2026-08-04). */}
+                {availability === "checking" && (
+                  <p className={styles.availLine}>
+                    <span className={styles.availDot} aria-hidden="true" /> Checking with the seller that this car is still available&hellip;
+                  </p>
+                )}
+                {availability === "available" && (
+                  <p className={`${styles.availLine} ${styles.availOk}`}>
+                    <CircleCheck size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 5 }} />
+                    Available &mdash; confirmed with the seller just now.
+                  </p>
+                )}
+                {availability === "timeout" && (
+                  <p className={styles.availLine}>
+                    We couldn&rsquo;t reach the seller to confirm availability just now &mdash; you can still
+                    reserve, and we verify before any payment is taken.
+                  </p>
+                )}
                 <div className={styles.depositJourney}>
                   <span><HandCoins size={16} strokeWidth={1.75} aria-hidden="true" /> €2,000 deposit today</span>
                   <span><ClipboardCheck size={16} strokeWidth={1.75} aria-hidden="true" /> Optional €395 inspection</span>
