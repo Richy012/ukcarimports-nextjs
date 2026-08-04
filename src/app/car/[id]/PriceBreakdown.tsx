@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { isAdminTokenValid, staffAuthHeaders } from "@/lib/auth";
 import Link from "next/link";
 import styles from "./page.module.css";
+import DepositTrust from "./DepositTrust";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
 const RECAPTCHA_SITE_KEY = "6LdJejIaAAAAABPap2izWvDOKZgwXHDlo4KVmtLs";
@@ -474,6 +475,8 @@ export default function PriceBreakdown({
       >
         {vrm ? `Place A Deposit on ${String(vrm).toUpperCase()}` : "Place A Deposit"}
       </button>
+
+      <DepositTrust carId={carId} />
 
       {showModal && (
         <div className={styles.depositOverlay} onClick={() => setShowModal(false)}>

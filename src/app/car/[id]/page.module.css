@@ -1047,3 +1047,35 @@
   color: #b60b0c;
   text-decoration: underline;
 }
+
+
+/* One five-star review beside the deposit decision */
+.depositTrust {
+  margin: 14px 0 2px;
+  padding: 12px 14px;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  background: #fafaf9;
+}
+.depositTrustStars {
+  display: flex;
+  gap: 1px;
+  margin-bottom: 6px;
+}
+.depositTrustQuote {
+  margin: 0 0 6px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+  font-style: italic;
+}
+.depositTrustName {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #b60b0c;
+}
+.depositTrustName span {
+  color: #6b6a68;
+  font-weight: 400;
+}
