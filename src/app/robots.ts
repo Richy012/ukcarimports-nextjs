@@ -1,23 +1,23 @@
 import type { MetadataRoute } from "next";
+import { headers } from "next/headers";
 
-// Indexability is a single switch: SITE_INDEXABLE=1 in .env.production (set
-// at cutover, needs a rebuild) opens the site to crawlers and advertises the
-// sitemap. Anything else — including the variable being absent, the safe
-// default for staging — serves a blanket Disallow AND pairs with the
-// noindex meta emitted by layout.tsx. Found 2026-08-04: staging had NO
-// robots.txt and NO noindex anywhere; this closes both gaps.
-export default function robots(): MetadataRoute.Robots {
-  if (process.env.SITE_INDEXABLE !== "1") {
-    return {
-      rules: { userAgent: "*", disallow: "/" },
-    };
+// Live and staging are served by ONE process, so a build-time flag opened
+// BOTH to crawlers (found 2026-08-04, hours after cutover). Decide per
+// request host instead: only the canonical live host is indexable, every
+// other host (staging, IP, preview) gets a blanket Disallow.
+const LIVE_HOSTS = new Set(["ukcarimports.ie", "www.ukcarimports.ie"]);
+
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const h = await headers();
+  const host = (h.get("host") || "").toLowerCase().split(":")[0];
+
+  if (!LIVE_HOSTS.has(host)) {
+    return { rules: { userAgent: "*", disallow: "/" } };
   }
   return {
     rules: {
       userAgent: "*",
       allow: "/",
-      // admin group routes + staff login carry their own noindex meta, but
-      // there is no reason to invite crawling either
       disallow: [
         "/dashboard",
         "/deposits",

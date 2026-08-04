@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import Script from "next/script";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { GTM_ID } from "@/lib/gtm";
 import "./globals.css";
 
-export const metadata: Metadata = {
+const LIVE_HOSTS = new Set(["ukcarimports.ie", "www.ukcarimports.ie"]);
+
+const baseMetadata: Metadata = {
   // Until cutover flips SITE_INDEXABLE=1 (env change + rebuild), every page
   // carries noindex — staging must never compete with the live site in
   // Google. robots.ts serves the matching Disallow. Neither existed before
   // 2026-08-04; staging had been fully crawlable.
-  ...(process.env.SITE_INDEXABLE !== "1"
-    ? { robots: { index: false, follow: false } }
-    : {}),
+
   title: {
     default: "UK Car Imports – Import Your Car from the UK to Ireland",
     template: "%s | UK Car Imports",
@@ -20,6 +21,15 @@ export const metadata: Metadata = {
   description:
     "Safe and easy way to buy UK used cars from Ireland - VRT & NOx fees due per car. Optional mechanical & condition inspection reports. Optional warranty cover & VRT processing.",
 };
+
+// noindex follows the request host, so staging can never be indexed even
+// though it shares this process with the live site.
+export async function generateMetadata(): Promise<Metadata> {
+  const h = await headers();
+  const host = (h.get("host") || "").toLowerCase().split(":")[0];
+  if (LIVE_HOSTS.has(host)) return baseMetadata;
+  return { ...baseMetadata, robots: { index: false, follow: false } };
+}
 
 export default function RootLayout({
   children,
