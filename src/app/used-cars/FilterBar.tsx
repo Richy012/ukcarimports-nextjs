@@ -275,6 +275,15 @@ export default function FilterBar({
   const [sort, setSort] = useState(currentSort);
   const [bestseller, setBestseller] = useState(currentBestseller);
   const [models, setModels] = useState<Option[]>([]);
+  // Dropdown counts were server-rendered once, so toggling Bestseller Series
+  // left them showing whole-stock numbers ("hyundai (5,947)" when only 373
+  // Hyundais carry a badge) -- owner report 2026-08-04. They now refresh
+  // client-side whenever the toggle changes.
+  const [makeOpts, setMakeOpts] = useState<Option[]>(initialMakes);
+  const [fuelOpts, setFuelOpts] = useState<Option[]>(initialFuels);
+  const [bodyOpts, setBodyOpts] = useState<Option[]>(initialBodyStyles);
+  const [transOpts, setTransOpts] = useState<Option[]>(initialTransmissions);
+  const [seatOpts, setSeatOpts] = useState<Option[]>(initialSeats);
   const [modelsLoading, setModelsLoading] = useState(false);
   const [liveCars, setLiveCars] = useState<Car[]>(initialCars);
   const [liveCount, setLiveCount] = useState(initialCount ?? 0);
@@ -400,6 +409,47 @@ export default function FilterBar({
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [make, model, fuel, bodyStyle, transmission, seats, color, minEnginesize, maxEnginesize, minYear, maxYear, minPrice, maxPrice, minMileage, maxMileage, searchChips, versionChips, searchDraft, versionDraft, sort, bestseller]);
+
+  useEffect(() => {
+    // Skip the first pass: the props already match the URL state.
+    if (bestseller === currentBestseller) return;
+    let cancelled = false;
+    const extra = bestseller ? { bestsellerSeries: bestseller } : {};
+    const load = async (name: string): Promise<Option[]> => {
+      const res = await fetch(`/api/facets/${name}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...FILTER_BODY_DEFAULTS, ...extra }),
+      });
+      if (!res.ok) return [];
+      const d = await res.json();
+      const key = name === "makes" ? "make"
+        : name === "fuel-types" ? "fuel_type"
+        : name === "body-styles" ? "body_style"
+        : name === "transmission-types" ? "transmission_type"
+        : "seats";
+      return (d?.[key] || [])
+        .filter((row: Record<string, unknown>) => row[key])
+        .map((row: Record<string, unknown>) => ({
+          label: String(row[key]),
+          total: Number(row.total ?? 0),
+        }));
+    };
+    (async () => {
+      const [mk, fu, bo, tr, se] = await Promise.all([
+        load("makes"), load("fuel-types"), load("body-styles"),
+        load("transmission-types"), load("seats"),
+      ]);
+      if (cancelled) return;
+      if (mk.length) setMakeOpts(mk);
+      if (fu.length) setFuelOpts(fu);
+      if (bo.length) setBodyOpts(bo);
+      if (tr.length) setTransOpts(tr);
+      if (se.length) setSeatOpts(se);
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bestseller]);
 
   // Reassigned every render so the IntersectionObserver callback always sees
   // the current filter state without re-registering the observer.
@@ -570,7 +620,7 @@ export default function FilterBar({
         <div className={styles.bar}>
           <select className={styles.select} value={make} onChange={(e) => handleMakeChange(e.target.value)} aria-label="Make">
             <option value="">All Makes</option>
-            {initialMakes.map((m) => (
+            {makeOpts.map((m) => (
               <option key={m.label} value={m.label}>{m.label} ({m.total})</option>
             ))}
           </select>
@@ -584,28 +634,28 @@ export default function FilterBar({
 
           <select className={styles.select} value={bodyStyle} onChange={(e) => setBodyStyle(e.target.value)} aria-label="Body Type">
             <option value="">All Body Types</option>
-            {initialBodyStyles.map((b) => (
+            {bodyOpts.map((b) => (
               <option key={b.label} value={b.label}>{b.label} ({b.total})</option>
             ))}
           </select>
 
           <select className={styles.select} value={fuel} onChange={(e) => setFuel(e.target.value)} aria-label="Fuel Type">
             <option value="">All Fuel Types</option>
-            {initialFuels.map((f) => (
+            {fuelOpts.map((f) => (
               <option key={f.label} value={f.label}>{f.label} ({f.total})</option>
             ))}
           </select>
 
           <select className={styles.select} value={transmission} onChange={(e) => setTransmission(e.target.value)} aria-label="Gearbox">
             <option value="">All Gearboxes</option>
-            {initialTransmissions.map((t) => (
+            {transOpts.map((t) => (
               <option key={t.label} value={t.label}>{t.label} ({t.total})</option>
             ))}
           </select>
 
           <select className={styles.select} value={seats} onChange={(e) => setSeats(e.target.value)} aria-label="No of Seats">
             <option value="">Any Seats</option>
-            {initialSeats.map((s) => (
+            {seatOpts.map((s) => (
               <option key={s.label} value={s.label}>{s.label} seats ({s.total})</option>
             ))}
           </select>
