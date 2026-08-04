@@ -61,9 +61,10 @@ async function getHomeData() {
     bvCount: 0,
     count: 0,
     makes: [] as { make: string; slug: string; n: number }[],
+    allMakes: [] as { make: string; n: number }[],
   };
   try {
-    const [count, indexRes, bvRes] = await Promise.all([
+    const [count, indexRes, bvRes, makesRes] = await Promise.all([
       getStockCount(),
       fetch(`${API_BASE}/import-landing-index`, { next: { revalidate: 3600 } }),
       // rotate=daily: the API serves 60 of the ~3,000 #1 Bestsellers in an
@@ -72,6 +73,16 @@ async function getHomeData() {
       // 2026-08-04). Diversify below — a band of identical cars looks
       // broken. 60 is the endpoint's max page size.
       fetch(`${API_BASE}/best-value/0/60?rotate=daily`, { next: { revalidate: 900 } }),
+      // FULL makes list for the search dropdown -- the landing-index slice
+      // of 8 below is only for the brand chips (owner report 2026-08-04:
+      // "not all makes are listed in the dropdown"). Same facet the
+      // /used-cars filter uses, same 15k public floor.
+      fetch(`${API_BASE}/makes`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ minPrice: "15000" }),
+        next: { revalidate: 3600 },
+      }),
     ]);
     const indexJson = await indexRes.json();
     const bvJson = await bvRes.json();
@@ -99,7 +110,11 @@ async function getHomeData() {
       );
     const bvCount: number = bvJson?.data?.count ?? 0;
     const makes: { make: string; slug: string; n: number }[] = (indexJson?.data?.makes ?? []).slice(0, 8);
-    return { bestValue, bvCount, count, makes };
+    const makesJson = await makesRes.json();
+    const allMakes: { make: string; n: number }[] = (makesJson?.make ?? [])
+      .filter((m: { make: string }) => m.make)
+      .map((m: { make: string; total: number }) => ({ make: m.make, n: m.total }));
+    return { bestValue, bvCount, count, makes, allMakes };
   } catch {
     return empty;
   }
@@ -107,7 +122,7 @@ async function getHomeData() {
 
 
 export default async function HomePage() {
-  const { bestValue, bvCount, count, makes } = await getHomeData();
+  const { bestValue, bvCount, count, makes, allMakes } = await getHomeData();
 
   return (
     <main>
@@ -129,7 +144,7 @@ export default async function HomePage() {
         </p>
         <div className={styles.heroPanelDock}>
           <HomeSearchPanel
-            makes={makes.map((m) => ({ make: m.make, n: m.n }))}
+            makes={(allMakes.length ? allMakes : makes.map((m) => ({ make: m.make, n: m.n })))}
             totalCount={count}
           />
         </div>
