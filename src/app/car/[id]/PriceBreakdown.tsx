@@ -558,18 +558,18 @@ export default function PriceBreakdown({
                     2026-08-04). */}
                 {availability === "checking" && (
                   <p className={styles.availLine}>
-                    <span className={styles.availDot} aria-hidden="true" /> Checking with the seller that this car is still available&hellip;
+                    <span className={styles.availDot} aria-hidden="true" /> Checking the advert is still live&hellip;
                   </p>
                 )}
                 {availability === "available" && (
                   <p className={`${styles.availLine} ${styles.availOk}`}>
                     <CircleCheck size={15} strokeWidth={2} aria-hidden="true" style={{ verticalAlign: "-2px", marginRight: 5 }} />
-                    Available &mdash; confirmed with the seller just now.
+                    Available &mdash; still listed online, checked just now.
                   </p>
                 )}
                 {availability === "timeout" && (
                   <p className={styles.availLine}>
-                    We couldn&rsquo;t reach the seller to confirm availability just now &mdash; you can still
+                    We couldn&rsquo;t reach the advert to confirm it is still listed &mdash; you can still
                     reserve, and we verify before any payment is taken.
                   </p>
                 )}
