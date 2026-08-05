@@ -715,7 +715,33 @@ export default function FilterBar({
   }
 
   function clearAll() {
-    router.push("/used-cars");
+    // Reset the controls themselves: several filters (the Bestseller toggle,
+    // anything picked via live preview) exist only in component state, so
+    // navigating to the plain URL alone is a no-op when we're already on it.
+    setMake("");
+    setModel("");
+    setFuel("");
+    setBodyStyle("");
+    setTransmission("");
+    setSeats("");
+    setColor("");
+    setMinEnginesize("");
+    setMaxEnginesize("");
+    setMinYear("");
+    setMaxYear("");
+    setMinPrice("");
+    setMaxPrice("");
+    setMinMileage("");
+    setMaxMileage("");
+    setSearchChips([]);
+    setVersionChips([]);
+    setSearchDraft("");
+    setVersionDraft("");
+    setSort("");
+    setBestseller("");
+    if (window.location.search) {
+      router.push("/used-cars");
+    }
   }
 
   const hasAnyFilter = !!(
