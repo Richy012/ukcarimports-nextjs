@@ -202,3 +202,90 @@
   color: #999;
   font-size: 0.78rem;
 }
+
+/* Bestseller band on the SEO landing pages — same brand-red livery as the
+   tile badges, gold small-caps tier label. */
+.bsBand {
+  background: linear-gradient(135deg, #b60b0c, #8c0909);
+  border-radius: 14px;
+  padding: 20px 22px;
+  color: #fff;
+  margin: 0 0 22px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bsText {
+  flex: 1 1 380px;
+}
+
+.bsTier {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #f5c85c;
+  margin-bottom: 6px;
+}
+
+.bsText p {
+  margin: 0;
+  line-height: 1.6;
+  font-size: 0.98rem;
+}
+
+.bsText strong {
+  color: #fff;
+}
+
+.bsActions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.bsMaths {
+  color: #ffe9b8;
+  font-size: 0.86rem;
+  text-decoration: underline;
+}
+
+.bsBrowse {
+  background: #fff;
+  color: #b01112;
+  font-weight: 700;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+/* Year / fuel deep-link chips */
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip {
+  border: 1px solid #e0dde0;
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 0.9rem;
+  color: #222;
+  background: #fff;
+}
+
+.chip:hover {
+  border-color: #b01112;
+  color: #b01112;
+}
+
+.chipCount {
+  color: #888;
+  font-size: 0.8rem;
+}

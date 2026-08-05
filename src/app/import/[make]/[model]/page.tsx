@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import ImportLanding, { getLanding, titleCase } from "../../ImportLanding";
+import ImportLanding, { getLanding, titleCase, displayModel } from "../../ImportLanding";
 
 export const revalidate = 3600;
 
@@ -12,10 +12,16 @@ export async function generateMetadata({
   const { make, model } = await params;
   const data = await getLanding(make, model);
   if (!data || !data.model) return { title: "Import from the UK" };
-  const subject = `${titleCase(data.make)} ${titleCase(data.model)}`;
+  const subject = `${titleCase(data.make)} ${displayModel(data.make, data.model)}`;
+  const bs = data.bestseller && data.bestseller.count > 0 ? data.bestseller : null;
+  const priceFrom = `€${Math.round(data.price_min ?? 0).toLocaleString()}`;
   return {
-    title: `${subject} Imports Ireland — ${data.count.toLocaleString()} Available, VRT Included`,
-    description: `Import a ${subject} from the UK: ${data.count.toLocaleString()} cars priced fully landed for Ireland from €${Math.round(data.price_min ?? 0).toLocaleString()} — VRT, VAT, customs & delivery included. Benchmarked against Irish prices weekly.`,
+    // Query-shaped: "{model} for sale ireland" is the search these pages
+    // exist to win (GSC 2026-08-05: big impressions, pos 8-15, sub-1% CTR).
+    title: `${subject} for Sale Ireland — ${data.count.toLocaleString()} UK Imports, VRT Included`,
+    description: bs
+      ? `Up to €${bs.max_saving_eur.toLocaleString()} under Irish asking prices: ${data.count.toLocaleString()} used ${subject} cars from ${priceFrom}, priced fully landed — VRT, VAT, customs & delivery included. Benchmarked against real Irish ads weekly.`
+      : `${data.count.toLocaleString()} used ${subject} cars for sale from ${priceFrom}, priced fully landed for Ireland — VRT, VAT, customs & delivery included. Benchmarked against Irish prices weekly.`,
     alternates: { canonical: `https://ukcarimports.ie/import/${make}/${model}` },
   };
 }

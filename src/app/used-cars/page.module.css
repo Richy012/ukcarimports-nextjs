@@ -350,5 +350,5 @@
   margin-left: 8px;
   font-size: 14px;
   font-weight: 500;
-  color: #9b9289;
+  color: #6b6259; /* 4.5:1 on white -- contrast audit */
 }

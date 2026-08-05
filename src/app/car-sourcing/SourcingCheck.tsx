@@ -63,9 +63,9 @@ export default function SourcingCheck() {
 
   return (
     <div className={styles.checkBox}>
-      <h3 className={styles.checkHeading}>
+      <h2 className={styles.checkHeading}>
         <Search size={17} strokeWidth={2} aria-hidden="true" /> Check the car first — it&rsquo;s free
-      </h3>
+      </h2>
       <p className={styles.checkLead}>
         Paste the advert you found. We&rsquo;ll tell you whether we already have that car, or whether
         that seller can sell to an Irish buyer at all — before you pay anything.

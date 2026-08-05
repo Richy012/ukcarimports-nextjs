@@ -13,9 +13,12 @@ export async function generateMetadata({
   const data = await getLanding(make);
   if (!data) return { title: "Import from the UK" };
   const makeT = titleCase(data.make);
+  const bs = data.bestseller && data.bestseller.count > 0 ? data.bestseller : null;
   return {
-    title: `${makeT} Imports Ireland — ${data.count.toLocaleString()} UK ${makeT}s, VRT Included`,
-    description: `Import a ${makeT} from the UK: ${data.count.toLocaleString()} cars priced fully landed for Ireland (VRT, VAT, customs & delivery included), from €${Math.round(data.price_min ?? 0).toLocaleString()}. Independent inspection, Irish plates in ~2 weeks.`,
+    title: `${makeT} Imports Ireland — ${data.count.toLocaleString()} UK ${makeT}s for Sale, VRT Included`,
+    description: bs
+      ? `Import a ${makeT} from the UK: ${data.count.toLocaleString()} cars priced fully landed for Ireland from €${Math.round(data.price_min ?? 0).toLocaleString()} — VRT, VAT, customs & delivery included. ${bs.count.toLocaleString()} currently €2,500+ under Irish asking prices (up to €${bs.max_saving_eur.toLocaleString()}).`
+      : `Import a ${makeT} from the UK: ${data.count.toLocaleString()} cars priced fully landed for Ireland (VRT, VAT, customs & delivery included), from €${Math.round(data.price_min ?? 0).toLocaleString()}. Independent inspection, Irish plates in ~2 weeks.`,
     alternates: { canonical: `https://ukcarimports.ie/import/${make}` },
   };
 }

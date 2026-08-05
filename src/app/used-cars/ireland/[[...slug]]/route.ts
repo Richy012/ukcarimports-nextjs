@@ -1,12 +1,31 @@
 // Legacy make/model landing URLs (/used-cars/ireland/{make}/{model?}) still
 // rank on Google (GSC 2026-08-05: thousands of impressions) but died at
-// cutover. 301 them into the filtered listing — with a stock probe to decide
-// whether a hyphen is a real hyphen (mercedes-benz, e-tron) or the legacy
-// URL-safe form of a space (land-rover, alfa-romeo). Static config redirects
-// can't make that call; one cached count probe per variant can.
+// cutover. They now 301 into the /import/{make}[/{model}] SEO landing pages
+// when one exists (the legacy path segments are already slugs, and the
+// import-landing endpoint resolves families like bmw/3-series itself) —
+// falling back to the filtered listing via the stock probe that resolves
+// hyphen ambiguity (mercedes-benz and e-tron are real hyphens, land-rover is
+// the legacy URL-safe form of a space).
 import { NextRequest, NextResponse } from "next/server";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
+// Behind the Apache proxy SITE is localhost:3101 — redirects
+// must carry the canonical public origin.
+const SITE = "https://ukcarimports.ie";
+
+async function landingExists(makeSlug: string, modelSlug?: string): Promise<boolean> {
+  try {
+    const url =
+      `${API_BASE}/import-landing/${encodeURIComponent(makeSlug)}` +
+      (modelSlug ? `?model=${encodeURIComponent(modelSlug)}` : "");
+    const res = await fetch(url, { next: { revalidate: 3600 } });
+    if (!res.ok) return false;
+    const json = await res.json();
+    return !!json?.data && (!modelSlug || !!json.data.model);
+  } catch {
+    return false;
+  }
+}
 
 async function stockCount(make: string, model: string): Promise<number> {
   try {
@@ -29,14 +48,25 @@ export async function GET(
 ) {
   const { slug } = await params;
   const parts = (slug ?? [])
-    .map((s) => decodeURIComponent(s).trim())
+    .map((s) => decodeURIComponent(s).trim().toLowerCase())
     .filter(Boolean)
     .slice(0, 2);
 
-  const dest = new URL("/used-cars", req.nextUrl.origin);
   if (parts.length > 0) {
     const [make, model = ""] = parts;
-    // Try the raw values first (real hyphens), then the de-hyphenated form.
+
+    // Preferred destination: the SEO landing page for this make/model.
+    if (await landingExists(make, model || undefined)) {
+      const dest = new URL(
+        model ? `/import/${make}/${model}` : `/import/${make}`,
+        SITE,
+      );
+      return NextResponse.redirect(dest, 301);
+    }
+
+    // Fallback: the filtered listing, with the stock probe deciding whether
+    // a hyphen is a real hyphen or a space.
+    const dest = new URL("/used-cars", SITE);
     const candidates: Array<[string, string]> = [[make, model]];
     const spacedMake = make.replace(/-/g, " ");
     const spacedModel = model.replace(/-/g, " ");
@@ -54,6 +84,8 @@ export async function GET(
     }
     dest.searchParams.set("Make", chosen[0]);
     if (chosen[1]) dest.searchParams.set("Model", chosen[1]);
+    return NextResponse.redirect(dest, 301);
   }
-  return NextResponse.redirect(dest, 301);
+
+  return NextResponse.redirect(new URL("/used-cars", SITE), 301);
 }
