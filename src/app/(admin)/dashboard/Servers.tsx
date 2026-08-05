@@ -44,7 +44,7 @@ const WHUK: Box[] = [
     state: "live",
     runs: [
       "AutoTrader scraper, 5 threads",
-      "NEW build: history modal, dealer postcode, price-change tracking, denial detection",
+      "v14 since Aug 5 13:24 — dead-ad deletion, w800 photos, promo firewall, freshness loop",
     ],
     note: "Launcher task \\AT, every 6h",
   },
@@ -55,7 +55,7 @@ const WHUK: Box[] = [
     host: "ATSCRAPER1",
     spec: "Windows Server 2022",
     state: "live",
-    runs: ["AutoTrader scraper, 5 threads", "Older build — no postcode, no modal history, cannot report a denial"],
+    runs: ["AutoTrader scraper, 5 threads", "v14 since Aug 5 20:29 — dead-ad deletion, w800 photos, promo firewall, freshness loop"],
     note: "Launcher task \\AutoTrader. Runs a second, unrelated java process",
   },
   {
@@ -65,7 +65,7 @@ const WHUK: Box[] = [
     host: "ATRADER-2",
     spec: "Windows Server 2022",
     state: "live",
-    runs: ["AutoTrader scraper, 5 threads", "Older build — same gaps as S2"],
+    runs: ["AutoTrader scraper, 5 threads", "v11 capture build — v14 roll scheduled 23:00 Aug 5"],
     note: "Historically the box that silently idled with no launcher task",
   },
   {
@@ -76,7 +76,7 @@ const WHUK: Box[] = [
     spec: "4 cores · 10 GB RAM · Windows",
     state: "live",
     runs: [
-      "Desktop\\Backfill — backfill-only node, 1 thread, own Redis db 3",
+      "Desktop\\Backfill — backfill-only node, 5 threads, own Redis db 3, v11 (v14 after a clean fleet day)",
       "Desktop\\Cleaner — the original housekeeper, STOPPED, task disabled (Selim's)",
     ],
     note: "Two separate installs, deliberately isolated so Selim can work without affecting the backfill",
