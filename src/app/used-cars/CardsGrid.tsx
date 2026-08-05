@@ -202,6 +202,9 @@ export default function CardsGrid({ cars }: { cars: Car[] }) {
             </div>
             <div className={styles.cardPrice}>
               {finalPrice != null ? `€${formatEuro(finalPrice)}` : ""}
+              {finalPrice != null && Number(car.price_drop_eur ?? 0) >= 300 ? (
+                <s className={styles.oldPrice}>€{formatEuro(Math.round(finalPrice + Number(car.price_drop_eur)))}</s>
+              ) : null}
               {Number(car.price_drop_eur ?? 0) >= 300 ? (
                 <span className={styles.dropTag}>
                   &#8595; &euro;{(Math.round(Number(car.price_drop_eur) / 50) * 50).toLocaleString("en-IE")} price drop

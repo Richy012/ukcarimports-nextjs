@@ -344,3 +344,11 @@
   font-weight: 700;
   color: #1d7a3a;
 }
+
+/* Pre-drop price, struck through beside the live price. */
+.oldPrice {
+  margin-left: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #9b9289;
+}

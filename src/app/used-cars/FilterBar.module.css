@@ -306,3 +306,31 @@
   font-size: 13.5px;
   color: #b60b0c;
 }
+
+/* Price Drops strip: green sibling of the Bestseller toggle. Sort-only —
+   every car stays listed, dealer cuts float to the top. */
+.dropToggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px 14px;
+  border: 1.5px solid #1d7a3a;
+  border-radius: 8px;
+  background: #f4faf6;
+  color: #1d7a3a;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.dropToggleOn {
+  background: #1d7a3a;
+  color: #fff;
+}
+.dropToggleHint {
+  margin-left: auto;
+  font-size: 12.5px;
+  font-weight: 500;
+  opacity: 0.85;
+}

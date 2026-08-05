@@ -772,6 +772,17 @@ export default function FilterBar({
             {bestseller ? "Showing cars priced under the Irish market" : "Cars priced under the Irish market"}
           </span>
         </button>
+        <button
+          type="button"
+          className={`${styles.dropToggle} ${sort === "drop_big" ? styles.dropToggleOn : ""}`}
+          onClick={() => setSort(sort === "drop_big" ? "" : "drop_big")}
+          aria-pressed={sort === "drop_big"}
+        >
+          <span aria-hidden="true">&#8595;</span> Price Drops
+          <span className={styles.dropToggleHint}>
+            {sort === "drop_big" ? "Biggest dealer price cuts first" : "Cars the UK dealer just cut"}
+          </span>
+        </button>
 
         {/* Feature search hidden until the description backfill gives it
             real coverage (owner call, 2026-08-04). All wiring stays live --
