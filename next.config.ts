@@ -9,6 +9,14 @@ const nextConfig: NextConfig = {
   // here (not in Apache) because the Apache-level ProxyPass with
   // ProxyPreserveHost looped the request back into this vhost (cutover
   // 2026-08-04). Rewrites forward the query string automatically.
+  // Legacy static-site URLs still indexed by Google 404'd after cutover;
+  // permanent redirects preserve their ranking signals (review 2026-08-05).
+  async redirects() {
+    return [
+      { source: "/how-it-works.html", destination: "/how-it-works", permanent: true },
+      { source: "/index.html", destination: "/", permanent: true },
+    ];
+  },
   async rewrites() {
     return [
       { source: "/unsubscribe", destination: "https://api.ukcarimports.ie/public/unsubscribe" },

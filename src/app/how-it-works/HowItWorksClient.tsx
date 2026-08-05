@@ -56,7 +56,7 @@ const STEPS: Step[] = [
     icon: ClipboardCheck,
     short: "Inspection",
     title: "Independent inspection",
-    body: "Optional but recommended: a qualified mechanic completes a full mechanical and condition inspection with photos and a history check. We guarantee your car arrives as described in the report.",
+    body: "Optional but recommended: a qualified mechanic completes a full mechanical and condition inspection with photos and a history check. We guarantee your car arrives as described in the report. If you decide not to proceed after reviewing it, the balance of your deposit is refunded after the €395 inspection charge.",
   },
   {
     icon: Truck,
@@ -137,6 +137,7 @@ export default function HowItWorksClient({ stockLabel }: { stockLabel?: string }
 
   useEffect(() => {
     if (paused || !armed || !inView) return;
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const id = setInterval(() => {
       setHasChanged(true);
       setActive((prev) => (prev + 1) % STEPS.length);
@@ -312,15 +313,15 @@ export default function HowItWorksClient({ stockLabel }: { stockLabel?: string }
         <div className={styles.whyCard}>
           <h3>Why it costs less</h3>
           <p>
-            We reclaim the 20% UK VAT and customs duty where possible, reducing the base Irish Revenue
-            uses to calculate duty and VAT — so you never pay VAT twice.
+            Where the vehicle qualifies, UK VAT recovery and applicable duty reliefs reduce the
+            import cost — and that saving is already reflected in the landed price shown.
           </p>
         </div>
         <div className={styles.whyCard}>
           <h3>No hidden costs</h3>
           <p>
             Listed prices include transport, customs duty where applicable, VAT, VRT and our handling.
-            A warranty (from €295) is the only optional extra.
+            Any optional inspection, warranty or delivery charge is shown clearly before you proceed.
           </p>
         </div>
       </section>

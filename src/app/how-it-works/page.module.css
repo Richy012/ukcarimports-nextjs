@@ -71,6 +71,12 @@
   outline: none;
 }
 
+.node:focus-visible {
+  outline: 3px solid #b60b0c;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
 .nodeCircle {
   fill: #fff;
   stroke: #cfcdcf;
