@@ -297,7 +297,9 @@ export default function FilterBar({
   // ?page links stay in the server HTML for crawlers/no-JS, but hide once
   // scroll-loading has taken over.
   const [loadingMore, setLoadingMore] = useState(false);
-  const [loadedPage, setLoadedPage] = useState(currentPage);
+  // 0-based last-loaded API page (URL pages are 1-based; the mount preview
+  // normalises this to 0 the moment it replaces the list).
+  const [loadedPage, setLoadedPage] = useState(Math.max(0, currentPage - 1));
 
   // Deep-scroll return: when a car tile is clicked, bank the loaded tiles,
   // pagination cursor and scroll position keyed to this exact query string;
@@ -542,7 +544,11 @@ export default function FilterBar({
         if (typeof data?.data?.count === "number") setLiveCount(data.data.count);
         if (Array.isArray(data?.data?.cars)) {
           setLiveCars(data.data.cars);
-          setLoadedPage(1);
+          // pagenum is 0-based: we just loaded page 0, and loadMore fetches
+          // loadedPage + 1. Recording 1 here made the first load-more jump
+          // to page 2 -- cars 26-50 were silently skipped on EVERY browse,
+          // and short lists (<=50) hit an empty page and spun forever.
+          setLoadedPage(0);
         }
       } catch {
         // Leave the last known results showing rather than a jarring reset.
