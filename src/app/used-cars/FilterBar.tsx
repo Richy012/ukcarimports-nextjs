@@ -471,7 +471,7 @@ export default function FilterBar({
         headers: { "Content-Type": "application/json" },
         // Model counts must describe the badge set when the Bestseller
         // toggle is on, same as every other facet.
-        body: JSON.stringify({ ...FILTER_BODY_DEFAULTS, Make: forMake, bestsellerSeries: bestseller }),
+        body: JSON.stringify({ ...FILTER_BODY_DEFAULTS, Make: forMake, bestsellerSeries: bestseller, dropfilter: sort === "drop_big" ? "1" : "" }),
       });
       const data = await res.json();
       setModels(
@@ -554,11 +554,15 @@ export default function FilterBar({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [make, model, fuel, bodyStyle, transmission, seats, color, minEnginesize, maxEnginesize, minYear, maxYear, minPrice, maxPrice, minMileage, maxMileage, searchChips, versionChips, searchDraft, versionDraft, sort, bestseller]);
 
+  const dropOn = sort === "drop_big" ? "1" : "";
   useEffect(() => {
     // Skip the first pass: the props already match the URL state.
-    if (bestseller === currentBestseller) return;
+    if (bestseller === currentBestseller && dropOn === (currentSort === "drop_big" ? "1" : "")) return;
     let cancelled = false;
-    const extra = bestseller ? { bestsellerSeries: bestseller } : {};
+    const extra = {
+      ...(bestseller ? { bestsellerSeries: bestseller } : {}),
+      ...(dropOn ? { dropfilter: dropOn } : {}),
+    };
     const load = async (name: string): Promise<Option[]> => {
       const res = await fetch(`/api/facets/${name}`, {
         method: "POST",
@@ -593,7 +597,7 @@ export default function FilterBar({
     })();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bestseller]);
+  }, [bestseller, dropOn]);
 
   // Reassigned every render so the IntersectionObserver callback always sees
   // the current filter state without re-registering the observer.
