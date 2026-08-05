@@ -76,7 +76,7 @@ const WHUK: Box[] = [
     spec: "4 cores · 10 GB RAM · Windows",
     state: "live",
     runs: [
-      "Desktop\\Backfill — backfill-only node, 5 threads, own Redis db 3, v11 (v14 after a clean fleet day)",
+      "Desktop\\Backfill — backfill-only node, 5 threads, own Redis db 3, v14 since Aug 5 23:01",
       "Desktop\\Cleaner — the original housekeeper, STOPPED, task disabled (Selim's)",
     ],
     note: "Two separate installs, deliberately isolated so Selim can work without affecting the backfill",
