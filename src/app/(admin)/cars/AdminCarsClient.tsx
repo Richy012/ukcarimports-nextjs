@@ -78,6 +78,7 @@ interface CarDetail {
   registration_date: string | null;
   price_frozen: boolean;
   price_history: PriceHistoryRow[];
+  source_price_history?: PriceHistoryRow[];
 }
 
 const LIMIT = 25;
@@ -429,16 +430,24 @@ export default function AdminCarsClient() {
                           </a>
                         </p>
 
-                        {detail.price_history.length > 0 && (
-                          <div className={styles.historyBlock}>
-                            <p className={styles.detailLabel}>Price history</p>
-                            {detail.price_history.map((h, i) => (
-                              <span key={i} className={styles.historyRow}>
-                                {h.changed_at}: {eur(Number(h.old_price))} &rarr; {eur(Number(h.new_price))}
-                              </span>
-                            ))}
-                          </div>
-                        )}
+                        <div className={styles.historyBlock}>
+                          <p className={styles.detailLabel}>Price history — AutoTrader asking price (£)</p>
+                          {(detail.source_price_history ?? []).length > 0 ? (
+                            (detail.source_price_history ?? []).map((h, i) => {
+                              const delta = Number(h.new_price) - Number(h.old_price);
+                              return (
+                                <span key={i} className={styles.historyRow}>
+                                  {h.changed_at}: £{Number(h.old_price).toLocaleString("en-GB")} &rarr; £{Number(h.new_price).toLocaleString("en-GB")}{" "}
+                                  <em>({delta > 0 ? "+" : "−"}£{Math.abs(delta).toLocaleString("en-GB")})</em>
+                                </span>
+                              );
+                            })
+                          ) : (
+                            <span className={styles.historyRow}>
+                              No dealer price changes since tracking began (2 Aug 2026).
+                            </span>
+                          )}
+                        </div>
 
                         <div className={styles.actionsRow}>
                           <button
