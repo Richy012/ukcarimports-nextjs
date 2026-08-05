@@ -12,7 +12,7 @@
 .hero {
   position: relative;
   background-color: #16110e;
-  background-image: url("/assets/images/hero-full.jpg");
+  background-image: var(--hero-img, url("/assets/images/hero-full.jpg"));
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -935,4 +935,14 @@
   font-weight: 700;
   color: #1d7a3a;
   margin: 2px 0 0;
+}
+
+/* Rotation days that show a composite with its own baked text layout: the
+   live-count line moves to the bottom-right corner (dark tarmac/water on all
+   three artworks) so it never collides with the artwork's typography. */
+.heroAlt .heroCount {
+  left: auto;
+  top: auto;
+  right: 2.5%;
+  bottom: 4%;
 }

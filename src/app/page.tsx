@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BadgeEuro, CarFront } from "lucide-react";
@@ -126,12 +127,29 @@ async function getHomeData() {
 }
 
 
+
+// Owner-supplied brand composites rotate daily with the original hero
+// (owner ask 2026-08-05). UTC-day index keeps ISR caches coherent; mobile
+// always shows the original artwork (its text-zone crop is artwork-specific,
+// see page.module.css).
+const HERO_ROTATION = [
+  { img: "/assets/images/hero-full.jpg", alt: false },
+  { img: "/assets/images/hero-rot-port.jpg", alt: true },
+  { img: "/assets/images/hero-rot-irishprice.jpg", alt: true },
+  { img: "/assets/images/hero-rot-nocosts.jpg", alt: true },
+];
+
 export default async function HomePage() {
   const { bestValue, bvCount, count, makes, allMakes } = await getHomeData();
 
+  const heroArt = HERO_ROTATION[Math.floor(Date.now() / 86400000) % HERO_ROTATION.length];
   return (
     <main>
-      <section className={styles.hero}>
+      {(() => null)()}
+      <section
+        className={heroArt.alt ? `${styles.hero} ${styles.heroAlt}` : styles.hero}
+        style={{ "--hero-img": `url(${heroArt.img})` } as CSSProperties}
+      >
         {/* Mobile-only text: on desktop the composite image carries logo + headline */}
         <div className={styles.heroCopy}>
           <p className={styles.heroEyebrow}>

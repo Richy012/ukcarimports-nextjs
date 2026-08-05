@@ -149,6 +149,15 @@ export default function ImportLanding({ data, makeSlug }: { data: LandingData; m
         )}
       </nav>
 
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/assets/images/hero-rot-irishprice.jpg"
+        alt={`Browse the UK's ${subject} market - buy at the Irish price. VRT, VAT, customs and delivery included.`}
+        width={1672}
+        height={941}
+        className={styles.landingBanner}
+      />
+
       <h1>
         {data.model
           ? `Used ${subject} for Sale in Ireland — ${data.count.toLocaleString()} UK imports`

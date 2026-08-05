@@ -165,6 +165,12 @@ export default function HowItWorksClient({ stockLabel }: { stockLabel?: string }
 
   return (
     <main className={styles.page}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/assets/images/hero-rot-nocosts.jpg"
+        alt="No hidden costs, no surprises - every vehicle priced for Ireland before you buy"
+        className="brand-banner"
+      />
       <section className={styles.hero}>
         <h1>How It Works</h1>
         <p>
