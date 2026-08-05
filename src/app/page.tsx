@@ -36,6 +36,7 @@ interface BestValueCar extends HomeCar {
     irish_price: number | null;
     basis: "matched" | "segment" | "both";
     snapshot_date: string;
+    drop_eur?: number | null;
   };
 }
 
@@ -103,11 +104,15 @@ async function getHomeData() {
         return true;
       })
       .slice(0, 8)
-      // Display order: biggest saving first within today's random eight.
-      .sort(
-        (a: BestValueCar, b: BestValueCar) =>
-          (b.best_value?.saving_eur ?? 0) - (a.best_value?.saving_eur ?? 0),
-      );
+      // Display order: dealer-cut Bestsellers first (biggest cut leading),
+      // then biggest saving — mirrors the API's band priority.
+      .sort((a: BestValueCar, b: BestValueCar) => {
+        const da = a.best_value?.drop_eur ?? 0;
+        const db = b.best_value?.drop_eur ?? 0;
+        if ((da > 0) !== (db > 0)) return db > 0 ? 1 : -1;
+        if (da > 0 && db > 0) return db - da;
+        return (b.best_value?.saving_eur ?? 0) - (a.best_value?.saving_eur ?? 0);
+      });
     const bvCount: number = bvJson?.data?.count ?? 0;
     const makes: { make: string; slug: string; n: number }[] = (indexJson?.data?.makes ?? []).slice(0, 8);
     const makesJson = await makesRes.json();
@@ -187,6 +192,11 @@ export default async function HomePage() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={c.featured_image} alt={c.car_name} loading="lazy" />
                   <span className={styles.arrivalName}>{c.car_name}</span>
+                  {(c.best_value.drop_eur ?? 0) >= 300 && (
+                    <span className={styles.arrivalDrop}>
+                      &#8595; &euro;{(Math.round((c.best_value.drop_eur as number) / 50) * 50).toLocaleString()} price drop
+                    </span>
+                  )}
                   <span className={styles.arrivalPrice}>
                     {c.car_info?.final_price
                       ? `€${Math.round(c.car_info.final_price).toLocaleString()}`
