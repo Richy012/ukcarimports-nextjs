@@ -26,6 +26,9 @@ interface Health {
   streams: Stream[];
   v14?: {
     rollout?: { box: string; status: string; since: string | null }[];
+    stale_72h?: number;
+    photo_sharp_arrivals?: number;
+    photo_backlog?: number;
     sterling_cuts_24h: number;
     sterling_raises_24h: number;
     drops_displayed: number;
@@ -126,13 +129,22 @@ export default function CollectionHealth() {
           <div className={styles.engineTile}>
             <span className={styles.engineLabel}>Dead ads deleted (24h)</span>
             <span className={styles.engineValue}>{n(health.v14.dead_deleted_24h)}</span>
-            <span className={styles.engineSub}>by the scrapers themselves &mdash; ramps as v14 boxes finish their sweeps</span>
+            <span className={styles.engineSub}>
+              fleet-wide log (only v14 boxes can delete) &middot; {n(health.v14.stale_72h ?? 0)} live cars stale &gt;72h awaiting re-check
+            </span>
           </div>
           <div className={styles.engineTile}>
             <span className={styles.engineLabel}>Marketing-image firewall</span>
             <span className={styles.engineValue}>{n(health.v14.promo_signatures)} signatures</span>
             <span className={styles.engineSub}>
               purge: {n(health.v14.promo_cars_cleaned)} cars / {n(health.v14.promo_images_removed)} images removed
+            </span>
+          </div>
+          <div className={styles.engineTile}>
+            <span className={styles.engineLabel}>Photo fix (800px)</span>
+            <span className={styles.engineValue}>{n(health.v14.photo_sharp_arrivals ?? 0)} sharp</span>
+            <span className={styles.engineSub}>
+              arrivals since v14 &middot; &asymp;{n(health.v14.photo_backlog ?? 0)} older galleries await the re-capture sweep (starts after S4 joins v14)
             </span>
           </div>
           <div className={styles.engineTile}>
