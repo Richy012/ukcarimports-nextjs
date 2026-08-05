@@ -65,7 +65,7 @@ const WHUK: Box[] = [
     host: "ATRADER-2",
     spec: "Windows Server 2022",
     state: "live",
-    runs: ["AutoTrader scraper, 5 threads", "v11 capture build — v14 roll scheduled 23:00 Aug 5"],
+    runs: ["AutoTrader scraper, 5 threads", "v14 since Aug 5 21:46 — dead-ad deletion, w800 photos, promo firewall, freshness loop"],
     note: "Historically the box that silently idled with no launcher task",
   },
   {
