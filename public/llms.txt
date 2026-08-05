@@ -1,0 +1,31 @@
+# UK Car Imports
+
+> Ireland's platform for importing used cars from the UK. Every listed price is
+> all-in: the car delivered to Ireland, VRT and NOx paid, on Irish plates, in
+> your name. Around 130,000 UK cars searchable, refreshed continuously.
+
+## Key pages
+
+- [Used cars](https://ukcarimports.ie/used-cars): full searchable stock with
+  filters (make, model, fuel, price, mileage, year). Add `?bestseller=1` for
+  cars priced under the comparable Irish market.
+- [Bestseller Index](https://ukcarimports.ie/bestseller-index): weekly measured
+  UK-vs-Ireland price comparison; methodology stated on the page.
+- [How it works](https://ukcarimports.ie/how-it-works): the import process,
+  step by step — deposit, optional inspection, shipping, VRT, Irish plates,
+  roughly two weeks end to end.
+- [Car sourcing](https://ukcarimports.ie/car-sourcing): paste any UK advert URL
+  for an instant check (already in stock / seller restrictions / sourceable)
+  and a landed-price estimate.
+- [Contact](https://ukcarimports.ie/contact): phone 01-556 8261, Dublin-based,
+  online-only (no showroom; handover by appointment).
+
+## Notes for agents
+
+- Each car page (`/car/{id}`) states the all-in euro price, full specification,
+  vehicle history summary and photos; a price breakdown is available on-page.
+- "Bestseller" badges mean the car is measurably cheaper than comparable cars
+  advertised in Ireland; each badge links to the arithmetic behind the claim.
+- Price-drop tags mean the UK dealer cut the asking price and the car is at
+  the lowest price we have ever recorded for it.
+- Deposits are payable online (Stripe); the balance settles by bank transfer.

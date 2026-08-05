@@ -43,7 +43,7 @@ export default function DepositTrust({ carId }: { carId: string }) {
 
   return (
     <div className={styles.depositTrust}>
-      <div className={styles.depositTrustStars} aria-label="Five star review">
+      <div className={styles.depositTrustStars} role="img" aria-label="Five star review">
         {[0, 1, 2, 3, 4].map((i) => (
           <Star key={i} size={13} strokeWidth={0} fill="#e0a410" aria-hidden="true" />
         ))}
