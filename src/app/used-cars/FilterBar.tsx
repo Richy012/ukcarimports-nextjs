@@ -654,9 +654,15 @@ export default function FilterBar({
           const seen = new Set(prev.map((c) => c.car_id));
           return [...prev, ...batch.filter((c) => !seen.has(c.car_id))];
         });
+        setLoadedPage((p) => p + 1);
+        if (typeof data?.data?.count === "number") setLiveCount(data.data.count);
+      } else {
+        // An empty page IS the end of stock, whatever the count claimed --
+        // counts can legitimately exceed listable tiles, and before this
+        // guard the loop chained "Loading more cars" forever at the bottom
+        // of a filtered list (owner repro: ?Make=toyota&bestseller=1).
+        setLiveCount(liveCarsRef.current.length);
       }
-      setLoadedPage((p) => p + 1);
-      if (typeof data?.data?.count === "number") setLiveCount(data.data.count);
     } catch {
       // Quiet failure: the sentinel will simply retry on the next intersect.
     } finally {

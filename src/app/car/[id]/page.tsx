@@ -198,6 +198,8 @@ function titleCase(s: string): string {
   return s.replace(/\w\S*/g, (w) => w[0].toUpperCase() + w.slice(1).toLowerCase());
 }
 
+const SHOW_SELLER_LINE = false;
+
 export default async function CarDetailPage({
   params,
 }: {
@@ -345,7 +347,11 @@ export default async function CarDetailPage({
           {/* Owner 2026-08-05: hide the "Private Seller" attribution for now --
               the blank-seller scraper bug mislabels some dealer stock as private,
               so the label can be wrong. Named garages still show. */}
-          {car.auction_company_name && !/^private seller$/i.test(car.auction_company_name.trim()) && (
+          {/* Owner 2026-08-05 (second pass): hide the seller line ENTIRELY --
+              the blank-seller bug means named garages can be wrong too, not
+              just "Private Seller". Flip SHOW_SELLER_LINE when the seller
+              data repair lands. */}
+          {SHOW_SELLER_LINE && car.auction_company_name && (
             <p className={styles.sellerLine}>Seller/Garage: By {car.auction_company_name}</p>
           )}
 
