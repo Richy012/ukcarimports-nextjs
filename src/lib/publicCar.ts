@@ -80,5 +80,7 @@ export function toTileCar<T extends object>(tileSource: T): T {
     photo_ids: car.photo_ids,
     bestseller_tier: car.bestseller_tier ?? null,
     bestseller_saving_eur: car.bestseller_saving_eur ?? null,
+    price_drop_eur: car.price_drop_eur ?? null,
+    price_dropped_at: car.price_dropped_at ?? null,
   } as unknown as T;
 }

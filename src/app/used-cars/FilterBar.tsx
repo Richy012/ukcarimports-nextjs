@@ -113,14 +113,16 @@ const SORT_OPTIONS = [
   { value: "price_high", label: "Price: High to Low" },
   { value: "mileage_low", label: "Mileage: Low to High" },
   { value: "mileage_high", label: "Mileage: High to Low" },
+  { value: "drop_big", label: "Biggest price drop" },
 ];
 
-function sortToParams(sort: string): { price_sort: string; mileage_sort: string } {
-  if (sort === "price_low") return { price_sort: "low", mileage_sort: "" };
-  if (sort === "price_high") return { price_sort: "high", mileage_sort: "" };
-  if (sort === "mileage_low") return { price_sort: "", mileage_sort: "low" };
-  if (sort === "mileage_high") return { price_sort: "", mileage_sort: "high" };
-  return { price_sort: "", mileage_sort: "" };
+function sortToParams(sort: string): { price_sort: string; mileage_sort: string; drop_sort: string } {
+  if (sort === "price_low") return { price_sort: "low", mileage_sort: "", drop_sort: "" };
+  if (sort === "price_high") return { price_sort: "high", mileage_sort: "", drop_sort: "" };
+  if (sort === "mileage_low") return { price_sort: "", mileage_sort: "low", drop_sort: "" };
+  if (sort === "mileage_high") return { price_sort: "", mileage_sort: "high", drop_sort: "" };
+  if (sort === "drop_big") return { price_sort: "", mileage_sort: "", drop_sort: "1" };
+  return { price_sort: "", mileage_sort: "", drop_sort: "" };
 }
 
 function ChipSearch({
@@ -501,7 +503,7 @@ export default function FilterBar({
     const timer = setTimeout(async () => {
       setCountLoading(true);
       try {
-        const { price_sort, mileage_sort } = sortToParams(sort);
+        const { price_sort, mileage_sort, drop_sort } = sortToParams(sort);
         const res = await fetch("/api/car-count", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -530,6 +532,7 @@ export default function FilterBar({
             mileage_sort,
             pricefilter: price_sort,
             mileagefilter: mileage_sort,
+            dropfilter: drop_sort,
             bestsellerSeries: bestseller,
             pagenum: 0,
             limit: 25,
@@ -605,7 +608,7 @@ export default function FilterBar({
     busyRef.current = true;
     setLoadingMore(true);
     try {
-      const { price_sort, mileage_sort } = sortToParams(sort);
+      const { price_sort, mileage_sort, drop_sort } = sortToParams(sort);
       const res = await fetch("/api/car-count", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -634,6 +637,7 @@ export default function FilterBar({
           mileage_sort,
           pricefilter: price_sort,
           mileagefilter: mileage_sort,
+          dropfilter: drop_sort,
           bestsellerSeries: bestseller,
           pagenum: loadedPage + 1,
           limit: 25,
@@ -688,7 +692,7 @@ export default function FilterBar({
   }
 
   function applyFilters() {
-    const { price_sort, mileage_sort } = sortToParams(sort);
+    const { price_sort, mileage_sort, drop_sort } = sortToParams(sort);
     const params = new URLSearchParams();
     if (make) params.set("Make", make);
     if (model) params.set("Model", model);
@@ -709,6 +713,7 @@ export default function FilterBar({
     effVersionChips.forEach((c) => params.append("versionChips", c));
     if (price_sort) params.set("price_sort", price_sort);
     if (mileage_sort) params.set("mileage_sort", mileage_sort);
+    if (drop_sort) params.set("drop_sort", drop_sort);
     if (bestseller) params.set("bestseller", bestseller);
     const qs = params.toString();
     router.push(qs ? `/used-cars?${qs}` : "/used-cars");

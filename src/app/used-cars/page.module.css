@@ -334,3 +334,13 @@
   font-size: 0.95rem;
   font-weight: 600;
 }
+
+/* Dealer price cut (materialised, lowest-ever-recorded guard). Quiet green,
+   deliberately subordinate to the red Bestseller badge. */
+.dropTag {
+  display: block;
+  margin-top: 2px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #1d7a3a;
+}

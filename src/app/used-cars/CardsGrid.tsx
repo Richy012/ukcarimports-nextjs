@@ -25,6 +25,8 @@ interface Car {
   photo_ids?: number[];
   bestseller_tier?: string | null;
   bestseller_saving_eur?: number | null;
+  price_drop_eur?: number | null;
+  price_dropped_at?: string | null;
 }
 
 // Tile badge for the Bestseller Series. The euro figure is the live saving
@@ -200,6 +202,11 @@ export default function CardsGrid({ cars }: { cars: Car[] }) {
             </div>
             <div className={styles.cardPrice}>
               {finalPrice != null ? `€${formatEuro(finalPrice)}` : ""}
+              {Number(car.price_drop_eur ?? 0) >= 300 ? (
+                <span className={styles.dropTag}>
+                  &#8595; &euro;{(Math.round(Number(car.price_drop_eur) / 50) * 50).toLocaleString("en-IE")} price drop
+                </span>
+              ) : null}
             </div>
           </Link>
         );

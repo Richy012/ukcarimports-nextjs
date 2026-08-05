@@ -89,6 +89,7 @@ interface Filters {
   maxMileage: string;
   price_sort: string;
   mileage_sort: string;
+  drop_sort: string;
   bestseller: string;
 }
 
@@ -130,6 +131,7 @@ async function getCars(
       // reached the query and every "sort by" selection was silently ignored.
       pricefilter: filters.price_sort,
       mileagefilter: filters.mileage_sort,
+      dropfilter: filters.drop_sort,
       color: filters.color,
       search: searchChips.join(" "),
       searchChips,
@@ -181,7 +183,8 @@ function pageHref(filters: Filters, searchChips: string[], versionChips: string[
   return s ? `/used-cars?${s}` : "/used-cars";
 }
 
-function sortParamsToLabel(priceSort: string, mileageSort: string): string {
+function sortParamsToLabel(priceSort: string, mileageSort: string, dropSort = ""): string {
+  if (dropSort) return "drop_big";
   if (priceSort === "low") return "price_low";
   if (priceSort === "high") return "price_high";
   if (mileageSort === "low") return "mileage_low";
@@ -218,11 +221,12 @@ export default async function UsedCarsPage({
     maxMileage: firstParam(params, "maxMileage"),
     price_sort: firstParam(params, "price_sort"),
     mileage_sort: firstParam(params, "mileage_sort"),
+    drop_sort: firstParam(params, "drop_sort"),
     bestseller: firstParam(params, "bestseller"),
   };
   const searchChips = allParams(params, "searchChips");
   const versionChips = allParams(params, "versionChips");
-  const currentSort = sortParamsToLabel(filters.price_sort, filters.mileage_sort);
+  const currentSort = sortParamsToLabel(filters.price_sort, filters.mileage_sort, filters.drop_sort);
 
   const requestedPage = Number(firstParam(params, "page")) || 1;
   const page = Math.max(1, Math.floor(requestedPage));
