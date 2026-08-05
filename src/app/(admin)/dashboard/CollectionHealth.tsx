@@ -25,6 +25,7 @@ interface Health {
   new_cars_last_hour: number;
   streams: Stream[];
   v14?: {
+    rollout?: { box: string; status: string; since: string | null }[];
     sterling_cuts_24h: number;
     sterling_raises_24h: number;
     drops_displayed: number;
@@ -132,6 +133,17 @@ export default function CollectionHealth() {
             <span className={styles.engineValue}>{n(health.v14.promo_signatures)} signatures</span>
             <span className={styles.engineSub}>
               purge: {n(health.v14.promo_cars_cleaned)} cars / {n(health.v14.promo_images_removed)} images removed
+            </span>
+          </div>
+          <div className={styles.engineTile}>
+            <span className={styles.engineLabel}>v14 rollout</span>
+            <span className={styles.engineValue}>
+              {(health.v14.rollout ?? []).filter((r) => r.status === "v14").length} / {(health.v14.rollout ?? []).length} boxes
+            </span>
+            <span className={styles.engineSub}>
+              {(health.v14.rollout ?? [])
+                .map((r) => r.status === "v14" ? r.box + " ✓ " + (r.since ?? "") : r.box + ": " + r.status)
+                .join(" · ")}
             </span>
           </div>
           <div className={styles.engineTile}>
