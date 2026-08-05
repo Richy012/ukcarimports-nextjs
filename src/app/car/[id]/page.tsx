@@ -342,7 +342,10 @@ export default async function CarDetailPage({
             </div>
           )}
 
-          {car.auction_company_name && (
+          {/* Owner 2026-08-05: hide the "Private Seller" attribution for now --
+              the blank-seller scraper bug mislabels some dealer stock as private,
+              so the label can be wrong. Named garages still show. */}
+          {car.auction_company_name && !/^private seller$/i.test(car.auction_company_name.trim()) && (
             <p className={styles.sellerLine}>Seller/Garage: By {car.auction_company_name}</p>
           )}
 
