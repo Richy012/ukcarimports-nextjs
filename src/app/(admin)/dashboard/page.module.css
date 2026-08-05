@@ -216,3 +216,37 @@
   white-space: nowrap;
   color: #4a423e;
 }
+
+/* New-engines tile row (2026-08-05): repricing, drops, dead-ad deletion,
+   promo firewall, freshness bookkeeping. */
+.engineTiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin: 12px 0 16px;
+}
+.engineTile {
+  border: 1px solid #e3e0dc;
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: #fdfcfa;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.engineLabel {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8a8178;
+}
+.engineValue {
+  font-size: 20px;
+  font-weight: 700;
+  color: #171717;
+}
+.engineSub {
+  font-size: 12.5px;
+  color: #6f675f;
+}

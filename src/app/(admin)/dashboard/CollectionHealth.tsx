@@ -24,6 +24,18 @@ interface Health {
   housekeeper_visits_last_hour: number;
   new_cars_last_hour: number;
   streams: Stream[];
+  v14?: {
+    sterling_cuts_24h: number;
+    sterling_raises_24h: number;
+    drops_displayed: number;
+    drops_total: number;
+    biggest_drop_eur: number;
+    dead_deleted_24h: number;
+    promo_signatures: number;
+    promo_cars_cleaned: number;
+    promo_images_removed: number;
+    fresh_visited_cars: number;
+  };
 }
 
 const n = (v: number) => v.toLocaleString("en-IE");
@@ -95,6 +107,40 @@ export default function CollectionHealth() {
         {n(health.housekeeper_visits_last_hour)} re-checked and {n(health.new_cars_last_hour)} new in the
         last hour
       </p>
+
+      {health.v14 && (
+        <div className={styles.engineTiles}>
+          <div className={styles.engineTile}>
+            <span className={styles.engineLabel}>Dealer repricing (24h)</span>
+            <span className={styles.engineValue}>{n(health.v14.sterling_cuts_24h)} cuts</span>
+            <span className={styles.engineSub}>{n(health.v14.sterling_raises_24h)} raises &middot; sterling, change-only</span>
+          </div>
+          <div className={styles.engineTile}>
+            <span className={styles.engineLabel}>Price drops on site</span>
+            <span className={styles.engineValue}>{n(health.v14.drops_displayed)}</span>
+            <span className={styles.engineSub}>
+              of {n(health.v14.drops_total)} banked (&ge;&euro;100) &middot; biggest &euro;{n(health.v14.biggest_drop_eur)}
+            </span>
+          </div>
+          <div className={styles.engineTile}>
+            <span className={styles.engineLabel}>Dead ads deleted (24h)</span>
+            <span className={styles.engineValue}>{n(health.v14.dead_deleted_24h)}</span>
+            <span className={styles.engineSub}>by the scrapers themselves &mdash; ramps as v14 boxes finish their sweeps</span>
+          </div>
+          <div className={styles.engineTile}>
+            <span className={styles.engineLabel}>Marketing-image firewall</span>
+            <span className={styles.engineValue}>{n(health.v14.promo_signatures)} signatures</span>
+            <span className={styles.engineSub}>
+              purge: {n(health.v14.promo_cars_cleaned)} cars / {n(health.v14.promo_images_removed)} images removed
+            </span>
+          </div>
+          <div className={styles.engineTile}>
+            <span className={styles.engineLabel}>Freshness loop</span>
+            <span className={styles.engineValue}>{n(health.v14.fresh_visited_cars)}</span>
+            <span className={styles.engineSub}>cars carrying visit bookkeeping (gallery count remembered)</span>
+          </div>
+        </div>
+      )}
 
       <div className={styles.tableScroll}>
         <table className={styles.healthTable}>
