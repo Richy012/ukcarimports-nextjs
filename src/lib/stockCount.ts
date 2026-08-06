@@ -53,13 +53,23 @@ export function formatStockCount(count: number): string | undefined {
   return count > 0 ? count.toLocaleString() : undefined;
 }
 
+// Marketing surfaces (homepage hero, search button) show "Over N" with N
+// floored to the nearest thousand. The homepage is a cached static page and
+// /used-cars is dynamic, so their figures are always fetched moments apart;
+// rounding means ordinary churn -- and even a mass delisting -- can never
+// make the two pages visibly contradict each other. /used-cars keeps the
+// exact number, because that is the page where the precise figure matters.
+export function roundStockDown(count: number): number {
+  return count > 1000 ? Math.floor(count / 1000) * 1000 : count;
+}
+
 export async function getStockCount(): Promise<number> {
   try {
     const res = await fetch(`${API_BASE}/allcarsnew/0/1`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(CANONICAL_BROWSE_BODY),
-      next: { revalidate: 900 },
+      next: { revalidate: 300 },
     });
     const json = await res.json();
     return (json?.data?.count as number) ?? 0;

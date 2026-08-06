@@ -6,12 +6,12 @@ import HomeSearchPanel from "./HomeSearchPanel";
 import ProcessTimeline from "./ProcessTimeline";
 import ReviewCarousel from "./ReviewCarousel";
 import googleReviews from "@/data/google-reviews.json";
-import { getStockCount, formatStockCount } from "@/lib/stockCount";
+import { getStockCount, formatStockCount, roundStockDown } from "@/lib/stockCount";
 import styles from "./page.module.css";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
 
-export const revalidate = 900;
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "UK Car Imports — The Price You See Is The Price You Pay",
@@ -153,7 +153,7 @@ export default async function HomePage() {
         {/* Mobile-only text: on desktop the composite image carries logo + headline */}
         <div className={styles.heroCopy}>
           <p className={styles.heroEyebrow}>
-            Over {count > 0 ? count.toLocaleString() : "135,000"} cars to choose from
+            Over {count > 0 ? roundStockDown(count).toLocaleString() : "120,000"} cars to choose from
           </p>
           <h1 className={styles.heroHeadline}>
             Importing a car
@@ -163,12 +163,12 @@ export default async function HomePage() {
           <div className={styles.heroDash} />
         </div>
         <p className={styles.heroCount}>
-          Over {count > 0 ? count.toLocaleString() : "135,000"} cars to choose from
+          Over {count > 0 ? roundStockDown(count).toLocaleString() : "120,000"} cars to choose from
         </p>
         <div className={styles.heroPanelDock}>
           <HomeSearchPanel
             makes={(allMakes.length ? allMakes : makes.map((m) => ({ make: m.make, n: m.n })))}
-            totalCount={count}
+            totalCount={roundStockDown(count)}
           />
         </div>
       </section>
@@ -295,7 +295,7 @@ export default async function HomePage() {
             </p>
           </div>
           <Link href="/used-cars" className={styles.closingCta}>
-            Browse {count.toLocaleString()} cars
+            Browse {roundStockDown(count).toLocaleString()}+ cars
           </Link>
         </div>
       </section>

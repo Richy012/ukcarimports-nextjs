@@ -128,7 +128,9 @@ export default function HomeSearchPanel({
           ))}
         </select>
         <button type="button" className={styles.searchPanelButton} onClick={search}>
-          Search {count.toLocaleString()} cars
+          {/* Unfiltered = the rounded marketing figure the hero shows, so
+              the two never disagree; a real filter result stays exact. */}
+          Search {count.toLocaleString()}{count === totalCount ? "+" : ""} cars
         </button>
         <button
           type="button"
