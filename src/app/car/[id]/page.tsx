@@ -1,4 +1,5 @@
 import { Check } from "lucide-react";
+import type { Metadata } from "next";
 // Server Component -- same SSR approach as /used-cars: real data in the
 // initial HTML response instead of waiting on a full SPA boot.
 import Link from "next/link";
@@ -159,6 +160,26 @@ function splitSpecPair(raw: string): { label: string; value: string } {
 
 interface ApiResponse {
   data: CarDetail;
+}
+
+// Every car page shared the generic homepage <title> until 2026-08-06 --
+// ~130k pages invisible to Google as distinct results (surfaced by a
+// Semrush "duplicate titles" line at 100-page sample scale). getCar is a
+// GET fetch, so Next dedupes the second call within the same render.
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const car = await getCar(id).catch(() => null);
+  if (!car) return { title: "Car no longer available" };
+  const name = (car.car_name || "").trim();
+  return {
+    title: `${name} — UK Import, Irish Price`,
+    description: `${name}, available to import from the UK — priced fully landed for Ireland with VRT, VAT, customs and delivery included. Independent inspection before you commit, Irish plates in about two weeks.`,
+    alternates: { canonical: `https://ukcarimports.ie/car/${id}` },
+  };
 }
 
 async function getCar(id: string): Promise<CarDetail | null> {

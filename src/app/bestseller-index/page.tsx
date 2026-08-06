@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "The Bestseller Index™ — UK vs Ireland Car Prices, Measured Weekly",
   description:
     "Every week we benchmark every make, model and year we stock against real Irish asking prices. See how many cars are €2,500+ under the Irish market right now — and check the maths on every one.",
+  alternates: { canonical: "https://ukcarimports.ie/bestseller-index" },
 };
 
 interface IndexStats {

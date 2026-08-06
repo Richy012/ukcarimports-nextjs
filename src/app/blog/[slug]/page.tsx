@@ -28,7 +28,8 @@ export async function generateMetadata({
   if (!blog) return { title: "Blog" };
   return {
     title: blog.blog_heading.trim(),
-    description: blog.blog_heading.trim(),
+    description: `${blog.blog_heading.trim()} — from the UK Car Imports blog: importing cars from the UK to Ireland, VRT, pricing and market analysis.`,
+    alternates: { canonical: `https://ukcarimports.ie/blog/${(await params).slug}` },
   };
 }
 

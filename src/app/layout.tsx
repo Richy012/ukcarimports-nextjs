@@ -56,7 +56,7 @@ export default function RootLayout({
             who never interacts is a bounce whichever way it's counted.
             Owner call 2026-08-04: "I do look at analytics" — kept, deferred. */}
         <Script id="gtm" strategy="lazyOnload">
-          {`(function(){var fired=false;function load(){if(fired)return;fired=true;
+          {`(function(){if(/^\\/(dashboard|leads|members|comparisons|deposits|templates|staff-login|cars(\\/|$))/.test(location.pathname))return;var fired=false;function load(){if(fired)return;fired=true;
 ['wheel','pointerdown','keydown','touchstart'].forEach(function(e){window.removeEventListener(e,load,{passive:true});});
 (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
