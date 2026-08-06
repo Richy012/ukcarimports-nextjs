@@ -42,6 +42,23 @@ export default function SignUpForm() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState("");
+  const [awaitingVerify, setAwaitingVerify] = useState(false);
+  const [resendMsg, setResendMsg] = useState("");
+
+  async function resendLink() {
+    setResendMsg("Sending\u2026");
+    try {
+      const res = await fetch(`/api/resend-confirmation`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: form.email }),
+      });
+      const data = await res.json();
+      setResendMsg(data.ResponseText || "A fresh link is on its way.");
+    } catch {
+      setResendMsg("Could not resend just now \u2014 try again in a minute.");
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -65,25 +82,37 @@ export default function SignUpForm() {
         return;
       }
 
-      const loginRes = await fetch(`/api/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: form.email, password: form.password }),
-      });
-      const loginData = await loginRes.json();
-
-      if (loginData.ResponseCode == 1) {
-        setToken(loginData.token);
-        window.location.href = "/";
-      } else {
-        // Account was created but auto-login failed -- send them to sign in
-        // manually rather than leaving them stuck on this form.
-        window.location.href = "/sign-in";
-      }
+      // Verify-to-complete (2026-08-06): accounts start pending, so there
+      // is nothing to auto-login into. Show the check-your-inbox state.
+      setAwaitingVerify(true);
+      setSubmitting(false);
     } catch {
       setServerError("Something went wrong, please try again.");
       setSubmitting(false);
     }
+  }
+
+  if (awaitingVerify) {
+    return (
+      <div className={styles.form} style={{ textAlign: "center", padding: "28px 20px" }}>
+        <div style={{ fontSize: "2.2rem", marginBottom: 10 }}>\u2709\uFE0F</div>
+        <h2 style={{ margin: "0 0 10px" }}>Check your inbox</h2>
+        <p style={{ lineHeight: 1.65, margin: "0 0 8px" }}>
+          We&apos;ve sent a confirmation link to <strong>{form.email}</strong>.
+          Click it to activate your account &mdash; then you can sign in, save
+          cars and set up alerts.
+        </p>
+        <p style={{ lineHeight: 1.65, color: "#666", fontSize: "0.9rem", margin: "0 0 18px" }}>
+          Nothing arriving? Check your spam folder, or
+          {" "}
+          <button type="button" onClick={resendLink}
+            style={{ background: "none", border: "none", color: "#b01112", textDecoration: "underline", cursor: "pointer", padding: 0, font: "inherit" }}>
+            send a fresh link
+          </button>.
+        </p>
+        {resendMsg && <p style={{ fontSize: "0.85rem", color: "#333" }}>{resendMsg}</p>}
+      </div>
+    );
   }
 
   return (
