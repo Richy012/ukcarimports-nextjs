@@ -8,6 +8,7 @@ import PriceBreakdown from "./PriceBreakdown";
 import CarGallery from "./CarGallery";
 import styles from "./page.module.css";
 import AdminCarLink from "./AdminCarLink";
+import AdminSellerLine from "./AdminSellerLine";
 import SaveCarButton from "./SaveCarButton";
 import { stripStaffPriceFields } from "@/lib/publicCar";
 
@@ -375,6 +376,12 @@ export default async function CarDetailPage({
           {SHOW_SELLER_LINE && car.auction_company_name && (
             <p className={styles.sellerLine}>Seller/Garage: By {car.auction_company_name}</p>
           )}
+
+          {/* Owner 2026-08-06: the public line stays hidden while the seller
+              data is unreliable, but the owner needs it visible when he is
+              logged into the admin. This fetches from the admin-gated
+              endpoint, so the name is never in a customer's HTML. */}
+          <AdminSellerLine carId={id} />
 
           <div className={styles.assuranceBox}>
             <ul className={styles.historyChecklist}>
