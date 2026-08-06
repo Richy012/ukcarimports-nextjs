@@ -29,6 +29,10 @@ interface Health {
     stale_72h?: number;
     photo_sharp_arrivals?: number;
     photo_backlog?: number;
+    arrivals_1h?: number;
+    arrivals_24h?: number;
+    arrivals_7d_avg?: number;
+    dead_deleted_1h?: number;
     sterling_cuts_24h: number;
     sterling_raises_24h: number;
     drops_displayed: number;
@@ -115,6 +119,14 @@ export default function CollectionHealth() {
       {health.v14 && (
         <div className={styles.engineTiles}>
           <div className={styles.engineTile}>
+            <span className={styles.engineLabel}>New cars found</span>
+            <span className={styles.engineValue}>{n(health.v14.arrivals_1h ?? 0)} last hour</span>
+            <span className={styles.engineSub}>
+              {n(health.v14.arrivals_24h ?? 0)} in 24h &middot; {n(health.v14.arrivals_7d_avg ?? 0)}/day 7-day avg
+              &middot; discovery owns the first hour of each 6h cycle
+            </span>
+          </div>
+          <div className={styles.engineTile}>
             <span className={styles.engineLabel}>Dealer repricing (24h)</span>
             <span className={styles.engineValue}>{n(health.v14.sterling_cuts_24h)} cuts</span>
             <span className={styles.engineSub}>{n(health.v14.sterling_raises_24h)} raises &middot; sterling, change-only</span>
@@ -128,7 +140,7 @@ export default function CollectionHealth() {
           </div>
           <div className={styles.engineTile}>
             <span className={styles.engineLabel}>Dead ads deleted (24h)</span>
-            <span className={styles.engineValue}>{n(health.v14.dead_deleted_24h)}</span>
+            <span className={styles.engineValue}>{n(health.v14.dead_deleted_24h)} <span style={{ fontSize: "0.6em", fontWeight: 400 }}>({n(health.v14.dead_deleted_1h ?? 0)} last hour)</span></span>
             <span className={styles.engineSub}>
               fleet-wide log (only v14 boxes can delete) &middot; {n(health.v14.stale_72h ?? 0)} live cars stale &gt;72h awaiting re-check
             </span>
