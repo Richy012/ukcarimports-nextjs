@@ -269,27 +269,30 @@ export default function CarSourcingForm() {
     );
   }
 
+  // Rendered INLINE, deliberately. This was previously a nested
+  // `function ElementsBlock()` declared inside this component and used as
+  // `<ElementsBlock />`. A component declared inside another is a NEW function
+  // identity on every render, so React treats it as a different element type,
+  // unmounts the whole subtree and mounts a fresh one. Here that meant every
+  // keystroke (onChange -> setForm -> re-render) destroyed and rebuilt the
+  // inputs, and the caret was lost -- the customer had to click back into the
+  // field for every single character. Keep this JSX inline; do not extract it
+  // to a function declared within this component.
   return (
     <div ref={stripeGateRef}>
       {stripeReady ? (
-        <ElementsBlock />
+        <Elements stripe={getStripe()}>
+          <CheckoutForm
+            form={form}
+            errors={errors}
+            setErrors={setErrors}
+            onChange={onChange}
+            onSuccess={() => setPaid(true)}
+          />
+        </Elements>
       ) : (
         <p className={styles.stripeLoading}>Preparing secure payment&hellip;</p>
       )}
     </div>
   );
-
-  function ElementsBlock() {
-    return (
-    <Elements stripe={getStripe()}>
-      <CheckoutForm
-        form={form}
-        errors={errors}
-        setErrors={setErrors}
-        onChange={onChange}
-        onSuccess={() => setPaid(true)}
-      />
-    </Elements>
-    );
-  }
 }
