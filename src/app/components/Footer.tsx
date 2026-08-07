@@ -55,13 +55,16 @@ export default function Footer() {
               <path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16Zm0 5.68a4.16 4.16 0 1 0 0 8.32 4.16 4.16 0 0 0 0-8.32Zm0 6.86a2.7 2.7 0 1 1 0-5.4 2.7 2.7 0 0 1 0 5.4Zm5.3-7.02a.97.97 0 1 1-1.94 0 .97.97 0 0 1 1.94 0Z" />
             </svg>
           </a>
-          {/* Uncomment once the account exists and the URL is confirmed:
-          <a href="https://www.linkedin.com/company/uk-car-imports" target="_blank" rel="noopener noreferrer" aria-label="UK Car Imports on LinkedIn">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
-              <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.64h.05c.53-1 1.83-2.06 3.76-2.06 4.02 0 4.76 2.65 4.76 6.1V21h-4v-5.44c0-1.3-.02-2.97-1.81-2.97-1.82 0-2.1 1.42-2.1 2.88V21h-4V9Z" />
+          <a
+            href="https://x.com/ukcarimports_ie"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="UK Car Imports on X"
+          >
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+              <path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82-5.97 6.82H1.66l7.73-8.84L1.25 2.25h6.83l4.71 6.23 5.45-6.23Zm-1.16 17.52h1.83L7.03 4.12H5.06l12.02 15.65Z" />
             </svg>
           </a>
-          */}
         </div>
         <nav className={styles.links}>
           <Link href="/bestseller-index">Bestseller Index</Link>
@@ -91,7 +94,7 @@ export default function Footer() {
             <path d="M19 4.3 V3.1" stroke="#454443" strokeWidth="1.2" />
             <path d="M16 21 H22" stroke="#454443" strokeWidth="1.3" strokeLinecap="round" />
           </svg>
-          Developed in-house on our <strong>Arklight</strong> AI platform
+          Developed in-house on our <strong>Arklight<sup className={styles.tm}>&trade;</sup></strong> AI platform
         </p>
       </div>
     </footer>

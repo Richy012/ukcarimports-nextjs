@@ -9,6 +9,8 @@ import {
   HandCoins,
   LayoutDashboard,
   LogOut,
+  Building2,
+  Megaphone,
   Scale,
   UserPlus,
   Users,
@@ -28,6 +30,8 @@ const NAV_ITEMS: { href: string; label: string; icon: LucideIcon }[] = [
   { href: "/deposits", label: "Deposits", icon: HandCoins },
   { href: "/members", label: "Members", icon: Users },
   { href: "/comparisons", label: "Comparisons", icon: Scale },
+  { href: "/social", label: "Social", icon: Megaphone },
+  { href: "/dealers", label: "Dealers", icon: Building2 },
   { href: "/templates", label: "Templates", icon: FileText },
 ];
 

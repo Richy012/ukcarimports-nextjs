@@ -176,10 +176,32 @@ export async function generateMetadata({
   const car = await getCar(id).catch(() => null);
   if (!car) return { title: "Car no longer available" };
   const name = (car.car_name || "").trim();
+  const url = `https://ukcarimports.ie/car/${id}`;
+  const title = `${name} — UK Import, Irish Price`;
+  const description = `${name}, available to import from the UK — priced fully landed for Ireland with VRT, VAT, customs and delivery included. Independent inspection before you commit, Irish plates in about two weeks.`;
+  // Without these, a shared link has no preview image and Facebook, X and
+  // LinkedIn fall back to the profile avatar.
+  const photo = (car.featured_image || "").trim();
+  const images = photo ? [{ url: photo, width: 1200, height: 630, alt: name }] : undefined;
   return {
-    title: `${name} — UK Import, Irish Price`,
-    description: `${name}, available to import from the UK — priced fully landed for Ireland with VRT, VAT, customs and delivery included. Independent inspection before you commit, Irish plates in about two weeks.`,
-    alternates: { canonical: `https://ukcarimports.ie/car/${id}` },
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "website",
+      url,
+      siteName: "UK Car Imports",
+      title,
+      description,
+      locale: "en_IE",
+      ...(images ? { images } : {}),
+    },
+    twitter: {
+      card: photo ? "summary_large_image" : "summary",
+      title,
+      description,
+      ...(photo ? { images: [photo] } : {}),
+    },
   };
 }
 

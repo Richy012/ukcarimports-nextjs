@@ -394,7 +394,13 @@ export default function FilterBar({
 
   // Live mirrors for the click-capture listener above (registered once).
   const liveCarsRef = useRef<Car[]>(initialCars);
-  const loadedPageRef = useRef(currentPage);
+  // Mirrors loadedPage (0-based). The initial value here is dead: the
+  // assignment further down runs in the render body on every render,
+  // including the first, so it is overwritten before the layout effect
+  // registers the click handler that reads it. Kept consistent anyway --
+  // a 1-based initialiser next to a 0-based ref reads like an off-by-one
+  // and has already cost one investigation.
+  const loadedPageRef = useRef(Math.max(0, currentPage - 1));
 
   // Deep-scroll restore lands before paint: once the restored tiles have
   // committed (length reaches what was saved), jump in the same frame.
@@ -402,6 +408,10 @@ export default function FilterBar({
   const pendingCarRef = useRef<string | null>(null);
   const pendingTopRef = useRef<number | null>(null);
   const restoredRef = useRef(false);
+  // False until the live-preview effect has run once. The mount run must
+  // honour ?page=N; every later run is an in-place filter change, which
+  // always restarts at the first page.
+  const previewRanRef = useRef(false);
   const savedLenRef = useRef(0);
   useLayoutEffect(() => {
     if (pendingScrollRef.current === null || liveCars.length < savedLenRef.current) return;
@@ -502,6 +512,10 @@ export default function FilterBar({
       restoredRef.current = false;
       return;
     }
+    const isFirstRun = !previewRanRef.current;
+    previewRanRef.current = true;
+    // Deep link (?page=3) must survive the preview; a filter change must not.
+    const targetPage = isFirstRun ? Math.max(0, currentPage - 1) : 0;
     const timer = setTimeout(async () => {
       setCountLoading(true);
       try {
@@ -536,7 +550,7 @@ export default function FilterBar({
             mileagefilter: mileage_sort,
             dropfilter: drop_sort,
             bestsellerSeries: bestseller,
-            pagenum: 0,
+            pagenum: targetPage,
             limit: 25,
           }),
         });
@@ -544,11 +558,13 @@ export default function FilterBar({
         if (typeof data?.data?.count === "number") setLiveCount(data.data.count);
         if (Array.isArray(data?.data?.cars)) {
           setLiveCars(data.data.cars);
-          // pagenum is 0-based: we just loaded page 0, and loadMore fetches
-          // loadedPage + 1. Recording 1 here made the first load-more jump
-          // to page 2 -- cars 26-50 were silently skipped on EVERY browse,
-          // and short lists (<=50) hit an empty page and spun forever.
-          setLoadedPage(0);
+          // pagenum is 0-based and loadMore fetches loadedPage + 1, so record
+          // the page we actually just loaded. Recording 1 here once made the
+          // first load-more jump to page 2 -- cars 26-50 silently skipped on
+          // EVERY browse, and short lists (<=50) hit an empty page and spun
+          // forever. Recording 0 unconditionally then broke ?page=N deep
+          // links, which were replaced by the first page 400ms after load.
+          setLoadedPage(targetPage);
         }
       } catch {
         // Leave the last known results showing rather than a jarring reset.

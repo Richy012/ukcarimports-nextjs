@@ -18,6 +18,12 @@ interface Stream {
 }
 
 interface Health {
+  live_now?: { arrivals_1h: number; deleted_1h: number; deleted_last_batch?: number; rechecked_1h: number };
+  today?: {
+    arrivals_24h: number; arrivals_prev_24h: number;
+    deleted_24h: number; deleted_prev_24h: number;
+  };
+  backlog?: { stale_72h: number; never_rechecked: number };
   generated_at: string;
   total_cars: number;
   dealer_cars: number;
@@ -102,10 +108,25 @@ export default function CollectionHealth() {
     return (
       <section className={styles.panel}>
         <h2 className={styles.panelHeading}>Data collection</h2>
-        <p className={styles.panelMeta}>Loading…</p>
+        <p className={styles.panelMeta}>
+        Live figures &mdash; the last hour, and today against yesterday.
+      </p>
       </section>
     );
   }
+
+  // Direction matters more than the raw figure: 900 deletions means one
+  // thing after 40 yesterday and another after 1,400.
+  const delta = (now: number, prev: number) => {
+    if (!prev) return null;
+    const pct = Math.round(((now - prev) / prev) * 100);
+    if (Math.abs(pct) < 5) return <span style={{ color: "#777" }}> · level on yesterday</span>;
+    return (
+      <span style={{ color: pct > 0 ? "#0a7d33" : "#b60b0c", fontWeight: 600 }}>
+        {" "}· {pct > 0 ? "▲" : "▼"} {Math.abs(pct)}% on yesterday
+      </span>
+    );
+  };
 
   return (
     <section className={styles.panel}>
@@ -116,64 +137,43 @@ export default function CollectionHealth() {
         last hour
       </p>
 
-      {health.v14 && (
+      {/* Right now. A number on its own says nothing, so today is shown
+          against yesterday and the backlog carries its direction. */}
+      {health.live_now && (
         <div className={styles.engineTiles}>
           <div className={styles.engineTile}>
-            <span className={styles.engineLabel}>New cars found</span>
-            <span className={styles.engineValue}>{n(health.v14.arrivals_1h ?? 0)} last hour</span>
+            <span className={styles.engineLabel}>Arriving</span>
+            <span className={styles.engineValue}>{n(health.live_now.arrivals_1h)}<span style={{ fontSize: "0.5em", fontWeight: 400 }}> /hour</span></span>
             <span className={styles.engineSub}>
-              {n(health.v14.arrivals_24h ?? 0)} in 24h &middot; {n(health.v14.arrivals_7d_avg ?? 0)}/day 7-day avg
-              &middot; discovery owns the first hour of each 6h cycle
+              {n(health.today?.arrivals_24h ?? 0)} today
+              {health.today ? delta(health.today.arrivals_24h, health.today.arrivals_prev_24h) : null}
             </span>
           </div>
+
           <div className={styles.engineTile}>
-            <span className={styles.engineLabel}>Dealer repricing (24h)</span>
-            <span className={styles.engineValue}>{n(health.v14.sterling_cuts_24h)} cuts</span>
-            <span className={styles.engineSub}>{n(health.v14.sterling_raises_24h)} raises &middot; sterling, change-only</span>
+            <span className={styles.engineLabel}>Sold cars removed</span>
+            <span className={styles.engineValue}>{n(health.live_now.deleted_1h)}<span style={{ fontSize: "0.5em", fontWeight: 400 }}> /hour</span></span>
+            <span className={styles.engineSub}>
+              {n(health.today?.deleted_24h ?? 0)} today
+              {health.today ? delta(health.today.deleted_24h, health.today.deleted_prev_24h) : null}
+              {health.live_now?.deleted_last_batch ? (
+                <> &middot; removed in batches, last was {n(health.live_now.deleted_last_batch)}</>
+              ) : null}
+            </span>
           </div>
+
+          <div className={styles.engineTile}>
+            <span className={styles.engineLabel}>Live stock</span>
+            <span className={styles.engineValue}>{n(health.total_cars)}</span>
+            <span className={styles.engineSub}>{n(health.dealer_cars)} from named dealers</span>
+          </div>
+
           <div className={styles.engineTile}>
             <span className={styles.engineLabel}>Price drops on site</span>
-            <span className={styles.engineValue}>{n(health.v14.drops_displayed)}</span>
+            <span className={styles.engineValue}>{n(health.v14?.drops_displayed ?? 0)}</span>
             <span className={styles.engineSub}>
-              of {n(health.v14.drops_total)} banked (&ge;&euro;100) &middot; biggest &euro;{n(health.v14.biggest_drop_eur)}
+              biggest &euro;{n(health.v14?.biggest_drop_eur ?? 0)} &middot; {n(health.v14?.sterling_cuts_24h ?? 0)} dealer cuts in 24h
             </span>
-          </div>
-          <div className={styles.engineTile}>
-            <span className={styles.engineLabel}>Dead ads deleted (24h)</span>
-            <span className={styles.engineValue}>{n(health.v14.dead_deleted_24h)} <span style={{ fontSize: "0.6em", fontWeight: 400 }}>({n(health.v14.dead_deleted_1h ?? 0)} last hour)</span></span>
-            <span className={styles.engineSub}>
-              fleet-wide log (only v14 boxes can delete) &middot; {n(health.v14.stale_72h ?? 0)} live cars stale &gt;72h awaiting re-check
-            </span>
-          </div>
-          <div className={styles.engineTile}>
-            <span className={styles.engineLabel}>Marketing-image firewall</span>
-            <span className={styles.engineValue}>{n(health.v14.promo_signatures)} signatures</span>
-            <span className={styles.engineSub}>
-              purge: {n(health.v14.promo_cars_cleaned)} cars / {n(health.v14.promo_images_removed)} images removed
-            </span>
-          </div>
-          <div className={styles.engineTile}>
-            <span className={styles.engineLabel}>Photo fix (800px)</span>
-            <span className={styles.engineValue}>{n(health.v14.photo_sharp_arrivals ?? 0)} sharp</span>
-            <span className={styles.engineSub}>
-              arrivals since v14 &middot; &asymp;{n(health.v14.photo_backlog ?? 0)} older galleries await the re-capture sweep (starts after S4 joins v14)
-            </span>
-          </div>
-          <div className={styles.engineTile}>
-            <span className={styles.engineLabel}>v14 rollout</span>
-            <span className={styles.engineValue}>
-              {(health.v14.rollout ?? []).filter((r) => r.status === "v14").length} / {(health.v14.rollout ?? []).length} boxes
-            </span>
-            <span className={styles.engineSub}>
-              {(health.v14.rollout ?? [])
-                .map((r) => r.status === "v14" ? r.box + " ✓ " + (r.since ?? "") : r.box + ": " + r.status)
-                .join(" · ")}
-            </span>
-          </div>
-          <div className={styles.engineTile}>
-            <span className={styles.engineLabel}>Freshness loop</span>
-            <span className={styles.engineValue}>{n(health.v14.fresh_visited_cars)}</span>
-            <span className={styles.engineSub}>cars carrying visit bookkeeping (gallery count remembered)</span>
           </div>
         </div>
       )}

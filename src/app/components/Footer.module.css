@@ -179,7 +179,12 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin: 10px 0 0;
+  /* Own full-width row. Without this the credit is a content-width flex item
+     and .bottom's space-between parks it hard left. */
+  flex: 0 0 100%;
+  width: 100%;
+  text-align: center;
+  margin: 14px 0 0;
   font-size: 12.5px;
   color: #6b6a68;
   letter-spacing: 0.02em;
@@ -254,4 +259,14 @@
   .social a:focus-visible {
     transform: none;
   }
+}
+
+/* Trademark mark on Arklight -- raised and reduced so it reads as a mark
+   rather than a character in the word. */
+.tm {
+  font-size: 0.62em;
+  font-weight: 600;
+  vertical-align: super;
+  line-height: 0;
+  margin-left: 1px;
 }

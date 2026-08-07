@@ -1,3 +1,4 @@
+import SocialClickBeacon from "@/app/components/SocialClickBeacon";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import Script from "next/script";
@@ -49,6 +50,8 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://api.ukcarimports.ie" />
       </head>
       <body className="min-h-full flex flex-col">
+        {/* Records arrivals from our own social adverts. Renders nothing. */}
+        <SocialClickBeacon />
         {/* Same GTM container as the legacy site — analytics continuity
             across cutover. Loads on the visitor's FIRST INTERACTION (scroll,
             tap, key, mouse) rather than page-load: GTM is 320KB and ~300ms

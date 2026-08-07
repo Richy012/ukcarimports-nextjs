@@ -256,7 +256,7 @@ export default function ImportLanding({ data, makeSlug }: { data: LandingData; m
         <section className={styles.models}>
           <h2>{subject} by year</h2>
           <div className={styles.chipRow}>
-            {data.years!.filter((y) => y.n >= 3).map((y) => (
+            {data.years!.filter((y) => y.n >= 1).map((y) => (
               <Link
                 key={y.year}
                 href={`${browseHref}&minYear=${y.year}&maxYear=${y.year}`}

@@ -124,7 +124,11 @@ async function getCars(
       maxEnginesize: filters.maxEnginesize,
       transmission_type: filters.transmission_type,
       engine: "",
-      pagenum: pageNum,
+      // The API's pagenum is 0-based (see FilterBar.tsx, which sends 0 for
+      // the first page); our page counter is 1-based. Passing it through
+      // unconverted skipped the first 25 cars of every result set, and
+      // rendered an empty list for any filter matching 25 or fewer.
+      pagenum: pageNum - 1,
       limit: PAGE_SIZE,
       // The API reads these as pricefilter/mileagefilter (CarsNewTwoController
       // lines 229-230). Sending price_sort/mileage_sort meant neither sort ever
