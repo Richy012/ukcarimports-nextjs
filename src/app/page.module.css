@@ -16,7 +16,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  aspect-ratio: 1672 / 941;
+  aspect-ratio: var(--hero-aspect, 1672 / 941);
   border-bottom: 1px solid #2a221d;
 }
 
@@ -59,7 +59,12 @@
 @media (max-width: 820px) {
   .hero {
     aspect-ratio: auto;
-    background-image: url("/assets/images/hero-full.jpg");
+    /* Follow the daily rotation here too (owner 2026-08-07: "New Hero is not
+       on mobile"). The 235%% left-crop below was tuned to the original
+       artwork, but every composite shares the same layout -- logo top-left,
+       headline, gold strapline -- so the same crop frames them all. Verified
+       by rendering the exact visible region (x 0-712, y 57-941) of each. */
+    background-image: var(--hero-img, url("/assets/images/hero-full.jpg"));
     background-size: 235% auto;
     background-position: 0 -8vw;
     /* top padding (not child margin — margin would collapse through the
@@ -877,8 +882,10 @@
 
 @media (min-width: 821px) {
   .hero {
-    background-image: url("/assets/images/hero-w22.jpg");
-    aspect-ratio: 1672 / 760;
+    /* Variables, not literals: the daily rotation sets these per artwork.
+       Defaults are the original hero's own letterbox crops, unchanged. */
+    background-image: var(--hero-img-w22, url("/assets/images/hero-w22.jpg"));
+    aspect-ratio: var(--hero-aspect-w22, 1672 / 760);
   }
   .heroCount {
     top: 85.92%;
@@ -887,8 +894,8 @@
 
 @media (min-width: 1400px) {
   .hero {
-    background-image: url("/assets/images/hero-w24.jpg");
-    aspect-ratio: 1672 / 687;
+    background-image: var(--hero-img-w24, url("/assets/images/hero-w24.jpg"));
+    aspect-ratio: var(--hero-aspect-w24, 1672 / 687);
   }
   .heroCount {
     top: 91.7%;
@@ -945,4 +952,83 @@
   top: auto;
   right: 2.5%;
   bottom: 4%;
+}
+
+/* Artwork carrying its own bottom feature strip (Polestar, Skoda, Volvo).
+   The gold count's usual alt position -- bottom right -- lands straight on
+   "DELIVERED TO YOU IN IRELAND" there; verified by cropping that exact zone
+   out of each image. Owner wants the live car count kept, so it moves to the
+   top right instead: cropping the top-right zone of all five composites shows
+   clean sky with nothing baked into it.
+   Same specificity as .heroAlt .heroCount, so this must stay AFTER it. */
+.heroStrip .heroCount {
+  display: block;
+  left: auto;
+  right: 3%;
+  top: 7%;
+  bottom: auto;
+  /* Top-right sky is clean of baked text on every composite, but on the
+     brighter sunsets (Volvo, Skoda) gold-on-pale washes out. A layered
+     shadow -- tight dark core plus a wider soft halo -- holds the text on
+     both the dark cloud and the bright horizon without putting a visible
+     box over the artwork. */
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.95),
+    0 0 10px rgba(0, 0, 0, 0.85),
+    0 0 26px rgba(0, 0, 0, 0.55);
+}
+
+@media (min-width: 821px) {
+  .heroStrip .heroCount { top: 7%; }
+}
+
+@media (min-width: 1400px) {
+  .heroStrip .heroCount { top: 7%; }
+}
+
+@media (max-width: 820px) {
+  /* .heroStrip .heroCount is absolutely positioned for desktop and outranks
+     the single-class mobile rule below it, which would drag the count out of
+     flow and over the artwork on a phone. Put it back in the column. */
+  .heroStrip .heroCount {
+    position: static;
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+  }
+}
+
+/* MOBILE: the live stock count is suppressed on the brand composites, because
+   there is nowhere on a phone to put it.
+
+   The mobile crop is background-size:235% at background-position-y:-8vw, so
+   only the LEFT 43% of each 1672x941 composite is on screen -- and that is
+   precisely the column the artwork bakes its own typography into. The count
+   sits in normal flow under padding-top:93vw, i.e. it occupies 93.0-97.5vw
+   measured from the hero top.
+
+   Scanning every composite's ink rows and mapping them through that same crop
+   (screen_vw = imageY * 2.35 / 1672 * 100 - 8) puts each artwork's own
+   "UK CAR IMPORTS" wordmark at:
+     volvo 96.6-98.5 | skoda 93.2-95.3 | polestar 95.2-97.4 | e-class 92.8-95.0
+     port 97.3-99.5  | irishprice 97.1-99.5
+   -- so the count collides on SIX of the eight artworks, not just the one the
+   owner photographed (2026-08-07, Volvo day).
+
+   There is no value that fixes it: the last baked line above the count ends as
+   late as 90.5vw (eqc) and the earliest wordmark starts at 92.8vw (e-class),
+   leaving a universal clean window of 2.3vw for a line that is 4.0-5.3vw tall
+   depending on phone width. Moving it below the wordmark instead pushes the
+   search panel off the fold.
+
+   Nothing is lost: the live number is still on screen immediately below, in the
+   CTA ("Search 114,000+ cars"), and hiding the line also lifts the search panel
+   ~31px, which is the part of this page that actually converts. The original
+   hero (hero-full, not .heroAlt) keeps its count -- its baked layout leaves that
+   zone empty, confirmed by the same scan. */
+@media (max-width: 820px) {
+  .heroAlt .heroCount {
+    display: none;
+  }
 }

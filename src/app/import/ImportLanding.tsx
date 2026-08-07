@@ -1,5 +1,6 @@
 import Link from "next/link";
 import styles from "./page.module.css";
+import { artForMake, DEFAULT_BANNER } from "@/lib/brandArt";
 
 export interface LandingData {
   make: string;
@@ -83,6 +84,10 @@ export default function ImportLanding({ data, makeSlug }: { data: LandingData; m
   const makeT = titleCase(data.make);
   const modelT = data.model ? displayModel(data.make, data.model) : null;
   const subject = modelT ? `${makeT} ${modelT}` : makeT;
+  // This make's own artwork when we have it (owner: "put an Audi on top when
+  // someone is searching for an Audi"), otherwise the generic Irish-price
+  // composite. Adding a make is one line in src/lib/brandArt.ts.
+  const banner = artForMake(makeSlug) ?? DEFAULT_BANNER;
   const isFamily = !!data.is_family;
   // The listing's Model filter takes a real model_name — a family ("3
   // Series") isn't one, so family pages browse at make level and rely on
@@ -151,8 +156,8 @@ export default function ImportLanding({ data, makeSlug }: { data: LandingData; m
 
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/assets/images/hero-rot-irishprice.jpg"
-        alt={`Browse the UK's ${subject} market - buy at the Irish price. VRT, VAT, customs and delivery included.`}
+        src={banner.img}
+        alt={`${banner.altText} - ${subject} imported to Ireland with VRT, VAT, customs and delivery included.`}
         width={1672}
         height={941}
         className={styles.landingBanner}

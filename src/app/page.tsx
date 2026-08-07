@@ -8,6 +8,7 @@ import ReviewCarousel from "./ReviewCarousel";
 import googleReviews from "@/data/google-reviews.json";
 import { getStockCount, formatStockCount, roundStockDown } from "@/lib/stockCount";
 import styles from "./page.module.css";
+import { heroForDay } from "@/lib/brandArt";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
 
@@ -115,7 +116,17 @@ async function getHomeData() {
         return (b.best_value?.saving_eur ?? 0) - (a.best_value?.saving_eur ?? 0);
       });
     const bvCount: number = bvJson?.data?.count ?? 0;
-    const makes: { make: string; slug: string; n: number }[] = (indexJson?.data?.makes ?? []).slice(0, 8);
+    // Homepage chips are a CURATED shortlist, not the top 8 by volume (owner
+    // 2026-08-07). DISPLAY ONLY -- every make stays in the search dropdown
+    // (allMakes below), the /used-cars filters, the make pages and the
+    // sitemap. Order follows FEATURED_MAKE_SLUGS.
+    const featured = FEATURED_MAKE_SLUGS.map((slug) =>
+      (indexJson?.data?.makes ?? []).find((m: { slug: string }) => m.slug === slug),
+    ).filter(Boolean) as { make: string; slug: string; n: number }[];
+    // If the index ever stops returning one of them, fall back to volume order
+    // rather than rendering a short or empty row.
+    const makes: { make: string; slug: string; n: number }[] =
+      featured.length >= 6 ? featured : (indexJson?.data?.makes ?? []).slice(0, 8);
     const makesJson = await makesRes.json();
     const allMakes: { make: string; n: number }[] = (makesJson?.make ?? [])
       .filter((m: { make: string }) => m.make)
@@ -128,27 +139,62 @@ async function getHomeData() {
 
 
 
-// Owner-supplied brand composites rotate daily with the original hero
-// (owner ask 2026-08-05). UTC-day index keeps ISR caches coherent; mobile
-// always shows the original artwork (its text-zone crop is artwork-specific,
-// see page.module.css).
-const HERO_ROTATION = [
-  { img: "/assets/images/hero-full.jpg", alt: false },
-  { img: "/assets/images/hero-rot-port.jpg", alt: true },
-  { img: "/assets/images/hero-rot-irishprice.jpg", alt: true },
-  { img: "/assets/images/hero-rot-nocosts.jpg", alt: true },
+// Title-case a make for display while keeping acronyms upper -- the plain
+// word-boundary version rendered "Bmw".
+function makeLabel(make: string): string {
+  return make
+    .replace(/\b\w/g, (c) => c.toUpperCase())
+    .replace(/\bBmw\b/, "BMW")
+    .replace(/\bMg\b/, "MG")
+    .replace(/\bByd\b/, "BYD")
+    .replace(/\bDs\b/, "DS");
+}
+
+// Curated homepage chips, biggest live stock first. Changing this list
+// changes the chips ONLY -- it does not affect search, filtering or
+// indexing anywhere on the site.
+const FEATURED_MAKE_SLUGS = [
+  "bmw",
+  "audi",
+  "mercedes-benz",
+  "nissan",
+  "skoda",
+  "land-rover",
+  "volvo",
+  "tesla",
+  "polestar",
 ];
+
+// Hero artwork now lives in src/lib/brandArt.ts so the same set can be
+// reused for make-specific banners elsewhere on the site.
 
 export default async function HomePage() {
   const { bestValue, bvCount, count, makes, allMakes } = await getHomeData();
 
-  const heroArt = HERO_ROTATION[Math.floor(Date.now() / 86400000) % HERO_ROTATION.length];
+  const heroArt = heroForDay();
+  // The original hero keeps its pre-cropped letterbox variants (the CSS
+  // defaults). Rotation artwork points every breakpoint at itself and at its
+  // own 1672x941 aspect so it shows WHOLE -- cropping to 760/687 tall would
+  // cut the bottom feature strip off three of the composites.
+  // Typed as a plain record: custom properties are not part of CSSProperties,
+  // and a union of two literals cannot be asserted to it directly.
+  const heroVars = (
+    heroArt.img.includes("hero-full")
+      ? { "--hero-img": `url(${heroArt.img})` }
+      : {
+          "--hero-img": `url(${heroArt.img})`,
+          "--hero-img-w22": `url(${heroArt.img})`,
+          "--hero-img-w24": `url(${heroArt.img})`,
+          "--hero-aspect-w22": "1672 / 941",
+          "--hero-aspect-w24": "1672 / 941",
+        }
+  ) as unknown as CSSProperties;
   return (
     <main>
       {(() => null)()}
       <section
-        className={heroArt.alt ? `${styles.hero} ${styles.heroAlt}` : styles.hero}
-        style={{ "--hero-img": `url(${heroArt.img})` } as CSSProperties}
+        className={[styles.hero, heroArt.alt && styles.heroAlt, heroArt.strip && styles.heroStrip].filter(Boolean).join(" ")}
+        style={heroVars}
       >
         {/* Mobile-only text: on desktop the composite image carries logo + headline */}
         <div className={styles.heroCopy}>
@@ -249,7 +295,7 @@ export default async function HomePage() {
         <div className={styles.makeChips}>
           {makes.map((m) => (
             <Link key={m.slug} href={`/import/${m.slug}`} className={styles.makeChip}>
-              {m.make.replace(/\b\w/g, (c) => c.toUpperCase())} <span>{m.n.toLocaleString()}</span>
+              {makeLabel(m.make)} <span>{m.n.toLocaleString()}</span>
             </Link>
           ))}
           <Link href="/used-cars" className={styles.makeChipAll}>
