@@ -32,7 +32,7 @@ async function stockCount(make: string, model: string): Promise<number> {
     const res = await fetch(`${API_BASE}/allcarsnew/0/1`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ Make: make, Model: model, minPrice: "15000", pagenum: 0, limit: 1 }),
+      body: JSON.stringify({ Make: make, Model: model, minPrice: "1", pagenum: 0, limit: 1 }),
       next: { revalidate: 3600 },
     });
     const data = await res.json();
@@ -53,7 +53,29 @@ export async function GET(
     .slice(0, 2);
 
   if (parts.length > 0) {
-    const [make, model = ""] = parts;
+    let [make, model = ""] = parts;
+
+    // 2026-08-11: legacy URLs carry TRUNCATED two-word makes ("land", "alfa"),
+    // which used to 301 into /used-cars?Make=land — a junk page Google indexed
+    // ("land Used cars for sale in ireland", flagged by the external audit).
+    // Repair the known truncations to their real make before resolving.
+    const TRUNCATED: Record<string, string> = {
+      land: "land-rover",
+      range: "land-rover",
+      alfa: "alfa-romeo",
+      aston: "aston-martin",
+      mercedes: "mercedes-benz",
+      rolls: "rolls-royce",
+    };
+    if (TRUNCATED[make]) {
+      if (make === "land" && model === "rover") model = "";
+      if (make === "range" && model === "rover") model = "";
+      if (make === "alfa" && model === "romeo") model = "";
+      if (make === "aston" && model === "martin") model = "";
+      if (make === "rolls" && model === "royce") model = "";
+      if (make === "mercedes" && model === "benz") model = "";
+      make = TRUNCATED[make];
+    }
 
     // Preferred destination: the SEO landing page for this make/model.
     if (await landingExists(make, model || undefined)) {
@@ -82,8 +104,13 @@ export async function GET(
         break;
       }
     }
-    dest.searchParams.set("Make", chosen[0]);
-    if (chosen[1]) dest.searchParams.set("Model", chosen[1]);
+    // 2026-08-11: only carry the filter if it matches REAL stock — an unknown
+    // make used to produce an indexable junk listing (?Make=land). Zero stock
+    // on every candidate now falls through to the clean /used-cars page.
+    if ((await stockCount(chosen[0], chosen[1])) > 0) {
+      dest.searchParams.set("Make", chosen[0]);
+      if (chosen[1]) dest.searchParams.set("Model", chosen[1]);
+    }
     return NextResponse.redirect(dest, 301);
   }
 

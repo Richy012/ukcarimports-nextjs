@@ -2,10 +2,19 @@
 // produce the HTML. This is the actual fix for the ~9s mobile LCP: the
 // browser gets real car data in the initial HTML response instead of an
 // empty <div id="root"> that waits on a full SPA boot before anything paints.
+import { preload } from "react-dom";
 import FilterBar from "./FilterBar";
 import { getStockCount } from "@/lib/stockCount";
 import styles from "./page.module.css";
 import { toTileCar } from "@/lib/publicCar";
+
+// 2026-08-11: was the layout default "Used cars for sale" -- generic, and the
+// old description contradicted the all-inclusive proposition (external SEO audit).
+export const metadata = {
+  title: "UK Used Cars for Import to Ireland - VRT Included",
+  description:
+    "Browse 100,000+ UK used cars priced fully landed in Ireland. VRT, VAT, customs, transport and Irish registration included in the displayed price.",
+};
 
 const API_BASE = "https://api.ukcarimports.ie/public";
 const PAGE_SIZE = 25;
@@ -17,7 +26,7 @@ const FACET_FILTER_BODY = {
   // dropdowns promise more cars than the listing (which enforces the floor)
   // can show. Same owner complaint as the Bestseller counts: "said 198,
   // returned 0" in miniature.
-  minPrice: "15000",
+  minPrice: "1",
   maxPrice: "",
   minYear: "",
   maxYear: "",
@@ -108,7 +117,7 @@ async function getCars(
       // Standing public-display rules (same as lib/stockCount + FilterBar):
       // VRT-priceable cars only, landed price >= €15,000.
       vrtFilter: "Yes",
-      minPrice: filters.minPrice || "15000",
+      minPrice: filters.minPrice || "1",
       maxPrice: filters.maxPrice,
       minYear: filters.minYear,
       maxYear: filters.maxYear,
@@ -216,10 +225,7 @@ export default async function UsedCarsPage({
     maxYear: firstParam(params, "maxYear"),
     // Absolute floor: even a hand-typed ?minPrice=5000 URL cannot dip below
     // the €15k public-display rule.
-    minPrice:
-      firstParam(params, "minPrice") && Number(firstParam(params, "minPrice")) < 15000
-        ? "15000"
-        : firstParam(params, "minPrice"),
+    minPrice: firstParam(params, "minPrice"),
     maxPrice: firstParam(params, "maxPrice"),
     minMileage: firstParam(params, "minMileage"),
     maxMileage: firstParam(params, "maxMileage"),
@@ -288,6 +294,12 @@ export default async function UsedCarsPage({
   // query times out; rendering null crashed the whole page with a 500
   // (seen live 2026-08-04). Fall back rather than fail.
   const displayCount = (isDefaultView ? await getStockCount() : data.count) ?? 0;
+
+  // 2026-08-11 (audit: mobile LCP 4.2s, "delayed LCP-request discovery"):
+  // tell the browser about the first card's image from the initial HTML,
+  // before hydration or any client fetch runs.
+  const lcpImage = data.cars[0]?.featured_image;
+  if (lcpImage) preload(lcpImage, { as: "image", fetchPriority: "high" });
 
   return (
     <main className={styles.main}>

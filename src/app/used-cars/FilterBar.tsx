@@ -1,11 +1,13 @@
 "use client";
 
+import RecentSearches, { rememberSearch } from "./RecentSearches";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import CardsGrid from "./CardsGrid";
 import pageStyles from "./page.module.css";
 import SaveSearchPrompt from "./SaveSearchPrompt";
+import { FollowStrip } from "@/app/components/FollowUs";
 import styles from "./FilterBar.module.css";
 
 interface Option {
@@ -76,7 +78,7 @@ const QUICK_PICKS = ["Leather seats", "Heated seats", "Panoramic roof", "Apple C
 const YEAR_OPTIONS = ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"];
 // Public min price floor is 15000 on the live site (PUBLIC_MIN_FINAL_PRICE) --
 // non-admin users never see or can select anything below it.
-const PRICE_OPTIONS = Array.from({ length: (500000 - 15000) / 5000 + 1 }, (_, i) => 15000 + i * 5000);
+const PRICE_OPTIONS = Array.from({ length: (500000 - 10000) / 5000 + 1 }, (_, i) => 10000 + i * 5000);
 const MILEAGE_OPTIONS = Array.from({ length: 500000 / 5000 + 1 }, (_, i) => i * 5000);
 
 // vrtFilter + the €15k floor are the standing public-display rules the
@@ -88,7 +90,7 @@ const FILTER_BODY_DEFAULTS = {
   // €15k public floor in the model-dropdown counts too — keeps every count
   // on the same population as the listing itself (the live preview already
   // forces it via minPrice || "15000").
-  minPrice: "15000",
+  minPrice: "",
   maxPrice: "",
   minYear: "",
   maxYear: "",
@@ -289,6 +291,10 @@ export default function FilterBar({
   const [seatOpts, setSeatOpts] = useState<Option[]>(initialSeats);
   const [modelsLoading, setModelsLoading] = useState(false);
   const [liveCars, setLiveCars] = useState<Car[]>(initialCars);
+  const currentQsRef = useRef("");
+  useEffect(() => {
+    currentQsRef.current = currentQueryString();
+  });
   const [liveCount, setLiveCount] = useState(initialCount ?? 0);
   const [countLoading, setCountLoading] = useState(false);
 
@@ -312,6 +318,14 @@ export default function FilterBar({
     function onClickCapture(e: MouseEvent) {
       const a = (e.target as HTMLElement | null)?.closest?.('a[href^="/car/"]');
       if (!a) return;
+      // Preview coherence: stamp the equivalent URL into this history entry
+      // before leaving, so Back restores matching controls and SSR list.
+      try {
+        const qs = currentQsRef.current;
+        if (qs !== window.location.search.replace(/^\?/, "")) {
+          window.history.replaceState(window.history.state, "", qs ? `/used-cars?${qs}` : "/used-cars");
+        }
+      } catch { /* ignore */ }
       try {
         sessionStorage.setItem(
           KEY,
@@ -536,7 +550,7 @@ export default function FilterBar({
             maxEnginesize,
             minYear,
             maxYear,
-            minPrice: minPrice || "15000",
+            minPrice: minPrice || "1",
             maxPrice,
             minMileage,
             maxMileage,
@@ -651,7 +665,7 @@ export default function FilterBar({
           maxEnginesize,
           minYear,
           maxYear,
-          minPrice: minPrice || "15000",
+          minPrice: minPrice || "1",
           maxPrice,
           minMileage,
           maxMileage,
@@ -723,7 +737,10 @@ export default function FilterBar({
     fetchModels(newMake);
   }
 
-  function applyFilters() {
+  // Single source of truth for "the URL this filter state means" — used by
+  // Apply, and by the tile-click history stamp so Back always lands on an
+  // address matching what is on screen.
+  function currentQueryString(): string {
     const { price_sort, mileage_sort, drop_sort } = sortToParams(sort);
     const params = new URLSearchParams();
     if (make) params.set("Make", make);
@@ -747,7 +764,19 @@ export default function FilterBar({
     if (mileage_sort) params.set("mileage_sort", mileage_sort);
     if (drop_sort) params.set("drop_sort", drop_sort);
     if (bestseller) params.set("bestseller", bestseller);
-    const qs = params.toString();
+    return params.toString();
+  }
+
+  function applyFilters() {
+    const qs = currentQueryString();
+    const bits = [
+      make && (model ? `${make} ${model}` : make),
+      minPrice || maxPrice ? `€${minPrice || "0"}–${maxPrice || "any"}` : "",
+      fuel,
+      maxMileage ? `≤${maxMileage} km` : "",
+      bestseller ? "Bestsellers" : "",
+    ].filter(Boolean);
+    rememberSearch(bits.join(" · "), qs);
     router.push(qs ? `/used-cars?${qs}` : "/used-cars");
   }
 
@@ -959,6 +988,8 @@ export default function FilterBar({
           </select>
         </div>
 
+        <RecentSearches />
+
         <div className={styles.actionsRow}>
           <button type="button" className={styles.applyButton} onClick={applyFilters}>Apply Filters</button>
 
@@ -982,6 +1013,9 @@ export default function FilterBar({
         <CardsGrid cars={liveCars} />
       </div>
 
+      {/* An email alert is worth more than a follow, so the follow strip only
+          appears when no filters are set and SaveSearchPrompt is silent. */}
+      <FollowStrip suppressed={[make, model, fuel, bodyStyle, transmission, seats, color, minYear, maxYear, minPrice].some(Boolean)} />
       <SaveSearchPrompt
         filters={{
           Make: make,

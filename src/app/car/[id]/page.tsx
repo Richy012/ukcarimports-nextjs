@@ -1,3 +1,4 @@
+import BackToResults from "./BackToResults";
 import { Check } from "lucide-react";
 import type { Metadata } from "next";
 // Server Component -- same SSR approach as /used-cars: real data in the
@@ -5,6 +6,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import PriceBreakdown from "./PriceBreakdown";
+import { FollowLine } from "@/app/components/FollowUs";
 import CarGallery from "./CarGallery";
 import styles from "./page.module.css";
 import AdminCarLink from "./AdminCarLink";
@@ -290,9 +292,7 @@ export default async function CarDetailPage({
 
   return (
     <main className={styles.main}>
-      <Link href="/used-cars" className={styles.backLink}>
-        &larr; Back to all cars
-      </Link>
+      <BackToResults className={styles.backLink} />
 
       <div className={styles.headingRow}>
         <h1 className={styles.heading}>{car.car_name}</h1>
@@ -314,6 +314,7 @@ export default async function CarDetailPage({
           <span className={styles.carBadgeLink}>See the maths &rarr;</span>
         </Link>
       ) : null}
+      <FollowLine />
       </div>
       <AdminCarLink carId={id} />
 
@@ -373,7 +374,7 @@ export default async function CarDetailPage({
             <div className={styles.specRow}>
               <dt className={styles.specLabel}>Mechanical &amp; Condition Report</dt>
               <dd className={styles.specValue}>
-                <a href={`${API_BASE}/report/Mech_And_Cond_Report.pdf`} target="_blank" rel="noreferrer" className={styles.specLink}>
+                <a href={`${API_BASE}/report/Mech_And_Cond_Report.pdf`} className={styles.specLink}>
                   View
                 </a>
               </dd>
