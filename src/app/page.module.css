@@ -65,11 +65,46 @@
        headline, gold strapline -- so the same crop frames them all. Verified
        by rendering the exact visible region (x 0-712, y 57-941) of each. */
     background-image: var(--hero-img, url("/assets/images/hero-full.jpg"));
-    background-size: 235% auto;
-    background-position: 0 -8vw;
-    /* top padding (not child margin — margin would collapse through the
+    /* 2026-08-09: was 235%, which showed only x 0-712 of the 1672px artwork
+       and sliced the headline in half on a phone -- owner screenshot showed
+       The price you se / is the price you p.
+       MEASURED, not guessed: thresholding the bright text pixels in the
+       headline band gives a right edge near x=1000 on every composite
+       (port 964, irishprice 969, hero-full 1000, volvo 1000). 160% shows
+       1672/1.6 = 1045px, so the whole headline fits with margin to spare.
+       Height maths follows the same scale: the artwork renders 0.9005 x the
+       viewport width instead of 1.3226, so the offset and the reserved top
+       padding scale by the same factor (8 -> 5.4, 93 -> 69).
+       If a future composite runs its text wider than x=1045, lower this
+       number -- do not re-tune it by eye. */
+    background-size: 160% auto;
+    background-position: 0 -5.4vw;
+    /* top padding (not child margin -- margin would collapse through the
        section) reserves the artwork's baked logo + headline + dash zone */
-    padding: 93vw 20px 30px;
+    padding: 69vw 20px 30px;
+  }
+  /* 2026-08-11: the Audi "No hidden costs" composite sets its headline on the
+     RIGHT of the artwork, so the standard left-anchored crop cut it to
+     "No hidden cos" (owner screenshot). Right-anchor just that artwork;
+     flagged per-art in brandArt.ts, not guessed from here. */
+  .heroMobileRight {
+    /* 2026-08-11 second pass: right-anchoring cut the LEFT edge instead (owner
+       screenshot: "hidden costs. / surprises."). The Audi headline is simply
+       WIDER than the 1045px a 160% crop can show -- it needs the full row.
+       130% shows 1672/1.3 = 1286px from the left, the whole headline plus the
+       logo. Vertical maths scales with it: offset -5.4vw * (1.3/1.6) = -4.4vw,
+       reserved top padding 69vw * (1.3/1.6) = 56vw. */
+    background-size: 130% auto;
+    background-position: 0 -4.4vw;
+    padding-top: 56vw;
+  }
+  /* 2026-08-11: the two Mercedes composites and the Skoda set their gold
+     strapline lower than the others -- the standard window (y 57-721) slices
+     it. Verified by rendering every composite's exact mobile crop into a
+     contact sheet (see WORKLOG 2026-08-11). Deeper reserved zone shows to
+     y~800: 77vw at the same 160% scale. */
+  .heroMobileDeep {
+    padding-top: 77vw;
   }
   .heroCopy {
     display: none;

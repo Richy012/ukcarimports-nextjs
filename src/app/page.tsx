@@ -193,7 +193,7 @@ export default async function HomePage() {
     <main>
       {(() => null)()}
       <section
-        className={[styles.hero, heroArt.alt && styles.heroAlt, heroArt.strip && styles.heroStrip].filter(Boolean).join(" ")}
+        className={[styles.hero, heroArt.alt && styles.heroAlt, heroArt.strip && styles.heroStrip, heroArt.mobileRight && styles.heroMobileRight, heroArt.mobileDeep && styles.heroMobileDeep].filter(Boolean).join(" ")}
         style={heroVars}
       >
         {/* Mobile-only text: on desktop the composite image carries logo + headline */}
