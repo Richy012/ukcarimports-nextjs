@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import styles from "../page.module.css";
+import RelatedDeals from "./RelatedDeals";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
 
@@ -51,6 +52,7 @@ export default async function BlogPostPage({
           <time>{blog.blog_date}</time> &mdash; By <strong>{blog.Author}</strong>
         </div>
       </article>
+      <RelatedDeals text={blog.blog_heading + " " + blog.blog_description} />
     </main>
   );
 }
