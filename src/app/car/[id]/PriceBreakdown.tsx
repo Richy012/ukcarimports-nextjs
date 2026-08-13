@@ -1,4 +1,5 @@
 "use client";
+import { track } from "@/lib/gtm";
 
 import { gtmPush } from "@/lib/gtm";
 import { CarFront, CircleCheck, ClipboardCheck, HandCoins, Lock, ShieldCheck, ShieldPlus } from "lucide-react";
@@ -233,6 +234,7 @@ export default function PriceBreakdown({
     setPayRedirecting(true);
     setPayError("");
     try {
+      track("place_a_deposit_form_confirm");
       const res = await fetch("/api/create-deposit-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

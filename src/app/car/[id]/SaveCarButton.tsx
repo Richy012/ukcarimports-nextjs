@@ -1,4 +1,5 @@
 "use client";
+import { track } from "@/lib/gtm";
 
 import { useEffect, useState } from "react";
 import SignInSlideOver from "../../components/SignInSlideOver";
@@ -31,7 +32,10 @@ export default function SaveCarButton({ carId }: { carId: string }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.ResponseCode === "1" || data.ResponseCode === 1) setSaved(!saved);
+        if (data.ResponseCode === "1" || data.ResponseCode === 1) {
+          if (!saved) track("save_car", { car_id: carId });
+          setSaved(!saved);
+        }
       })
       .finally(() => setPending(false));
   }

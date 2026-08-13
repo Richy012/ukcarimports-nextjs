@@ -1,4 +1,5 @@
 "use client";
+import { track } from "@/lib/gtm";
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
@@ -220,7 +221,16 @@ export default function Header() {
             )}
 
             <li className={styles.phone}>
-              <a href="tel:01-556 8261">01-556 8261</a>
+              <a
+                href="tel:01-556 8261"
+                onClick={() => {
+                  // GA4 click_to_call was ~0 because the dataLayer push (the
+                  // 08-11 attempt below, now folded in) never reached GA4 --
+                  // the GTM container has no custom-event forwarding. track()
+                  // pushes to dataLayer AND sends direct to GA4.
+                  track("click_to_call", { link_text: "01-556 8261" });
+                }}
+              >01-556 8261</a>
             </li>
           </ul>
         </nav>

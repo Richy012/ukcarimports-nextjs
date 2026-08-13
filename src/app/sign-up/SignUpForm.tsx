@@ -1,4 +1,5 @@
 "use client";
+import { track } from "@/lib/gtm";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -84,6 +85,7 @@ export default function SignUpForm() {
 
       // Verify-to-complete (2026-08-06): accounts start pending, so there
       // is nothing to auto-login into. Show the check-your-inbox state.
+      track("sign_up");
       setAwaitingVerify(true);
       setSubmitting(false);
     } catch {

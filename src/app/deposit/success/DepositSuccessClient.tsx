@@ -1,4 +1,5 @@
 "use client";
+import { track } from "@/lib/gtm";
 
 import { gtmPush } from "@/lib/gtm";
 import { Check } from "lucide-react";
@@ -37,6 +38,12 @@ export default function DepositSuccessClient() {
           if (cancelled) return;
           const d = data?.data;
           if (d?.status === "paid") {
+            try {
+              if (!sessionStorage.getItem("dp_" + sessionId)) {
+                sessionStorage.setItem("dp_" + sessionId, "1");
+                track("deposit_paid", { currency: "EUR", value: 2000 });
+              }
+            } catch {}
             gtmPush({
               event: "purchase",
               currency: "EUR",
