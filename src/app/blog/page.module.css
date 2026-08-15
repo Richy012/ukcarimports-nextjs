@@ -28,8 +28,11 @@
 }
 
 .excerpt {
-  max-height: 100px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
   overflow: hidden;
+  color: #4a5560;
   color: #555;
   line-height: 1.5;
   mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
