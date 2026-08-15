@@ -39,6 +39,22 @@ export async function GET() {
     // Landing index unreachable: publish the static pages rather than nothing.
   }
 
+
+  // 2026-08-15: individual blog posts were in no sitemap at all - only the
+  // /blog index was listed, leaving Google to find every article by crawling
+  // that page. The guides are the SEO asset, so they get their own entries.
+  try {
+    const res = await fetch(`${API_BASE}/get-blogs`, { next: { revalidate: 3600 } });
+    const json = await res.json();
+    for (const b of json?.data ?? []) {
+      if (b?.blog_url) {
+        urls.push({ loc: `${SITE}/blog/${b.blog_url}`, freq: "monthly", pri: "0.6" });
+      }
+    }
+  } catch {
+    // Blog API unreachable: publish the rest rather than nothing.
+  }
+
   const xml =
     `<?xml version="1.0" encoding="UTF-8"?>\n` +
     `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +

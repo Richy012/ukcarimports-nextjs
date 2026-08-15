@@ -1,6 +1,17 @@
 import Link from "next/link";
 import styles from "./page.module.css";
 import { artForMake, DEFAULT_BANNER } from "@/lib/brandArt";
+import { warrantyGuideFor } from "@/lib/warrantyGuide";
+
+
+// 2026-08-11, owner: "dominate those lanes". Each new-Chinese-brand landing
+// links its buyer's guide; guides live as ordinary blog posts so they need no
+// code change to edit.
+const BRAND_GUIDES: Record<string, { href: string; label: string }> = {
+  jaecoo: { href: "/blog/jaecoo-7-ireland-import-guide", label: "Read our Jaecoo Ireland buyer's guide" },
+  omoda: { href: "/blog/omoda-5-9-ireland-import-guide", label: "Read our Omoda Ireland buyer's guide" },
+  byd: { href: "/blog/byd-ireland-import-guide-seal-dolphin-sealion", label: "Read our BYD Ireland buyer's guide" },
+};
 
 export interface LandingData {
   make: string;
@@ -153,6 +164,28 @@ export default function ImportLanding({ data, makeSlug }: { data: LandingData; m
           <span>{makeT} imports</span>
         )}
       </nav>
+      {BRAND_GUIDES[makeSlug] && (
+        <p style={{ margin: "10px 0 0" }}>
+          <Link href={BRAND_GUIDES[makeSlug].href} style={{ color: "#b30000", fontWeight: 600 }}>
+            {BRAND_GUIDES[makeSlug].label} &rarr;
+          </Link>
+        </p>
+      )}
+
+      {/* Owner 2026-08-15: the 33-brand warranty guide is the reciprocal of the
+          per-brand links inside the article itself - every make landing sends
+          the reader to its own section, and every section sends them back here. */}
+      {(() => {
+        const wg = warrantyGuideFor(data.make);
+        return (
+          <p style={{ margin: "8px 0 0", fontSize: "0.94rem", lineHeight: 1.5 }}>
+            <Link href={wg.href} style={{ color: "#0b6b3a", fontWeight: 600 }}>
+              Does a UK {makeT} warranty transfer to Ireland? &rarr;
+            </Link>
+            {wg.hook ? <span style={{ color: "#5b6570" }}> &mdash; {wg.hook}</span> : null}
+          </p>
+        );
+      })()}
 
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
