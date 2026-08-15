@@ -19,6 +19,22 @@ async function getBlog(slug: string): Promise<BlogDetail | null> {
   return json.data ?? null;
 }
 
+
+/** Pull the Article node out of a post's embedded JSON-LD, if it has one. */
+function extractArticleSchema(html: string): Record<string, string> | null {
+  const m = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+  if (!m) return null;
+  try {
+    const parsed = JSON.parse(m[1].trim());
+    const nodes: Record<string, unknown>[] = parsed["@graph"] ?? [parsed];
+    const article = nodes.find((n) => n["@type"] === "Article");
+    return (article as Record<string, string>) ?? null;
+  } catch {
+    // Malformed schema must never take the page down - fall back to defaults.
+    return null;
+  }
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -32,8 +48,21 @@ export async function generateMetadata({
   // card and no image -- on the guides, which exist to be shared, that is the
   // whole point of publishing them. The car page pattern, applied here.
   const url = `https://ukcarimports.ie/blog/${slug}`;
-  const title = blog.blog_heading.trim();
-  const description = `${title} — from the UK Car Imports blog: importing cars from the UK to Ireland, VRT, pricing and market analysis.`;
+  const heading = blog.blog_heading.trim();
+
+  // 2026-08-15: every post was shipping the full headline as its <title> and a
+  // boilerplate description that just repeated the headline. The warranty guide
+  // came out at a 132-character title and a meta description that said nothing
+  // a searcher wants. Rather than a per-slug lookup table that nobody will
+  // maintain, read the SEO copy out of the article's own JSON-LD when it has
+  // any: `alternativeHeadline` is the short SERP title, `description` is the
+  // meta description. A post without schema keeps the old behaviour.
+  const schema = extractArticleSchema(blog.blog_description);
+  const title = (schema?.alternativeHeadline || heading).trim();
+  const description = (
+    schema?.description ||
+    `${heading} — from the UK Car Imports blog: importing cars from the UK to Ireland, VRT, pricing and market analysis.`
+  ).trim();
   // blog_image is empty on every recent post, so fall back to the brand banner
   // rather than let the platforms pick the site avatar.
   const image = blog.blog_image
@@ -47,7 +76,7 @@ export async function generateMetadata({
       type: "article",
       url,
       siteName: "UK Car Imports",
-      title,
+      title: heading,
       description,
       locale: "en_IE",
       images: [{ url: image, width: 1200, height: 630, alt: title }],
