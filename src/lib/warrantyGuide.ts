@@ -96,3 +96,125 @@ export function warrantyGuideFor(makeName?: string | null): {
     hook: anchor ? (HOOKS[anchor] ?? null) : null,
   };
 }
+
+// ---------------------------------------------------------------------------
+// Owner caught this live 2026-08-15: a 2019 BMW was told "3 years unlimited
+// mileage". That warranty ran out in March 2022. A brand's headline term is
+// only worth saying on a car young enough to still have some of it left, so
+// every line below is now gated on the car's own first-registration date.
+//
+// BASE_YEARS is the manufacturer warranty that travels to Ireland (the
+// European part only -- the UK-only top-up year is deliberately NOT counted,
+// since it is exactly what an import loses). BATTERY_YEARS is the high-voltage
+// battery term, which runs far longer and is what actually matters on an
+// older EV.
+const BASE_YEARS: Record<string, number> = {
+  "warranty-audi": 2, "warranty-bmw": 3, "warranty-byd": 6, "warranty-citroen": 3,
+  "warranty-cupra": 5, "warranty-dacia": 3, "warranty-fiat": 3, "warranty-ford": 3,
+  "warranty-honda": 3, "warranty-hyundai": 5, "warranty-jaecoo": 7, "warranty-jaguar": 3,
+  "warranty-jeep": 3, "warranty-kia": 7, "warranty-land-rover": 3, "warranty-lexus": 3,
+  "warranty-mazda": 3, "warranty-mercedes-benz": 2, "warranty-mg": 7, "warranty-mini": 3,
+  "warranty-nissan": 3, "warranty-omoda": 7, "warranty-peugeot": 3, "warranty-polestar": 3,
+  "warranty-renault": 3, "warranty-seat": 2, "warranty-skoda": 2, "warranty-suzuki": 3,
+  "warranty-tesla": 4, "warranty-toyota": 3, "warranty-vauxhall": 3,
+  "warranty-volkswagen": 2, "warranty-volvo": 3,
+};
+
+// Toyota Relax and Lexus Battery Care are re-activated at each qualifying
+// service, so they are not a fixed clock from registration -- they get their
+// own wording rather than an expiry date.
+const SERVICE_RENEWED: Record<string, string> = {
+  "warranty-toyota": "Toyota Relax can be re-activated at each qualifying service by an Irish dealer, up to 10 years",
+  "warranty-lexus": "Lexus renews the hybrid battery cover at each qualifying service, up to 10 years",
+};
+
+const BATTERY_YEARS: Record<string, number> = {
+  "warranty-audi": 8, "warranty-bmw": 8, "warranty-byd": 8, "warranty-citroen": 8,
+  "warranty-cupra": 8, "warranty-dacia": 8, "warranty-fiat": 8, "warranty-ford": 8,
+  "warranty-honda": 8, "warranty-hyundai": 8, "warranty-jaecoo": 8, "warranty-jaguar": 8,
+  "warranty-jeep": 8, "warranty-kia": 7, "warranty-land-rover": 8, "warranty-lexus": 10,
+  "warranty-mazda": 8, "warranty-mercedes-benz": 8, "warranty-mg": 8, "warranty-mini": 8,
+  "warranty-nissan": 8, "warranty-omoda": 8, "warranty-peugeot": 8, "warranty-polestar": 8,
+  "warranty-renault": 8, "warranty-seat": 8, "warranty-skoda": 8,
+  "warranty-tesla": 8, "warranty-toyota": 8, "warranty-vauxhall": 8,
+  "warranty-volkswagen": 8, "warranty-volvo": 8,
+};
+
+function parseReg(reg?: string | null): Date | null {
+  const t = (reg ?? "").trim();
+  // The API returns DD/MM/YYYY; fall back to a bare year if that is all we have.
+  let m = t.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (m) return new Date(Number(m[3]), Number(m[2]) - 1, Number(m[1]));
+  m = t.match(/(\d{4})/);
+  if (m) return new Date(Number(m[1]), 0, 1);
+  return null;
+}
+
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July",
+                "August", "September", "October", "November", "December"];
+
+export function titleCaseMake(makeName?: string | null): string {
+  const t = (makeName ?? "").trim();
+  if (!t) return "";
+  const upper: Record<string, string> = {
+    bmw: "BMW", mg: "MG", byd: "BYD", ds: "DS", seat: "SEAT", mini: "MINI",
+    vw: "VW", kia: "Kia",
+  };
+  if (upper[t.toLowerCase()]) return upper[t.toLowerCase()];
+  return t
+    .split(/([ -])/)
+    .map((w) => (w === " " || w === "-" ? w : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()))
+    .join("");
+}
+
+/**
+ * What can honestly be said about THIS car's warranty, given its age.
+ * Returns null for `hook` rather than a claim that has already expired.
+ */
+export function warrantyStatusFor(
+  makeName?: string | null,
+  registrationDate?: string | null,
+  fuelTypeName?: string | null,
+): { href: string; hook: string | null; make: string } {
+  const base = warrantyGuideFor(makeName);
+  const make = titleCaseMake(makeName);
+  const anchor = base.href.includes("#") ? base.href.split("#")[1] : "";
+  const reg = parseReg(registrationDate);
+
+  // No anchor (make not in the guide) or no date: link only, claim nothing.
+  if (!anchor || !reg) return { href: base.href, hook: null, make };
+
+  const now = new Date();
+  const ageYears = (now.getTime() - reg.getTime()) / (365.25 * 24 * 3600 * 1000);
+
+  const baseYears = BASE_YEARS[anchor];
+  if (baseYears && ageYears < baseYears) {
+    const end = new Date(reg.getTime());
+    end.setFullYear(end.getFullYear() + baseYears);
+    return {
+      href: base.href,
+      hook: `${base.hook ?? "the manufacturer warranty travels to Ireland"} — on this car that runs to about ${MONTHS[end.getMonth()]} ${end.getFullYear()}`,
+      make,
+    };
+  }
+
+  const fuel = (fuelTypeName ?? "").toLowerCase();
+  const electrified = fuel.includes("electric") || fuel.includes("hybrid");
+  const battYears = BATTERY_YEARS[anchor];
+  if (electrified && battYears && ageYears < battYears) {
+    const end = new Date(reg.getTime());
+    end.setFullYear(end.getFullYear() + battYears);
+    return {
+      href: base.href,
+      hook: `the manufacturer warranty has run out on a car this age, but the high-voltage battery is covered to about ${MONTHS[end.getMonth()]} ${end.getFullYear()} — conditions apply`,
+      make,
+    };
+  }
+
+  if (SERVICE_RENEWED[anchor]) {
+    return { href: base.href, hook: SERVICE_RENEWED[anchor], make };
+  }
+
+  // Out of every published term: say nothing about cover, keep the link.
+  return { href: base.href, hook: null, make };
+}

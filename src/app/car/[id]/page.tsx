@@ -13,7 +13,7 @@ import AdminCarLink from "./AdminCarLink";
 import AdminSellerLine from "./AdminSellerLine";
 import SaveCarButton from "./SaveCarButton";
 import { stripStaffPriceFields } from "@/lib/publicCar";
-import { warrantyGuideFor } from "@/lib/warrantyGuide";
+import { warrantyStatusFor } from "@/lib/warrantyGuide";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
 interface CarImage {
@@ -472,17 +472,23 @@ export default async function CarDetailPage({
       </div>
 
       {(() => {
-        // Owner 2026-08-15: a buyer looking at one car should see what the
-        // manufacturer actually says about THIS make travelling to Ireland,
-        // not a generic promise. Deep-links into the 33-brand guide at that
-        // make's own anchor; an unknown make lands at the top of the guide.
-        const wg = warrantyGuideFor(car.make_name);
+        // Owner 2026-08-15, third pass and his rule verbatim: "the warranty
+        // only gets listed if it is relevant to that car."
+        //
+        // warrantyStatusFor returns a hook ONLY when this car, on its own
+        // first-registration date, still has cover somebody could actually
+        // claim -- manufacturer term still running, EV battery term still
+        // running, or a service-renewed scheme that can be re-activated here.
+        // No live cover, no line at all. (A 2019 BMW was being shown a 3-year
+        // warranty that expired in March 2022.)
+        const wg = warrantyStatusFor(car.make_name, car.registration_date, car.fuel_type_name);
+        if (!wg.hook) return null;
         return (
           <p className={styles.warrantyGuideLine}>
             <Link href={wg.href} target="_blank" rel="noopener">
-              Warranty on an imported {car.make_name}: what the manufacturer actually says
+              Warranty on an imported {wg.make}: what the manufacturer actually says
             </Link>
-            {wg.hook ? <span className={styles.warrantyGuideHook}> &mdash; {wg.hook}</span> : null}
+            <span className={styles.warrantyGuideHook}> &mdash; {wg.hook}</span>
           </p>
         );
       })()}
