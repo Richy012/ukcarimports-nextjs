@@ -27,10 +27,37 @@ export async function generateMetadata({
   const { slug } = await params;
   const blog = await getBlog(slug);
   if (!blog) return { title: "Blog" };
+  // 2026-08-15: blog posts carried NO Open Graph tags at all, so every share to
+  // Facebook, LinkedIn, X or WhatsApp rendered as a bare link with no title
+  // card and no image -- on the guides, which exist to be shared, that is the
+  // whole point of publishing them. The car page pattern, applied here.
+  const url = `https://ukcarimports.ie/blog/${slug}`;
+  const title = blog.blog_heading.trim();
+  const description = `${title} — from the UK Car Imports blog: importing cars from the UK to Ireland, VRT, pricing and market analysis.`;
+  // blog_image is empty on every recent post, so fall back to the brand banner
+  // rather than let the platforms pick the site avatar.
+  const image = blog.blog_image
+    ? `https://api.ukcarimports.ie/public/blogimages/${blog.blog_image}`
+    : "https://ukcarimports.ie/assets/images/hero-rot-nocosts.jpg";
   return {
-    title: blog.blog_heading.trim(),
-    description: `${blog.blog_heading.trim()} — from the UK Car Imports blog: importing cars from the UK to Ireland, VRT, pricing and market analysis.`,
-    alternates: { canonical: `https://ukcarimports.ie/blog/${(await params).slug}` },
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      url,
+      siteName: "UK Car Imports",
+      title,
+      description,
+      locale: "en_IE",
+      images: [{ url: image, width: 1200, height: 630, alt: title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
   };
 }
 
