@@ -83,7 +83,7 @@ async function getHomeData() {
       fetch(`${API_BASE}/makes`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ minPrice: "15000" }),
+        body: JSON.stringify({ minPrice: "1" }),
         next: { revalidate: 3600 },
       }),
     ]);

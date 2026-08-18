@@ -36,8 +36,11 @@ export default function RecentSearches() {
     }
   }, []);
 
+  // A bare <div> has the generic role, which forbids aria-label (Lighthouse
+  // aria-prohibited-attr). role="region" makes it a named landmark instead.
   return (
     <div
+      role="region"
       aria-label="Recent searches"
       style={{
         minHeight: 40,

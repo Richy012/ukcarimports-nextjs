@@ -65,6 +65,7 @@ interface Car {
   car_id: string;
   car_name: string;
   featured_image: string;
+  thumb_v?: string | null;
   car_images: string;
   registration_date: string;
   transmission_name: string;
@@ -298,7 +299,13 @@ export default async function UsedCarsPage({
   // 2026-08-11 (audit: mobile LCP 4.2s, "delayed LCP-request discovery"):
   // tell the browser about the first card's image from the initial HTML,
   // before hydration or any client fetch runs.
-  const lcpImage = data.cars[0]?.featured_image;
+  // Guard (2026-08-18, Lighthouse errors-in-console): a car scraped minutes
+  // ago can top the default sort before its images finish uploading to the
+  // bucket, and preloading its missing main.webp logs a 404 on every page
+  // view. thumb_v is set only once the thumbnail exists, which proves the
+  // image pipeline has completed for this car - preload only then.
+  const firstCar = data.cars[0];
+  const lcpImage = firstCar?.thumb_v ? firstCar.featured_image : undefined;
   if (lcpImage) preload(lcpImage, { as: "image", fetchPriority: "high" });
 
   return (

@@ -351,9 +351,16 @@ export default function AdminCarsClient() {
                               </span>
                               <span>
                                 <span>
+                                  {/* Owner 2026-08-09: show where the car actually is and how
+                                      far it has to travel, on the fee line itself -- postcode
+                                      plus road miles to the Liverpool port (L20 1DB). We now
+                                      hold a postcode for many more cars than we hold a resolved
+                                      distance, so say "pending" rather than implying default. */}
                                   {detail.transport_miles
-                                    ? `Transport from ${detail.transport_postcode ?? "garage"}`
-                                    : "Transport (default)"}
+                                    ? `Transport (${detail.transport_postcode ?? "garage"} \u00b7 ${Math.round(detail.transport_miles)} mi to L20 1DB)`
+                                    : detail.transport_postcode
+                                      ? `Transport (${detail.transport_postcode} \u00b7 distance pending)`
+                                      : "Transport (default)"}
                                 </span>
                                 <span>{eur(detail.breakdown.customs_agent_fee)}</span>
                               </span>

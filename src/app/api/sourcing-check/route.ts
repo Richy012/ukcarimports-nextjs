@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
       const res = await fetch(`${API_BASE}/allcarsnew/0/24`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ Make: make, Model: model || "", minPrice: "15000", pagenum: 0, limit: 24 }),
+        body: JSON.stringify({ Make: make, Model: model || "", minPrice: "1", pagenum: 0, limit: 24 }),
         cache: "no-store",
       });
       const json = await res.json();

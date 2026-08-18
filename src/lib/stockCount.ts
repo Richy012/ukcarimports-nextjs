@@ -12,7 +12,9 @@ const API_BASE = "https://api.ukcarimports.ie/public";
 // confirmed 2026-07-31 when the counts diverged): never show a car without a
 // confirmed VRT match (no POA — "the price you see is the price you pay"),
 // and never show stock landing under €15,000 (uneconomic to import).
-export const PUBLIC_FLOOR_EUR = "15000";
+// 2026-08-11 owner call: sub-15k stock is advertised now. Floor kept only
+// as a guard against unpriced/garbage rows.
+export const PUBLIC_FLOOR_EUR = "1";
 
 export const CANONICAL_BROWSE_BODY = {
   is_manheim_car: "0",

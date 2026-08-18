@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import CarSourcingForm from "./CarSourcingForm";
-import SourcingCheck from "./SourcingCheck";
+// import SourcingCheck from "./SourcingCheck";  // hidden 2026-08-08
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -28,10 +28,16 @@ export default function CarSourcingPage() {
         </p>
         <p>For this we will calculate</p>
         <ul>
-          <li>VRT including NOx and CO2 elements</li>
-          <li>Rules of Origin Duty if applicable</li>
+          <li>VRT, including the NOx and CO2 elements</li>
+          <li>Any customs duty due on the vehicle</li>
+          <li>VAT on import</li>
+          <li>A typical customs clearance fee and shipping fee</li>
         </ul>
-        <p>We will then forward you a total price to have the car imported.</p>
+        <p>
+          We will then forward you the total price to have the car imported &mdash; and that
+          price includes us managing the entire import for you, from purchase through to
+          Irish plates.
+        </p>
         <p>
           Just copy and paste the link for the vehicle you are after in the form below,
           complete payment and we will be back with the amount due.
@@ -44,7 +50,9 @@ export default function CarSourcingPage() {
         </p>
       </div>
 
-      <SourcingCheck />
+      {/* Hidden 2026-08-08 at Richard's request. Component and its backup are
+          left in place, so restoring it is uncommenting this one line. */}
+      {/* <SourcingCheck /> */}
 
       <CarSourcingForm />
 

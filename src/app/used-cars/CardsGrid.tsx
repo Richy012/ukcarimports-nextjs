@@ -155,7 +155,17 @@ export default function CardsGrid({ cars }: { cars: Car[] }) {
         const badge = bestsellerBadge(car);
 
         return (
-          <Link key={car.car_id} href={`/car/${car.car_id}`} className={styles.card}>
+          // The card was previously a single <Link> wrapping the save button and
+          // the carousel arrows — interactive controls nested inside an anchor is
+          // invalid HTML and the page's one real accessibility failure (75 nested
+          // controls, Lighthouse `nested-interactive`). Now: a <div> with a
+          // stretched-link overlay as its first child; the buttons are siblings
+          // ABOVE the overlay (saveButton z-index 2, carouselArrow z-index 2),
+          // so clicks anywhere else on the card still navigate exactly as before.
+          <div key={car.car_id} className={styles.card}>
+            <Link href={`/car/${car.car_id}`} className={styles.cardLink}>
+              <span className={styles.srOnly}>{car.car_name}</span>
+            </Link>
             {badge ? (
               <span className={`${styles.badge} ${styles[badge.cls]}`}>
                 <span className={styles.badgeTierLine}>&#9889; {badge.label}</span>
@@ -211,7 +221,7 @@ export default function CardsGrid({ cars }: { cars: Car[] }) {
                 </span>
               ) : null}
             </div>
-          </Link>
+          </div>
         );
       })}
     </div>

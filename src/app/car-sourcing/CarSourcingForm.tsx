@@ -16,10 +16,16 @@ import styles from "./page.module.css";
 // m) the instant it loads -- on every visit, including the ones where nobody
 // pays. Deferred until the payment form is about to scroll into view (owner,
 // 2026-08-04); same lazy pattern as GTM and reCAPTCHA elsewhere.
+// 2026-08-11: ?stripe_test=1 switches the WHOLE flow (publishable key here,
+// secret key server-side via the stripe_test flag) onto Stripe TEST mode so
+// the owner can run 4242-card checks without touching live money. Customers
+// never see this variant.
+const STRIPE_PK_TEST = "pk_test_z3Pj22fEGh0WuS9Zb4eiuSQ300xG8EDdlr";
+const IS_STRIPE_TEST = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("stripe_test") === "1";
 const STRIPE_PK = "pk_live_hvQGGPsKi13bSSCm2zoKHfMi00RCjfXZZS";
 let stripeCache: ReturnType<typeof loadStripe> | null = null;
 function getStripe() {
-  if (!stripeCache) stripeCache = loadStripe(STRIPE_PK);
+  if (!stripeCache) stripeCache = loadStripe(IS_STRIPE_TEST ? STRIPE_PK_TEST : STRIPE_PK);
   return stripeCache;
 }
 
@@ -110,6 +116,7 @@ function CheckoutForm({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           tokenn: result.token.id,
+          ...(IS_STRIPE_TEST ? { stripe_test: "1" } : {}),
           pay_name: form.pay_name,
           pay_email: form.pay_email,
           pay_phone: form.pay_phone,

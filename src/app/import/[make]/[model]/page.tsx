@@ -18,7 +18,7 @@ export async function generateMetadata({
   return {
     // Query-shaped: "{model} for sale ireland" is the search these pages
     // exist to win (GSC 2026-08-05: big impressions, pos 8-15, sub-1% CTR).
-    title: `${subject} for Sale Ireland — ${data.count.toLocaleString()} UK Imports, VRT Included`,
+    title: `${subject} for Sale in Ireland — ${data.count.toLocaleString()} Available, VRT Included`,
     description: bs
       ? `Up to €${bs.max_saving_eur.toLocaleString()} under Irish asking prices: ${data.count.toLocaleString()} used ${subject} cars from ${priceFrom}, priced fully landed — VRT, VAT, customs & delivery included. Benchmarked against real Irish ads weekly.`
       : `${data.count.toLocaleString()} used ${subject} cars for sale from ${priceFrom}, priced fully landed for Ireland — VRT, VAT, customs & delivery included. Benchmarked against Irish prices weekly.`,

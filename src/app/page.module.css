@@ -675,7 +675,9 @@
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #888;
+  /* #888 was 3.5:1 against the page ground - below the 4.5:1 WCAG AA line
+     Lighthouse audits. #6b6b6b reads identically at this size and passes. */
+  color: #6b6b6b;
   transition: color 0.3s;
 }
 
@@ -693,8 +695,11 @@
 }
 
 @keyframes tlFade {
+  /* Starting at 0.4 let the contrast audit sample the caption mid-fade and
+     blend #555 down to an effective #808080 (3.8:1). 0.85 keeps the fade
+     but never blends below 4.5:1 at any frame. */
   from {
-    opacity: 0.4;
+    opacity: 0.85;
   }
   to {
     opacity: 1;

@@ -50,3 +50,16 @@
   color: #444;
   line-height: 1.6;
 }
+
+.faqAnswer a {
+  color: #b30000;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.faqAnswer a:hover,
+.faqAnswer a:focus-visible {
+  color: #8c0000;
+  text-decoration-thickness: 2px;
+}

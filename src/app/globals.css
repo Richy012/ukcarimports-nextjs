@@ -44,3 +44,13 @@ body {
 /* Deep-scroll return: grid hidden while a saved position lands. The class is
    set pre-paint by the inline script on /used-cars and lifted by FilterBar. */
 .uc-veil .js-cars-area { visibility: hidden; }
+
+
+/* Blog article bodies (the .wg wrapper embedded in stored articles): links
+   were distinguishable by colour alone, which fails WCAG 1.4.1 /
+   Lighthouse link-in-text-block on all 35 outbound source links in the
+   warranty guide. Underline is the non-colour cue. */
+.wg a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

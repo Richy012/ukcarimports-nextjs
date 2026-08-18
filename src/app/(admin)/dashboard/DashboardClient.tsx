@@ -57,7 +57,7 @@ export default function DashboardClient() {
       <h1 className={styles.heading}>Dashboard</h1>
       <div className={styles.statGrid}>
         <div className={styles.statCard}>
-          <h2 className={styles.statLabel}>Total Vehicles</h2>
+          <h2 className={styles.statLabel}>VRT-Priced Vehicles</h2>
           <div className={styles.statValue}>{totalCars ?? "..."}</div>
           <span className={styles.statUnit}>Cars</span>
         </div>
