@@ -180,8 +180,25 @@ export async function generateMetadata({
   if (!car) return { title: "Car no longer available" };
   const name = (car.car_name || "").trim();
   const url = `https://ukcarimports.ie/car/${id}`;
-  const title = `${name} — UK Import, Irish Price`;
-  const description = `${name}, available to import from the UK — priced fully landed for Ireland with VRT, VAT, customs and delivery included. Independent inspection before you commit, Irish plates in about two weeks.`;
+  // Bestseller cars carry a measured, frozen-method saving vs the Irish
+  // market — the one line no competitor can put in a search snippet. Wording
+  // rules are the published ones: euro-first, "less than in Ireland",
+  // trending is hedged/rounded and never shown under €1,000. Cars without a
+  // badge keep the plain title — no invented claims.
+  const sav = Number(car.bestseller_saving_eur ?? 0);
+  const tier = car.bestseller_tier;
+  let savingLine = "";
+  if ((tier === "number_one" || tier === "bestseller") && sav >= 1000) {
+    savingLine = `€${Math.round(sav).toLocaleString("en-IE")} Less Than in Ireland`;
+  } else if (tier === "trending" && Math.round(sav / 500) * 500 >= 1000) {
+    savingLine = `Around €${(Math.round(sav / 500) * 500).toLocaleString("en-IE")} Less in Ireland`;
+  }
+  const title = savingLine
+    ? `${name} — ${savingLine}, VRT Included`
+    : `${name} — UK Import, Irish Price`;
+  const description = savingLine
+    ? `${savingLine.replace("Less Than in Ireland", "below comparable Irish asking prices").replace("Less in Ireland", "below Irish asking prices")} — ${name}, priced fully landed for Ireland: VRT, VAT, customs and delivery included. Independent inspection before you commit.`
+    : `${name}, available to import from the UK — priced fully landed for Ireland with VRT, VAT, customs and delivery included. Independent inspection before you commit, Irish plates in about two weeks.`;
   // Without these, a shared link has no preview image and Facebook, X and
   // LinkedIn fall back to the profile avatar.
   const photo = (car.featured_image || "").trim();
