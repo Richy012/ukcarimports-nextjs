@@ -41,7 +41,7 @@ async function getStats(): Promise<IndexStats | null> {
 
 async function getExamples(): Promise<BandCar[]> {
   try {
-    const res = await fetch(`${API_BASE}/best-value/0/60`, { next: { revalidate: 900 } });
+    const res = await fetch(`${API_BASE}/best-value/0/60?rotate=daily`, { next: { revalidate: 900 } });
     if (!res.ok) return [];
     const data = await res.json();
     const cars: BandCar[] = data?.data?.cars ?? [];

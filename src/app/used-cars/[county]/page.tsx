@@ -47,7 +47,7 @@ async function getShowcase(): Promise<BestValueCar[]> {
     });
     if (!res.ok) return [];
     const j = await res.json();
-    const cars: BestValueCar[] = j?.data ?? j?.cars ?? [];
+    const cars: BestValueCar[] = j?.data?.cars ?? [];
     return cars.filter((c) => c.featured_image).slice(0, 6);
   } catch {
     return [];
