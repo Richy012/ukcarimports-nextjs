@@ -86,8 +86,31 @@ export default async function CountyPage({
   if (!name) notFound();
   const cars = await getShowcase();
 
+  const countyJsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: `Import a used car from the UK to ${name}`,
+      url: `https://ukcarimports.ie/used-cars/${county}`,
+      isPartOf: { "@id": "https://ukcarimports.ie/#website" },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://ukcarimports.ie/" },
+        { "@type": "ListItem", position: 2, name: "Used cars", item: "https://ukcarimports.ie/used-cars" },
+        { "@type": "ListItem", position: 3, name: name, item: `https://ukcarimports.ie/used-cars/${county}` },
+      ],
+    },
+  ];
+
   return (
     <main style={{ maxWidth: 1080, margin: "0 auto", padding: "28px 16px 60px" }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(countyJsonLd) }}
+      />
       <h1 style={{ fontSize: "clamp(26px,4.5vw,38px)", letterSpacing: "-0.5px", margin: "0 0 10px" }}>
         Used cars in {name} — the biggest selection has no forecourt
       </h1>
