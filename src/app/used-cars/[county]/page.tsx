@@ -7,7 +7,7 @@ import { notFound } from "next/navigation";
 // served 404s after the August migration. The honest answer to "used cars
 // <county>": the biggest used-car selection available to a buyer in that
 // county doesn't have a forecourt — every car is priced fully landed and
-// registered at their local NCTS centre.
+// VRT appointment handled by us; any NCT due is the customer's own booking later.
 //
 // Republic ONLY. NI counties must never get pages (NI stock is excluded from
 // the business entirely). Unknown slugs 404 via dynamicParams=false.
@@ -133,6 +133,9 @@ export default async function CountyPage({
         <li>The VRT inspection and registration are completed through the NCTS — we book and
             complete the appointment on your behalf, and your new Irish plates are fitted.</li>
         <li>Irish plates on, done — typically about two weeks from deposit.</li>
+        <li>One thing that stays yours: if the car is four years old or more it will need an NCT.
+            You book that yourself once your logbook arrives — it issues after registration and
+            motor tax are done — and we tell you exactly when you&rsquo;re ready.</li>
       </ol>
 
       <h2 style={{ fontSize: 20, margin: "0 0 10px" }}>Why not just buy locally in {name}?</h2>
