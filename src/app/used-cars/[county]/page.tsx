@@ -67,7 +67,7 @@ export async function generateMetadata({
   if (!name) notFound();
   const url = `https://ukcarimports.ie/used-cars/${county}`;
   const title = `Used Cars ${name} — Compare Local Prices with a UK Import, VRT Included`;
-  const description = `Buying a used car in ${name}? Compare the forecourt price with importing the same car from the UK: every one of our 100,000+ cars is priced fully landed — VRT, VAT, customs and transport included — and registered at your local NCTS centre.`;
+  const description = `Buying a used car in ${name}? Compare the forecourt price with importing the same car from the UK: every one of our 100,000+ cars is priced fully landed — VRT, VAT, customs and transport included — with the VRT appointment and Irish registration handled for you.`;
   return {
     title,
     description,
@@ -130,8 +130,8 @@ export default async function CountyPage({
       <ol style={{ fontSize: 15, lineHeight: 1.8, color: "#444", maxWidth: 720, paddingLeft: 20, margin: "0 0 26px" }}>
         <li>Pick your car and place the deposit — the landed price is already on every car.</li>
         <li>We inspect, buy, ship and clear it: VAT, customs and VRT are all in the shown price.</li>
-        <li>The VRT inspection and registration are completed through the NCTS — you book your
-            local {name} appointment at ncts.ie and we prepare every document you need for it.</li>
+        <li>The VRT inspection and registration are completed through the NCTS — we book and
+            complete the appointment on your behalf, and your new Irish plates are fitted.</li>
         <li>Irish plates on, done — typically about two weeks from deposit.</li>
       </ol>
 

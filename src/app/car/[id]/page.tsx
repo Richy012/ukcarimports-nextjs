@@ -308,8 +308,48 @@ export default async function CarDetailPage({
     displayDate(car.capture?.mot_expiry) && { label: "MOT Expiry", value: displayDate(car.capture?.mot_expiry) as string },
   ].filter(Boolean) as { label: string; value: string }[];
 
+  // Vehicle structured data — the commercial product across ~128k pages.
+  // Only fields we actually hold; the price is the landed figure shown on
+  // the page, and JSON.stringify drops any undefined member.
+  const kmNumeric = Math.round(Number((car.mileage || "").replace(/\D/g, "")) * 1.60934);
+  const carJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Car",
+    name: car.car_name,
+    brand: car.make_name ? { "@type": "Brand", name: titleCase(car.make_name) } : undefined,
+    model: car.model_name || undefined,
+    vehicleModelDate: (car.registration_date || "").split("/")[2] || undefined,
+    fuelType: car.fuel_type_name || undefined,
+    vehicleTransmission: car.transmission_name || undefined,
+    bodyType: car.body_style_name || undefined,
+    color: car.color_name ? titleCase(car.color_name) : undefined,
+    mileageFromOdometer: kmNumeric
+      ? { "@type": "QuantitativeValue", value: kmNumeric, unitCode: "KMT" }
+      : undefined,
+    numberOfDoors: Number(car.car_door) || undefined,
+    seatingCapacity: Number(car.seats) || undefined,
+    image: car.featured_image || undefined,
+    url: `https://ukcarimports.ie/car/${car.car_id}`,
+    itemCondition: "https://schema.org/UsedCondition",
+    offers: car.car_info?.final_price
+      ? {
+          "@type": "Offer",
+          price: Math.round(car.car_info.final_price),
+          priceCurrency: "EUR",
+          availability: "https://schema.org/InStock",
+          itemCondition: "https://schema.org/UsedCondition",
+          url: `https://ukcarimports.ie/car/${car.car_id}`,
+          seller: { "@id": "https://ukcarimports.ie/#organization" },
+        }
+      : undefined,
+  };
+
   return (
     <main className={styles.main}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(carJsonLd) }}
+      />
       <BackToResults className={styles.backLink} />
 
       <div className={styles.headingRow}>

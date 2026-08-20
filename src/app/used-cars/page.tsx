@@ -14,7 +14,30 @@ export const metadata = {
   title: "UK Used Cars for Import to Ireland - VRT Included",
   description:
     "Browse 100,000+ UK used cars priced fully landed in Ireland. VRT, VAT, customs, transport and Irish registration included in the displayed price.",
+  // one canonical for every filter/query variant — the filtered views are
+  // the same collection, not separate pages
+  alternates: { canonical: "https://ukcarimports.ie/used-cars" },
 };
+
+const USED_CARS_JSONLD = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "UK Used Cars for Import to Ireland",
+    url: "https://ukcarimports.ie/used-cars",
+    description:
+      "UK used cars priced fully landed in Ireland - VRT, VAT, customs, transport and Irish registration included in the displayed price.",
+    isPartOf: { "@id": "https://ukcarimports.ie/#website" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://ukcarimports.ie/" },
+      { "@type": "ListItem", position: 2, name: "Used cars", item: "https://ukcarimports.ie/used-cars" },
+    ],
+  },
+];
 
 const API_BASE = "https://api.ukcarimports.ie/public";
 const PAGE_SIZE = 25;
@@ -310,6 +333,10 @@ export default async function UsedCarsPage({
 
   return (
     <main className={styles.main}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(USED_CARS_JSONLD) }}
+      />
       <h1 className={styles.heading}>Used cars for sale</h1>
       <p className={styles.count}>
         {isDefaultView ? "Total vehicles" : "Vehicles matching your filters"}:{" "}

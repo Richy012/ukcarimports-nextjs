@@ -18,7 +18,39 @@ export const metadata: Metadata = {
   title: "UK Car Imports — The Price You See Is The Price You Pay",
   description:
     "Import your next car from the UK: 135,000+ cars priced fully landed for Ireland — VRT, VAT, customs & delivery included. Independent inspection, Irish plates in ~2 weeks. Est. 2013.",
+  alternates: { canonical: "https://ukcarimports.ie/" },
 };
+
+// Organization + WebSite — the two structured-data blocks Google expects on a
+// homepage. Address and phone match the footer exactly.
+const HOME_JSONLD = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://ukcarimports.ie/#organization",
+    name: "UK Car Imports",
+    url: "https://ukcarimports.ie/",
+    logo: "https://ukcarimports.ie/assets/images/logo.png",
+    foundingDate: "2013",
+    telephone: "+353-1-556-8261",
+    email: "info@ukcarimports.ie",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "51 Bracken Rd, Sandyford Business Park",
+      addressLocality: "Sandyford",
+      addressRegion: "Dublin",
+      postalCode: "D18 CV48",
+      addressCountry: "IE",
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://ukcarimports.ie/#website",
+    name: "UK Car Imports",
+    url: "https://ukcarimports.ie/",
+  },
+];
 
 interface HomeCar {
   car_id: string;
@@ -192,6 +224,10 @@ export default async function HomePage() {
   return (
     <main>
       {(() => null)()}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(HOME_JSONLD) }}
+      />
       <section
         className={[styles.hero, heroArt.alt && styles.heroAlt, heroArt.strip && styles.heroStrip, heroArt.mobileRight && styles.heroMobileRight, heroArt.mobileDeep && styles.heroMobileDeep].filter(Boolean).join(" ")}
         style={heroVars}
