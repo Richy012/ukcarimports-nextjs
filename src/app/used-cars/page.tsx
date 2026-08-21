@@ -317,7 +317,12 @@ export default async function UsedCarsPage({
   // Either source can come back null when the API is briefly slow or a count
   // query times out; rendering null crashed the whole page with a 500
   // (seen live 2026-08-04). Fall back rather than fail.
-  const displayCount = (isDefaultView ? await getStockCount() : data.count) ?? 0;
+  // On the default view a missing count means the API failed — show no figure
+  // at all rather than "Total vehicles: 0". Under a filter, 0 is a real answer
+  // ("nothing matches") and must still be shown.
+  const displayCount = isDefaultView
+    ? await getStockCount()
+    : ((data.count as number | null) ?? 0);
 
   // 2026-08-11 (audit: mobile LCP 4.2s, "delayed LCP-request discovery"):
   // tell the browser about the first card's image from the initial HTML,
@@ -338,10 +343,12 @@ export default async function UsedCarsPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(USED_CARS_JSONLD) }}
       />
       <h1 className={styles.heading}>Used cars for sale</h1>
-      <p className={styles.count}>
-        {isDefaultView ? "Total vehicles" : "Vehicles matching your filters"}:{" "}
-        {displayCount.toLocaleString("en-IE")}
-      </p>
+      {displayCount !== null && (
+        <p className={styles.count}>
+          {isDefaultView ? "Total vehicles" : "Vehicles matching your filters"}:{" "}
+          {displayCount.toLocaleString("en-IE")}
+        </p>
+      )}
 
       {/* Pre-paint veil: if this load is a deep-scroll return, hide the
           grid area during HTML parse — before hydration exists — so the

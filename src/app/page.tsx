@@ -94,7 +94,7 @@ async function getHomeData() {
   const empty = {
     bestValue: [] as BestValueCar[],
     bvCount: 0,
-    count: 0,
+    count: null as number | null,
     makes: [] as { make: string; slug: string; n: number }[],
     allMakes: [] as { make: string; n: number }[],
   };
@@ -234,9 +234,11 @@ export default async function HomePage() {
       >
         {/* Mobile-only text: on desktop the composite image carries logo + headline */}
         <div className={styles.heroCopy}>
-          <p className={styles.heroEyebrow}>
-            Over {count > 0 ? roundStockDown(count).toLocaleString() : "120,000"} cars to choose from
-          </p>
+          {count !== null && (
+            <p className={styles.heroEyebrow}>
+              Over {roundStockDown(count).toLocaleString()} cars to choose from
+            </p>
+          )}
           <h1 className={styles.heroHeadline}>
             Importing a car
             <br />
@@ -244,13 +246,15 @@ export default async function HomePage() {
           </h1>
           <div className={styles.heroDash} />
         </div>
-        <p className={styles.heroCount}>
-          Over {count > 0 ? roundStockDown(count).toLocaleString() : "120,000"} cars to choose from
-        </p>
+        {count !== null && (
+          <p className={styles.heroCount}>
+            Over {roundStockDown(count).toLocaleString()} cars to choose from
+          </p>
+        )}
         <div className={styles.heroPanelDock}>
           <HomeSearchPanel
             makes={(allMakes.length ? allMakes : makes.map((m) => ({ make: m.make, n: m.n })))}
-            totalCount={roundStockDown(count)}
+            totalCount={count === null ? null : roundStockDown(count)}
           />
         </div>
       </section>
@@ -377,7 +381,7 @@ export default async function HomePage() {
             </p>
           </div>
           <Link href="/used-cars" className={styles.closingCta}>
-            Browse {roundStockDown(count).toLocaleString()}+ cars
+            {count === null ? "Browse all cars" : `Browse ${roundStockDown(count).toLocaleString()}+ cars`}
           </Link>
         </div>
       </section>

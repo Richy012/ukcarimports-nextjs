@@ -51,8 +51,8 @@ export const CANONICAL_BROWSE_BODY = {
 // The exact number of cars live on the site right now (owner, 2026-08-03).
 // Returns undefined if the count call failed, so the headline drops the
 // figure entirely rather than printing a zero or a made-up round number.
-export function formatStockCount(count: number): string | undefined {
-  return count > 0 ? count.toLocaleString() : undefined;
+export function formatStockCount(count: number | null): string | undefined {
+  return count && count > 0 ? count.toLocaleString() : undefined;
 }
 
 // Marketing surfaces (homepage hero, search button) show "Over N" with N
@@ -65,7 +65,24 @@ export function roundStockDown(count: number): number {
   return count > 1000 ? Math.floor(count / 1000) * 1000 : count;
 }
 
-export async function getStockCount(): Promise<number> {
+// A zero is NEVER a legitimate inventory figure — it is an error.
+//
+// This used to return 0 on failure, and the callers that did not guard printed
+// it: "Search 0+ cars", "Browse 0+ cars", and a bare "0" on the catalogue,
+// which then sat in Next's ISR cache for the full revalidate window. Proven by
+// execution 2026-08-21. Returning null instead makes it impossible to render a
+// figure by accident — every caller has to decide what to show without one.
+//
+// The old fallback was also completely SILENT, so nobody could know it had
+// happened. Every fallback is now logged; it lands in the pm2 error log.
+function noStockCount(reason: string): null {
+  console.error(
+    `[stockCount] FALLBACK: no inventory figure available, surfaces will omit it. Reason: ${reason}`,
+  );
+  return null;
+}
+
+export async function getStockCount(): Promise<number | null> {
   try {
     const res = await fetch(`${API_BASE}/allcarsnew/0/1`, {
       method: "POST",
@@ -73,9 +90,14 @@ export async function getStockCount(): Promise<number> {
       body: JSON.stringify(CANONICAL_BROWSE_BODY),
       next: { revalidate: 300 },
     });
+    if (!res.ok) return noStockCount(`HTTP ${res.status}`);
     const json = await res.json();
-    return (json?.data?.count as number) ?? 0;
-  } catch {
-    return 0;
+    const n = json?.data?.count;
+    if (typeof n !== "number" || !Number.isFinite(n) || n <= 0) {
+      return noStockCount(`count came back as ${JSON.stringify(n)}`);
+    }
+    return n;
+  } catch (err) {
+    return noStockCount(err instanceof Error ? err.message : String(err));
   }
 }

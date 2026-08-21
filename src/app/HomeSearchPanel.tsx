@@ -19,14 +19,14 @@ export default function HomeSearchPanel({
   totalCount,
 }: {
   makes: MakeOption[];
-  totalCount: number;
+  totalCount: number | null;
 }) {
   const router = useRouter();
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
   const [budget, setBudget] = useState("");
   const [models, setModels] = useState<{ car_model: string; total: number }[]>([]);
-  const [count, setCount] = useState(totalCount);
+  const [count, setCount] = useState<number | null>(totalCount);
 
   // Live count: the button re-counts as make/model/budget change, exactly
   // like the used-cars filter bar — a static number next to chosen filters
@@ -130,7 +130,9 @@ export default function HomeSearchPanel({
         <button type="button" className={styles.searchPanelButton} onClick={search}>
           {/* Unfiltered = the rounded marketing figure the hero shows, so
               the two never disagree; a real filter result stays exact. */}
-          Search {count.toLocaleString()}{count === totalCount ? "+" : ""} cars
+          {count === null
+            ? "Search cars"
+            : `Search ${count.toLocaleString()}${count === totalCount ? "+" : ""} cars`}
         </button>
         <button
           type="button"
