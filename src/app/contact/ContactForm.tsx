@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import styles from "./page.module.css";
+import { track } from "@/lib/gtm";
 
 const RECAPTCHA_SITE_KEY = "6LdJejIaAAAAABPap2izWvDOKZgwXHDlo4KVmtLs";
 
@@ -78,6 +79,10 @@ export default function ContactForm() {
       if (data.ResponseCode == 1) {
         setForm(EMPTY_FORM);
         setStatus("success");
+        // generate_lead died at the 14 Aug GTM cutover (selector-bound container
+        // trigger, container not editable) - fired from code instead, same
+        // pattern as click_to_call in Header.tsx.
+        track("generate_lead", { method: "contact_form" });
       } else {
         setStatus("error");
       }

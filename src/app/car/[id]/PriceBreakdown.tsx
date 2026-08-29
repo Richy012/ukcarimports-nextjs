@@ -312,6 +312,7 @@ export default function PriceBreakdown({
 
       if (data.ResponseCode == 1) {
         setSubmitted(true);
+        track("generate_lead", { method: "deposit_request" });
       } else {
         setSubmitError(data.ResponseText || "Something went wrong, please try again.");
       }

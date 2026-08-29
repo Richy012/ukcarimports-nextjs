@@ -1,5 +1,7 @@
 "use client";
 
+import { track } from "@/lib/gtm";
+
 import { useState, useEffect, useRef } from "react";
 import {
   Elements,
@@ -294,7 +296,7 @@ export default function CarSourcingForm() {
             errors={errors}
             setErrors={setErrors}
             onChange={onChange}
-            onSuccess={() => setPaid(true)}
+            onSuccess={() => { setPaid(true); track("generate_lead", { method: "car_sourcing" }); }}
           />
         </Elements>
       ) : (
