@@ -98,3 +98,34 @@
   background: #b60b0c;
   color: #fff;
 }
+
+/* ---- Bestseller ladder threshold on a saved search (2026-09-03) ---- */
+.ladderRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 13.5px;
+  color: #454443;
+}
+.ladderSelect {
+  padding: 5px 8px;
+  border: 1px solid #cfc7c5;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 13.5px;
+  color: #171717;
+}
+.ladderSelect:focus-visible {
+  outline: 2px solid #1d7a3a;
+  outline-offset: 2px;
+}
+.ladderError {
+  margin: 0 0 12px;
+  padding: 10px 14px;
+  border-left: 3px solid #b60b0c;
+  background: #fff4f4;
+  color: #6e0506;
+  font-size: 14px;
+}

@@ -34,7 +34,17 @@ export default function SaveSearchPrompt({
   const pretty = (v: string) => v.replace(/\b\w/g, (c) => c.toUpperCase());
   const summary = active
     .map(([k, v]) =>
-      k === "Make" || k === "Model" || k === "Fuel" ? pretty(v) : k === "maxPrice" ? `under €${Number(v).toLocaleString()}` : v,
+      k === "Make" || k === "Model" || k === "Fuel"
+        ? pretty(v)
+        : k === "maxPrice"
+          ? `under €${Number(v).toLocaleString()}`
+          : k === "minSaving"
+            ? `€${Number(v).toLocaleString()}+ under Ireland`
+            : k === "belowCheapest"
+              ? "cheaper than every Irish listing"
+              : k === "bestsellerSeries"
+                ? "Bestsellers"
+                : v,
     )
     .slice(0, 4)
     .join(" · ");

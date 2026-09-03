@@ -1096,6 +1096,10 @@ export default function FilterBar({
       <SaveSearchPrompt
         filters={{
           Make: make,
+          // Ladder (2026-09-03): the alert keeps the rung the buyer chose
+          // (bestsellerSeries was already sent below).
+          minSaving,
+          belowCheapest,
           Model: model,
           Fuel: fuel,
           body_style: bodyStyle,
