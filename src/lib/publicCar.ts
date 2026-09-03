@@ -80,6 +80,12 @@ export function toTileCar<T extends object>(tileSource: T): T {
     photo_ids: car.photo_ids,
     bestseller_tier: car.bestseller_tier ?? null,
     bestseller_saving_eur: car.bestseller_saving_eur ?? null,
+    // Ladder evidence (2026-09-03): listing count, median, cheapest Irish ad,
+    // and whether we sit below that cheapest ad. Public facts, no ad identity.
+    bestseller_irish_ads: car.bestseller_irish_ads ?? null,
+    bestseller_median_eur: car.bestseller_median_eur ?? null,
+    bestseller_cheapest_eur: car.bestseller_cheapest_eur ?? null,
+    bestseller_below_cheapest: car.bestseller_below_cheapest ?? null,
     price_drop_eur: car.price_drop_eur ?? null,
     price_dropped_at: car.price_dropped_at ?? null,
   } as unknown as T;

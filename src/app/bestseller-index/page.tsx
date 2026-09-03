@@ -9,7 +9,7 @@ export const revalidate = 900;
 export const metadata: Metadata = {
   title: "The Bestseller Index™ — UK vs Ireland Car Prices, Measured Weekly",
   description:
-    "Every week we benchmark every make, model and year we stock against real Irish asking prices. See how many cars are €2,500+ under the Irish market right now — and check the maths on every one.",
+    "Every week we benchmark every make, model and year we stock against real Irish asking prices. See how many cars are €750+ under the Irish market right now — and check the maths on every one.",
   alternates: { canonical: "https://ukcarimports.ie/bestseller-index" },
 };
 
@@ -17,6 +17,9 @@ interface IndexStats {
   snapshot_date: string;
   number_one: number;
   bestseller: number;
+  total_750?: number;
+  total_2500?: number;
+  below_cheapest?: number;
   segments_covered: number;
 }
 
@@ -41,7 +44,9 @@ async function getStats(): Promise<IndexStats | null> {
 
 async function getExamples(): Promise<BandCar[]> {
   try {
-    const res = await fetch(`${API_BASE}/best-value/0/60?rotate=daily`, { next: { revalidate: 900 } });
+    // Ladder (owner 2026-09-03): the standouts are page one of the
+    // biggest-saving order, not the daily rotation.
+    const res = await fetch(`${API_BASE}/best-value/0/60`, { next: { revalidate: 900 } });
     if (!res.ok) return [];
     const data = await res.json();
     const cars: BandCar[] = data?.data?.cars ?? [];
@@ -70,7 +75,8 @@ const eur = (n: number) => `€${Math.round(n).toLocaleString()}`;
 
 export default async function BestsellerIndexPage() {
   const [stats, examples] = await Promise.all([getStats(), getExamples()]);
-  const total = stats ? stats.number_one + stats.bestseller : null;
+  const total = stats ? (stats.total_750 ?? stats.number_one + stats.bestseller) : null;
+  const total2500 = stats ? (stats.total_2500 ?? stats.number_one + stats.bestseller) : null;
 
   return (
     <main className={styles.main}>
@@ -87,11 +93,15 @@ export default async function BestsellerIndexPage() {
         <section className={styles.statsBand}>
           <div className={styles.statTile}>
             <span className={styles.statNumber}>{total.toLocaleString()}</span>
-            <span className={styles.statLabel}>cars €2,500+ under the Irish market right now</span>
+            <span className={styles.statLabel}>cars €750+ under the Irish market right now</span>
+          </div>
+          <div className={styles.statTile}>
+            <span className={styles.statNumber}>{(total2500 ?? 0).toLocaleString()}</span>
+            <span className={styles.statLabel}>of them €2,500+ under — Bestsellers</span>
           </div>
           <div className={styles.statTile}>
             <span className={styles.statNumber}>{stats.number_one.toLocaleString()}</span>
-            <span className={styles.statLabel}>of them €5,000+ under — #1 Bestsellers</span>
+            <span className={styles.statLabel}>€5,000+ under — #1 Bestsellers</span>
           </div>
           <div className={styles.statTile}>
             <span className={styles.statNumber}>{stats.segments_covered.toLocaleString()}</span>
@@ -128,7 +138,7 @@ export default async function BestsellerIndexPage() {
             ))}
           </ul>
           <p className={styles.ctaRow}>
-            <Link href="/used-cars?bestseller=1" className={styles.ctaButton}>
+            <Link href="/used-cars?bestseller=1&saving_sort=1" className={styles.ctaButton}>
               Browse every Bestseller
             </Link>
             <Link href="/sign-up" className={styles.ctaSecondary}>
@@ -145,8 +155,9 @@ export default async function BestsellerIndexPage() {
           any model-year with 10 or more Irish listings we take the <strong>median</strong> asking
           price — the middle price, which ignores freak highs and lows. We compare it with our{" "}
           <strong>all-in delivered price</strong>: the car, VAT, customs, VRT, transport and our
-          fee — what you actually pay to have it on Irish plates in your name. Savings of €2,500+
-          we call a <strong>Bestseller</strong>; €5,000+ a <strong>#1 Bestseller</strong>. Every
+          fee — what you actually pay to have it on Irish plates in your name. Any saving of €750 or
+          more earns a <strong>Bestseller</strong> badge, and the colour deepens with the saving:
+          €2,500+ we call a Bestseller; €5,000+ a <strong>#1 Bestseller</strong>. Every
           comparison shows how many Irish listings it is based on and the week it was measured.
           Irish figures are asking prices; ours is the final price.
         </p>

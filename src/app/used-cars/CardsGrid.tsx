@@ -7,6 +7,7 @@ import CardImageCarousel from "./CardImageCarousel";
 import SignInSlideOver from "../components/SignInSlideOver";
 import { authHeaders, isTokenValid } from "@/lib/auth";
 import styles from "./page.module.css";
+import { ladderRung, RUNG_CLASS, RUNG_LABEL, evidenceLine, type Rung } from "@/lib/ladder";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
 
@@ -25,6 +26,10 @@ interface Car {
   photo_ids?: number[];
   bestseller_tier?: string | null;
   bestseller_saving_eur?: number | null;
+  bestseller_irish_ads?: number | null;
+  bestseller_median_eur?: number | null;
+  bestseller_cheapest_eur?: number | null;
+  bestseller_below_cheapest?: number | null;
   price_drop_eur?: number | null;
   price_dropped_at?: string | null;
 }
@@ -34,22 +39,20 @@ interface Car {
 // hedge: evidence is real but thin, so the figure is rounded to the nearest
 // €500 and phrased as "around", never shown under €1,000 (wording guard —
 // see the comparison-method notes).
-function bestsellerBadge(car: Car): { cls: string; label: string; saving: string } | null {
+function bestsellerBadge(car: Car): { cls: string; label: string; saving: string; evidence: string; rung: Rung | null } | null {
   const tier = car.bestseller_tier;
   if (!tier) return null;
   const sav = Number(car.bestseller_saving_eur ?? 0);
-  if (tier === "number_one") {
+  // Ladder (owner 2026-09-03): one brand from €750 up, six colour rungs, the
+  // exact figure on every badge, and the evidence behind it on line three.
+  const rung = ladderRung(tier, sav);
+  if (rung) {
     return {
-      cls: "badgeNumberOne",
-      label: "#1 Bestseller",
-      saving: sav >= 1000 ? `€${formatEuro(sav)} less than in Ireland` : "",
-    };
-  }
-  if (tier === "bestseller") {
-    return {
-      cls: "badgeBestseller",
-      label: "Bestseller",
-      saving: sav >= 1000 ? `€${formatEuro(sav)} less than in Ireland` : "",
+      cls: RUNG_CLASS[rung],
+      label: RUNG_LABEL[rung],
+      saving: sav >= 750 ? `€${formatEuro(sav)} less than in Ireland` : "",
+      evidence: evidenceLine(car.bestseller_irish_ads),
+      rung,
     };
   }
   const rounded = Math.round(sav / 500) * 500;
@@ -57,6 +60,8 @@ function bestsellerBadge(car: Car): { cls: string; label: string; saving: string
     cls: "badgeTrending",
     label: "Trending Bestseller",
     saving: rounded >= 1000 ? `around €${formatEuro(rounded)} less in Ireland` : "",
+    evidence: "",
+    rung: null,
   };
 }
 
@@ -153,6 +158,12 @@ export default function CardsGrid({ cars }: { cars: Car[] }) {
         const isSaved = savedIds.has(car.car_id);
 
         const badge = bestsellerBadge(car);
+        // The strongest honest line on the site: below the CHEAPEST Irish ad
+        // in the model-year, not just the median. Only with a 10+ listing base.
+        const cheapestLine =
+          badge && badge.rung && Number(car.bestseller_below_cheapest ?? 0) === 1 && Number(car.bestseller_irish_ads ?? 0) >= 10
+            ? `Cheaper than all ${Number(car.bestseller_irish_ads).toLocaleString("en-IE")} Irish listings`
+            : "";
 
         return (
           // The card was previously a single <Link> wrapping the save button and
@@ -170,10 +181,12 @@ export default function CardsGrid({ cars }: { cars: Car[] }) {
               <span className={`${styles.badge} ${styles[badge.cls]}`}>
                 <span className={styles.badgeTierLine}>&#9889; {badge.label}</span>
                 {badge.saving ? <span className={styles.badgeSavingLine}>{badge.saving}</span> : null}
+                {badge.evidence ? <span className={styles.badgeEvidenceLine}>{badge.evidence}</span> : null}
               </span>
             ) : null}
+            {cheapestLine ? <span className={styles.cheapestStrip}>{cheapestLine}</span> : null}
             {car.premium_car === 1 ? (
-              <span className={`${styles.badge} ${styles.badgePremium} ${badge ? styles.badgeBelow : ""}`}>★ Premium</span>
+              <span className={`${styles.badge} ${styles.badgePremium} ${badge ? (cheapestLine ? styles.badgeBelow2 : styles.badgeBelow) : ""}`}>★ Premium</span>
             ) : null}
             <button
               type="button"
@@ -221,6 +234,13 @@ export default function CardsGrid({ cars }: { cars: Car[] }) {
                 </span>
               ) : null}
             </div>
+            {badge && badge.rung ? (
+              <div className={styles.rungBar} role="img" aria-label={`Saving rung ${badge.rung} of 6`}>
+                {[1, 2, 3, 4, 5, 6].map((r) => (
+                  <span key={r} className={`${styles[`rung${r}`]} ${r <= (badge.rung as number) ? styles.rungLit : ""}`} />
+                ))}
+              </div>
+            ) : null}
           </div>
         );
       })}

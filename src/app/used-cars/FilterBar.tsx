@@ -9,6 +9,8 @@ import pageStyles from "./page.module.css";
 import SaveSearchPrompt from "./SaveSearchPrompt";
 import { FollowStrip } from "@/app/components/FollowUs";
 import styles from "./FilterBar.module.css";
+import { PUBLIC_FLOOR_EUR } from "@/lib/stockCount";
+import { RUNG_CHIPS } from "@/lib/ladder";
 
 interface Option {
   label: string;
@@ -56,6 +58,8 @@ interface FilterBarProps {
   currentVersionChips: string[];
   currentSort: string;
   currentBestseller: string;
+  currentMinSaving: string;
+  currentBelowCheapest: string;
   initialCars: Car[];
   initialCount: number;
   currentPage: number;
@@ -86,11 +90,17 @@ const MILEAGE_OPTIONS = Array.from({ length: 500000 / 5000 + 1 }, (_, i) => i * 
 // count and listing on the same population as the canonical stock number.
 const FILTER_BODY_DEFAULTS = {
   is_manheim_car: "0",
-  premium_car: 0,
-  // €15k public floor in the model-dropdown counts too — keeps every count
-  // on the same population as the listing itself (the live preview already
-  // forces it via minPrice || "15000").
-  minPrice: "",
+  premium_car: "0",
+  // ONE number across the site (owner, 2026-08-25). These are the facet counts
+  // in the make/model dropdowns, and they MUST sit on the same population as
+  // the listing and the live preview beside them. The preview sends
+  // minPrice || "1"; this sent "" and CarsNewTwoController caches counts for
+  // 30 minutes KEYED ON THE FILTER VALUES, so "" was a different cache entry
+  // that expired at a different time and drifted. That drift is exactly what
+  // the "the count told the truth" E2E test catches.
+  // (The old comment here still spoke of a €15k floor; PUBLIC_FLOOR_EUR has
+  // been "1" since 2026-08-21 — see lib/stockCount.ts.)
+  minPrice: PUBLIC_FLOOR_EUR,
   maxPrice: "",
   minYear: "",
   maxYear: "",
@@ -116,15 +126,17 @@ const SORT_OPTIONS = [
   { value: "mileage_low", label: "Mileage: Low to High" },
   { value: "mileage_high", label: "Mileage: High to Low" },
   { value: "drop_big", label: "Biggest price drop" },
+  { value: "saving_big", label: "Biggest saving vs Ireland" },
 ];
 
-function sortToParams(sort: string): { price_sort: string; mileage_sort: string; drop_sort: string } {
-  if (sort === "price_low") return { price_sort: "low", mileage_sort: "", drop_sort: "" };
-  if (sort === "price_high") return { price_sort: "high", mileage_sort: "", drop_sort: "" };
-  if (sort === "mileage_low") return { price_sort: "", mileage_sort: "low", drop_sort: "" };
-  if (sort === "mileage_high") return { price_sort: "", mileage_sort: "high", drop_sort: "" };
-  if (sort === "drop_big") return { price_sort: "", mileage_sort: "", drop_sort: "1" };
-  return { price_sort: "", mileage_sort: "", drop_sort: "" };
+function sortToParams(sort: string): { price_sort: string; mileage_sort: string; drop_sort: string; saving_sort: string } {
+  if (sort === "price_low") return { price_sort: "low", mileage_sort: "", drop_sort: "", saving_sort: "" };
+  if (sort === "price_high") return { price_sort: "high", mileage_sort: "", drop_sort: "", saving_sort: "" };
+  if (sort === "mileage_low") return { price_sort: "", mileage_sort: "low", drop_sort: "", saving_sort: "" };
+  if (sort === "mileage_high") return { price_sort: "", mileage_sort: "high", drop_sort: "", saving_sort: "" };
+  if (sort === "drop_big") return { price_sort: "", mileage_sort: "", drop_sort: "1", saving_sort: "" };
+  if (sort === "saving_big") return { price_sort: "", mileage_sort: "", drop_sort: "", saving_sort: "1" };
+  return { price_sort: "", mileage_sort: "", drop_sort: "", saving_sort: "" };
 }
 
 function ChipSearch({
@@ -240,6 +252,8 @@ export default function FilterBar({
   currentVersionChips,
   currentSort,
   currentBestseller,
+  currentMinSaving,
+  currentBelowCheapest,
   initialCars,
   initialCount,
   currentPage,
@@ -279,6 +293,9 @@ export default function FilterBar({
   const effVersionChips = withDraft(versionChips, versionDraft);
   const [sort, setSort] = useState(currentSort);
   const [bestseller, setBestseller] = useState(currentBestseller);
+  // Ladder rung chips + "cheaper than every Irish listing" (owner 2026-09-03).
+  const [minSaving, setMinSaving] = useState(currentMinSaving);
+  const [belowCheapest, setBelowCheapest] = useState(currentBelowCheapest);
   const [models, setModels] = useState<Option[]>([]);
   // Dropdown counts were server-rendered once, so toggling Bestseller Series
   // left them showing whole-stock numbers ("hyundai (5,947)" when only 373
@@ -482,6 +499,8 @@ export default function FilterBar({
     maxMileage !== currentMaxMileage ||
     sort !== currentSort ||
     bestseller !== currentBestseller ||
+    minSaving !== currentMinSaving ||
+    belowCheapest !== currentBelowCheapest ||
     effSearchChips.join(" ") !== currentSearchChips.join(" ") ||
     effVersionChips.join(" ") !== currentVersionChips.join(" ");
 
@@ -497,7 +516,7 @@ export default function FilterBar({
         headers: { "Content-Type": "application/json" },
         // Model counts must describe the badge set when the Bestseller
         // toggle is on, same as every other facet.
-        body: JSON.stringify({ ...FILTER_BODY_DEFAULTS, Make: forMake, bestsellerSeries: bestseller, dropfilter: sort === "drop_big" ? "1" : "" }),
+        body: JSON.stringify({ ...FILTER_BODY_DEFAULTS, Make: forMake, bestsellerSeries: bestseller, minSaving, belowCheapest, dropfilter: sort === "drop_big" ? "1" : "" }),
       });
       const data = await res.json();
       setModels(
@@ -533,7 +552,7 @@ export default function FilterBar({
     const timer = setTimeout(async () => {
       setCountLoading(true);
       try {
-        const { price_sort, mileage_sort, drop_sort } = sortToParams(sort);
+        const { price_sort, mileage_sort, drop_sort, saving_sort } = sortToParams(sort);
         const res = await fetch("/api/car-count", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -564,6 +583,10 @@ export default function FilterBar({
             mileagefilter: mileage_sort,
             dropfilter: drop_sort,
             bestsellerSeries: bestseller,
+            minSaving,
+            belowCheapest,
+            // Biggest saving first is the default order inside the badge set.
+            savingfilter: saving_sort || ((bestseller || minSaving || belowCheapest) && !price_sort && !mileage_sort && !drop_sort ? "1" : ""),
             pagenum: targetPage,
             limit: 25,
           }),
@@ -588,7 +611,7 @@ export default function FilterBar({
     }, 400);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [make, model, fuel, bodyStyle, transmission, seats, color, minEnginesize, maxEnginesize, minYear, maxYear, minPrice, maxPrice, minMileage, maxMileage, searchChips, versionChips, searchDraft, versionDraft, sort, bestseller]);
+  }, [make, model, fuel, bodyStyle, transmission, seats, color, minEnginesize, maxEnginesize, minYear, maxYear, minPrice, maxPrice, minMileage, maxMileage, searchChips, versionChips, searchDraft, versionDraft, sort, bestseller, minSaving, belowCheapest]);
 
   const dropOn = sort === "drop_big" ? "1" : "";
   useEffect(() => {
@@ -741,7 +764,7 @@ export default function FilterBar({
   // Apply, and by the tile-click history stamp so Back always lands on an
   // address matching what is on screen.
   function currentQueryString(): string {
-    const { price_sort, mileage_sort, drop_sort } = sortToParams(sort);
+    const { price_sort, mileage_sort, drop_sort, saving_sort } = sortToParams(sort);
     const params = new URLSearchParams();
     if (make) params.set("Make", make);
     if (model) params.set("Model", model);
@@ -764,6 +787,9 @@ export default function FilterBar({
     if (mileage_sort) params.set("mileage_sort", mileage_sort);
     if (drop_sort) params.set("drop_sort", drop_sort);
     if (bestseller) params.set("bestseller", bestseller);
+    if (saving_sort) params.set("saving_sort", saving_sort);
+    if (minSaving) params.set("min_saving", minSaving);
+    if (belowCheapest) params.set("below_cheapest", belowCheapest);
     return params.toString();
   }
 
@@ -775,6 +801,8 @@ export default function FilterBar({
       fuel,
       maxMileage ? `≤${maxMileage} km` : "",
       bestseller ? "Bestsellers" : "",
+      minSaving ? `€${Number(minSaving).toLocaleString("en-IE")}+ under Ireland` : "",
+      belowCheapest ? "cheaper than every Irish listing" : "",
     ].filter(Boolean);
     rememberSearch(bits.join(" · "), qs);
     router.push(qs ? `/used-cars?${qs}` : "/used-cars");
@@ -805,6 +833,8 @@ export default function FilterBar({
     setVersionDraft("");
     setSort("");
     setBestseller("");
+    setMinSaving("");
+    setBelowCheapest("");
     if (window.location.search) {
       router.push("/used-cars");
     }
@@ -813,10 +843,10 @@ export default function FilterBar({
   const hasAnyFilter = !!(
     make || model || fuel || bodyStyle || transmission || seats || color ||
     minEnginesize || maxEnginesize || minYear || maxYear || minPrice || maxPrice ||
-    minMileage || maxMileage || searchChips.length || versionChips.length || sort || bestseller
+    minMileage || maxMileage || searchChips.length || versionChips.length || sort || bestseller || minSaving || belowCheapest
   );
 
-  const activeFilters = [bestseller ? "Bestseller Series" : "", make, model, fuel, bodyStyle, transmission, seats ? `${seats} seats` : "", color].filter(Boolean);
+  const activeFilters = [bestseller ? "Bestseller Series" : "", minSaving ? `€${Number(minSaving).toLocaleString("en-IE")}+ under Ireland` : "", belowCheapest ? "Cheaper than every Irish listing" : "", make, model, fuel, bodyStyle, transmission, seats ? `${seats} seats` : "", color].filter(Boolean);
 
   return (
     <>
@@ -824,15 +854,62 @@ export default function FilterBar({
         <button
           type="button"
           className={`${styles.bestsellerToggle} ${bestseller ? styles.bestsellerToggleOn : ""}`}
-          onClick={() => setBestseller(bestseller ? "" : "1")}
+          onClick={() => {
+            if (bestseller) {
+              setBestseller("");
+              setMinSaving("");
+              setBelowCheapest("");
+            } else {
+              setBestseller("1");
+            }
+          }}
           aria-pressed={!!bestseller}
         >
           <span className={styles.bestsellerFlash} aria-hidden="true">&#9889;</span>
           Bestseller Series
           <span className={styles.bestsellerToggleHint}>
-            {bestseller ? "Showing cars priced under the Irish market" : "Cars priced under the Irish market"}
+            {bestseller ? "Showing cars priced €750+ under the Irish market" : "Cars priced €750+ under the Irish market"}
           </span>
         </button>
+        {/* Ladder rung chips (owner 2026-09-03): the buyer sets their own bar.
+            Cumulative — €1,500+ includes everything above it. Picking a chip
+            switches the Bestseller Series on; the toggle clears them. */}
+        <div className={styles.rungChips} role="group" aria-label="Minimum saving vs the Irish market">
+          {RUNG_CHIPS.map((c) => (
+            <button
+              key={c.value}
+              type="button"
+              className={`${styles.rungChip} ${minSaving === c.value ? styles.rungChipOn : ""}`}
+              aria-pressed={minSaving === c.value}
+              onClick={() => {
+                if (minSaving === c.value) {
+                  setMinSaving("");
+                } else {
+                  setMinSaving(c.value);
+                  setBestseller("1");
+                }
+              }}
+            >
+              <span className={`${styles.rungSwatch} ${styles[c.cls]}`} aria-hidden="true" />
+              {c.label}
+            </button>
+          ))}
+          <button
+            type="button"
+            className={`${styles.rungChip} ${styles.rungChipBlack} ${belowCheapest ? styles.rungChipOn : ""}`}
+            aria-pressed={!!belowCheapest}
+            onClick={() => {
+              if (belowCheapest) {
+                setBelowCheapest("");
+              } else {
+                setBelowCheapest("1");
+                setBestseller("1");
+              }
+            }}
+          >
+            Cheaper than every Irish listing
+          </button>
+        </div>
         <button
           type="button"
           className={`${styles.dropToggle} ${sort === "drop_big" ? styles.dropToggleOn : ""}`}

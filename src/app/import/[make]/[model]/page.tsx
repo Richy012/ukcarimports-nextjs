@@ -29,6 +29,16 @@ export async function generateMetadata({
       alternates: { canonical: `https://ukcarimports.ie/import/${make}/${model}` },
     };
   }
+  // Bestseller ladder (owner 2026-09-03): where ten or more of the model sit
+  // €750+ under the Irish market, lead with that count — the one line a
+  // marketplace result cannot say. Same move as the XC90/i8 test above.
+  if (bs && bs.count >= 10) {
+    return {
+      title: `${subject} for Sale Ireland — ${bs.count.toLocaleString()} Cars Under Irish Prices, from ${priceFrom}`,
+      description: `${bs.count.toLocaleString()} of our ${data.count.toLocaleString()} used ${subject} cars are measured €750+ under the Irish market, the best by €${bs.max_saving_eur.toLocaleString()}. Priced fully landed — VRT, VAT, customs & delivery included. Benchmarked against real Irish ads weekly.`,
+      alternates: { canonical: `https://ukcarimports.ie/import/${make}/${model}` },
+    };
+  }
   return {
     // Query-shaped: "{model} for sale ireland" is the search these pages
     // exist to win (GSC 2026-08-05: big impressions, pos 8-15, sub-1% CTR).

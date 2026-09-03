@@ -338,3 +338,54 @@
 .dropToggleOn .dropToggleHint {
   color: #ffffff;
 }
+
+/* ---- Bestseller ladder rung chips (owner 2026-09-03) ---- */
+.rungChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: -4px 0 12px;
+}
+.rungChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid #cfc7c5;
+  background: #fff;
+  color: #171717;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1.2;
+}
+.rungChip:hover {
+  border-color: #1d7a3a;
+}
+.rungChip:focus-visible {
+  outline: 2px solid #1d7a3a;
+  outline-offset: 2px;
+}
+.rungChipOn {
+  border-color: #1d7a3a;
+  background: #f3faf6;
+  color: #145c2b;
+}
+.rungChipBlack.rungChipOn {
+  background: #171717;
+  border-color: #171717;
+  color: #f5c542;
+}
+.rungSwatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+}
+.rungC1 { background: #cfeedb; }
+.rungC2 { background: #8fd1a6; }
+.rungC3 { background: #3f9f61; }
+.rungC4 { background: #1d7a3a; }
+.rungC5 { background: #b60b0c; }
+.rungC6 { background: #6e0506; }

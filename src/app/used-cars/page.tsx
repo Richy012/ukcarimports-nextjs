@@ -124,6 +124,9 @@ interface Filters {
   mileage_sort: string;
   drop_sort: string;
   bestseller: string;
+  min_saving: string;
+  below_cheapest: string;
+  saving_sort: string;
 }
 
 async function getCars(
@@ -178,6 +181,17 @@ async function getCars(
       // Bestseller Series: only cars carrying a live badge (priced €2,500+
       // under the Irish market under the frozen two-route rule).
       bestsellerSeries: filters.bestseller,
+      // Ladder (owner 2026-09-03): rung chips, the cheapest-Irish chip, and
+      // biggest-saving order — the default inside the badge set unless
+      // another sort was chosen.
+      minSaving: filters.min_saving,
+      belowCheapest: filters.below_cheapest,
+      savingfilter:
+        filters.saving_sort ||
+        ((filters.bestseller || filters.min_saving || filters.below_cheapest) &&
+        !filters.price_sort && !filters.mileage_sort && !filters.drop_sort
+          ? "1"
+          : ""),
     }),
     // Inventory changes frequently (see llms.txt note written earlier) --
     // this is not content that should be statically cached across visitors.
@@ -220,7 +234,8 @@ function pageHref(filters: Filters, searchChips: string[], versionChips: string[
   return s ? `/used-cars?${s}` : "/used-cars";
 }
 
-function sortParamsToLabel(priceSort: string, mileageSort: string, dropSort = ""): string {
+function sortParamsToLabel(priceSort: string, mileageSort: string, dropSort = "", savingSort = ""): string {
+  if (savingSort) return "saving_big";
   if (dropSort) return "drop_big";
   if (priceSort === "low") return "price_low";
   if (priceSort === "high") return "price_high";
@@ -257,10 +272,13 @@ export default async function UsedCarsPage({
     mileage_sort: firstParam(params, "mileage_sort"),
     drop_sort: firstParam(params, "drop_sort"),
     bestseller: firstParam(params, "bestseller"),
+    min_saving: firstParam(params, "min_saving").replace(/\D/g, ""),
+    below_cheapest: firstParam(params, "below_cheapest") ? "1" : "",
+    saving_sort: firstParam(params, "saving_sort") ? "1" : "",
   };
   const searchChips = allParams(params, "searchChips");
   const versionChips = allParams(params, "versionChips");
-  const currentSort = sortParamsToLabel(filters.price_sort, filters.mileage_sort, filters.drop_sort);
+  const currentSort = sortParamsToLabel(filters.price_sort, filters.mileage_sort, filters.drop_sort, filters.saving_sort);
 
   const requestedPage = Number(firstParam(params, "page")) || 1;
   const page = Math.max(1, Math.floor(requestedPage));
@@ -268,7 +286,11 @@ export default async function UsedCarsPage({
   // With the Bestseller toggle applied, dropdown counts must describe the
   // badge set — the owner picked "abarth (198)" off a full-stock count and
   // got 0 results.
-  const facetExtra = filters.bestseller ? { bestsellerSeries: filters.bestseller } : {};
+  const facetExtra = {
+    bestsellerSeries: filters.bestseller,
+    minSaving: filters.min_saving,
+    belowCheapest: filters.below_cheapest,
+  };
   const [{ data }, makesData, fuelsData, bodyStylesData, transmissionsData, seatsData] =
     await Promise.all([
       getCars(filters, searchChips, versionChips, page),
@@ -386,6 +408,8 @@ export default async function UsedCarsPage({
         currentVersionChips={versionChips}
         currentSort={currentSort}
         currentBestseller={filters.bestseller}
+        currentMinSaving={filters.min_saving}
+        currentBelowCheapest={filters.below_cheapest}
         initialCars={data.cars.map(toTileCar)}
         initialCount={data.count}
         currentPage={currentPage}

@@ -108,7 +108,11 @@
    brief), but honest: the euro line is the live saving vs the Irish market. */
 .badgeBestseller,
 .badgeNumberOne,
-.badgeTrending {
+.badgeTrending,
+.badgeR1,
+.badgeR2,
+.badgeR3,
+.badgeR4 {
   display: flex;
   flex-direction: column;
   gap: 1px;
@@ -152,7 +156,12 @@
 
 /* Premium badge drops below a Bestseller badge instead of overlapping it. */
 .badgeBelow {
-  top: 56px;
+  top: 72px;
+}
+
+/* ...and below the cheapest-Irish strip too. */
+.badgeBelow2 {
+  top: 100px;
 }
 
 .cardImage {
@@ -376,3 +385,62 @@
   white-space: nowrap;
   border: 0;
 }
+
+/* ---- Bestseller ladder (owner 2026-09-03): four greens beneath the reds ---- */
+.badgeR1 {
+  background: linear-gradient(135deg, #e9f7ee 0%, #cfeedb 100%);
+  color: #145c2b;
+}
+.badgeR2 {
+  background: linear-gradient(135deg, #bfe8cd 0%, #8fd1a6 100%);
+  color: #0f4d24;
+}
+.badgeR3 {
+  background: linear-gradient(135deg, #63c184 0%, #3f9f61 100%);
+}
+.badgeR4 {
+  background: linear-gradient(135deg, #2a9250 0%, #1d7a3a 55%, #155c2b 100%);
+}
+.badgeEvidenceLine {
+  font-size: 9.5px;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  opacity: 0.85;
+}
+/* "Cheaper than all N Irish listings" — black and gold, under the badge. */
+.cheapestStrip {
+  position: absolute;
+  top: 72px;
+  left: 10px;
+  z-index: 2;
+  padding: 3px 9px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  background: #171717;
+  color: #f5c542;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+/* The six-step bar under the price: the car's rung lit, the rest faint. */
+.rungBar {
+  display: flex;
+  gap: 2px;
+  height: 6px;
+  margin: 0 14px 12px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.rungBar span {
+  flex: 1;
+  opacity: 0.18;
+}
+.rungBar span.rungLit {
+  opacity: 1;
+}
+.rung1 { background: #a9dfbc; }
+.rung2 { background: #8fd1a6; }
+.rung3 { background: #3f9f61; }
+.rung4 { background: #1d7a3a; }
+.rung5 { background: #b60b0c; }
+.rung6 { background: #6e0506; }

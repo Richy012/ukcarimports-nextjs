@@ -121,7 +121,7 @@ export default function ImportLanding({ data, makeSlug }: { data: LandingData; m
     {
       q: `Is it cheaper to import a ${subject} from the UK?`,
       a: bs
-        ? `Often, yes — and we measure it rather than claim it. Right now ${bs.count.toLocaleString()} of our ${subject} cars are priced at least €2,500 under comparable Irish asking prices (the biggest is €${bs.max_saving_eur.toLocaleString()} under), benchmarked weekly against real Irish ads. UK supply is roughly ten times larger than the Irish market, and we reclaim UK VAT to reduce the Irish tax base.`
+        ? `Often, yes — and we measure it rather than claim it. Right now ${bs.count.toLocaleString()} of our ${subject} cars are priced at least €750 under comparable Irish asking prices (the biggest is €${bs.max_saving_eur.toLocaleString()} under), benchmarked weekly against real Irish ads. UK supply is roughly ten times larger than the Irish market, and we reclaim UK VAT to reduce the Irish tax base.`
         : `Often, yes — UK supply is roughly ten times larger than the Irish market, and we reclaim UK VAT to reduce the Irish tax base. We benchmark every car against real Irish asking prices weekly and flag the exceptional deals.`,
     },
   ];
@@ -240,7 +240,7 @@ export default function ImportLanding({ data, makeSlug }: { data: LandingData; m
             <span className={styles.bsTier}>Bestseller Series</span>
             <p>
               {bs.count.toLocaleString()} {subject} {bs.count === 1 ? "car is" : "cars are"} priced{" "}
-              <strong>€2,500 or more under the Irish market</strong> today
+              <strong>€750 or more under the Irish market</strong> today
               {bs.top && (
                 <>
                   {" "}— the biggest is{" "}
@@ -258,10 +258,10 @@ export default function ImportLanding({ data, makeSlug }: { data: LandingData; m
               </Link>
             )}
             <Link
-              href={`${browseHref}&bestseller=1`}
+              href={`${browseHref}&bestseller=1&saving_sort=1`}
               className={styles.bsBrowse}
             >
-              Browse Bestseller {subject} cars
+              Browse {bs.count.toLocaleString()} {subject} cars under Irish prices — biggest saving first
             </Link>
           </div>
         </section>

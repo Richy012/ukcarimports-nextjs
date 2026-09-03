@@ -1072,3 +1072,12 @@
     display: none;
   }
 }
+
+/* ---- Bestseller ladder colours on the homepage band (owner 2026-09-03) ---- */
+.valueBadgeR1 { background: linear-gradient(135deg, #e9f7ee 0%, #cfeedb 100%); color: #145c2b; }
+.valueBadgeR2 { background: linear-gradient(135deg, #bfe8cd 0%, #8fd1a6 100%); color: #0f4d24; }
+.valueBadgeR3 { background: linear-gradient(135deg, #63c184 0%, #3f9f61 100%); }
+.valueBadgeR4 { background: linear-gradient(135deg, #2a9250 0%, #1d7a3a 55%, #155c2b 100%); }
+.valueBadgeR5 { background: linear-gradient(135deg, #d21415 0%, #b60b0c 55%, #8f0809 100%); }
+.valueBadgeR6 { background: linear-gradient(135deg, #8f0809 0%, #6e0506 60%, #4f0304 100%); }
+.valueBadgeR6 .valueBadgeTier { color: #f5c542; }

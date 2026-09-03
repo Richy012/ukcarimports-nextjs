@@ -14,6 +14,7 @@ import AdminSellerLine from "./AdminSellerLine";
 import SaveCarButton from "./SaveCarButton";
 import { stripStaffPriceFields } from "@/lib/publicCar";
 import { warrantyStatusFor } from "@/lib/warrantyGuide";
+import { ladderRung, RUNG_LABEL } from "@/lib/ladder";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
 interface CarImage {
@@ -72,6 +73,10 @@ interface CarDetail {
   relatedcars?: RelatedCar[];
   bestseller_tier?: string | null;
   bestseller_saving_eur?: number | null;
+  bestseller_irish_ads?: number | null;
+  bestseller_median_eur?: number | null;
+  bestseller_cheapest_eur?: number | null;
+  bestseller_below_cheapest?: number | null;
   service_history?: number;
   last_service?: string;
   last_service_mileage?: string;
@@ -188,7 +193,7 @@ export async function generateMetadata({
   const sav = Number(car.bestseller_saving_eur ?? 0);
   const tier = car.bestseller_tier;
   let savingLine = "";
-  if ((tier === "number_one" || tier === "bestseller") && sav >= 1000) {
+  if ((tier === "number_one" || tier === "bestseller") && sav >= 750) {
     savingLine = `€${Math.round(sav).toLocaleString("en-IE")} Less Than in Ireland`;
   } else if (tier === "trending" && Math.round(sav / 500) * 500 >= 1000) {
     savingLine = `Around €${(Math.round(sav / 500) * 500).toLocaleString("en-IE")} Less in Ireland`;
@@ -344,6 +349,14 @@ export default async function CarDetailPage({
       : undefined,
   };
 
+  // Bestseller ladder (owner 2026-09-03): rung, gauge and the evidence line.
+  const ladderSaving = Number(car.bestseller_saving_eur ?? 0);
+  const rung = ladderRung(car.bestseller_tier, ladderSaving);
+  const irishAds = Number(car.bestseller_irish_ads ?? 0);
+  const irishMedian = car.bestseller_median_eur ?? null;
+  const irishCheapest = car.bestseller_cheapest_eur ?? null;
+  const belowCheapest = rung !== null && Number(car.bestseller_below_cheapest ?? 0) === 1 && irishAds >= 10;
+
   return (
     <main className={styles.main}>
       <script
@@ -356,19 +369,41 @@ export default async function CarDetailPage({
         <h1 className={styles.heading}>{car.car_name}</h1>
         <SaveCarButton carId={id} />
         {car.bestseller_tier && car.bestseller_saving_eur ? (
-        <Link href={`/best-value/why/${car.car_id}`} className={styles.carBadge}>
-          <span className={styles.carBadgeTier}>
-            {car.bestseller_tier === "number_one"
-              ? "#1 Bestseller"
-              : car.bestseller_tier === "trending"
-                ? "Trending Bestseller"
-                : "Bestseller"}
+        <Link href={`/best-value/why/${car.car_id}`} className={`${styles.carBadge} ${rung ? styles.carBadgeLadder : ""}`}>
+          <span className={`${styles.carBadgeTier} ${rung && rung <= 4 ? styles.carBadgeTierGreen : ""}`}>
+            &#9889; {rung ? RUNG_LABEL[rung] : "Trending Bestseller"}
           </span>
           <span className={styles.carBadgeSaving}>
             {car.bestseller_tier === "trending"
               ? `around €${(Math.round(car.bestseller_saving_eur / 500) * 500).toLocaleString()} less than in Ireland`
               : `€${car.bestseller_saving_eur.toLocaleString()} less than in Ireland`}
           </span>
+          {rung ? (
+            <span className={styles.carGauge} aria-hidden="true">
+              {[1, 2, 3, 4, 5, 6].map((r) => (
+                <span key={r} className={`${styles[`gauge${r}`]} ${r <= rung ? styles.gaugeLit : ""}`} />
+              ))}
+            </span>
+          ) : null}
+          {rung ? (
+            <span className={styles.carGaugeTicks} aria-hidden="true">
+              <span>€750</span><span>€1,000</span><span>€1,500</span><span>€2,000</span><span>€2,500</span><span>€5,000+</span>
+            </span>
+          ) : null}
+          {rung && irishAds >= 10 && irishMedian ? (
+            <span className={styles.carBadgeEvidence}>
+              Irish dealers ask a median €{Math.round(irishMedian).toLocaleString("en-IE")} for this model and year, across {irishAds.toLocaleString("en-IE")} listings.
+              No mileage or spec adjustment — prices exactly as listed.
+            </span>
+          ) : rung ? (
+            <span className={styles.carBadgeEvidence}>Matched to the same car for sale in Ireland.</span>
+          ) : null}
+          {belowCheapest ? (
+            <span className={styles.carCheapest}>
+              Cheaper than all {irishAds.toLocaleString("en-IE")} Irish listings
+              {irishCheapest ? ` — the cheapest asks €${Math.round(irishCheapest).toLocaleString("en-IE")}` : ""}
+            </span>
+          ) : null}
           <span className={styles.carBadgeLink}>See the maths &rarr;</span>
         </Link>
       ) : null}
@@ -538,7 +573,7 @@ export default async function CarDetailPage({
         // running, or a service-renewed scheme that can be re-activated here.
         // No live cover, no line at all. (A 2019 BMW was being shown a 3-year
         // warranty that expired in March 2022.)
-        const wg = warrantyStatusFor(car.make_name, car.registration_date, car.fuel_type_name);
+        const wg = warrantyStatusFor(car.make_name, car.registration_date, car.fuel_type_name, car.mileage, car.body_style_name);
         if (!wg.hook) return null;
         return (
           <p className={styles.warrantyGuideLine}>

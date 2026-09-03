@@ -9,6 +9,7 @@ import googleReviews from "@/data/google-reviews.json";
 import { getStockCount, formatStockCount, roundStockDown } from "@/lib/stockCount";
 import styles from "./page.module.css";
 import { heroForDay } from "@/lib/brandArt";
+import { ladderRung, RUNG_LABEL } from "@/lib/ladder";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
 
@@ -77,16 +78,16 @@ interface BestValueCar extends HomeCar {
 // Euro-first badge, compact two-line form (tier + saving), same conventions
 // as the listing tiles: full tiers state the live figure, Trending hedges
 // (rounded €500, "around").
-function bestValueBadgeParts(bv: BestValueCar["best_value"]): { tier: string; saving: string } {
+function bestValueBadgeParts(bv: BestValueCar["best_value"]): { tier: string; saving: string; rung: number } {
   const sav = Math.round(bv.saving_eur);
-  if (bv.tier === "number_one")
-    return { tier: "#1 Bestseller", saving: `€${sav.toLocaleString()} less than in Ireland` };
-  if (bv.tier === "bestseller")
-    return { tier: "Bestseller", saving: `€${sav.toLocaleString()} less than in Ireland` };
+  // Ladder (owner 2026-09-03): the rung label and colour, exact figure under it.
+  const rung = ladderRung(bv.tier, sav);
+  if (rung) return { tier: RUNG_LABEL[rung], saving: `€${sav.toLocaleString()} less than in Ireland`, rung };
   const rounded = Math.round(sav / 500) * 500;
   return {
     tier: "Trending Bestseller",
     saving: rounded >= 1000 ? `around €${rounded.toLocaleString()} less in Ireland` : "",
+    rung: 0,
   };
 }
 
@@ -278,6 +279,7 @@ export default async function HomePage() {
           <div className={styles.valueInner}>
             <h2 className={styles.sectionTitle}>The Bestseller Series</h2>
             <p className={styles.sectionSub}>
+              <strong>{bvCount.toLocaleString()} cars priced €750 or more under the Irish market right now.</strong>{" "}
               Every euro is benchmarked against a real Irish asking price or the Irish
               median for the exact model and year — refreshed weekly, checked live.
             </p>
@@ -285,7 +287,7 @@ export default async function HomePage() {
               {bestValue.map((c) => (
                 <div key={c.car_id} className={styles.valueItem}>
                 <Link href={`/car/${c.car_id}`} className={styles.arrivalCard}>
-                  <span className={styles.valueBadge}>
+                  <span className={`${styles.valueBadge} ${styles[`valueBadgeR${bestValueBadgeParts(c.best_value).rung}`] ?? ""}`}>
                     <span className={styles.valueBadgeTier}>{bestValueBadgeParts(c.best_value).tier}</span>
                     {bestValueBadgeParts(c.best_value).saving && (
                       <span className={styles.valueBadgeSaving}>
@@ -320,8 +322,8 @@ export default async function HomePage() {
               ))}
             </div>
             <p className={styles.arrivalsMore}>
-              <Link href="/used-cars?bestseller=1">
-                {`See all ${bvCount.toLocaleString()} Bestsellers — priced under the Irish market`} &rarr;
+              <Link href="/used-cars?bestseller=1&saving_sort=1">
+                {`See all ${bvCount.toLocaleString()} Bestsellers — biggest saving first`} &rarr;
               </Link>
             </p>
           </div>
