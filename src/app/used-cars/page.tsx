@@ -278,7 +278,12 @@ export default async function UsedCarsPage({
   };
   const searchChips = allParams(params, "searchChips");
   const versionChips = allParams(params, "versionChips");
-  const currentSort = sortParamsToLabel(filters.price_sort, filters.mileage_sort, filters.drop_sort, filters.saving_sort);
+  // Inside the badge set the default order is biggest saving first (see
+  // savingfilter in getCars); the sort box must say so, or the buyer sees
+  // an order with no name on it.
+  const currentSort =
+    sortParamsToLabel(filters.price_sort, filters.mileage_sort, filters.drop_sort, filters.saving_sort) ||
+    ((filters.bestseller || filters.min_saving || filters.below_cheapest) ? "saving_big" : "");
 
   const requestedPage = Number(firstParam(params, "page")) || 1;
   const page = Math.max(1, Math.floor(requestedPage));
