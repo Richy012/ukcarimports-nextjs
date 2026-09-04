@@ -196,7 +196,7 @@ export async function generateMetadata({
   if ((tier === "number_one" || tier === "bestseller") && sav >= 750) {
     savingLine = `€${Math.round(sav).toLocaleString("en-IE")} Less Than in Ireland`;
   } else if (tier === "trending" && Math.round(sav / 500) * 500 >= 1000) {
-    savingLine = `Around €${(Math.round(sav / 500) * 500).toLocaleString("en-IE")} Less in Ireland`;
+    savingLine = `Around €${(Math.round(sav / 500) * 500).toLocaleString("en-IE")} Less Than in Ireland`;
   }
   const title = savingLine
     ? `${name} — ${savingLine}, VRT Included`

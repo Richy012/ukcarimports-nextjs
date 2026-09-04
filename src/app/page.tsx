@@ -86,7 +86,7 @@ function bestValueBadgeParts(bv: BestValueCar["best_value"]): { tier: string; sa
   const rounded = Math.round(sav / 500) * 500;
   return {
     tier: "Trending Bestseller",
-    saving: rounded >= 1000 ? `around €${rounded.toLocaleString()} less in Ireland` : "",
+    saving: rounded >= 1000 ? `around €${rounded.toLocaleString()} less than in Ireland` : "",
     rung: 0,
   };
 }

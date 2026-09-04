@@ -59,7 +59,7 @@ function bestsellerBadge(car: Car): { cls: string; label: string; saving: string
   return {
     cls: "badgeTrending",
     label: "Trending Bestseller",
-    saving: rounded >= 1000 ? `around €${formatEuro(rounded)} less in Ireland` : "",
+    saving: rounded >= 1000 ? `around €${formatEuro(rounded)} less than in Ireland` : "",
     evidence: "",
     rung: null,
   };
