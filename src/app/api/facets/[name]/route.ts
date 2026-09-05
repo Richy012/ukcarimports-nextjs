@@ -3,16 +3,21 @@
 // 2026-08-04: toggling Bestseller Series left every dropdown showing
 // whole-stock counts ("hyundai (5,947)" when only 373 Hyundais are
 // Bestsellers), because the counts were only ever rendered server-side.
-// Same CORS reasoning as the models route.
+// 2026-09-05: every dropdown is now connected to every other filter, and
+// colour and engine size became real facets, so models, colors and
+// engine-types joined the list. Same CORS reasoning as the models route.
 import { NextRequest, NextResponse } from "next/server";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
 const ALLOWED = new Set([
   "makes",
+  "models",
   "fuel-types",
   "body-styles",
   "transmission-types",
   "seats",
+  "colors",
+  "engine-types",
 ]);
 
 export async function POST(req: NextRequest, ctx: { params: Promise<{ name: string }> }) {

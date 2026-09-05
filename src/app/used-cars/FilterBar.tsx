@@ -11,6 +11,7 @@ import { FollowStrip } from "@/app/components/FollowUs";
 import styles from "./FilterBar.module.css";
 import { PUBLIC_FLOOR_EUR } from "@/lib/stockCount";
 import { RUNG_CHIPS } from "@/lib/ladder";
+import { FACET_NAMES, facetBody, keepSelected, parseFacet, type FacetName } from "@/lib/facets";
 
 interface Option {
   label: string;
@@ -35,10 +36,13 @@ interface Car {
 
 interface FilterBarProps {
   initialMakes: Option[];
+  initialModels: Option[];
   initialFuels: Option[];
   initialBodyStyles: Option[];
   initialTransmissions: Option[];
   initialSeats: Option[];
+  initialColours: Option[];
+  initialEngines: Option[];
   currentMake: string;
   currentModel: string;
   currentFuel: string;
@@ -67,12 +71,6 @@ interface FilterBarProps {
   prevHref: string | null;
   nextHref: string | null;
 }
-
-const COLOURS = [
-  "Beige", "Black", "Blue", "Bronze", "Burgundy", "Gold", "Green", "Grey", "Indigo",
-  "Magenta", "Maroon", "Multicolour", "Navy", "Orange", "Pink", "Purple", "Red",
-  "Silver", "Turquoise", "Unlisted", "White", "Yellow",
-];
 
 const FEATURE_SEARCH_ENABLED = false;
 
@@ -229,10 +227,13 @@ function ChipSearch({
 
 export default function FilterBar({
   initialMakes,
+  initialModels,
   initialFuels,
   initialBodyStyles,
   initialTransmissions,
   initialSeats,
+  initialColours,
+  initialEngines,
   currentMake,
   currentModel,
   currentFuel,
@@ -296,16 +297,19 @@ export default function FilterBar({
   // Ladder rung chips + "cheaper than every Irish listing" (owner 2026-09-03).
   const [minSaving, setMinSaving] = useState(currentMinSaving);
   const [belowCheapest, setBelowCheapest] = useState(currentBelowCheapest);
-  const [models, setModels] = useState<Option[]>([]);
+  const [models, setModels] = useState<Option[]>(initialModels);
   // Dropdown counts were server-rendered once, so toggling Bestseller Series
   // left them showing whole-stock numbers ("hyundai (5,947)" when only 373
-  // Hyundais carry a badge) -- owner report 2026-08-04. They now refresh
-  // client-side whenever the toggle changes.
+  // Hyundais carry a badge) -- owner report 2026-08-04. Since 2026-09-05
+  // every dropdown refreshes against every other control (see the facet
+  // effect below), so the server render and the client stay one system.
   const [makeOpts, setMakeOpts] = useState<Option[]>(initialMakes);
   const [fuelOpts, setFuelOpts] = useState<Option[]>(initialFuels);
   const [bodyOpts, setBodyOpts] = useState<Option[]>(initialBodyStyles);
   const [transOpts, setTransOpts] = useState<Option[]>(initialTransmissions);
   const [seatOpts, setSeatOpts] = useState<Option[]>(initialSeats);
+  const [colourOpts, setColourOpts] = useState<Option[]>(initialColours);
+  const [engineOpts, setEngineOpts] = useState<Option[]>(initialEngines);
   const [modelsLoading, setModelsLoading] = useState(false);
   const [liveCars, setLiveCars] = useState<Car[]>(initialCars);
   const currentQsRef = useRef("");
@@ -504,38 +508,82 @@ export default function FilterBar({
     effSearchChips.join(" ") !== currentSearchChips.join(" ") ||
     effVersionChips.join(" ") !== currentVersionChips.join(" ");
 
-  async function fetchModels(forMake: string) {
-    if (!forMake) {
-      setModels([]);
+  // CONNECTED FILTERS (owner, 2026-09-05: "if I filter down to 7 cars and
+  // there are no red cars left then red should not be a choice"). Every
+  // dropdown -- make, model, body, fuel, gearbox, seats, colour, engine --
+  // re-describes the cars matching all the OTHER controls, on the same
+  // debounce as the live preview. Each facet omits its own key (lib/facets)
+  // or it would collapse to the one value already picked. The server render
+  // already did this for the URL state, so the mount pass is skipped, and a
+  // stale response can never overwrite a newer one (sequence check).
+  const facetsRanRef = useRef(false);
+  const facetSeqRef = useRef(0);
+  useEffect(() => {
+    if (!facetsRanRef.current) {
+      facetsRanRef.current = true;
       return;
     }
-    setModelsLoading(true);
-    try {
-      const res = await fetch("/api/models", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        // Model counts must describe the badge set when the Bestseller
-        // toggle is on, same as every other facet.
-        body: JSON.stringify({ ...FILTER_BODY_DEFAULTS, Make: forMake, bestsellerSeries: bestseller, minSaving, belowCheapest, dropfilter: sort === "drop_big" ? "1" : "" }),
-      });
-      const data = await res.json();
-      setModels(
-        (data.model || [])
-          .filter((m: { car_model: string }) => m.car_model)
-          .map((m: { car_model: string; total: number }) => ({
-            label: m.car_model,
-            total: m.total,
-          })),
+    const seq = ++facetSeqRef.current;
+    const timer = setTimeout(async () => {
+      const full: Record<string, unknown> = {
+        ...FILTER_BODY_DEFAULTS,
+        Make: make,
+        Model: model,
+        Fuel: fuel,
+        body_style: bodyStyle,
+        transmission_type: transmission,
+        seats,
+        color,
+        minEnginesize,
+        maxEnginesize,
+        minYear,
+        maxYear,
+        minPrice: minPrice || PUBLIC_FLOOR_EUR,
+        maxPrice,
+        minMileage,
+        maxMileage,
+        search: effSearchChips.join(" "),
+        searchChips: effSearchChips,
+        version: effVersionChips.join(" "),
+        versionChips: effVersionChips,
+        bestsellerSeries: bestseller,
+        minSaving,
+        belowCheapest,
+        dropfilter: sort === "drop_big" ? "1" : "",
+      };
+      if (make) setModelsLoading(true);
+      const results = await Promise.all(
+        FACET_NAMES.map(async (name: FacetName): Promise<Option[] | null> => {
+          if (name === "models" && !make) return [];
+          try {
+            const res = await fetch(`/api/facets/${name}`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(facetBody(full, name)),
+            });
+            if (!res.ok) return null;
+            return parseFacet(name, await res.json());
+          } catch {
+            // Leave the last known list showing rather than blank a dropdown.
+            return null;
+          }
+        }),
       );
-    } finally {
+      if (seq !== facetSeqRef.current) return;
+      const [mk, md, fu, bo, tr, se, co, en] = results;
+      if (mk) setMakeOpts(keepSelected(mk, make));
+      if (md) setModels(keepSelected(md, model));
+      if (fu) setFuelOpts(keepSelected(fu, fuel));
+      if (bo) setBodyOpts(keepSelected(bo, bodyStyle));
+      if (tr) setTransOpts(keepSelected(tr, transmission));
+      if (se) setSeatOpts(keepSelected(se, seats));
+      if (co) setColourOpts(keepSelected(co, color));
+      if (en) setEngineOpts(keepSelected(keepSelected(en, minEnginesize), maxEnginesize));
       setModelsLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    if (currentMake) fetchModels(currentMake);
+    }, 400);
+    return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [make, model, fuel, bodyStyle, transmission, seats, color, minEnginesize, maxEnginesize, minYear, maxYear, minPrice, maxPrice, minMileage, maxMileage, searchChips, versionChips, searchDraft, versionDraft, sort, bestseller, minSaving, belowCheapest]);
 
   useEffect(() => {
     // A restore just rebuilt the full scrolled list; this effect's mount run
@@ -612,51 +660,6 @@ export default function FilterBar({
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [make, model, fuel, bodyStyle, transmission, seats, color, minEnginesize, maxEnginesize, minYear, maxYear, minPrice, maxPrice, minMileage, maxMileage, searchChips, versionChips, searchDraft, versionDraft, sort, bestseller, minSaving, belowCheapest]);
-
-  const dropOn = sort === "drop_big" ? "1" : "";
-  useEffect(() => {
-    // Skip the first pass: the props already match the URL state.
-    if (bestseller === currentBestseller && dropOn === (currentSort === "drop_big" ? "1" : "")) return;
-    let cancelled = false;
-    const extra = {
-      ...(bestseller ? { bestsellerSeries: bestseller } : {}),
-      ...(dropOn ? { dropfilter: dropOn } : {}),
-    };
-    const load = async (name: string): Promise<Option[]> => {
-      const res = await fetch(`/api/facets/${name}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...FILTER_BODY_DEFAULTS, ...extra }),
-      });
-      if (!res.ok) return [];
-      const d = await res.json();
-      const key = name === "makes" ? "make"
-        : name === "fuel-types" ? "fuel_type"
-        : name === "body-styles" ? "body_style"
-        : name === "transmission-types" ? "transmission_type"
-        : "seats";
-      return (d?.[key] || [])
-        .filter((row: Record<string, unknown>) => row[key])
-        .map((row: Record<string, unknown>) => ({
-          label: String(row[key]),
-          total: Number(row.total ?? 0),
-        }));
-    };
-    (async () => {
-      const [mk, fu, bo, tr, se] = await Promise.all([
-        load("makes"), load("fuel-types"), load("body-styles"),
-        load("transmission-types"), load("seats"),
-      ]);
-      if (cancelled) return;
-      if (mk.length) setMakeOpts(mk);
-      if (fu.length) setFuelOpts(fu);
-      if (bo.length) setBodyOpts(bo);
-      if (tr.length) setTransOpts(tr);
-      if (se.length) setSeatOpts(se);
-    })();
-    return () => { cancelled = true; };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bestseller, dropOn]);
 
   // Reassigned every render so the IntersectionObserver callback always sees
   // the current filter state without re-registering the observer.
@@ -757,7 +760,8 @@ export default function FilterBar({
   function handleMakeChange(newMake: string) {
     setMake(newMake);
     setModel("");
-    fetchModels(newMake);
+    // The model list refreshes with every other dropdown in the facet effect.
+    if (!newMake) setModels([]);
   }
 
   // Single source of truth for "the URL this filter state means" — used by
@@ -986,33 +990,31 @@ export default function FilterBar({
             ))}
           </select>
 
+          {/* Colour is a live facet (2026-09-05): only the colours the
+              current cars come in, with counts, like every other dropdown. */}
           <select className={styles.select} value={color} onChange={(e) => setColor(e.target.value)} aria-label="Colour">
             <option value="">Any Colour</option>
-            {COLOURS.map((c) => (
-              <option key={c} value={c}>{c}</option>
+            {colourOpts.map((c) => (
+              <option key={c.label} value={c.label}>{c.label} ({c.total})</option>
             ))}
           </select>
 
-          <input
-            type="number"
-            className={styles.select}
-            placeholder="Min Engine (L)"
-            value={minEnginesize}
-            onChange={(e) => setMinEnginesize(e.target.value)}
-            aria-label="Min Engine Size"
-            step="0.1"
-            min="0"
-          />
-          <input
-            type="number"
-            className={styles.select}
-            placeholder="Max Engine (L)"
-            value={maxEnginesize}
-            onChange={(e) => setMaxEnginesize(e.target.value)}
-            aria-label="Max Engine Size"
-            step="0.1"
-            min="0"
-          />
+          {/* Engine size as two selects, not free-typed numbers: a phone
+              keyboard has no stepper (owner, 2026-09-05), and the list only
+              offers sizes the current cars actually have. Min and max may be
+              equal to isolate one size. */}
+          <select className={styles.select} value={minEnginesize} onChange={(e) => setMinEnginesize(e.target.value)} aria-label="Min Engine Size">
+            <option value="">Min Engine (L)</option>
+            {engineOpts.filter((o) => !maxEnginesize || Number(o.label) <= Number(maxEnginesize)).map((o) => (
+              <option key={o.label} value={o.label}>{o.label} L</option>
+            ))}
+          </select>
+          <select className={styles.select} value={maxEnginesize} onChange={(e) => setMaxEnginesize(e.target.value)} aria-label="Max Engine Size">
+            <option value="">Max Engine (L)</option>
+            {engineOpts.filter((o) => !minEnginesize || Number(o.label) >= Number(minEnginesize)).map((o) => (
+              <option key={o.label} value={o.label}>{o.label} L</option>
+            ))}
+          </select>
 
           <select className={styles.select} value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort by">
             {SORT_OPTIONS.map((s) => (

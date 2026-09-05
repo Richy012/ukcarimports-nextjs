@@ -3,6 +3,7 @@
 // browser gets real car data in the initial HTML response instead of an
 // empty <div id="root"> that waits on a full SPA boot before anything paints.
 import { preload } from "react-dom";
+import { facetBody, keepSelected, parseFacet, type FacetName, type FacetOption } from "@/lib/facets";
 import FilterBar from "./FilterBar";
 import { getStockCount } from "@/lib/stockCount";
 import styles from "./page.module.css";
@@ -69,19 +70,22 @@ const FACET_FILTER_BODY = {
   vrtFilter: "Yes",
 };
 
-interface FacetOption {
-  label: string;
-  total: number;
-}
-
-async function postFacet(path: string, extra: Record<string, unknown> = {}) {
-  const res = await fetch(`${API_BASE}/${path}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...FACET_FILTER_BODY, ...extra }),
-    cache: "no-store",
-  });
-  return res.json();
+// Connected filters (2026-09-05): the server render fetches every dropdown
+// against the applied URL state, minus that dropdown's own key, so a deep
+// link lands with the same narrowed lists the client keeps up afterwards.
+async function postFacet(name: FacetName, full: Record<string, unknown>): Promise<FacetOption[]> {
+  try {
+    const res = await fetch(`${API_BASE}/${name}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(facetBody(full, name)),
+      cache: "no-store",
+    });
+    if (!res.ok) return [];
+    return parseFacet(name, await res.json());
+  } catch {
+    return [];
+  }
 }
 
 interface Car {
@@ -288,44 +292,50 @@ export default async function UsedCarsPage({
   const requestedPage = Number(firstParam(params, "page")) || 1;
   const page = Math.max(1, Math.floor(requestedPage));
 
-  // With the Bestseller toggle applied, dropdown counts must describe the
-  // badge set — the owner picked "abarth (198)" off a full-stock count and
-  // got 0 results.
-  const facetExtra = {
+  // Every dropdown describes the cars matching the applied filters (with the
+  // Bestseller toggle that means the badge set — the owner once picked
+  // "abarth (198)" off a full-stock count and got 0 results). Same body the
+  // listing query uses, so counts and tiles sit on one population.
+  const facetFull: Record<string, unknown> = {
+    ...FACET_FILTER_BODY,
+    Make: filters.Make,
+    Model: filters.Model,
+    Fuel: filters.Fuel,
+    body_style: filters.body_style,
+    transmission_type: filters.transmission_type,
+    seats: filters.seats,
+    color: filters.color,
+    minEnginesize: filters.minEnginesize,
+    maxEnginesize: filters.maxEnginesize,
+    minYear: filters.minYear,
+    maxYear: filters.maxYear,
+    minPrice: filters.minPrice || FACET_FILTER_BODY.minPrice,
+    maxPrice: filters.maxPrice,
+    minMileage: filters.minMileage,
+    maxMileage: filters.maxMileage,
+    search: searchChips.join(" "),
+    searchChips,
+    version: versionChips.join(" "),
+    versionChips,
     bestsellerSeries: filters.bestseller,
     minSaving: filters.min_saving,
     belowCheapest: filters.below_cheapest,
+    dropfilter: filters.drop_sort,
   };
-  const [{ data }, makesData, fuelsData, bodyStylesData, transmissionsData, seatsData] =
+  const [{ data }, makes, models, fuels, bodyStyles, transmissions, seatsOptions, colours, engines] =
     await Promise.all([
       getCars(filters, searchChips, versionChips, page),
-      postFacet("makes", facetExtra),
-      postFacet("fuel-types", facetExtra),
-      postFacet("body-styles", facetExtra),
-      postFacet("transmission-types", facetExtra),
-      postFacet("seats", facetExtra),
+      postFacet("makes", facetFull),
+      filters.Make ? postFacet("models", facetFull) : Promise.resolve([] as FacetOption[]),
+      postFacet("fuel-types", facetFull),
+      postFacet("body-styles", facetFull),
+      postFacet("transmission-types", facetFull),
+      postFacet("seats", facetFull),
+      postFacet("colors", facetFull),
+      postFacet("engine-types", facetFull),
     ]);
   const totalPages = Math.max(1, Math.ceil(data.count / PAGE_SIZE));
   const currentPage = Math.min(page, totalPages);
-
-  const makes: FacetOption[] = (makesData.make || [])
-    .filter((m: { make: string }) => m.make)
-    .map((m: { make: string; total: number }) => ({ label: m.make, total: m.total }));
-  const fuels: FacetOption[] = (fuelsData.fuel_type || [])
-    .filter((f: { fuel_type: string }) => f.fuel_type)
-    .map((f: { fuel_type: string; total: number }) => ({ label: f.fuel_type, total: f.total }));
-  const bodyStyles: FacetOption[] = (bodyStylesData.body_style || [])
-    .filter((b: { body_style: string }) => b.body_style)
-    .map((b: { body_style: string; total: number }) => ({ label: b.body_style, total: b.total }));
-  const transmissions: FacetOption[] = (transmissionsData.transmission || [])
-    .filter((t: { car_transmission: string }) => t.car_transmission)
-    .map((t: { car_transmission: string; total: number }) => ({
-      label: t.car_transmission,
-      total: t.total,
-    }));
-  const seatsOptions: FacetOption[] = (seatsData.seats || [])
-    .filter((s: { seats: string }) => s.seats)
-    .map((s: { seats: string; total: number }) => ({ label: s.seats, total: s.total }));
 
   const prevHref = currentPage > 1 ? pageHref(filters, searchChips, versionChips, currentPage - 1) : null;
   const nextHref = currentPage < totalPages ? pageHref(filters, searchChips, versionChips, currentPage + 1) : null;
@@ -389,11 +399,14 @@ export default async function UsedCarsPage({
       />
       <FilterBar
         key={stateKey}
-        initialMakes={makes}
-        initialFuels={fuels}
-        initialBodyStyles={bodyStyles}
-        initialTransmissions={transmissions}
-        initialSeats={seatsOptions}
+        initialMakes={keepSelected(makes, filters.Make)}
+        initialModels={keepSelected(models, filters.Model)}
+        initialFuels={keepSelected(fuels, filters.Fuel)}
+        initialBodyStyles={keepSelected(bodyStyles, filters.body_style)}
+        initialTransmissions={keepSelected(transmissions, filters.transmission_type)}
+        initialSeats={keepSelected(seatsOptions, filters.seats)}
+        initialColours={keepSelected(colours, filters.color)}
+        initialEngines={keepSelected(keepSelected(engines, filters.minEnginesize), filters.maxEnginesize)}
         currentMake={filters.Make}
         currentModel={filters.Model}
         currentFuel={filters.Fuel}

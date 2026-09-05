@@ -47,6 +47,29 @@ for (const c of CASES) {
   });
 }
 
+// The colour facet is what the connected Colour dropdown is built from
+// (2026-09-05): under a make it must return only that make's colours, every
+// row with a count, one row per colour whatever case the advert used, and
+// none of the free-text junk ("38,769 miles") that sits in color_name.
+test("colour facet narrows to the make and carries no junk", async ({ request }) => {
+  const FACETS = "https://api.ukcarimports.ie/public/colors";
+  const all = await request.post(FACETS, { data: { ...BASE, minPrice: "1" } });
+  expect(all.ok()).toBeTruthy();
+  const allRows: { color: string; total: number }[] = (await all.json())?.exterior_color ?? [];
+  const some = await request.post(FACETS, { data: { ...BASE, minPrice: "1", Make: "tesla" } });
+  expect(some.ok()).toBeTruthy();
+  const someRows: { color: string; total: number }[] = (await some.json())?.exterior_color ?? [];
+  expect(allRows.length).toBeGreaterThan(5);
+  expect(someRows.length).toBeGreaterThan(0);
+  expect(someRows.length).toBeLessThan(allRows.length);
+  for (const r of someRows) {
+    expect(String(r.color)).not.toMatch(/\d/);
+    expect(Number(r.total)).toBeGreaterThan(0);
+  }
+  const lower = someRows.map((r) => String(r.color).toLowerCase());
+  expect(new Set(lower).size).toBe(lower.length);
+});
+
 // Two filters together must narrow, never widen.
 test("filters combine (make + fuel)", async ({ request }) => {
   const cars = await fetchCars(request, { Make: "bmw", Fuel: "Diesel" });

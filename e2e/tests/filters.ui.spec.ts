@@ -77,6 +77,53 @@ test("fuel composes with make and Apply produces a shareable URL", async ({ page
   expect(page.url()).toMatch(/Fuel=electric/i);
 });
 
+// Connected dropdowns (owner, 2026-09-05): once a make is picked, colour,
+// body type and engine size offer only what that make's cars actually have.
+// Tesla is the probe: no estates or convertibles, and no engine sizes at all.
+test("picking a make narrows colour, body and engine to what that make has", async ({ page }) => {
+  test.slow();
+  await page.goto("/used-cars");
+  await expect(page.locator('a[href^="/car/"]').first()).toBeVisible();
+
+  const optionCount = (label: string) =>
+    page.getByLabel(label).evaluate((el) => (el as HTMLSelectElement).options.length - 1);
+  const before = {
+    colour: await optionCount("Colour"),
+    body: await optionCount("Body Type"),
+    engine: await optionCount("Min Engine Size"),
+  };
+  expect(before.colour).toBeGreaterThan(5);
+  expect(before.body).toBeGreaterThan(5);
+  expect(before.engine).toBeGreaterThan(5);
+
+  const makeSelect = page.getByLabel("Make");
+  const tesla = await makeSelect.evaluate((el) => {
+    const o = [...(el as HTMLSelectElement).options].find((x) => /^tesla \(/.test(x.textContent || ""));
+    return o ? o.value : "";
+  });
+  expect(tesla, "a tesla option exists in the make dropdown").toBeTruthy();
+  await makeSelect.selectOption(tesla);
+  await page.waitForTimeout(3000);
+
+  const after = {
+    colour: await optionCount("Colour"),
+    body: await optionCount("Body Type"),
+    engine: await optionCount("Min Engine Size"),
+  };
+  expect(after.body).toBeLessThan(before.body);
+  expect(after.engine).toBeLessThan(before.engine);
+  expect(after.colour).toBeLessThanOrEqual(before.colour);
+
+  // Every colour still on offer carries a real count for this make.
+  const colourTexts = await page.getByLabel("Colour").evaluate((el) =>
+    [...(el as HTMLSelectElement).options].slice(1).map((o) => o.textContent || ""),
+  );
+  for (const t of colourTexts) {
+    const n = Number((t.match(/\((\d+)\)/) || [])[1]);
+    expect(n, `colour option "${t}" has a count`).toBeGreaterThan(0);
+  }
+});
+
 test("the bestseller view delivers only badged cars", async ({ page }) => {
   await page.goto("/used-cars?bestseller=1");
   await expect(page.locator('a[href^="/car/"]').first()).toBeVisible();
