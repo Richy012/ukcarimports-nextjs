@@ -67,7 +67,7 @@ export default async function SellMyCarPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <nav style={S.crumb} aria-label="Breadcrumb"><Link href="/">Home</Link> <span>/</span> <span>Sell my car</span></nav>
 
-      <h1 style={S.h1}>Sell your car in Ireland &mdash; know what it is worth in ten seconds</h1>
+      <h1 style={S.h1}>Sell your car</h1>
       <p style={S.intro}>
         Type the reg and the mileage and we show you two ranges for your car, measured from real Irish
         sales: what you would get <b>trading it in against a UK import</b>, and what you could
