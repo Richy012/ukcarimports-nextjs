@@ -20,6 +20,10 @@ export const metadata: Metadata = {
   title: "Above Board Cars — sell your car privately for the bigger number, with a garage's protection behind you",
   description:
     "Keep your car, set your price and sell it privately for more than any trade will pay. Above Board Cars gives your buyer an independent inspection, a 12-month warranty and protected payment through Stripe.",
+  alternates: { canonical: "https://ukcarimports.ie/trade-ins/above-board-cars" },
+  openGraph: { type: "website", url: "https://ukcarimports.ie/trade-ins/above-board-cars", siteName: "UK Car Imports", locale: "en_IE", title: "Above Board Cars — sell your car privately for the bigger number, with a garage's protection behind you", description: "Keep your car, set your price and sell it privately for more than any trade will pay, with an inspection, a 12-month warranty and protected payment behind the sale.",
+    images: [{ url: "https://ukcarimports.ie/assets/images/hero-rot-nocosts.jpg", width: 1672, height: 941, alt: "UK Car Imports" }] },
+  twitter: { card: "summary_large_image", title: "Above Board Cars — sell your car privately for the bigger number, with a garage's protection behind you", description: "Keep your car, set your price and sell it privately for more than any trade will pay, with an inspection, a 12-month warranty and protected payment behind the sale.", images: ["https://ukcarimports.ie/assets/images/hero-rot-nocosts.jpg"] },
 };
 
 const eur = (n: number) => "€" + n.toLocaleString("en-IE");

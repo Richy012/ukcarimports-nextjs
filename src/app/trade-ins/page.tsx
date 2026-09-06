@@ -809,6 +809,27 @@ function TradeInsFlow() {
 
   return (
     <main className={L.page} style={S.page}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@graph": [
+          { "@type": "BreadcrumbList", itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: "https://ukcarimports.ie/" },
+            { "@type": "ListItem", position: 2, name: "Sell your car", item: "https://ukcarimports.ie/sell-my-car" },
+            { "@type": "ListItem", position: 3, name: "Trade in your car", item: "https://ukcarimports.ie/trade-ins" },
+          ] },
+          { "@type": "Service", name: "Car trade-in and private sale valuation, Ireland", serviceType: "Car trade-in",
+            provider: { "@type": "Organization", name: "UK Car Imports", url: "https://ukcarimports.ie", telephone: "+353-1-556-8261" },
+            areaServed: { "@type": "Country", name: "Ireland" }, url: "https://ukcarimports.ie/trade-ins",
+            description: "Reg and mileage in, two measured ranges out: the trade-in value against a UK import and the private-sale value with Above Board Cars protection. Measured from real Irish sales.",
+            offers: { "@type": "Offer", price: "0", priceCurrency: "EUR", description: "Free valuation range, no sign-up, no obligation." } },
+          { "@type": "FAQPage", mainEntity: [
+            { "@type": "Question", name: "How do you work out what my car is worth?", acceptedAnswer: { "@type": "Answer", text: "From real Irish sales. The trade-in range is measured on over 2,000 Irish trade auction sales of the same make, model, year and mileage; the private range on what comparable private ads were priced at when they actually sold. Both are ranges, because no two cars sell for the same money." } },
+            { "@type": "Question", name: "Is the range an offer?", acceptedAnswer: { "@type": "Answer", text: "No. It is what you see before you give us anything but the reg and the mileage. A person confirms a firm figure once we have your photos and condition answers, usually the same working day, and nothing is committed until you accept it." } },
+            { "@type": "Question", name: "Can I trade my car in against a UK import?", acceptedAnswer: { "@type": "Answer", text: "Yes. The agreed figure is credited off the all-in price of your import on delivery day, and you keep driving your car until then." } },
+            { "@type": "Question", name: "What is Above Board Cars?", acceptedAnswer: { "@type": "Answer", text: "Sell your car privately for the bigger number with a garage's protection behind the sale: an independent inspection if the buyer wants one, a 12-month warranty, and the buyer's money held in Stripe's escrow-like transfer account until handover. Your car is advertised on ukcarimports.ie and buyers deal with us, not you." } },
+          ] },
+        ],
+      }) }} />
       <DraftBanner style={S.banner}>WORKING DRAFT — nothing here is agreed. Ideas only, example figures.</DraftBanner>
       <h1 style={S.h1}>Trade in your car</h1>
       <p style={S.lede}>

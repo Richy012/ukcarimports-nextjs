@@ -19,6 +19,10 @@ export const metadata: Metadata = {
   title: "Above Board Cars — Taking the Pirate out of Private car sales",
   description:
     "Above Board Cars puts an escrow-like payment facility, an independent mechanical inspection and an industry-standard warranty behind a private car sale.",
+  alternates: { canonical: "https://ukcarimports.ie/above-board-cars" },
+  openGraph: { type: "website", url: "https://ukcarimports.ie/above-board-cars", siteName: "UK Car Imports", locale: "en_IE", title: "Above Board Cars — Taking the Pirate out of Private car sales", description: "An independent inspection, a 12-month warranty and a Stripe-provided escrow-like transfer account behind a private car sale in Ireland.",
+    images: [{ url: "https://ukcarimports.ie/assets/images/hero-rot-nocosts.jpg", width: 1672, height: 941, alt: "UK Car Imports" }] },
+  twitter: { card: "summary_large_image", title: "Above Board Cars — Taking the Pirate out of Private car sales", description: "An independent inspection, a 12-month warranty and a Stripe-provided escrow-like transfer account behind a private car sale in Ireland.", images: ["https://ukcarimports.ie/assets/images/hero-rot-nocosts.jpg"] },
 };
 
 const STEPS: { n: string; head: string; body: string }[] = [
@@ -47,6 +51,20 @@ const STEPS: { n: string; head: string; body: string }[] = [
 export default function PrivateProofPage() {
   return (
     <main style={S.page}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@graph": [
+          { "@type": "BreadcrumbList", itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: "https://ukcarimports.ie/" },
+            { "@type": "ListItem", position: 2, name: "Above Board Cars", item: "https://ukcarimports.ie/above-board-cars" },
+          ] },
+          { "@type": "FAQPage", mainEntity: [
+            { "@type": "Question", name: "What if I pay and the car isn't what they said?", acceptedAnswer: { "@type": "Answer", text: "Your money sits in the escrow-like facility until the handover is done properly. It is not the seller's money until then." } },
+            { "@type": "Question", name: "What if something goes wrong next month?", acceptedAnswer: { "@type": "Answer", text: "The car carries an industry-standard 12-month warranty — the cover a private sale normally has none of." } },
+            { "@type": "Question", name: "How do I know the seller owns it?", acceptedAnswer: { "@type": "Answer", text: "Before a car goes through Above Board Cars we check the registration certificate against the seller's own identity documents. A car whose paperwork does not line up does not go through." } },
+          ] },
+        ],
+      }) }} />
       <DraftBanner style={S.banner}>WORKING DRAFT — staging. Nothing here is agreed.</DraftBanner>
 
       <div style={S.brand}>Above Board Cars</div>

@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   description:
     "Irish-registered cars sold by their owners with an independent inspection, a warranty and protected payment behind every sale. No dealer margin, no risk of a private sale.",
   alternates: { canonical: "https://ukcarimports.ie/irish-cars" },
+  openGraph: { type: "website", url: "https://ukcarimports.ie/irish-cars", siteName: "UK Car Imports", locale: "en_IE", title: "Irish Registered Cars for Sale — Sold Privately, Protected by Above Board Cars", description: "Irish-registered cars sold by their owners with an independent inspection, a 12-month warranty and protected payment behind every sale.",
+    images: [{ url: "https://ukcarimports.ie/assets/images/hero-rot-nocosts.jpg", width: 1672, height: 941, alt: "UK Car Imports" }] },
+  twitter: { card: "summary_large_image", title: "Irish Registered Cars for Sale — Sold Privately, Protected by Above Board Cars", description: "Irish-registered cars sold by their owners with an independent inspection, a 12-month warranty and protected payment behind every sale.", images: ["https://ukcarimports.ie/assets/images/hero-rot-nocosts.jpg"] },
 };
 
 const eur = (n: number) => "€" + Math.round(n).toLocaleString("en-IE");

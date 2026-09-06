@@ -25,6 +25,9 @@ export const metadata: Metadata = {
     "Find out what your car is worth in Ireland in ten seconds — measured from real Irish sales, not a guess. Trade it in against a UK import, or sell it privately with an inspection, a warranty and protected payment behind you.",
   alternates: { canonical: "https://ukcarimports.ie/sell-my-car" },
   keywords: ["sell my car Ireland", "trade in my car Ireland", "trade in value Ireland", "car valuation Ireland", "sell car privately Ireland", "what is my car worth"],
+  openGraph: { type: "website", url: "https://ukcarimports.ie/sell-my-car", siteName: "UK Car Imports", locale: "en_IE", title: "Sell My Car Ireland — Trade-In Value in 10 Seconds, or Sell Privately, Protected", description: "Find out what your car is worth in Ireland in ten seconds — measured from real Irish sales. Trade it in against a UK import, or sell it privately with Above Board Cars protection.",
+    images: [{ url: "https://ukcarimports.ie/assets/images/hero-rot-nocosts.jpg", width: 1672, height: 941, alt: "UK Car Imports" }] },
+  twitter: { card: "summary_large_image", title: "Sell My Car Ireland — Trade-In Value in 10 Seconds, or Sell Privately, Protected", description: "Find out what your car is worth in Ireland in ten seconds — measured from real Irish sales. Trade it in against a UK import, or sell it privately with Above Board Cars protection.", images: ["https://ukcarimports.ie/assets/images/hero-rot-nocosts.jpg"] },
 };
 
 const FAQ = [
