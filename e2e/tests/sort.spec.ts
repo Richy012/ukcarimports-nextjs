@@ -14,7 +14,8 @@ async function cardPrices(page: import("@playwright/test").Page) {
   // their own euro figure ("EUR 2,827 less than in Ireland") and a card-wide
   // regex picks that up instead of the price, which looks exactly like a
   // sorting bug. Class names are hashed, so match the stable prefix.
-  const priceEls = page.locator('a[href^="/car/"] div[class*="cardPrice"]');
+  // 2026-09-06: the price element is a SIBLING of the overlay link inside the card, not a child.
+  const priceEls = page.locator('div[class*="cardPrice"]');
   return pricesFrom(await priceEls.allInnerTexts());
 }
 

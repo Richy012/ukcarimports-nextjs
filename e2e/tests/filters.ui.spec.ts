@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 
-// UI-level filter truth (2026-08-05). The API-level specs prove filters
+// UI-level filter truth (2026-08-05). 2026-09-06: tile text is read from the card <div>
+// (the anchor is an overlay holding only the screen-reader title since the 3-5 Sep card change). The API-level specs prove filters
 // compose in the backend; these drive the actual dropdowns like a visitor
 // and demand the tiles delivered match what the controls promised. This is
 // the layer where past lies lived: "abarth (198)" delivering 0 cars, facet
@@ -24,7 +25,7 @@ test("picking a make delivers only that make, and the count told the truth", asy
 
   // Every delivered tile is an Audi.
   const titles = await page.locator('a[href^="/car/"]').evaluateAll((els) =>
-    els.slice(0, 20).map((el) => (el.textContent || "").toLowerCase()),
+    els.slice(0, 20).map((el) => ((el.parentElement || el).textContent || "").toLowerCase()),
   );
   expect(titles.length).toBeGreaterThan(0);
   for (const t of titles) {
@@ -64,7 +65,7 @@ test("fuel composes with make and Apply produces a shareable URL", async ({ page
   await page.waitForTimeout(2500);
 
   const chips = await page.locator('a[href^="/car/"]').evaluateAll((els) =>
-    els.slice(0, 12).map((el) => (el.textContent || "").toLowerCase()),
+    els.slice(0, 12).map((el) => ((el.parentElement || el).textContent || "").toLowerCase()),
   );
   expect(chips.length).toBeGreaterThan(0);
   for (const t of chips) {
@@ -128,7 +129,7 @@ test("the bestseller view delivers only badged cars", async ({ page }) => {
   await page.goto("/used-cars?bestseller=1");
   await expect(page.locator('a[href^="/car/"]').first()).toBeVisible();
   const tiles = await page.locator('a[href^="/car/"]').evaluateAll((els) =>
-    els.slice(0, 20).map((el) => (el.textContent || "").toUpperCase()),
+    els.slice(0, 20).map((el) => ((el.parentElement || el).textContent || "").toUpperCase()),
   );
   expect(tiles.length).toBeGreaterThan(0);
   for (const t of tiles) {
