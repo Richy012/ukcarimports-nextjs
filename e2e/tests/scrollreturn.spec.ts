@@ -11,12 +11,22 @@ test("deep-scroll return lands on the clicked car and holds still", async ({ pag
   await page.goto("/used-cars?Make=bmw");
   await expect(page.locator('a[href^="/car/"]').first()).toBeVisible();
 
-  // Pull in several batches of tiles.
-  for (let i = 0; i < 6; i++) {
+  // Pull in batches until there are enough tiles to click deep, then STOP scrolling and wait
+  // for the list to settle. 2026-09-06: since the 3-5 Sep card/ladder change a batch is far
+  // bigger (six bottom-scrolls loaded 650 tiles) and the grid keeps appending for seconds, so
+  // the deep tile never counted as "stable" and click() waited out the whole test timeout.
+  const tiles = page.locator('a[href^="/car/"]');
+  for (let i = 0; i < 8 && (await tiles.count()) < 75; i++) {
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     await page.waitForTimeout(900);
   }
-  const tileCount = await page.locator('a[href^="/car/"]').count();
+  let tileCount = await tiles.count();
+  for (let i = 0; i < 10; i++) {
+    await page.waitForTimeout(700);
+    const again = await tiles.count();
+    if (again === tileCount) break;
+    tileCount = again;
+  }
   expect(tileCount).toBeGreaterThanOrEqual(75);
 
   // Click a deep tile positioned deliberately off-centre.
@@ -27,6 +37,7 @@ test("deep-scroll return lands on the clicked car and holds still", async ({ pag
   const href = await target.getAttribute("href");
   const topAtClick = await target.evaluate((el) => Math.round(el.getBoundingClientRect().top));
   await target.click();
+  await page.waitForURL(new RegExp(href!.replace(/[/]/g, "\\/")), { timeout: 30000 });
   await expect(page).toHaveURL(new RegExp(href!.replace(/[/]/g, "\\/")));
   await page.waitForTimeout(1500);
 
