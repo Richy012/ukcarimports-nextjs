@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
           `You collect and inspect the car at the seller's address; payment before the car moves; the ownership transfer is yours to file.`,
           `If something on the checklist wasn't disclosed, propose a revised figure through your deal page — most description issues end in an agreed price, not a cancellation. If the description was accurate, the figure doesn't change at the door.`,
           ``,
-          `Every trade-in's reg is tracked on Carzone weekly, so we see where cars end up.`,
+          `Every trade-in's reg is tracked weekly, so we see where cars end up.`,
           `Every bid is indicative and subject to physical inspection of the car.`,
         ),
       });

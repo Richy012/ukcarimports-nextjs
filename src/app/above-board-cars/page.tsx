@@ -3,7 +3,7 @@ import DraftBanner from "@/app/components/DraftBanner";
  * /above-board-cars — STAGING.
  *
  * THE AUDIENCE HERE IS THE BUYER, NOT THE SELLER. This is the page a private
- * seller sends to anyone who rings about their DoneDeal or Carzone advert
+ * seller sends to anyone who rings about their DoneDeal advert
  * (owner's spec, 31 Aug: "share a link with anyone who contacts them to our
  * site to get the details of how it works"). So it answers a stranger's
  * question — "why is it safe to send money to someone I have never met?" —
@@ -54,7 +54,7 @@ export default function PrivateProofPage() {
 
       <div style={S.adStrip}>
         <div style={S.adStripHead}>
-          Tell all your potential buyers on DoneDeal or Carzone about the garage-like protection
+          Tell all your potential buyers on DoneDeal about the garage-like protection
           Above Board Cars offers &mdash; put this line in your ad:
         </div>
         <CopyLine />

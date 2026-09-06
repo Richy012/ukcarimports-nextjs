@@ -144,7 +144,7 @@ export async function POST(req: NextRequest) {
           `Account: ${detail}`,
           bid ? `Accepted figure was ${eur(bid.allowanceEur)}.` : false,
           misdescription
-            ? `Buyer has 48h to accept or contest. Evidence standard: fault shown WITH the car identifiable, judged against the buyer's own pack. Uncontested + evidenced = refund the dealer next day (buyer's ${eur(db.config.buyerGuaranteeEur)} passes through + ${eur(db.config.dealerCreditEur)} credit). Contested or thin = slow path; reg watched on Carzone/DoneDeal until ${cancellation.vrmWatchUntil?.slice(0, 10)}.`
+            ? `Buyer has 48h to accept or contest. Evidence standard: fault shown WITH the car identifiable, judged against the buyer's own pack. Uncontested + evidenced = refund the dealer next day (buyer's ${eur(db.config.buyerGuaranteeEur)} passes through + ${eur(db.config.dealerCreditEur)} credit). Contested or thin = slow path; reg watched on our Irish price data/DoneDeal until ${cancellation.vrmWatchUntil?.slice(0, 10)}.`
             : `No guarantee claim. Relist from the console when ready.`,
         ),
       },

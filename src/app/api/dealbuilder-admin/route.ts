@@ -747,7 +747,7 @@ export async function POST(req: NextRequest) {
             subject: `Claim on ${label} closed: ${resolution}`,
             body: lines(
               `No penalty, no credit. Refund the dealer per launch policy and relist the corrected pack when the seller is ready.`,
-              claim.vrmWatchUntil ? `The reg stays on the Carzone/DoneDeal watch until ${claim.vrmWatchUntil.slice(0, 10)}.` : false,
+              claim.vrmWatchUntil ? `The reg stays on our watch until ${claim.vrmWatchUntil.slice(0, 10)}.` : false,
             ),
           });
         }

@@ -30,14 +30,14 @@ const YOU_GET = [
   ["Their money is protected", "The buyer pays into Stripe’s escrow-like transfer account and it is released to you at handover. They know their money is safe; you know the money is real — and a buyer who has paid in is not a messer."],
   ["An independent inspection, if they want one", "A buyer can have the car independently inspected through us, or bring their own mechanic. Either way, the car speaks for itself."],
   ["A 12-month warranty on the car", "A private buyer has no comeback on a private seller — the warranty is what gives them one. Garage-level cover, on your private sale."],
-  ["Advertised where people are already looking", "Your car goes on ukcarimports.ie, and you list it on DoneDeal or Carzone too with our line in the ad."],
+  ["Advertised where people are already looking", "Your car goes on ukcarimports.ie, and you list it on DoneDeal too with our line in the ad."],
 ];
 
 const STEPS = [
   ["Reg and mileage", "Ten seconds. We show you what comparable cars actually sold for privately, and what a trade would pay, side by side."],
   ["Photos and the condition questions", "About five minutes on your phone. Save and finish later if you have not got everything to hand."],
   ["We check the paperwork and your car goes live", "Registration certificate and ID checked, then your car is advertised on ukcarimports.ie at the price you set."],
-  ["Put our line in your own ad", "Copy the line below into your DoneDeal or Carzone advert. It tells every buyer the sale is protected."],
+  ["Put our line in your own ad", "Copy the line below into your DoneDeal advert. It tells every buyer the sale is protected."],
   ["We handle the buyer", "Enquiries come through us. We arrange the independent inspection if the buyer wants one, put the warranty on the car and hold the buyer’s payment in the protected account."],
   ["Handover, and the money is released to you", "You hand over the car and the keys; the payment is released the same day."],
 ];
@@ -102,7 +102,7 @@ export default function AboveBoardCarsCustomerPage() {
         </ul>
       </div>
 
-      <h2 style={S.h2}>Tell all your potential buyers on DoneDeal or Carzone about the garage-like protection Above Board Cars offers</h2>
+      <h2 style={S.h2}>Tell all your potential buyers on DoneDeal about the garage-like protection Above Board Cars offers</h2>
       <p style={S.body}>Put this line in your ad. Every buyer who reads it knows the sale is protected, and the link explains it to them.</p>
       <CopyLine />
       <p style={{ ...S.body, fontSize: 13, color: "#64748b" }}>

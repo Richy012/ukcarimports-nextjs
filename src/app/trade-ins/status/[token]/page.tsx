@@ -463,7 +463,7 @@ export default function DealStatusPage() {
 }
 
 /**
- * The line the owner wants sellers to paste into their own DoneDeal / Carzone
+ * The line the owner wants sellers to paste into their own DoneDeal
  * advert, 31 Aug, close to verbatim. It is what makes a private ad read as safe
  * to a stranger, so it is handed over ready to copy rather than described.
  * Keep this identical to AD_LINE in trade-ins/page.tsx.
@@ -584,11 +584,11 @@ function PrivateProofNext({ deal, carName }: { deal: BuyerDeal; carName: string 
 
       <div style={S.card}>
         <div style={S.cardPad}>
-          <div style={S.lab}>1 — List it on DoneDeal or Carzone</div>
+          <div style={S.lab}>1 — List it on DoneDeal</div>
           <div style={S.mid}>
             {deal.ranges?.private
               ? `List it anywhere between ${money(deal.ranges.private.lowEur)} and ${money(deal.ranges.private.highEur)} — your call`
-              : "Put the car on DoneDeal or Carzone"}
+              : "Put the car on DoneDeal"}
           </div>
           <p style={S.sm}>
             That is where Irish private buyers look, and you reach far more of them than any one
@@ -596,7 +596,6 @@ function PrivateProofNext({ deal, carName }: { deal: BuyerDeal; carName: string 
           </p>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 10 }}>
             <a href="https://www.donedeal.ie/" target="_blank" rel="noopener noreferrer" style={S.copyBtn}>Open DoneDeal ↗</a>
-            <a href="https://www.carzone.ie/" target="_blank" rel="noopener noreferrer" style={S.copyBtn}>Open Carzone ↗</a>
           </div>
         </div>
       </div>

@@ -170,7 +170,7 @@ export default async function CountyPage({
       </p>
       <p style={{ fontSize: 13.5, color: "#777", maxWidth: 720, lineHeight: 1.6 }}>
         UK Car Imports — 13 years importing UK cars for Irish buyers. Savings are measured against
-        Carzone asking prices for the same make, model and year (10+ Irish listings), refreshed
+        Irish asking prices for the same make, model and year (10+ Irish listings), refreshed
         continuously; Irish figures are asking prices, ours are final.
       </p>
     </main>

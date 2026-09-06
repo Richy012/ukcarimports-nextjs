@@ -35,7 +35,7 @@ const FAQ = [
   { q: "Can I trade in my car if I'm buying a UK import from you?",
     a: "Yes — that is what the trade-in route is for. Your car's value is credited against the all-in price of the import, on delivery day, and you keep driving it until then. One handover, one appointment." },
   { q: "What is Above Board Cars?",
-    a: "Selling privately gets you more money but carries the risk of a private sale — strangers, payment, comebacks. Above Board Cars puts an independent mechanical inspection, an industry-standard warranty and a protected, escrow-style payment behind your private sale, and advertises your car on ukcarimports.ie as well as letting you list it on DoneDeal or Carzone. Buyers deal with us, not you." },
+    a: "Selling privately gets you more money but carries the risk of a private sale — strangers, payment, comebacks. Above Board Cars puts an independent mechanical inspection, an industry-standard warranty and a protected, escrow-style payment behind your private sale, and advertises your car on ukcarimports.ie as well as letting you list it on DoneDeal. Buyers deal with us, not you." },
   { q: "Do I need to sign up?",
     a: "No sign-up, no obligation and nothing to pay to see the range. If you have not got everything to hand, we can email you a link to finish later on any device." },
   { q: "What do you need from me?",
@@ -79,7 +79,7 @@ export default async function SellMyCarPage() {
         <div style={S.card}><Camera size={22} style={S.ico} /><b>Photos do the negotiating</b><p style={S.p}>Guided photos and a short condition record travel with the car. What a buyer has already seen, he cannot use to cut the price on the day.</p></div>
         <div style={S.card}><Handshake size={22} style={S.ico} /><b>Trade it in against an import</b><p style={S.p}>Certain today, credited off your import on delivery day. You keep driving your car until then.</p></div>
         <div style={S.card}><ShieldCheck size={22} style={S.ico} /><b>Or sell privately, protected</b><p style={S.p}>More money, and Above Board Cars behind it: independent inspection, industry-standard warranty, protected payment. Buyers deal with us, not you. <Link href="/trade-ins/above-board-cars" style={S.more}>How Above Board Cars works &rarr;</Link></p></div>
-        <div style={S.card}><CarFront size={22} style={S.ico} /><b>Your car, advertised here</b><p style={S.p}>Your car is listed on ukcarimports.ie under Above Board Cars{n > 0 ? ` alongside ${n} other Irish-registered car${n === 1 ? "" : "s"}` : ""}, and you can list it on DoneDeal or Carzone too.</p></div>
+        <div style={S.card}><CarFront size={22} style={S.ico} /><b>Your car, advertised here</b><p style={S.p}>Your car is listed on ukcarimports.ie under Above Board Cars{n > 0 ? ` alongside ${n} other Irish-registered car${n === 1 ? "" : "s"}` : ""}, and you can list it on DoneDeal too.</p></div>
       </div>
 
       <h2 style={S.h2}>How it works</h2>

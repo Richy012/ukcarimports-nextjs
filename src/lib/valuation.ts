@@ -143,9 +143,9 @@ function velocityTier(
 }
 
 const TIER_NOTE: Record<Tier, string> = {
-  fast: " Fast-selling segment in Ireland — trade bids typically run near the top of the band.",
+  fast: " Fast-selling segment in Ireland — trade offers typically run near the top of the band.",
   ordinary: "",
-  slow: " Slower-selling segment — trade bids run nearer the bottom of the band.",
+  slow: " Slower-selling segment — trade offers run nearer the bottom of the band.",
 };
 
 export async function valueTradeIn(

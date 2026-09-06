@@ -7,7 +7,7 @@
  * prices, 6 Sep.
  */
 
-/** The one line a seller puts in their DoneDeal / Carzone advert. */
+/** The one line a seller puts in their DoneDeal advert. */
 export const AD_LINE =
   "This private sale is supported by the Above Board Cars platform, offering a Stripe-provided escrow-like transfer account, a mechanical inspection and a 12-month warranty.";
 

@@ -151,7 +151,7 @@ export default async function BestsellerIndexPage() {
       <section className={styles.method}>
         <h2>How we work this out</h2>
         <p>
-          Each week we record every Carzone listing for the makes, models and years we stock. For
+          Each week we record every Irish listing for the makes, models and years we stock. For
           any model-year with 10 or more Irish listings we take the <strong>median</strong> asking
           price — the middle price, which ignores freak highs and lows. We compare it with our{" "}
           <strong>all-in delivered price</strong>: the car, VAT, customs, VRT, transport and our

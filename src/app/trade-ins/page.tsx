@@ -245,7 +245,7 @@ const ROUTES: {
       "Their money is protected. The buyer pays into Stripe\u2019s escrow-like transfer account and it is released to you at handover \u2014 and a buyer who has paid in is not a messer.",
       "An independent inspection if they want one, or they bring their own mechanic. The car speaks for itself.",
       "A 12-month warranty on the car. A private buyer has no comeback on a private seller \u2014 the warranty is what gives them one.",
-      "Advertised on ukcarimports.ie to people already looking, and you list it on DoneDeal or Carzone too with our line in the ad.",
+      "Advertised on ukcarimports.ie to people already looking, and you list it on DoneDeal too with our line in the ad.",
     ],
     fees: [
       "Payment protection through Stripe\u2019s escrow-like transfer account: \u20ac195 per sale.",
@@ -257,7 +257,7 @@ const ROUTES: {
 ];
 
 /**
- * The suggested line for the seller's own DoneDeal / Carzone advert - the owner's
+ * The suggested line for the seller's own DoneDeal advert - the owner's
  * wording, 31 Aug, kept close to verbatim. It is what makes a private ad read as
  * safe to a stranger, so it is offered ready to copy rather than described.
  */
@@ -894,7 +894,7 @@ function TradeInsFlow() {
                   </div>
                   <div style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-0.02em", margin: "2px 0" }}>{eur(pricing.retailEur)}</div>
                   <div style={{ fontSize: 12.5, color: "#475569", lineHeight: 1.5 }}>
-                    The middle asking price of {pricing.comparables} {car?.year ? `${car.year} ` : ""}{car ? `${car.make} ${car.model}` : "matching"} adverts on Carzone right now{trim ? `, ${trim} spec` : ""}. Both ranges below are shares of this figure.
+                    The middle asking price of {pricing.comparables} {car?.year ? `${car.year} ` : ""}{car ? `${car.make} ${car.model}` : "matching"} Irish adverts right now{trim ? `, ${trim} spec` : ""}. Both ranges below are shares of this figure.
                   </div>
                 </div>
               )}
@@ -957,17 +957,7 @@ function TradeInsFlow() {
                               to go, not a faulty one, and it must not be labelled
                               as if it were. */}
                           <div style={{ display: "flex", justifyContent: "space-between", gap: 8, fontSize: 11.5, color: "#64748b", marginTop: 4 }}>
-                            {r.id === "tradein" ? (
-                              <>
-                                <span>no history, mechanical faults</span>
-                                <span>perfect car</span>
-                              </>
-                            ) : (
-                              <>
-                                <span>priced to go quickly</span>
-                                <span>priced to wait for the right buyer</span>
-                              </>
-                            )}
+                            {r.id === "tradein" ? null : null}
                           </div>
                           <div style={{ fontSize: 12.5, color: "#475569", marginTop: 6 }}>
                             {r.id === "tradein"
@@ -1007,7 +997,7 @@ function TradeInsFlow() {
                               ))}
                             </ul>
                             <div style={S.routeAdHead}>
-                              Tell all your potential buyers on DoneDeal or Carzone about the garage-like protection Above Board Cars offers &mdash; put this line in your ad:
+                              Tell all your potential buyers on DoneDeal about the garage-like protection Above Board Cars offers &mdash; put this line in your ad:
                             </div>
                             <div style={S.routeAdLine}>&ldquo;{AD_LINE}&rdquo;</div>
                             <button
@@ -1155,7 +1145,7 @@ function TradeInsFlow() {
               <SaveForLater />
               <p style={S.sm}>
                 {route === "privateproof"
-                  ? "These become your advert — on this site and on DoneDeal or Carzone. Good photographs are most of what sells a private car."
+                  ? "These become your advert — on this site and on DoneDeal. Good photographs are most of what sells a private car."
                   : "Good photos get a better assessment. What a buyer has already seen, he cannot use to cut the price on the day."}
               </p>
             </Panel>
@@ -1341,7 +1331,7 @@ function TradeInsFlow() {
               <Field label="Email address" placeholder="you@example.ie" value={buyerEmail} onChange={setBuyerEmail} />
               <Field label="Eircode" placeholder="T12 AB34" value={buyerEircode} onChange={setBuyerEircode} />
               <p style={S.sm}>Never published. If your deal is ever put to a garage they see the routing area only — the first three characters.</p>
-              <Field label="Link to your ad (optional)" placeholder="donedeal.ie, carzone.ie or adverts.ie link" value={adLink} onChange={setAdLink} />
+              <Field label="Link to your ad (optional)" placeholder="donedeal.ie or adverts.ie link" value={adLink} onChange={setAdLink} />
               <p style={S.sm}>Already advertising the car yourself? Paste the link and it goes on the file with everything else.</p>
               <div style={S.upload}>
                 <b>Photo of your VRC (the logbook)</b>
@@ -1530,7 +1520,7 @@ function TradeInsFlow() {
               </button>
               <p style={S.sm}>
                 {route === "privateproof"
-                  ? "Nothing to pay and nothing committed. Next you list it on DoneDeal or Carzone — we show you exactly how."
+                  ? "Nothing to pay and nothing committed. Next you list it on DoneDeal — we show you exactly how."
                   : "Nothing to pay and nothing committed. We go through your photos and answers and come back to you with our offer."}
               </p>
               <SaveForLater />
@@ -1549,7 +1539,7 @@ function TradeInsFlow() {
             {route === "privateproof" ? (
               <ol style={S.ol}>
                 <li>We build your advert from your photographs and your condition record, and list it here.</li>
-                <li>You advertise it on DoneDeal or Carzone as well, and send anyone who calls the Above Board Cars link.</li>
+                <li>You advertise it on DoneDeal as well, and send anyone who calls the Above Board Cars link.</li>
                 <li>The inspection, the warranty and the payment run through us. <b>You stay the seller and you keep driving the car.</b></li>
               </ol>
             ) : route === "tradein" ? (
