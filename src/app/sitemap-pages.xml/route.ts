@@ -16,6 +16,11 @@ export async function GET() {
     { loc: `${SITE}/about-us`, freq: "monthly", pri: "0.4" },
     { loc: `${SITE}/blog`, freq: "weekly", pri: "0.5" },
     { loc: `${SITE}/contact`, freq: "yearly", pri: "0.3" },
+    { loc: `${SITE}/sell-my-car`, freq: "weekly", pri: "0.8" },
+    { loc: `${SITE}/trade-ins`, freq: "weekly", pri: "0.7" },
+    { loc: `${SITE}/trade-ins/above-board-cars`, freq: "weekly", pri: "0.7" },
+    { loc: `${SITE}/above-board-cars`, freq: "monthly", pri: "0.5" },
+    { loc: `${SITE}/irish-cars`, freq: "daily", pri: "0.6" },
   ];
 
   const urls = [...fixed];

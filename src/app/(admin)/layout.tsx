@@ -5,8 +5,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   CarFront,
+  Coins,
   FileText,
   HandCoins,
+  Handshake,
   LayoutDashboard,
   LogOut,
   Building2,
@@ -28,10 +30,14 @@ const NAV_ITEMS: { href: string; label: string; icon: LucideIcon }[] = [
   { href: "/cars", label: "Cars", icon: CarFront },
   { href: "/leads", label: "Leads", icon: UserPlus },
   { href: "/deposits", label: "Deposits", icon: HandCoins },
+  // Owner, 6 Sep 2026: a submitted trade-in is a car waiting for his number — it lives here
+  // with the other staff work, behind the staff login.
+  { href: "/tradeins", label: "Trade-ins", icon: Handshake },
   { href: "/members", label: "Members", icon: Users },
   { href: "/comparisons", label: "Comparisons", icon: Scale },
   { href: "/social", label: "Social", icon: Megaphone },
   { href: "/dealers", label: "Dealers", icon: Building2 },
+  { href: "/fees", label: "Fees", icon: Coins },
   { href: "/templates", label: "Templates", icon: FileText },
 ];
 

@@ -1,0 +1,75 @@
+/* Trade-in layout. STAGING ONLY.
+ *
+ * Why this file exists at all: the page was styled entirely with inline style
+ * objects, and an inline style CANNOT carry a media query. The split was
+ * `gridTemplateColumns: "minmax(0,1fr) 300px"` inline, so on a 390px phone the
+ * content column got about 40px and every heading wrapped one word per line -
+ * unreadable and unclickable. Anything that needs to change with viewport width
+ * has to live in a stylesheet, so the responsive parts moved here and were
+ * REMOVED from the inline objects (inline wins on specificity, so leaving them
+ * would have silently beaten these rules).
+ */
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 20px;
+  align-items: start;
+}
+
+.aside {
+  position: sticky;
+  top: 16px;
+}
+
+/* The price is the reason anyone keeps going, so on a phone it goes FIRST,
+   above the form, rather than being pushed to the bottom of the page. */
+@media (max-width: 860px) {
+  .split {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .aside {
+    position: static;
+    order: -1;
+  }
+}
+
+/* The step rail is a horizontal row of pills. In a 40px column it collapsed
+   into a vertical stack of single letters; on a phone it scrolls sideways
+   instead of wrapping. */
+.steps {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 860px) {
+  .steps {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .steps::-webkit-scrollbar {
+    display: none;
+  }
+  .steps > * {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+}
+
+/* Touch targets. A 12px pill button is not tappable. */
+@media (max-width: 860px) {
+  .page {
+    padding: 16px 14px 60px;
+  }
+  .cta {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 16px;
+  }
+}

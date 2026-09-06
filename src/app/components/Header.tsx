@@ -13,6 +13,9 @@ const NAV_LINKS = [
   { href: "/bestseller-index", label: "Bestseller Index" },
   { href: "/how-it-works", label: "How It Works" },
   { href: "/car-sourcing", label: "Car Sourcing" },
+  // Owner 2026-09-06: the trade-in module went live; "Sell your car" points at the
+  // /sell-my-car landing that explains both routes.
+  { href: "/sell-my-car", label: "Sell your car" },
 ];
 
 // Secondary/company pages grouped into one dropdown -- matches the standard

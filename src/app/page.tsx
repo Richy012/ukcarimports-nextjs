@@ -9,6 +9,7 @@ import googleReviews from "@/data/google-reviews.json";
 import { getStockCount, formatStockCount, roundStockDown } from "@/lib/stockCount";
 import styles from "./page.module.css";
 import { heroForDay } from "@/lib/brandArt";
+import { irishListings } from "@/lib/irishListings";
 import { ladderRung, RUNG_LABEL } from "@/lib/ladder";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
@@ -205,6 +206,8 @@ export default async function HomePage() {
   const { bestValue, bvCount, count, makes, allMakes } = await getHomeData();
 
   const heroArt = heroForDay();
+  // Irish-registered (Above Board Cars) cars — the section below only renders when there are any
+  const irish = await irishListings().catch(() => []);
   // The original hero keeps its pre-cropped letterbox variants (the CSS
   // defaults). Rotation artwork points every breakpoint at itself and at its
   // own 1672x941 aspect so it shows WHOLE -- cropping to 760/687 tall would
@@ -273,6 +276,69 @@ export default async function HomePage() {
           Irish plates in ~2 weeks
         </span>
       </section>
+
+      {/* THE TRADE-IN ADVERT — owner, 6 Sep */}
+      <section className={styles.alertBand} style={{ background: "#fdf7f7", borderTop: "1px solid #f3d6d6", borderBottom: "1px solid #f3d6d6" }}>
+        <div className={styles.valueInner} style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 16, alignItems: "center" }}>
+          <div>
+            <h2 className={styles.sectionTitle} style={{ margin: 0 }}>Got a car to sell? See what it is worth in ten seconds.</h2>
+            <p className={styles.sectionSub} style={{ margin: "4px 0 0" }}>
+              Reg and mileage, and we show you two measured ranges: trade it in against your import, or sell it
+              privately with an inspection, a warranty and protected payment behind you. No sign-up, no obligation.
+            </p>
+          </div>
+          <Link href="/trade-ins" style={{ display: "inline-block", padding: "12px 18px", background: "#b60b0c", color: "#fff", borderRadius: 10, fontWeight: 700, whiteSpace: "nowrap" }}>
+            Value my car &rarr;
+          </Link>
+        </div>
+      </section>
+
+      {/* FINANCE — owner, 6 Sep: main banks only; quote + invoice once a car is chosen and a deposit is in place */}
+      <section className={styles.alertBand} style={{ background: "#f7f9fc", borderBottom: "1px solid #e2e8f0" }}>
+        <div className={styles.valueInner} style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 16, alignItems: "center" }}>
+          <div>
+            <h2 className={styles.sectionTitle} style={{ margin: 0 }}>Buying on finance? We work with the main banks.</h2>
+            <p className={styles.sectionSub} style={{ margin: "4px 0 0" }}>
+              Once you have chosen your car and your deposit is in place, we give you the quote and the invoice
+              AIB, Bank of Ireland or PTSB need to approve your car loan. Bank finance only &mdash; finance houses
+              do not fund cars bought this way.
+            </p>
+          </div>
+          <Link href="/contact" style={{ display: "inline-block", padding: "12px 18px", border: "2px solid #b60b0c", color: "#b60b0c", borderRadius: 10, fontWeight: 700, whiteSpace: "nowrap" }}>
+            Ask about finance &rarr;
+          </Link>
+        </div>
+      </section>
+
+      {/* IRISH REGISTERED CARS — only when an Above Board Cars sale is live */}
+      {irish.length > 0 && (
+        <section className={styles.valueBand}>
+          <div className={styles.valueInner}>
+            <h2 className={styles.sectionTitle}>Irish registered cars, sold privately &mdash; protected</h2>
+            <p className={styles.sectionSub}>
+              Already on Irish plates, sold by their owners with Above Board Cars behind every sale: independent
+              inspection, warranty and protected payment. Private-sale value, garage-level safety.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 14, marginTop: 12 }}>
+              {irish.slice(0, 4).map((c) => (
+                <Link key={c.id} href={`/irish-cars/${c.id}`} style={{ display: "block", border: "1px solid #e2e8f0", borderRadius: 12, overflow: "hidden", background: "#fff", color: "inherit" }}>
+                  {c.photos[0] ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={c.photos[0]} alt={c.title} style={{ width: "100%", aspectRatio: "4 / 3", objectFit: "cover" }} />
+                  ) : null}
+                  <div style={{ padding: "8px 10px 10px" }}>
+                    <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: ".05em", color: "#0a7d33", fontWeight: 700 }}>Irish registered · Above Board Cars</div>
+                    <div style={{ fontWeight: 700 }}>{c.title}</div>
+                    <div style={{ fontSize: 12.5, color: "#64748b" }}>{c.mileage != null ? `${c.mileage.toLocaleString("en-IE")} ${c.mileageUnit}` : ""}{c.area ? ` · ${c.area}` : ""}</div>
+                    <div style={{ fontWeight: 800, marginTop: 4 }}>{c.priceEur ? "€" + Math.round(c.priceEur).toLocaleString("en-IE") : "Price on application"}</div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <p style={{ marginTop: 10 }}><Link href="/irish-cars">All Irish registered cars &rarr;</Link></p>
+          </div>
+        </section>
+      )}
 
       {bestValue.length > 0 && (
         <section className={`${styles.valueBand} wm-green`}>

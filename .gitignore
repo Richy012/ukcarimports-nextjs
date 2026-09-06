@@ -42,3 +42,8 @@ next-env.d.ts
 
 # in-place patch backups
 *.bak-*
+
+# trade-in module runtime state (6 Sep 2026): the deal store carries the admin key; uploads are customer photos
+data/dealbuilder.json
+data/dealbuilder.json.bak*
+uploads/

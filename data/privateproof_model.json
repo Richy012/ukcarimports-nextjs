@@ -1,0 +1,90 @@
+{
+ "asking_pct_by_mileage": {
+  "100-150k": {
+   "n": 288,
+   "pct": 95.6
+  },
+  "150k+": {
+   "n": 240,
+   "pct": 95.5
+  },
+  "60-100k": {
+   "n": 266,
+   "pct": 98.8
+  },
+  "under 60k": {
+   "n": 295,
+   "pct": 100.8
+  }
+ },
+ "asking_pct_global": 98.2,
+ "built_from_snapshots": [
+  "2026-07-24",
+  "2026-07-28",
+  "2026-08-03",
+  "2026-08-10",
+  "2026-08-17",
+  "2026-08-24",
+  "2026-08-31"
+ ],
+ "denominator": "dealer (trade) asking price for the frozen segment AT THE SAME MILEAGE \u2014 the segment median scaled by what a dealer ad in that mileage band is worth relative to it. Without this control a low-mileage private ad looks dear purely for having done less mileage than the typical dealer car, and the page ends up claiming a private sale beats the dealer's own price.",
+ "limits": [
+  "an asking price is not an achieved price, for private and dealer ads alike",
+  "private ads are ~3% of the Irish market: band-level numbers only, never per segment",
+  "no achieved private price exists in any data we hold"
+ ],
+ "markdown": {
+  "private": {
+   "expected_markdown_pct": 2.8,
+   "median_cut_pct": 7.0,
+   "n": 144,
+   "share_cutting_pct": 27.8
+  },
+  "trade": {
+   "expected_markdown_pct": 0.3,
+   "median_cut_pct": 3.7,
+   "n": 4426,
+   "share_cutting_pct": 6.4
+  }
+ },
+ "mileage_control_pct": {
+  "100-150k": 96.6,
+  "150k+": 87.6,
+  "60-100k": 100.0,
+  "under 60k": 100.2
+ },
+ "min_band_n": 40,
+ "private_ads_matched": 1089,
+ "private_ads_total": 1843,
+ "segments_with_dealer_median": 1379,
+ "sells_at": {
+  "gap_from_typical_ask_pts": 5.9,
+  "moved_p25_pct": 82.7,
+  "moved_p75_pct": 103.2,
+  "n_sold": 128,
+  "n_stayed": 149,
+  "sold_within_2_snapshots_asked_pct": 92.3,
+  "still_listed_asked_pct": 95.6
+ },
+ "time_on_market": {
+  "CAVEAT": "a car leaving Carzone is a proxy for sold, and it is a WEAKER proxy for a private seller than a dealer - a private seller who gives up withdraws the ad, a dealer leaves it running. Do NOT read 'private ads leave faster' as 'private sells faster'. This is a question, not a finding.",
+  "private_2w": {
+   "at_risk": 377,
+   "gone_pct": 44.6
+  },
+  "private_4w": {
+   "at_risk": 147,
+   "gone_pct": 63.9
+  },
+  "trade_2w": {
+   "at_risk": 15256,
+   "gone_pct": 40.5
+  },
+  "trade_4w": {
+   "at_risk": 7116,
+   "gone_pct": 59.8
+  }
+ },
+ "trade_ads_total": 54088,
+ "what_this_is": "a BRACKET, not a prediction. Floor = what the trade would pay (tradein_model.json, real transactions). Ceiling = what private sellers ask, less the markdown they are observed to make. We have no achieved private prices and no source publishes them."
+}

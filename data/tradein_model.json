@@ -1,0 +1,4124 @@
+{
+ "age_bands": [
+  [
+   0,
+   3,
+   "0-2yr"
+  ],
+  [
+   3,
+   6,
+   "3-5yr"
+  ],
+  [
+   6,
+   9,
+   "6-8yr"
+  ],
+  [
+   9,
+   13,
+   "9-12yr"
+  ],
+  [
+   13,
+   100,
+   "13yr+"
+  ]
+ ],
+ "all": {
+  "accuracy": {
+   "band50_pts": [
+    -8.7,
+    8.7
+   ],
+   "band80_pts": [
+    -17.0,
+    16.9
+   ],
+   "beats_constant_pts": 4.49,
+   "bias_pts": 0.1,
+   "estimator": "hybrid",
+   "mae_pts": 10.63,
+   "sd_pts": 13.59
+  },
+  "apply_model_factor": true,
+  "bands": {
+   "100-150k": {
+    "n": 962,
+    "pct": 58.1
+   },
+   "150-200k": {
+    "n": 740,
+    "pct": 49.8
+   },
+   "200k+": {
+    "n": 503,
+    "pct": 35.8
+   },
+   "60-100k": {
+    "n": 653,
+    "pct": 64.6
+   },
+   "under 60k": {
+    "n": 353,
+    "pct": 73.3
+   }
+  },
+  "base": "cells",
+  "cells": {
+   "100-150k|3-5yr": {
+    "n": 181,
+    "pct": 62.7
+   },
+   "100-150k|6-8yr": {
+    "n": 412,
+    "pct": 61.3
+   },
+   "100-150k|9-12yr": {
+    "n": 363,
+    "pct": 52.1
+   },
+   "150-200k|3-5yr": {
+    "n": 121,
+    "pct": 49.3
+   },
+   "150-200k|6-8yr": {
+    "n": 275,
+    "pct": 51.3
+   },
+   "150-200k|9-12yr": {
+    "n": 343,
+    "pct": 48.3
+   },
+   "200k+|3-5yr": {
+    "n": 42,
+    "pct": 38.6
+   },
+   "200k+|6-8yr": {
+    "n": 136,
+    "pct": 39.8
+   },
+   "200k+|9-12yr": {
+    "n": 323,
+    "pct": 34.1
+   },
+   "60-100k|0-2yr": {
+    "n": 9,
+    "pct": 66.9
+   },
+   "60-100k|3-5yr": {
+    "n": 213,
+    "pct": 69.7
+   },
+   "60-100k|6-8yr": {
+    "n": 262,
+    "pct": 64.0
+   },
+   "60-100k|9-12yr": {
+    "n": 166,
+    "pct": 60.2
+   },
+   "under 60k|0-2yr": {
+    "n": 59,
+    "pct": 79.3
+   },
+   "under 60k|3-5yr": {
+    "n": 179,
+    "pct": 74.9
+   },
+   "under 60k|6-8yr": {
+    "n": 80,
+    "pct": 72.1
+   },
+   "under 60k|9-12yr": {
+    "n": 35,
+    "pct": 59.4
+   }
+  },
+  "coefficients": {
+   "age_years": 0.001287,
+   "intercept": 1.060958,
+   "log_km": -0.169741,
+   "log_retail": 0.150299
+  },
+  "direct_segments": {
+   "audi|a1|2013": {
+    "n": 3,
+    "pct": 50.7
+   },
+   "audi|a1|2014": {
+    "n": 5,
+    "pct": 44.9
+   },
+   "audi|a1|2015": {
+    "n": 4,
+    "pct": 65.1
+   },
+   "audi|a3|2014": {
+    "n": 5,
+    "pct": 43.0
+   },
+   "audi|a3|2015": {
+    "n": 6,
+    "pct": 56.1
+   },
+   "audi|a3|2016": {
+    "n": 12,
+    "pct": 54.5
+   },
+   "audi|a3|2017": {
+    "n": 5,
+    "pct": 64.4
+   },
+   "audi|a3|2018": {
+    "n": 4,
+    "pct": 67.0
+   },
+   "audi|a3|2019": {
+    "n": 5,
+    "pct": 58.5
+   },
+   "audi|a3|2021": {
+    "n": 3,
+    "pct": 61.2
+   },
+   "audi|a3|2023": {
+    "n": 3,
+    "pct": 88.3
+   },
+   "audi|a4|2015": {
+    "n": 4,
+    "pct": 34.3
+   },
+   "audi|a4|2016": {
+    "n": 13,
+    "pct": 47.8
+   },
+   "audi|a4|2017": {
+    "n": 4,
+    "pct": 53.8
+   },
+   "audi|a4|2018": {
+    "n": 8,
+    "pct": 74.7
+   },
+   "audi|a4|2019": {
+    "n": 3,
+    "pct": 51.6
+   },
+   "audi|a4|2022": {
+    "n": 3,
+    "pct": 60.7
+   },
+   "audi|a5|2016": {
+    "n": 4,
+    "pct": 40.8
+   },
+   "audi|a5|2017": {
+    "n": 6,
+    "pct": 65.5
+   },
+   "audi|a5|2019": {
+    "n": 5,
+    "pct": 49.2
+   },
+   "audi|a5|2020": {
+    "n": 3,
+    "pct": 57.2
+   },
+   "audi|a6|2015": {
+    "n": 11,
+    "pct": 51.0
+   },
+   "audi|a6|2016": {
+    "n": 9,
+    "pct": 74.2
+   },
+   "audi|a6|2017": {
+    "n": 7,
+    "pct": 56.7
+   },
+   "audi|a6|2018": {
+    "n": 7,
+    "pct": 59.4
+   },
+   "audi|a6|2019": {
+    "n": 9,
+    "pct": 76.9
+   },
+   "audi|a6|2021": {
+    "n": 6,
+    "pct": 66.4
+   },
+   "audi|a7|2016": {
+    "n": 5,
+    "pct": 68.9
+   },
+   "audi|e-tron|2020": {
+    "n": 7,
+    "pct": 70.1
+   },
+   "audi|e-tron|2023": {
+    "n": 3,
+    "pct": 52.5
+   },
+   "audi|q2|2017": {
+    "n": 3,
+    "pct": 58.2
+   },
+   "audi|q3|2017": {
+    "n": 5,
+    "pct": 59.1
+   },
+   "audi|q3|2019": {
+    "n": 5,
+    "pct": 74.5
+   },
+   "audi|q3|2022": {
+    "n": 3,
+    "pct": 71.9
+   },
+   "audi|q5|2018": {
+    "n": 5,
+    "pct": 86.2
+   },
+   "audi|q5|2019": {
+    "n": 4,
+    "pct": 77.9
+   },
+   "audi|q7|2016": {
+    "n": 5,
+    "pct": 69.8
+   },
+   "audi|q7|2017": {
+    "n": 4,
+    "pct": 41.2
+   },
+   "audi|s3|2015": {
+    "n": 4,
+    "pct": 60.4
+   },
+   "bmw|1 series|2014": {
+    "n": 4,
+    "pct": 32.3
+   },
+   "bmw|1 series|2017": {
+    "n": 6,
+    "pct": 40.8
+   },
+   "bmw|1 series|2018": {
+    "n": 3,
+    "pct": 61.0
+   },
+   "bmw|2 series|2016": {
+    "n": 5,
+    "pct": 48.2
+   },
+   "bmw|3 series|2013": {
+    "n": 3,
+    "pct": 23.3
+   },
+   "bmw|3 series|2014": {
+    "n": 4,
+    "pct": 34.3
+   },
+   "bmw|3 series|2015": {
+    "n": 4,
+    "pct": 24.8
+   },
+   "bmw|3 series|2016": {
+    "n": 7,
+    "pct": 32.1
+   },
+   "bmw|3 series|2017": {
+    "n": 8,
+    "pct": 37.9
+   },
+   "bmw|3 series|2018": {
+    "n": 9,
+    "pct": 46.3
+   },
+   "bmw|3 series|2020": {
+    "n": 3,
+    "pct": 74.6
+   },
+   "bmw|3 series|2021": {
+    "n": 5,
+    "pct": 61.5
+   },
+   "bmw|4 series|2016": {
+    "n": 3,
+    "pct": 92.2
+   },
+   "bmw|4 series|2017": {
+    "n": 3,
+    "pct": 57.5
+   },
+   "bmw|5 series|2014": {
+    "n": 3,
+    "pct": 35.1
+   },
+   "bmw|5 series|2015": {
+    "n": 8,
+    "pct": 27.3
+   },
+   "bmw|5 series|2016": {
+    "n": 10,
+    "pct": 59.2
+   },
+   "bmw|5 series|2017": {
+    "n": 8,
+    "pct": 40.8
+   },
+   "bmw|5 series|2018": {
+    "n": 11,
+    "pct": 52.2
+   },
+   "bmw|5 series|2019": {
+    "n": 5,
+    "pct": 61.9
+   },
+   "bmw|7 series|2019": {
+    "n": 3,
+    "pct": 70.4
+   },
+   "bmw|x1|2017": {
+    "n": 3,
+    "pct": 66.9
+   },
+   "bmw|x1|2018": {
+    "n": 3,
+    "pct": 34.6
+   },
+   "bmw|x5|2014": {
+    "n": 3,
+    "pct": 67.8
+   },
+   "bmw|x5|2016": {
+    "n": 10,
+    "pct": 39.5
+   },
+   "bmw|x5|2017": {
+    "n": 6,
+    "pct": 51.8
+   },
+   "bmw|x5|2018": {
+    "n": 6,
+    "pct": 49.7
+   },
+   "citroen|berlingo|2020": {
+    "n": 3,
+    "pct": 35.6
+   },
+   "citroen|berlingo|2021": {
+    "n": 9,
+    "pct": 39.7
+   },
+   "citroen|c3|2017": {
+    "n": 3,
+    "pct": 43.5
+   },
+   "citroen|c3|2018": {
+    "n": 3,
+    "pct": 34.5
+   },
+   "citroen|c4|2022": {
+    "n": 4,
+    "pct": 91.1
+   },
+   "cupra|formentor|2023": {
+    "n": 4,
+    "pct": 76.0
+   },
+   "dacia|duster|2018": {
+    "n": 6,
+    "pct": 39.5
+   },
+   "dacia|duster|2019": {
+    "n": 6,
+    "pct": 50.9
+   },
+   "dacia|duster|2021": {
+    "n": 4,
+    "pct": 53.6
+   },
+   "dacia|duster|2022": {
+    "n": 3,
+    "pct": 66.1
+   },
+   "dacia|duster|2023": {
+    "n": 8,
+    "pct": 61.2
+   },
+   "fiat|500|2015": {
+    "n": 7,
+    "pct": 34.0
+   },
+   "fiat|500|2017": {
+    "n": 5,
+    "pct": 45.1
+   },
+   "fiat|500|2018": {
+    "n": 6,
+    "pct": 66.5
+   },
+   "fiat|doblo|2023": {
+    "n": 5,
+    "pct": 46.3
+   },
+   "ford|ecosport|2019": {
+    "n": 6,
+    "pct": 52.2
+   },
+   "ford|ecosport|2020": {
+    "n": 4,
+    "pct": 59.0
+   },
+   "ford|fiesta|2016": {
+    "n": 16,
+    "pct": 58.8
+   },
+   "ford|fiesta|2017": {
+    "n": 14,
+    "pct": 60.5
+   },
+   "ford|fiesta|2018": {
+    "n": 5,
+    "pct": 56.3
+   },
+   "ford|fiesta|2019": {
+    "n": 8,
+    "pct": 66.4
+   },
+   "ford|focus|2016": {
+    "n": 9,
+    "pct": 58.2
+   },
+   "ford|focus|2017": {
+    "n": 10,
+    "pct": 48.7
+   },
+   "ford|focus|2018": {
+    "n": 11,
+    "pct": 40.7
+   },
+   "ford|focus|2019": {
+    "n": 6,
+    "pct": 64.0
+   },
+   "ford|focus|2020": {
+    "n": 9,
+    "pct": 58.9
+   },
+   "ford|focus|2021": {
+    "n": 3,
+    "pct": 60.3
+   },
+   "ford|galaxy|2016": {
+    "n": 4,
+    "pct": 36.9
+   },
+   "ford|galaxy|2017": {
+    "n": 6,
+    "pct": 72.1
+   },
+   "ford|kuga|2016": {
+    "n": 10,
+    "pct": 32.9
+   },
+   "ford|kuga|2017": {
+    "n": 5,
+    "pct": 43.6
+   },
+   "ford|kuga|2018": {
+    "n": 14,
+    "pct": 48.9
+   },
+   "ford|kuga|2019": {
+    "n": 8,
+    "pct": 48.2
+   },
+   "ford|kuga|2021": {
+    "n": 5,
+    "pct": 68.9
+   },
+   "ford|mondeo|2016": {
+    "n": 15,
+    "pct": 40.0
+   },
+   "ford|mondeo|2017": {
+    "n": 9,
+    "pct": 50.2
+   },
+   "ford|mondeo|2018": {
+    "n": 5,
+    "pct": 53.7
+   },
+   "ford|mondeo|2019": {
+    "n": 9,
+    "pct": 37.5
+   },
+   "ford|mondeo|2020": {
+    "n": 4,
+    "pct": 46.6
+   },
+   "ford|mondeo|2021": {
+    "n": 5,
+    "pct": 52.4
+   },
+   "ford|puma|2020": {
+    "n": 3,
+    "pct": 69.7
+   },
+   "ford|puma|2021": {
+    "n": 4,
+    "pct": 64.7
+   },
+   "ford|ranger|2019": {
+    "n": 4,
+    "pct": 51.7
+   },
+   "ford|ranger|2020": {
+    "n": 5,
+    "pct": 48.4
+   },
+   "ford|ranger|2021": {
+    "n": 13,
+    "pct": 47.6
+   },
+   "ford|s-max|2016": {
+    "n": 6,
+    "pct": 45.6
+   },
+   "ford|s-max|2017": {
+    "n": 8,
+    "pct": 57.7
+   },
+   "ford|s-max|2018": {
+    "n": 6,
+    "pct": 65.0
+   },
+   "honda|civic|2016": {
+    "n": 6,
+    "pct": 63.9
+   },
+   "honda|civic|2018": {
+    "n": 4,
+    "pct": 60.2
+   },
+   "honda|cr-v|2016": {
+    "n": 4,
+    "pct": 58.4
+   },
+   "honda|cr-v|2017": {
+    "n": 4,
+    "pct": 73.2
+   },
+   "honda|cr-v|2018": {
+    "n": 3,
+    "pct": 49.1
+   },
+   "honda|fit|2015": {
+    "n": 3,
+    "pct": 52.9
+   },
+   "honda|fit|2016": {
+    "n": 3,
+    "pct": 56.1
+   },
+   "honda|hr-v|2017": {
+    "n": 3,
+    "pct": 63.5
+   },
+   "hyundai|i10|2017": {
+    "n": 5,
+    "pct": 50.3
+   },
+   "hyundai|i10|2018": {
+    "n": 4,
+    "pct": 52.3
+   },
+   "hyundai|i10|2019": {
+    "n": 4,
+    "pct": 66.0
+   },
+   "hyundai|i20|2017": {
+    "n": 7,
+    "pct": 62.8
+   },
+   "hyundai|i20|2018": {
+    "n": 6,
+    "pct": 53.2
+   },
+   "hyundai|i20|2019": {
+    "n": 3,
+    "pct": 44.4
+   },
+   "hyundai|i30|2016": {
+    "n": 12,
+    "pct": 45.7
+   },
+   "hyundai|i30|2017": {
+    "n": 3,
+    "pct": 59.8
+   },
+   "hyundai|i30|2018": {
+    "n": 6,
+    "pct": 56.6
+   },
+   "hyundai|i30|2019": {
+    "n": 6,
+    "pct": 60.4
+   },
+   "hyundai|i30|2022": {
+    "n": 10,
+    "pct": 61.6
+   },
+   "hyundai|i40|2017": {
+    "n": 7,
+    "pct": 39.2
+   },
+   "hyundai|i40|2018": {
+    "n": 4,
+    "pct": 31.8
+   },
+   "hyundai|ioniq|2022": {
+    "n": 6,
+    "pct": 118.7
+   },
+   "hyundai|kona|2018": {
+    "n": 8,
+    "pct": 75.4
+   },
+   "hyundai|kona|2019": {
+    "n": 12,
+    "pct": 50.8
+   },
+   "hyundai|kona|2020": {
+    "n": 7,
+    "pct": 58.2
+   },
+   "hyundai|kona|2021": {
+    "n": 5,
+    "pct": 27.5
+   },
+   "hyundai|kona|2022": {
+    "n": 4,
+    "pct": 59.6
+   },
+   "hyundai|kona|2023": {
+    "n": 3,
+    "pct": 75.7
+   },
+   "hyundai|santa fe|2015": {
+    "n": 10,
+    "pct": 45.6
+   },
+   "hyundai|santa fe|2018": {
+    "n": 5,
+    "pct": 38.3
+   },
+   "hyundai|santa fe|2020": {
+    "n": 3,
+    "pct": 51.8
+   },
+   "hyundai|santa fe|2021": {
+    "n": 3,
+    "pct": 68.4
+   },
+   "hyundai|tucson|2016": {
+    "n": 7,
+    "pct": 38.0
+   },
+   "hyundai|tucson|2017": {
+    "n": 11,
+    "pct": 44.6
+   },
+   "hyundai|tucson|2019": {
+    "n": 9,
+    "pct": 60.1
+   },
+   "hyundai|tucson|2020": {
+    "n": 3,
+    "pct": 46.1
+   },
+   "hyundai|tucson|2021": {
+    "n": 4,
+    "pct": 65.3
+   },
+   "hyundai|tucson|2022": {
+    "n": 4,
+    "pct": 53.2
+   },
+   "hyundai|tucson|2023": {
+    "n": 5,
+    "pct": 61.9
+   },
+   "hyundai|tucson|2025": {
+    "n": 3,
+    "pct": 41.7
+   },
+   "jaguar|e-pace|2018": {
+    "n": 3,
+    "pct": 32.4
+   },
+   "jaguar|f-pace|2017": {
+    "n": 6,
+    "pct": 59.1
+   },
+   "jaguar|xe|2016": {
+    "n": 4,
+    "pct": 19.8
+   },
+   "jaguar|xf|2017": {
+    "n": 5,
+    "pct": 45.7
+   },
+   "kia|carens|2018": {
+    "n": 7,
+    "pct": 33.1
+   },
+   "kia|ceed|2017": {
+    "n": 11,
+    "pct": 54.0
+   },
+   "kia|ceed|2018": {
+    "n": 4,
+    "pct": 43.5
+   },
+   "kia|niro|2020": {
+    "n": 4,
+    "pct": 62.4
+   },
+   "kia|optima|2018": {
+    "n": 4,
+    "pct": 71.6
+   },
+   "kia|picanto|2018": {
+    "n": 3,
+    "pct": 44.3
+   },
+   "kia|sorento|2016": {
+    "n": 8,
+    "pct": 46.8
+   },
+   "kia|sorento|2017": {
+    "n": 6,
+    "pct": 49.7
+   },
+   "kia|sorento|2018": {
+    "n": 3,
+    "pct": 69.5
+   },
+   "kia|sorento|2019": {
+    "n": 5,
+    "pct": 55.0
+   },
+   "kia|sorento|2023": {
+    "n": 5,
+    "pct": 67.5
+   },
+   "kia|sportage|2016": {
+    "n": 11,
+    "pct": 53.8
+   },
+   "kia|sportage|2017": {
+    "n": 10,
+    "pct": 46.6
+   },
+   "kia|sportage|2018": {
+    "n": 9,
+    "pct": 44.7
+   },
+   "kia|sportage|2019": {
+    "n": 6,
+    "pct": 34.8
+   },
+   "kia|sportage|2023": {
+    "n": 5,
+    "pct": 54.8
+   },
+   "kia|stonic|2018": {
+    "n": 6,
+    "pct": 53.0
+   },
+   "kia|stonic|2019": {
+    "n": 3,
+    "pct": 43.1
+   },
+   "land rover|discovery|2016": {
+    "n": 9,
+    "pct": 30.3
+   },
+   "land rover|discovery|2017": {
+    "n": 4,
+    "pct": 34.4
+   },
+   "land rover|discovery|2018": {
+    "n": 10,
+    "pct": 55.8
+   },
+   "land rover|discovery|2019": {
+    "n": 8,
+    "pct": 48.2
+   },
+   "land rover|discovery|2020": {
+    "n": 6,
+    "pct": 35.4
+   },
+   "land rover|discovery|2021": {
+    "n": 4,
+    "pct": 55.5
+   },
+   "land rover|range rover evoque|2014": {
+    "n": 3,
+    "pct": 43.9
+   },
+   "land rover|range rover evoque|2016": {
+    "n": 3,
+    "pct": 47.0
+   },
+   "lexus|is 300 h|2015": {
+    "n": 3,
+    "pct": 60.8
+   },
+   "mazda|cx-5|2016": {
+    "n": 7,
+    "pct": 29.3
+   },
+   "mazda|cx-5|2017": {
+    "n": 5,
+    "pct": 46.3
+   },
+   "mazda|cx-5|2018": {
+    "n": 6,
+    "pct": 48.2
+   },
+   "mazda|cx-5|2019": {
+    "n": 4,
+    "pct": 55.6
+   },
+   "mazda|mazda3|2024": {
+    "n": 3,
+    "pct": 81.0
+   },
+   "mazda|mazda6|2019": {
+    "n": 3,
+    "pct": 50.9
+   },
+   "mercedes-benz|a class|2017": {
+    "n": 4,
+    "pct": 61.1
+   },
+   "mercedes-benz|b class|2018": {
+    "n": 3,
+    "pct": 52.1
+   },
+   "mercedes-benz|c class|2015": {
+    "n": 3,
+    "pct": 41.1
+   },
+   "mercedes-benz|c class|2016": {
+    "n": 3,
+    "pct": 36.5
+   },
+   "mercedes-benz|c class|2017": {
+    "n": 4,
+    "pct": 53.0
+   },
+   "mercedes-benz|c class|2018": {
+    "n": 3,
+    "pct": 73.3
+   },
+   "mercedes-benz|c class|2019": {
+    "n": 3,
+    "pct": 66.1
+   },
+   "mercedes-benz|e class|2016": {
+    "n": 3,
+    "pct": 56.9
+   },
+   "mercedes-benz|e class|2017": {
+    "n": 3,
+    "pct": 84.8
+   },
+   "mercedes-benz|e class|2018": {
+    "n": 3,
+    "pct": 61.0
+   },
+   "mercedes-benz|glc class|2018": {
+    "n": 4,
+    "pct": 64.9
+   },
+   "mg|zs|2022": {
+    "n": 7,
+    "pct": 70.5
+   },
+   "mini|cooper|2015": {
+    "n": 6,
+    "pct": 43.4
+   },
+   "mini|cooper|2018": {
+    "n": 4,
+    "pct": 60.2
+   },
+   "mini|hatch|2015": {
+    "n": 6,
+    "pct": 48.9
+   },
+   "mini|hatch|2016": {
+    "n": 7,
+    "pct": 38.7
+   },
+   "mini|hatch|2018": {
+    "n": 4,
+    "pct": 58.9
+   },
+   "mitsubishi|outlander|2015": {
+    "n": 11,
+    "pct": 30.9
+   },
+   "mitsubishi|outlander|2016": {
+    "n": 13,
+    "pct": 48.6
+   },
+   "mitsubishi|outlander|2017": {
+    "n": 8,
+    "pct": 57.7
+   },
+   "mitsubishi|outlander|2019": {
+    "n": 3,
+    "pct": 56.0
+   },
+   "mitsubishi|outlander|2020": {
+    "n": 3,
+    "pct": 71.9
+   },
+   "nissan|juke|2016": {
+    "n": 6,
+    "pct": 44.2
+   },
+   "nissan|juke|2017": {
+    "n": 4,
+    "pct": 47.9
+   },
+   "nissan|juke|2018": {
+    "n": 4,
+    "pct": 39.8
+   },
+   "nissan|juke|2020": {
+    "n": 4,
+    "pct": 62.2
+   },
+   "nissan|leaf|2018": {
+    "n": 5,
+    "pct": 25.0
+   },
+   "nissan|leaf|2019": {
+    "n": 5,
+    "pct": 50.6
+   },
+   "nissan|leaf|2020": {
+    "n": 7,
+    "pct": 62.7
+   },
+   "nissan|leaf|2021": {
+    "n": 5,
+    "pct": 50.2
+   },
+   "nissan|micra|2018": {
+    "n": 10,
+    "pct": 51.6
+   },
+   "nissan|micra|2019": {
+    "n": 5,
+    "pct": 43.6
+   },
+   "nissan|note|2017": {
+    "n": 10,
+    "pct": 38.0
+   },
+   "nissan|qashqai|2016": {
+    "n": 24,
+    "pct": 30.7
+   },
+   "nissan|qashqai|2017": {
+    "n": 22,
+    "pct": 29.0
+   },
+   "nissan|qashqai|2018": {
+    "n": 16,
+    "pct": 45.9
+   },
+   "nissan|qashqai|2019": {
+    "n": 16,
+    "pct": 59.7
+   },
+   "nissan|qashqai|2020": {
+    "n": 8,
+    "pct": 56.3
+   },
+   "nissan|x-trail|2016": {
+    "n": 19,
+    "pct": 46.3
+   },
+   "nissan|x-trail|2017": {
+    "n": 12,
+    "pct": 39.4
+   },
+   "nissan|x-trail|2018": {
+    "n": 10,
+    "pct": 40.4
+   },
+   "nissan|x-trail|2019": {
+    "n": 3,
+    "pct": 58.8
+   },
+   "nissan|x-trail|2020": {
+    "n": 5,
+    "pct": 54.6
+   },
+   "peugeot|2008|2016": {
+    "n": 7,
+    "pct": 37.3
+   },
+   "peugeot|2008|2018": {
+    "n": 11,
+    "pct": 39.1
+   },
+   "peugeot|2008|2019": {
+    "n": 9,
+    "pct": 41.2
+   },
+   "peugeot|2008|2021": {
+    "n": 7,
+    "pct": 58.7
+   },
+   "peugeot|2008|2022": {
+    "n": 4,
+    "pct": 64.0
+   },
+   "peugeot|208|2017": {
+    "n": 4,
+    "pct": 43.1
+   },
+   "peugeot|208|2018": {
+    "n": 3,
+    "pct": 48.7
+   },
+   "peugeot|208|2019": {
+    "n": 6,
+    "pct": 41.8
+   },
+   "peugeot|208|2020": {
+    "n": 3,
+    "pct": 66.9
+   },
+   "peugeot|3008|2017": {
+    "n": 8,
+    "pct": 52.5
+   },
+   "peugeot|3008|2018": {
+    "n": 11,
+    "pct": 64.9
+   },
+   "peugeot|3008|2019": {
+    "n": 13,
+    "pct": 47.1
+   },
+   "peugeot|3008|2020": {
+    "n": 5,
+    "pct": 52.8
+   },
+   "peugeot|3008|2021": {
+    "n": 4,
+    "pct": 57.5
+   },
+   "peugeot|308|2015": {
+    "n": 8,
+    "pct": 30.7
+   },
+   "peugeot|308|2016": {
+    "n": 7,
+    "pct": 30.2
+   },
+   "peugeot|5008|2018": {
+    "n": 20,
+    "pct": 59.2
+   },
+   "peugeot|5008|2019": {
+    "n": 8,
+    "pct": 56.5
+   },
+   "peugeot|5008|2020": {
+    "n": 8,
+    "pct": 64.8
+   },
+   "peugeot|5008|2023": {
+    "n": 6,
+    "pct": 76.2
+   },
+   "peugeot|508|2019": {
+    "n": 5,
+    "pct": 40.1
+   },
+   "peugeot|partner|2021": {
+    "n": 28,
+    "pct": 39.6
+   },
+   "renault|arkana|2023": {
+    "n": 4,
+    "pct": 74.4
+   },
+   "renault|captur|2015": {
+    "n": 13,
+    "pct": 39.1
+   },
+   "renault|captur|2016": {
+    "n": 9,
+    "pct": 34.4
+   },
+   "renault|captur|2017": {
+    "n": 8,
+    "pct": 51.1
+   },
+   "renault|captur|2018": {
+    "n": 4,
+    "pct": 66.6
+   },
+   "renault|captur|2021": {
+    "n": 3,
+    "pct": 58.6
+   },
+   "renault|captur|2025": {
+    "n": 8,
+    "pct": 78.3
+   },
+   "renault|clio|2014": {
+    "n": 6,
+    "pct": 32.4
+   },
+   "renault|clio|2016": {
+    "n": 5,
+    "pct": 38.4
+   },
+   "renault|clio|2019": {
+    "n": 6,
+    "pct": 57.4
+   },
+   "renault|clio|2022": {
+    "n": 16,
+    "pct": 55.2
+   },
+   "renault|kadjar|2016": {
+    "n": 13,
+    "pct": 40.9
+   },
+   "renault|kadjar|2017": {
+    "n": 11,
+    "pct": 44.6
+   },
+   "renault|kadjar|2018": {
+    "n": 14,
+    "pct": 47.8
+   },
+   "renault|kadjar|2019": {
+    "n": 8,
+    "pct": 67.4
+   },
+   "renault|koleos|2021": {
+    "n": 3,
+    "pct": 61.9
+   },
+   "renault|megane|2017": {
+    "n": 17,
+    "pct": 41.8
+   },
+   "renault|megane|2018": {
+    "n": 5,
+    "pct": 39.7
+   },
+   "renault|megane|2019": {
+    "n": 4,
+    "pct": 57.9
+   },
+   "renault|megane|2020": {
+    "n": 6,
+    "pct": 49.5
+   },
+   "renault|megane|2021": {
+    "n": 5,
+    "pct": 37.3
+   },
+   "renault|scenic|2019": {
+    "n": 4,
+    "pct": 60.8
+   },
+   "renault|scenic|2025": {
+    "n": 4,
+    "pct": 81.8
+   },
+   "seat|arona|2018": {
+    "n": 3,
+    "pct": 50.2
+   },
+   "seat|arona|2019": {
+    "n": 4,
+    "pct": 56.3
+   },
+   "seat|arona|2023": {
+    "n": 7,
+    "pct": 71.1
+   },
+   "seat|ateca|2017": {
+    "n": 3,
+    "pct": 71.7
+   },
+   "seat|ateca|2018": {
+    "n": 7,
+    "pct": 67.7
+   },
+   "seat|ateca|2019": {
+    "n": 6,
+    "pct": 71.1
+   },
+   "seat|ateca|2020": {
+    "n": 3,
+    "pct": 66.4
+   },
+   "seat|ateca|2021": {
+    "n": 7,
+    "pct": 53.4
+   },
+   "seat|ibiza|2023": {
+    "n": 3,
+    "pct": 68.0
+   },
+   "seat|leon|2018": {
+    "n": 4,
+    "pct": 73.3
+   },
+   "seat|leon|2021": {
+    "n": 11,
+    "pct": 75.7
+   },
+   "seat|tarraco|2019": {
+    "n": 5,
+    "pct": 64.8
+   },
+   "seat|tarraco|2020": {
+    "n": 6,
+    "pct": 70.1
+   },
+   "seat|tarraco|2021": {
+    "n": 6,
+    "pct": 73.2
+   },
+   "skoda|enyaq|2021": {
+    "n": 5,
+    "pct": 57.7
+   },
+   "skoda|enyaq|2023": {
+    "n": 4,
+    "pct": 66.8
+   },
+   "skoda|fabia|2017": {
+    "n": 8,
+    "pct": 56.2
+   },
+   "skoda|fabia|2018": {
+    "n": 8,
+    "pct": 54.4
+   },
+   "skoda|fabia|2019": {
+    "n": 5,
+    "pct": 61.8
+   },
+   "skoda|fabia|2022": {
+    "n": 4,
+    "pct": 77.3
+   },
+   "skoda|fabia|2023": {
+    "n": 3,
+    "pct": 78.1
+   },
+   "skoda|kamiq|2020": {
+    "n": 5,
+    "pct": 74.4
+   },
+   "skoda|kamiq|2021": {
+    "n": 9,
+    "pct": 59.1
+   },
+   "skoda|karoq|2018": {
+    "n": 5,
+    "pct": 85.5
+   },
+   "skoda|karoq|2019": {
+    "n": 12,
+    "pct": 78.4
+   },
+   "skoda|karoq|2020": {
+    "n": 6,
+    "pct": 77.0
+   },
+   "skoda|karoq|2021": {
+    "n": 15,
+    "pct": 60.1
+   },
+   "skoda|karoq|2022": {
+    "n": 3,
+    "pct": 77.1
+   },
+   "skoda|karoq|2023": {
+    "n": 5,
+    "pct": 65.5
+   },
+   "skoda|kodiaq|2017": {
+    "n": 3,
+    "pct": 68.2
+   },
+   "skoda|kodiaq|2018": {
+    "n": 7,
+    "pct": 57.9
+   },
+   "skoda|kodiaq|2019": {
+    "n": 14,
+    "pct": 67.2
+   },
+   "skoda|kodiaq|2020": {
+    "n": 9,
+    "pct": 67.4
+   },
+   "skoda|kodiaq|2021": {
+    "n": 5,
+    "pct": 68.4
+   },
+   "skoda|kodiaq|2022": {
+    "n": 4,
+    "pct": 72.0
+   },
+   "skoda|kodiaq|2023": {
+    "n": 6,
+    "pct": 61.9
+   },
+   "skoda|octavia|2016": {
+    "n": 21,
+    "pct": 46.4
+   },
+   "skoda|octavia|2017": {
+    "n": 9,
+    "pct": 50.2
+   },
+   "skoda|octavia|2018": {
+    "n": 11,
+    "pct": 49.2
+   },
+   "skoda|octavia|2019": {
+    "n": 10,
+    "pct": 64.9
+   },
+   "skoda|octavia|2020": {
+    "n": 10,
+    "pct": 67.7
+   },
+   "skoda|octavia|2021": {
+    "n": 22,
+    "pct": 52.2
+   },
+   "skoda|octavia|2023": {
+    "n": 9,
+    "pct": 44.5
+   },
+   "skoda|scala|2020": {
+    "n": 4,
+    "pct": 70.1
+   },
+   "skoda|scala|2022": {
+    "n": 4,
+    "pct": 75.5
+   },
+   "skoda|superb|2021": {
+    "n": 3,
+    "pct": 43.9
+   },
+   "suzuki|vitara|2016": {
+    "n": 9,
+    "pct": 49.6
+   },
+   "suzuki|vitara|2020": {
+    "n": 3,
+    "pct": 79.1
+   },
+   "tesla|model 3|2019": {
+    "n": 4,
+    "pct": 69.8
+   },
+   "tesla|model 3|2020": {
+    "n": 5,
+    "pct": 70.2
+   },
+   "tesla|model y|2023": {
+    "n": 6,
+    "pct": 83.4
+   },
+   "toyota|auris|2015": {
+    "n": 12,
+    "pct": 45.1
+   },
+   "toyota|auris|2016": {
+    "n": 8,
+    "pct": 45.5
+   },
+   "toyota|auris|2017": {
+    "n": 5,
+    "pct": 54.9
+   },
+   "toyota|auris|2018": {
+    "n": 3,
+    "pct": 72.7
+   },
+   "toyota|avensis|2016": {
+    "n": 11,
+    "pct": 34.7
+   },
+   "toyota|avensis|2017": {
+    "n": 5,
+    "pct": 35.5
+   },
+   "toyota|c-hr|2017": {
+    "n": 3,
+    "pct": 62.9
+   },
+   "toyota|c-hr|2018": {
+    "n": 4,
+    "pct": 81.6
+   },
+   "toyota|c-hr|2019": {
+    "n": 7,
+    "pct": 79.0
+   },
+   "toyota|c-hr|2022": {
+    "n": 28,
+    "pct": 66.5
+   },
+   "toyota|c-hr|2023": {
+    "n": 5,
+    "pct": 66.1
+   },
+   "toyota|corolla|2017": {
+    "n": 6,
+    "pct": 56.4
+   },
+   "toyota|corolla|2018": {
+    "n": 3,
+    "pct": 55.4
+   },
+   "toyota|corolla|2019": {
+    "n": 6,
+    "pct": 72.4
+   },
+   "toyota|corolla|2022": {
+    "n": 23,
+    "pct": 65.7
+   },
+   "toyota|hilux|2021": {
+    "n": 3,
+    "pct": 63.1
+   },
+   "toyota|prius|2015": {
+    "n": 3,
+    "pct": 51.1
+   },
+   "toyota|prius|2017": {
+    "n": 3,
+    "pct": 48.8
+   },
+   "toyota|rav4|2016": {
+    "n": 13,
+    "pct": 46.7
+   },
+   "toyota|rav4|2017": {
+    "n": 13,
+    "pct": 57.9
+   },
+   "toyota|rav4|2018": {
+    "n": 5,
+    "pct": 45.4
+   },
+   "toyota|rav4|2019": {
+    "n": 5,
+    "pct": 82.3
+   },
+   "toyota|rav4|2022": {
+    "n": 6,
+    "pct": 80.0
+   },
+   "toyota|yaris|2016": {
+    "n": 8,
+    "pct": 53.9
+   },
+   "toyota|yaris|2021": {
+    "n": 3,
+    "pct": 81.5
+   },
+   "toyota|yaris|2022": {
+    "n": 30,
+    "pct": 72.5
+   },
+   "vauxhall|astra|2017": {
+    "n": 3,
+    "pct": 14.6
+   },
+   "volkswagen|arteon|2018": {
+    "n": 4,
+    "pct": 76.4
+   },
+   "volkswagen|arteon|2020": {
+    "n": 3,
+    "pct": 60.9
+   },
+   "volkswagen|beetle|2014": {
+    "n": 3,
+    "pct": 60.5
+   },
+   "volkswagen|caddy|2018": {
+    "n": 5,
+    "pct": 40.3
+   },
+   "volkswagen|caddy|2022": {
+    "n": 6,
+    "pct": 89.8
+   },
+   "volkswagen|cc|2016": {
+    "n": 3,
+    "pct": 45.3
+   },
+   "volkswagen|golf|2016": {
+    "n": 10,
+    "pct": 54.1
+   },
+   "volkswagen|golf|2017": {
+    "n": 11,
+    "pct": 53.6
+   },
+   "volkswagen|golf|2018": {
+    "n": 15,
+    "pct": 52.6
+   },
+   "volkswagen|golf|2019": {
+    "n": 4,
+    "pct": 67.4
+   },
+   "volkswagen|golf|2020": {
+    "n": 4,
+    "pct": 68.4
+   },
+   "volkswagen|golf|2021": {
+    "n": 4,
+    "pct": 70.6
+   },
+   "volkswagen|id.3|2021": {
+    "n": 4,
+    "pct": 65.0
+   },
+   "volkswagen|id.3|2023": {
+    "n": 4,
+    "pct": 66.8
+   },
+   "volkswagen|id.4|2021": {
+    "n": 10,
+    "pct": 62.3
+   },
+   "volkswagen|id.4|2022": {
+    "n": 7,
+    "pct": 74.9
+   },
+   "volkswagen|id.4|2023": {
+    "n": 13,
+    "pct": 83.8
+   },
+   "volkswagen|passat|2015": {
+    "n": 9,
+    "pct": 35.4
+   },
+   "volkswagen|passat|2016": {
+    "n": 19,
+    "pct": 38.4
+   },
+   "volkswagen|passat|2017": {
+    "n": 3,
+    "pct": 55.7
+   },
+   "volkswagen|passat|2018": {
+    "n": 10,
+    "pct": 45.7
+   },
+   "volkswagen|polo|2014": {
+    "n": 7,
+    "pct": 42.7
+   },
+   "volkswagen|polo|2015": {
+    "n": 11,
+    "pct": 50.2
+   },
+   "volkswagen|polo|2016": {
+    "n": 9,
+    "pct": 58.3
+   },
+   "volkswagen|polo|2017": {
+    "n": 9,
+    "pct": 56.4
+   },
+   "volkswagen|polo|2019": {
+    "n": 6,
+    "pct": 50.9
+   },
+   "volkswagen|polo|2021": {
+    "n": 3,
+    "pct": 70.2
+   },
+   "volkswagen|t-cross|2020": {
+    "n": 3,
+    "pct": 64.6
+   },
+   "volkswagen|t-roc|2018": {
+    "n": 5,
+    "pct": 63.3
+   },
+   "volkswagen|t-roc|2019": {
+    "n": 5,
+    "pct": 77.8
+   },
+   "volkswagen|t-roc|2022": {
+    "n": 4,
+    "pct": 65.6
+   },
+   "volkswagen|t-roc|2023": {
+    "n": 5,
+    "pct": 66.6
+   },
+   "volkswagen|t-roc|2024": {
+    "n": 5,
+    "pct": 74.0
+   },
+   "volkswagen|tiguan|2016": {
+    "n": 7,
+    "pct": 66.7
+   },
+   "volkswagen|tiguan|2017": {
+    "n": 8,
+    "pct": 51.3
+   },
+   "volkswagen|tiguan|2018": {
+    "n": 5,
+    "pct": 46.3
+   },
+   "volkswagen|tiguan|2019": {
+    "n": 5,
+    "pct": 44.2
+   },
+   "volkswagen|tiguan|2020": {
+    "n": 9,
+    "pct": 76.8
+   },
+   "volkswagen|tiguan|2021": {
+    "n": 4,
+    "pct": 57.9
+   },
+   "volkswagen|tiguan|2022": {
+    "n": 3,
+    "pct": 80.8
+   },
+   "volkswagen|tiguan|2024": {
+    "n": 3,
+    "pct": 82.1
+   },
+   "volkswagen|touareg|2016": {
+    "n": 4,
+    "pct": 64.8
+   },
+   "volkswagen|touareg|2018": {
+    "n": 4,
+    "pct": 44.6
+   },
+   "volkswagen|touareg|2023": {
+    "n": 3,
+    "pct": 47.4
+   },
+   "volkswagen|touran|2017": {
+    "n": 3,
+    "pct": 29.2
+   },
+   "volvo|s60|2017": {
+    "n": 3,
+    "pct": 37.9
+   },
+   "volvo|v40|2014": {
+    "n": 8,
+    "pct": 40.1
+   },
+   "volvo|v40|2016": {
+    "n": 10,
+    "pct": 40.3
+   },
+   "volvo|v40|2018": {
+    "n": 5,
+    "pct": 56.3
+   },
+   "volvo|v60|2015": {
+    "n": 4,
+    "pct": 57.9
+   },
+   "volvo|v60|2016": {
+    "n": 3,
+    "pct": 35.7
+   },
+   "volvo|v60|2018": {
+    "n": 3,
+    "pct": 52.7
+   },
+   "volvo|xc40|2021": {
+    "n": 3,
+    "pct": 68.2
+   },
+   "volvo|xc60|2015": {
+    "n": 9,
+    "pct": 48.6
+   },
+   "volvo|xc60|2016": {
+    "n": 15,
+    "pct": 45.6
+   },
+   "volvo|xc60|2017": {
+    "n": 5,
+    "pct": 48.8
+   },
+   "volvo|xc60|2018": {
+    "n": 6,
+    "pct": 61.7
+   },
+   "volvo|xc60|2019": {
+    "n": 3,
+    "pct": 64.2
+   },
+   "volvo|xc60|2020": {
+    "n": 7,
+    "pct": 71.7
+   },
+   "volvo|xc60|2021": {
+    "n": 3,
+    "pct": 67.1
+   },
+   "volvo|xc90|2016": {
+    "n": 12,
+    "pct": 63.4
+   },
+   "volvo|xc90|2017": {
+    "n": 5,
+    "pct": 60.8
+   },
+   "volvo|xc90|2018": {
+    "n": 7,
+    "pct": 67.3
+   }
+  },
+  "estimator": "hybrid",
+  "global_pct": 56.0,
+  "model_factors": {
+   "audi|a1": {
+    "factor": 0.9766,
+    "n": 16
+   },
+   "audi|a3": {
+    "factor": 1.0727,
+    "n": 48
+   },
+   "audi|a4": {
+    "factor": 1.1527,
+    "n": 37
+   },
+   "audi|a5": {
+    "factor": 1.0706,
+    "n": 20
+   },
+   "audi|a6": {
+    "factor": 1.3154,
+    "n": 49
+   },
+   "audi|a7": {
+    "factor": 1.1824,
+    "n": 9
+   },
+   "audi|e-tron": {
+    "factor": 0.9604,
+    "n": 11
+   },
+   "audi|q3": {
+    "factor": 1.0428,
+    "n": 20
+   },
+   "audi|q5": {
+    "factor": 1.1587,
+    "n": 12
+   },
+   "audi|q7": {
+    "factor": 1.2126,
+    "n": 11
+   },
+   "bmw|1 series": {
+    "factor": 0.8818,
+    "n": 17
+   },
+   "bmw|2 series": {
+    "factor": 0.9995,
+    "n": 7
+   },
+   "bmw|3 series": {
+    "factor": 0.8198,
+    "n": 46
+   },
+   "bmw|4 series": {
+    "factor": 1.1726,
+    "n": 12
+   },
+   "bmw|5 series": {
+    "factor": 0.9909,
+    "n": 48
+   },
+   "bmw|x1": {
+    "factor": 1.0262,
+    "n": 8
+   },
+   "bmw|x5": {
+    "factor": 1.0125,
+    "n": 30
+   },
+   "citroen|berlingo": {
+    "factor": 0.8413,
+    "n": 13
+   },
+   "citroen|c3": {
+    "factor": 0.8983,
+    "n": 8
+   },
+   "cupra|formentor": {
+    "factor": 1.0476,
+    "n": 7
+   },
+   "dacia|duster": {
+    "factor": 0.8817,
+    "n": 27
+   },
+   "fiat|500": {
+    "factor": 0.9015,
+    "n": 19
+   },
+   "ford|ecosport": {
+    "factor": 0.9216,
+    "n": 11
+   },
+   "ford|fiesta": {
+    "factor": 1.0122,
+    "n": 46
+   },
+   "ford|focus": {
+    "factor": 0.9361,
+    "n": 49
+   },
+   "ford|galaxy": {
+    "factor": 1.1034,
+    "n": 12
+   },
+   "ford|kuga": {
+    "factor": 1.0621,
+    "n": 47
+   },
+   "ford|mondeo": {
+    "factor": 0.9146,
+    "n": 47
+   },
+   "ford|puma": {
+    "factor": 1.0241,
+    "n": 8
+   },
+   "ford|ranger": {
+    "factor": 0.9938,
+    "n": 28
+   },
+   "ford|s-max": {
+    "factor": 1.016,
+    "n": 20
+   },
+   "honda|civic": {
+    "factor": 1.0391,
+    "n": 15
+   },
+   "honda|cr-v": {
+    "factor": 1.0353,
+    "n": 13
+   },
+   "honda|fit": {
+    "factor": 1.0284,
+    "n": 7
+   },
+   "hyundai|i10": {
+    "factor": 0.9229,
+    "n": 14
+   },
+   "hyundai|i20": {
+    "factor": 1.0255,
+    "n": 20
+   },
+   "hyundai|i30": {
+    "factor": 0.9439,
+    "n": 41
+   },
+   "hyundai|i40": {
+    "factor": 0.8811,
+    "n": 13
+   },
+   "hyundai|ioniq": {
+    "factor": 1.1209,
+    "n": 10
+   },
+   "hyundai|kona": {
+    "factor": 0.9675,
+    "n": 39
+   },
+   "hyundai|santa fe": {
+    "factor": 1.0647,
+    "n": 29
+   },
+   "hyundai|tucson": {
+    "factor": 0.938,
+    "n": 49
+   },
+   "jaguar|f-pace": {
+    "factor": 0.9784,
+    "n": 10
+   },
+   "jaguar|xe": {
+    "factor": 0.815,
+    "n": 6
+   },
+   "jaguar|xf": {
+    "factor": 0.9244,
+    "n": 8
+   },
+   "kia|carens": {
+    "factor": 0.8951,
+    "n": 7
+   },
+   "kia|ceed": {
+    "factor": 1.0227,
+    "n": 21
+   },
+   "kia|niro": {
+    "factor": 0.952,
+    "n": 8
+   },
+   "kia|optima": {
+    "factor": 1.0708,
+    "n": 6
+   },
+   "kia|sorento": {
+    "factor": 1.1184,
+    "n": 29
+   },
+   "kia|sportage": {
+    "factor": 0.9213,
+    "n": 46
+   },
+   "kia|stonic": {
+    "factor": 0.951,
+    "n": 11
+   },
+   "land rover|discovery": {
+    "factor": 0.967,
+    "n": 48
+   },
+   "land rover|range rover evoque": {
+    "factor": 0.8969,
+    "n": 11
+   },
+   "lexus|is 300 h": {
+    "factor": 1.0604,
+    "n": 6
+   },
+   "mazda|cx-5": {
+    "factor": 0.9073,
+    "n": 24
+   },
+   "mazda|mazda3": {
+    "factor": 0.9933,
+    "n": 9
+   },
+   "mercedes-benz|a class": {
+    "factor": 0.9661,
+    "n": 10
+   },
+   "mercedes-benz|c class": {
+    "factor": 1.027,
+    "n": 17
+   },
+   "mercedes-benz|e class": {
+    "factor": 1.0855,
+    "n": 11
+   },
+   "mercedes-benz|glc class": {
+    "factor": 1.0738,
+    "n": 10
+   },
+   "mg|zs": {
+    "factor": 1.0182,
+    "n": 7
+   },
+   "mini|cooper": {
+    "factor": 0.9079,
+    "n": 13
+   },
+   "mini|hatch": {
+    "factor": 0.8417,
+    "n": 21
+   },
+   "mitsubishi|outlander": {
+    "factor": 0.9357,
+    "n": 41
+   },
+   "nissan|juke": {
+    "factor": 0.9024,
+    "n": 20
+   },
+   "nissan|leaf": {
+    "factor": 0.8868,
+    "n": 26
+   },
+   "nissan|micra": {
+    "factor": 0.901,
+    "n": 20
+   },
+   "nissan|note": {
+    "factor": 0.9039,
+    "n": 13
+   },
+   "nissan|qashqai": {
+    "factor": 0.8567,
+    "n": 88
+   },
+   "nissan|x-trail": {
+    "factor": 0.9589,
+    "n": 49
+   },
+   "peugeot|2008": {
+    "factor": 0.8028,
+    "n": 41
+   },
+   "peugeot|208": {
+    "factor": 0.8691,
+    "n": 19
+   },
+   "peugeot|3008": {
+    "factor": 0.9929,
+    "n": 45
+   },
+   "peugeot|308": {
+    "factor": 0.7858,
+    "n": 16
+   },
+   "peugeot|5008": {
+    "factor": 1.0303,
+    "n": 49
+   },
+   "peugeot|508": {
+    "factor": 0.9566,
+    "n": 6
+   },
+   "peugeot|partner": {
+    "factor": 0.8624,
+    "n": 28
+   },
+   "renault|captur": {
+    "factor": 0.9198,
+    "n": 49
+   },
+   "renault|clio": {
+    "factor": 0.8557,
+    "n": 39
+   },
+   "renault|kadjar": {
+    "factor": 0.884,
+    "n": 49
+   },
+   "renault|megane": {
+    "factor": 0.8977,
+    "n": 37
+   },
+   "renault|scenic": {
+    "factor": 0.9985,
+    "n": 8
+   },
+   "seat|arona": {
+    "factor": 1.0066,
+    "n": 18
+   },
+   "seat|ateca": {
+    "factor": 1.0722,
+    "n": 27
+   },
+   "seat|ibiza": {
+    "factor": 1.0158,
+    "n": 8
+   },
+   "seat|leon": {
+    "factor": 1.0961,
+    "n": 20
+   },
+   "seat|tarraco": {
+    "factor": 1.1285,
+    "n": 20
+   },
+   "skoda|enyaq": {
+    "factor": 0.9641,
+    "n": 10
+   },
+   "skoda|fabia": {
+    "factor": 0.9586,
+    "n": 32
+   },
+   "skoda|kamiq": {
+    "factor": 1.0094,
+    "n": 17
+   },
+   "skoda|karoq": {
+    "factor": 1.1129,
+    "n": 48
+   },
+   "skoda|kodiaq": {
+    "factor": 1.2348,
+    "n": 48
+   },
+   "skoda|octavia": {
+    "factor": 0.9919,
+    "n": 93
+   },
+   "skoda|scala": {
+    "factor": 1.0178,
+    "n": 11
+   },
+   "skoda|superb": {
+    "factor": 1.0546,
+    "n": 8
+   },
+   "suzuki|vitara": {
+    "factor": 0.9674,
+    "n": 20
+   },
+   "tesla|model 3": {
+    "factor": 1.0795,
+    "n": 16
+   },
+   "tesla|model y": {
+    "factor": 1.051,
+    "n": 7
+   },
+   "toyota|auris": {
+    "factor": 1.0237,
+    "n": 28
+   },
+   "toyota|avensis": {
+    "factor": 0.9116,
+    "n": 17
+   },
+   "toyota|c-hr": {
+    "factor": 1.0488,
+    "n": 49
+   },
+   "toyota|corolla": {
+    "factor": 1.013,
+    "n": 42
+   },
+   "toyota|prius": {
+    "factor": 1.0327,
+    "n": 8
+   },
+   "toyota|rav4": {
+    "factor": 1.1468,
+    "n": 48
+   },
+   "toyota|yaris": {
+    "factor": 1.0144,
+    "n": 47
+   },
+   "volkswagen|arteon": {
+    "factor": 1.1371,
+    "n": 14
+   },
+   "volkswagen|caddy": {
+    "factor": 1.169,
+    "n": 12
+   },
+   "volkswagen|golf": {
+    "factor": 1.0366,
+    "n": 48
+   },
+   "volkswagen|id.3": {
+    "factor": 1.02,
+    "n": 12
+   },
+   "volkswagen|id.4": {
+    "factor": 1.0212,
+    "n": 30
+   },
+   "volkswagen|passat": {
+    "factor": 1.041,
+    "n": 49
+   },
+   "volkswagen|polo": {
+    "factor": 0.9952,
+    "n": 50
+   },
+   "volkswagen|t-roc": {
+    "factor": 1.0434,
+    "n": 25
+   },
+   "volkswagen|tiguan": {
+    "factor": 1.172,
+    "n": 47
+   },
+   "volkswagen|touareg": {
+    "factor": 1.0605,
+    "n": 14
+   },
+   "volkswagen|touran": {
+    "factor": 0.923,
+    "n": 12
+   },
+   "volvo|v40": {
+    "factor": 0.8996,
+    "n": 26
+   },
+   "volvo|v60": {
+    "factor": 1.0144,
+    "n": 13
+   },
+   "volvo|xc40": {
+    "factor": 1.0249,
+    "n": 6
+   },
+   "volvo|xc60": {
+    "factor": 1.0661,
+    "n": 50
+   },
+   "volvo|xc90": {
+    "factor": 1.3389,
+    "n": 26
+   }
+  },
+  "n": 3211
+ },
+ "built": "2026-09-04",
+ "excluded_features": {
+  "ols_leak": {
+   "why": "needs the bidder count",
+   "would_score_mae_pts": 10.76
+  },
+  "ols_rich": {
+   "why": "reg lookup gives no fuel/gearbox/body",
+   "would_score_mae_pts": 11.29
+  },
+  "ols_rich+mdl": {
+   "why": "reg lookup gives no fuel/gearbox/body",
+   "would_score_mae_pts": 10.75
+  }
+ },
+ "features": [
+  "intercept",
+  "log_km",
+  "log_retail",
+  "age_years"
+ ],
+ "mileage_bands": [
+  [
+   0,
+   60000,
+   "under 60k"
+  ],
+  [
+   60000,
+   100000,
+   "60-100k"
+  ],
+  [
+   100000,
+   150000,
+   "100-150k"
+  ],
+  [
+   150000,
+   200000,
+   "150-200k"
+  ],
+  [
+   200000,
+   1000000000,
+   "200k+"
+  ]
+ ],
+ "min_band_n": 12,
+ "min_cell_n": 8,
+ "min_direct_n": 3,
+ "min_model_n": 6,
+ "sold": {
+  "accuracy": {
+   "band50_pts": [
+    -9.0,
+    8.5
+   ],
+   "band80_pts": [
+    -17.9,
+    17.2
+   ],
+   "beats_constant_pts": 4.57,
+   "bias_pts": -0.17,
+   "estimator": "hybrid",
+   "mae_pts": 10.88,
+   "sd_pts": 13.95
+  },
+  "apply_model_factor": true,
+  "bands": {
+   "100-150k": {
+    "n": 643,
+    "pct": 60.5
+   },
+   "150-200k": {
+    "n": 474,
+    "pct": 52.2
+   },
+   "200k+": {
+    "n": 315,
+    "pct": 37.1
+   },
+   "60-100k": {
+    "n": 448,
+    "pct": 66.9
+   },
+   "under 60k": {
+    "n": 225,
+    "pct": 76.3
+   }
+  },
+  "base": "cells",
+  "cells": {
+   "100-150k|3-5yr": {
+    "n": 103,
+    "pct": 65.5
+   },
+   "100-150k|6-8yr": {
+    "n": 279,
+    "pct": 63.6
+   },
+   "100-150k|9-12yr": {
+    "n": 256,
+    "pct": 54.9
+   },
+   "150-200k|3-5yr": {
+    "n": 66,
+    "pct": 52.2
+   },
+   "150-200k|6-8yr": {
+    "n": 178,
+    "pct": 54.7
+   },
+   "150-200k|9-12yr": {
+    "n": 230,
+    "pct": 51.1
+   },
+   "200k+|3-5yr": {
+    "n": 19,
+    "pct": 37.6
+   },
+   "200k+|6-8yr": {
+    "n": 75,
+    "pct": 40.3
+   },
+   "200k+|9-12yr": {
+    "n": 219,
+    "pct": 36.0
+   },
+   "60-100k|3-5yr": {
+    "n": 113,
+    "pct": 74.3
+   },
+   "60-100k|6-8yr": {
+    "n": 199,
+    "pct": 66.4
+   },
+   "60-100k|9-12yr": {
+    "n": 129,
+    "pct": 61.0
+   },
+   "under 60k|0-2yr": {
+    "n": 41,
+    "pct": 82.1
+   },
+   "under 60k|3-5yr": {
+    "n": 118,
+    "pct": 76.3
+   },
+   "under 60k|6-8yr": {
+    "n": 44,
+    "pct": 74.4
+   },
+   "under 60k|9-12yr": {
+    "n": 22,
+    "pct": 62.1
+   }
+  },
+  "coefficients": {
+   "age_years": 0.000144,
+   "intercept": 1.099524,
+   "log_km": -0.173745,
+   "log_retail": 0.154471
+  },
+  "direct_segments": {
+   "audi|a1|2013": {
+    "n": 3,
+    "pct": 50.7
+   },
+   "audi|a1|2014": {
+    "n": 5,
+    "pct": 44.9
+   },
+   "audi|a1|2015": {
+    "n": 4,
+    "pct": 65.1
+   },
+   "audi|a3|2014": {
+    "n": 5,
+    "pct": 43.0
+   },
+   "audi|a3|2015": {
+    "n": 5,
+    "pct": 57.0
+   },
+   "audi|a3|2016": {
+    "n": 8,
+    "pct": 69.1
+   },
+   "audi|a3|2017": {
+    "n": 3,
+    "pct": 71.0
+   },
+   "audi|a3|2018": {
+    "n": 3,
+    "pct": 69.2
+   },
+   "audi|a3|2019": {
+    "n": 4,
+    "pct": 64.6
+   },
+   "audi|a4|2015": {
+    "n": 3,
+    "pct": 31.6
+   },
+   "audi|a4|2016": {
+    "n": 9,
+    "pct": 56.2
+   },
+   "audi|a4|2017": {
+    "n": 3,
+    "pct": 55.9
+   },
+   "audi|a4|2018": {
+    "n": 6,
+    "pct": 74.7
+   },
+   "audi|a4|2019": {
+    "n": 3,
+    "pct": 51.6
+   },
+   "audi|a5|2017": {
+    "n": 4,
+    "pct": 68.7
+   },
+   "audi|a6|2015": {
+    "n": 9,
+    "pct": 60.2
+   },
+   "audi|a6|2016": {
+    "n": 9,
+    "pct": 74.2
+   },
+   "audi|a6|2017": {
+    "n": 5,
+    "pct": 54.9
+   },
+   "audi|a6|2018": {
+    "n": 7,
+    "pct": 59.4
+   },
+   "audi|a6|2019": {
+    "n": 5,
+    "pct": 85.5
+   },
+   "audi|a6|2021": {
+    "n": 6,
+    "pct": 66.4
+   },
+   "audi|e-tron|2020": {
+    "n": 4,
+    "pct": 70.3
+   },
+   "audi|q5|2018": {
+    "n": 5,
+    "pct": 86.2
+   },
+   "audi|q5|2019": {
+    "n": 4,
+    "pct": 77.9
+   },
+   "audi|q7|2016": {
+    "n": 4,
+    "pct": 73.7
+   },
+   "bmw|1 series|2014": {
+    "n": 4,
+    "pct": 32.3
+   },
+   "bmw|1 series|2017": {
+    "n": 4,
+    "pct": 35.7
+   },
+   "bmw|1 series|2018": {
+    "n": 3,
+    "pct": 61.0
+   },
+   "bmw|2 series|2016": {
+    "n": 4,
+    "pct": 50.0
+   },
+   "bmw|3 series|2013": {
+    "n": 3,
+    "pct": 23.3
+   },
+   "bmw|3 series|2014": {
+    "n": 4,
+    "pct": 34.3
+   },
+   "bmw|3 series|2015": {
+    "n": 3,
+    "pct": 29.3
+   },
+   "bmw|3 series|2016": {
+    "n": 5,
+    "pct": 32.8
+   },
+   "bmw|3 series|2017": {
+    "n": 4,
+    "pct": 39.8
+   },
+   "bmw|3 series|2018": {
+    "n": 7,
+    "pct": 43.8
+   },
+   "bmw|3 series|2021": {
+    "n": 3,
+    "pct": 68.0
+   },
+   "bmw|5 series|2015": {
+    "n": 3,
+    "pct": 20.8
+   },
+   "bmw|5 series|2016": {
+    "n": 6,
+    "pct": 48.2
+   },
+   "bmw|5 series|2017": {
+    "n": 7,
+    "pct": 45.6
+   },
+   "bmw|5 series|2018": {
+    "n": 7,
+    "pct": 52.2
+   },
+   "bmw|7 series|2019": {
+    "n": 3,
+    "pct": 70.4
+   },
+   "bmw|x1|2017": {
+    "n": 3,
+    "pct": 66.9
+   },
+   "bmw|x5|2014": {
+    "n": 3,
+    "pct": 67.8
+   },
+   "bmw|x5|2016": {
+    "n": 3,
+    "pct": 38.0
+   },
+   "bmw|x5|2017": {
+    "n": 3,
+    "pct": 51.8
+   },
+   "bmw|x5|2018": {
+    "n": 4,
+    "pct": 47.7
+   },
+   "citroen|berlingo|2020": {
+    "n": 3,
+    "pct": 35.6
+   },
+   "citroen|berlingo|2021": {
+    "n": 6,
+    "pct": 39.4
+   },
+   "citroen|c3|2018": {
+    "n": 3,
+    "pct": 34.5
+   },
+   "citroen|c4|2022": {
+    "n": 3,
+    "pct": 65.9
+   },
+   "cupra|formentor|2023": {
+    "n": 3,
+    "pct": 79.0
+   },
+   "dacia|duster|2019": {
+    "n": 4,
+    "pct": 50.2
+   },
+   "dacia|duster|2021": {
+    "n": 4,
+    "pct": 53.6
+   },
+   "fiat|500|2015": {
+    "n": 4,
+    "pct": 31.0
+   },
+   "fiat|500|2017": {
+    "n": 4,
+    "pct": 46.7
+   },
+   "fiat|500|2018": {
+    "n": 6,
+    "pct": 66.5
+   },
+   "ford|ecosport|2019": {
+    "n": 3,
+    "pct": 53.5
+   },
+   "ford|fiesta|2016": {
+    "n": 9,
+    "pct": 61.0
+   },
+   "ford|fiesta|2017": {
+    "n": 11,
+    "pct": 60.5
+   },
+   "ford|fiesta|2018": {
+    "n": 3,
+    "pct": 56.3
+   },
+   "ford|fiesta|2019": {
+    "n": 5,
+    "pct": 66.9
+   },
+   "ford|focus|2016": {
+    "n": 7,
+    "pct": 68.2
+   },
+   "ford|focus|2017": {
+    "n": 8,
+    "pct": 51.5
+   },
+   "ford|focus|2018": {
+    "n": 4,
+    "pct": 48.2
+   },
+   "ford|focus|2019": {
+    "n": 3,
+    "pct": 64.4
+   },
+   "ford|focus|2020": {
+    "n": 5,
+    "pct": 61.1
+   },
+   "ford|focus|2021": {
+    "n": 3,
+    "pct": 60.3
+   },
+   "ford|galaxy|2017": {
+    "n": 5,
+    "pct": 80.8
+   },
+   "ford|kuga|2016": {
+    "n": 4,
+    "pct": 37.5
+   },
+   "ford|kuga|2018": {
+    "n": 6,
+    "pct": 51.8
+   },
+   "ford|kuga|2019": {
+    "n": 3,
+    "pct": 63.8
+   },
+   "ford|kuga|2021": {
+    "n": 3,
+    "pct": 68.9
+   },
+   "ford|mondeo|2016": {
+    "n": 13,
+    "pct": 40.0
+   },
+   "ford|mondeo|2017": {
+    "n": 8,
+    "pct": 53.3
+   },
+   "ford|mondeo|2018": {
+    "n": 4,
+    "pct": 53.7
+   },
+   "ford|mondeo|2019": {
+    "n": 5,
+    "pct": 40.6
+   },
+   "ford|mondeo|2021": {
+    "n": 3,
+    "pct": 62.6
+   },
+   "ford|puma|2020": {
+    "n": 3,
+    "pct": 69.7
+   },
+   "ford|puma|2021": {
+    "n": 3,
+    "pct": 68.5
+   },
+   "ford|ranger|2021": {
+    "n": 6,
+    "pct": 53.6
+   },
+   "ford|s-max|2016": {
+    "n": 5,
+    "pct": 50.0
+   },
+   "ford|s-max|2017": {
+    "n": 4,
+    "pct": 63.4
+   },
+   "honda|civic|2016": {
+    "n": 6,
+    "pct": 63.9
+   },
+   "honda|civic|2018": {
+    "n": 3,
+    "pct": 62.7
+   },
+   "honda|cr-v|2016": {
+    "n": 4,
+    "pct": 58.4
+   },
+   "honda|cr-v|2017": {
+    "n": 3,
+    "pct": 67.9
+   },
+   "honda|fit|2015": {
+    "n": 3,
+    "pct": 52.9
+   },
+   "honda|hr-v|2017": {
+    "n": 3,
+    "pct": 63.5
+   },
+   "hyundai|i10|2017": {
+    "n": 5,
+    "pct": 50.3
+   },
+   "hyundai|i10|2018": {
+    "n": 4,
+    "pct": 52.3
+   },
+   "hyundai|i10|2019": {
+    "n": 3,
+    "pct": 63.9
+   },
+   "hyundai|i20|2017": {
+    "n": 5,
+    "pct": 65.5
+   },
+   "hyundai|i20|2018": {
+    "n": 4,
+    "pct": 56.8
+   },
+   "hyundai|i20|2019": {
+    "n": 3,
+    "pct": 44.4
+   },
+   "hyundai|i30|2016": {
+    "n": 10,
+    "pct": 46.5
+   },
+   "hyundai|i30|2017": {
+    "n": 3,
+    "pct": 59.8
+   },
+   "hyundai|i30|2018": {
+    "n": 5,
+    "pct": 58.8
+   },
+   "hyundai|i30|2019": {
+    "n": 4,
+    "pct": 60.4
+   },
+   "hyundai|i30|2022": {
+    "n": 4,
+    "pct": 57.7
+   },
+   "hyundai|i40|2017": {
+    "n": 5,
+    "pct": 40.1
+   },
+   "hyundai|ioniq|2022": {
+    "n": 5,
+    "pct": 118.4
+   },
+   "hyundai|kona|2018": {
+    "n": 7,
+    "pct": 78.6
+   },
+   "hyundai|kona|2019": {
+    "n": 9,
+    "pct": 62.7
+   },
+   "hyundai|kona|2020": {
+    "n": 4,
+    "pct": 59.7
+   },
+   "hyundai|kona|2021": {
+    "n": 5,
+    "pct": 27.5
+   },
+   "hyundai|kona|2023": {
+    "n": 3,
+    "pct": 75.7
+   },
+   "hyundai|santa fe|2015": {
+    "n": 6,
+    "pct": 55.3
+   },
+   "hyundai|tucson|2016": {
+    "n": 3,
+    "pct": 53.6
+   },
+   "hyundai|tucson|2017": {
+    "n": 5,
+    "pct": 45.2
+   },
+   "hyundai|tucson|2021": {
+    "n": 3,
+    "pct": 65.7
+   },
+   "jaguar|e-pace|2018": {
+    "n": 3,
+    "pct": 32.4
+   },
+   "jaguar|f-pace|2017": {
+    "n": 6,
+    "pct": 59.1
+   },
+   "jaguar|xf|2017": {
+    "n": 4,
+    "pct": 37.7
+   },
+   "kia|carens|2018": {
+    "n": 6,
+    "pct": 30.8
+   },
+   "kia|ceed|2017": {
+    "n": 4,
+    "pct": 53.0
+   },
+   "kia|niro|2020": {
+    "n": 3,
+    "pct": 64.7
+   },
+   "kia|optima|2018": {
+    "n": 3,
+    "pct": 76.2
+   },
+   "kia|picanto|2018": {
+    "n": 3,
+    "pct": 44.3
+   },
+   "kia|sorento|2016": {
+    "n": 5,
+    "pct": 46.8
+   },
+   "kia|sorento|2017": {
+    "n": 3,
+    "pct": 65.3
+   },
+   "kia|sorento|2019": {
+    "n": 4,
+    "pct": 55.2
+   },
+   "kia|sportage|2016": {
+    "n": 9,
+    "pct": 54.2
+   },
+   "kia|sportage|2017": {
+    "n": 7,
+    "pct": 48.6
+   },
+   "kia|sportage|2018": {
+    "n": 4,
+    "pct": 49.1
+   },
+   "kia|stonic|2018": {
+    "n": 4,
+    "pct": 53.0
+   },
+   "land rover|discovery|2016": {
+    "n": 7,
+    "pct": 30.1
+   },
+   "land rover|discovery|2017": {
+    "n": 4,
+    "pct": 34.4
+   },
+   "land rover|discovery|2018": {
+    "n": 7,
+    "pct": 52.8
+   },
+   "land rover|discovery|2019": {
+    "n": 7,
+    "pct": 49.1
+   },
+   "land rover|discovery|2020": {
+    "n": 5,
+    "pct": 35.4
+   },
+   "mazda|cx-5|2016": {
+    "n": 6,
+    "pct": 28.4
+   },
+   "mazda|cx-5|2018": {
+    "n": 5,
+    "pct": 44.1
+   },
+   "mazda|mazda3|2024": {
+    "n": 3,
+    "pct": 81.0
+   },
+   "mazda|mazda6|2019": {
+    "n": 3,
+    "pct": 50.9
+   },
+   "mercedes-benz|a class|2017": {
+    "n": 4,
+    "pct": 61.1
+   },
+   "mercedes-benz|c class|2017": {
+    "n": 3,
+    "pct": 58.9
+   },
+   "mercedes-benz|c class|2019": {
+    "n": 3,
+    "pct": 66.1
+   },
+   "mercedes-benz|glc class|2018": {
+    "n": 3,
+    "pct": 72.4
+   },
+   "mg|zs|2022": {
+    "n": 5,
+    "pct": 70.5
+   },
+   "mini|hatch|2016": {
+    "n": 4,
+    "pct": 41.6
+   },
+   "mitsubishi|outlander|2015": {
+    "n": 3,
+    "pct": 34.7
+   },
+   "mitsubishi|outlander|2016": {
+    "n": 10,
+    "pct": 54.9
+   },
+   "mitsubishi|outlander|2017": {
+    "n": 7,
+    "pct": 47.8
+   },
+   "nissan|juke|2016": {
+    "n": 4,
+    "pct": 44.2
+   },
+   "nissan|juke|2017": {
+    "n": 3,
+    "pct": 54.1
+   },
+   "nissan|leaf|2018": {
+    "n": 5,
+    "pct": 25.0
+   },
+   "nissan|leaf|2019": {
+    "n": 5,
+    "pct": 50.6
+   },
+   "nissan|leaf|2020": {
+    "n": 5,
+    "pct": 65.5
+   },
+   "nissan|leaf|2021": {
+    "n": 5,
+    "pct": 50.2
+   },
+   "nissan|micra|2018": {
+    "n": 8,
+    "pct": 52.8
+   },
+   "nissan|micra|2019": {
+    "n": 3,
+    "pct": 55.5
+   },
+   "nissan|note|2017": {
+    "n": 7,
+    "pct": 28.7
+   },
+   "nissan|qashqai|2016": {
+    "n": 8,
+    "pct": 29.1
+   },
+   "nissan|qashqai|2017": {
+    "n": 18,
+    "pct": 29.0
+   },
+   "nissan|qashqai|2018": {
+    "n": 10,
+    "pct": 57.2
+   },
+   "nissan|qashqai|2019": {
+    "n": 12,
+    "pct": 59.7
+   },
+   "nissan|qashqai|2020": {
+    "n": 5,
+    "pct": 53.8
+   },
+   "nissan|x-trail|2016": {
+    "n": 15,
+    "pct": 48.2
+   },
+   "nissan|x-trail|2017": {
+    "n": 6,
+    "pct": 38.4
+   },
+   "nissan|x-trail|2018": {
+    "n": 5,
+    "pct": 59.8
+   },
+   "peugeot|2008|2016": {
+    "n": 6,
+    "pct": 37.5
+   },
+   "peugeot|2008|2018": {
+    "n": 7,
+    "pct": 40.9
+   },
+   "peugeot|2008|2019": {
+    "n": 7,
+    "pct": 44.9
+   },
+   "peugeot|2008|2021": {
+    "n": 5,
+    "pct": 58.7
+   },
+   "peugeot|208|2017": {
+    "n": 4,
+    "pct": 43.1
+   },
+   "peugeot|208|2019": {
+    "n": 3,
+    "pct": 43.5
+   },
+   "peugeot|3008|2017": {
+    "n": 6,
+    "pct": 57.5
+   },
+   "peugeot|3008|2018": {
+    "n": 10,
+    "pct": 65.9
+   },
+   "peugeot|3008|2019": {
+    "n": 8,
+    "pct": 45.3
+   },
+   "peugeot|308|2015": {
+    "n": 4,
+    "pct": 34.7
+   },
+   "peugeot|308|2016": {
+    "n": 5,
+    "pct": 37.7
+   },
+   "peugeot|5008|2018": {
+    "n": 15,
+    "pct": 57.2
+   },
+   "peugeot|5008|2019": {
+    "n": 7,
+    "pct": 54.5
+   },
+   "peugeot|5008|2020": {
+    "n": 7,
+    "pct": 66.2
+   },
+   "peugeot|508|2019": {
+    "n": 3,
+    "pct": 48.6
+   },
+   "peugeot|partner|2021": {
+    "n": 25,
+    "pct": 40.1
+   },
+   "renault|arkana|2023": {
+    "n": 3,
+    "pct": 75.4
+   },
+   "renault|captur|2015": {
+    "n": 10,
+    "pct": 36.8
+   },
+   "renault|captur|2016": {
+    "n": 7,
+    "pct": 34.4
+   },
+   "renault|captur|2017": {
+    "n": 3,
+    "pct": 58.4
+   },
+   "renault|captur|2018": {
+    "n": 3,
+    "pct": 69.7
+   },
+   "renault|captur|2025": {
+    "n": 8,
+    "pct": 78.3
+   },
+   "renault|clio|2014": {
+    "n": 5,
+    "pct": 30.2
+   },
+   "renault|clio|2016": {
+    "n": 3,
+    "pct": 24.7
+   },
+   "renault|clio|2019": {
+    "n": 4,
+    "pct": 59.4
+   },
+   "renault|clio|2022": {
+    "n": 3,
+    "pct": 66.2
+   },
+   "renault|kadjar|2016": {
+    "n": 9,
+    "pct": 43.7
+   },
+   "renault|kadjar|2017": {
+    "n": 8,
+    "pct": 44.8
+   },
+   "renault|kadjar|2018": {
+    "n": 9,
+    "pct": 48.1
+   },
+   "renault|kadjar|2019": {
+    "n": 8,
+    "pct": 67.4
+   },
+   "renault|megane|2017": {
+    "n": 10,
+    "pct": 42.5
+   },
+   "renault|megane|2018": {
+    "n": 4,
+    "pct": 44.0
+   },
+   "renault|scenic|2019": {
+    "n": 4,
+    "pct": 60.8
+   },
+   "renault|scenic|2025": {
+    "n": 4,
+    "pct": 81.8
+   },
+   "seat|arona|2018": {
+    "n": 3,
+    "pct": 50.2
+   },
+   "seat|arona|2019": {
+    "n": 3,
+    "pct": 56.6
+   },
+   "seat|ateca|2018": {
+    "n": 4,
+    "pct": 68.3
+   },
+   "seat|ateca|2019": {
+    "n": 5,
+    "pct": 74.3
+   },
+   "seat|ateca|2020": {
+    "n": 3,
+    "pct": 66.4
+   },
+   "seat|leon|2018": {
+    "n": 3,
+    "pct": 73.5
+   },
+   "seat|leon|2021": {
+    "n": 7,
+    "pct": 77.7
+   },
+   "seat|tarraco|2019": {
+    "n": 5,
+    "pct": 64.8
+   },
+   "seat|tarraco|2021": {
+    "n": 6,
+    "pct": 73.2
+   },
+   "skoda|enyaq|2023": {
+    "n": 4,
+    "pct": 66.8
+   },
+   "skoda|fabia|2017": {
+    "n": 7,
+    "pct": 57.5
+   },
+   "skoda|fabia|2018": {
+    "n": 7,
+    "pct": 58.6
+   },
+   "skoda|kamiq|2020": {
+    "n": 4,
+    "pct": 73.8
+   },
+   "skoda|kamiq|2021": {
+    "n": 3,
+    "pct": 73.1
+   },
+   "skoda|karoq|2018": {
+    "n": 4,
+    "pct": 88.9
+   },
+   "skoda|karoq|2019": {
+    "n": 9,
+    "pct": 79.2
+   },
+   "skoda|karoq|2020": {
+    "n": 4,
+    "pct": 77.0
+   },
+   "skoda|karoq|2021": {
+    "n": 4,
+    "pct": 66.9
+   },
+   "skoda|kodiaq|2017": {
+    "n": 3,
+    "pct": 68.2
+   },
+   "skoda|kodiaq|2018": {
+    "n": 6,
+    "pct": 55.1
+   },
+   "skoda|kodiaq|2019": {
+    "n": 12,
+    "pct": 77.4
+   },
+   "skoda|kodiaq|2020": {
+    "n": 4,
+    "pct": 66.3
+   },
+   "skoda|kodiaq|2021": {
+    "n": 3,
+    "pct": 86.2
+   },
+   "skoda|kodiaq|2023": {
+    "n": 3,
+    "pct": 68.7
+   },
+   "skoda|octavia|2016": {
+    "n": 15,
+    "pct": 48.2
+   },
+   "skoda|octavia|2017": {
+    "n": 8,
+    "pct": 43.7
+   },
+   "skoda|octavia|2018": {
+    "n": 7,
+    "pct": 47.5
+   },
+   "skoda|octavia|2019": {
+    "n": 9,
+    "pct": 66.1
+   },
+   "skoda|octavia|2020": {
+    "n": 4,
+    "pct": 65.7
+   },
+   "skoda|octavia|2021": {
+    "n": 11,
+    "pct": 52.2
+   },
+   "skoda|scala|2020": {
+    "n": 4,
+    "pct": 70.1
+   },
+   "suzuki|vitara|2016": {
+    "n": 5,
+    "pct": 49.6
+   },
+   "tesla|model 3|2019": {
+    "n": 3,
+    "pct": 66.3
+   },
+   "tesla|model 3|2020": {
+    "n": 5,
+    "pct": 70.2
+   },
+   "tesla|model y|2023": {
+    "n": 6,
+    "pct": 83.4
+   },
+   "toyota|auris|2015": {
+    "n": 8,
+    "pct": 49.6
+   },
+   "toyota|auris|2016": {
+    "n": 6,
+    "pct": 49.1
+   },
+   "toyota|auris|2017": {
+    "n": 3,
+    "pct": 54.9
+   },
+   "toyota|auris|2018": {
+    "n": 3,
+    "pct": 72.7
+   },
+   "toyota|avensis|2016": {
+    "n": 9,
+    "pct": 30.9
+   },
+   "toyota|avensis|2017": {
+    "n": 3,
+    "pct": 46.6
+   },
+   "toyota|c-hr|2017": {
+    "n": 3,
+    "pct": 62.9
+   },
+   "toyota|c-hr|2018": {
+    "n": 3,
+    "pct": 86.4
+   },
+   "toyota|c-hr|2019": {
+    "n": 6,
+    "pct": 79.9
+   },
+   "toyota|c-hr|2022": {
+    "n": 19,
+    "pct": 75.0
+   },
+   "toyota|c-hr|2023": {
+    "n": 4,
+    "pct": 67.3
+   },
+   "toyota|corolla|2018": {
+    "n": 3,
+    "pct": 55.4
+   },
+   "toyota|corolla|2019": {
+    "n": 3,
+    "pct": 72.5
+   },
+   "toyota|corolla|2022": {
+    "n": 15,
+    "pct": 71.9
+   },
+   "toyota|hilux|2021": {
+    "n": 3,
+    "pct": 63.1
+   },
+   "toyota|prius|2015": {
+    "n": 3,
+    "pct": 51.1
+   },
+   "toyota|prius|2017": {
+    "n": 3,
+    "pct": 48.8
+   },
+   "toyota|rav4|2016": {
+    "n": 9,
+    "pct": 46.4
+   },
+   "toyota|rav4|2017": {
+    "n": 8,
+    "pct": 57.0
+   },
+   "toyota|rav4|2018": {
+    "n": 5,
+    "pct": 45.4
+   },
+   "toyota|rav4|2019": {
+    "n": 4,
+    "pct": 79.8
+   },
+   "toyota|rav4|2022": {
+    "n": 5,
+    "pct": 81.2
+   },
+   "toyota|yaris|2016": {
+    "n": 6,
+    "pct": 50.7
+   },
+   "toyota|yaris|2021": {
+    "n": 3,
+    "pct": 81.5
+   },
+   "toyota|yaris|2022": {
+    "n": 16,
+    "pct": 72.9
+   },
+   "volkswagen|arteon|2018": {
+    "n": 4,
+    "pct": 76.4
+   },
+   "volkswagen|beetle|2014": {
+    "n": 3,
+    "pct": 60.5
+   },
+   "volkswagen|caddy|2018": {
+    "n": 4,
+    "pct": 61.3
+   },
+   "volkswagen|caddy|2022": {
+    "n": 4,
+    "pct": 97.6
+   },
+   "volkswagen|golf|2016": {
+    "n": 8,
+    "pct": 54.1
+   },
+   "volkswagen|golf|2017": {
+    "n": 9,
+    "pct": 54.2
+   },
+   "volkswagen|golf|2018": {
+    "n": 9,
+    "pct": 53.5
+   },
+   "volkswagen|golf|2019": {
+    "n": 3,
+    "pct": 70.2
+   },
+   "volkswagen|id.3|2021": {
+    "n": 3,
+    "pct": 75.9
+   },
+   "volkswagen|id.3|2023": {
+    "n": 3,
+    "pct": 69.2
+   },
+   "volkswagen|id.4|2021": {
+    "n": 8,
+    "pct": 62.3
+   },
+   "volkswagen|id.4|2022": {
+    "n": 5,
+    "pct": 74.9
+   },
+   "volkswagen|id.4|2023": {
+    "n": 9,
+    "pct": 88.7
+   },
+   "volkswagen|passat|2015": {
+    "n": 6,
+    "pct": 47.7
+   },
+   "volkswagen|passat|2016": {
+    "n": 13,
+    "pct": 59.1
+   },
+   "volkswagen|passat|2017": {
+    "n": 3,
+    "pct": 55.7
+   },
+   "volkswagen|passat|2018": {
+    "n": 7,
+    "pct": 52.6
+   },
+   "volkswagen|polo|2014": {
+    "n": 5,
+    "pct": 47.7
+   },
+   "volkswagen|polo|2015": {
+    "n": 11,
+    "pct": 50.2
+   },
+   "volkswagen|polo|2016": {
+    "n": 7,
+    "pct": 62.6
+   },
+   "volkswagen|polo|2017": {
+    "n": 8,
+    "pct": 57.9
+   },
+   "volkswagen|polo|2019": {
+    "n": 6,
+    "pct": 50.9
+   },
+   "volkswagen|t-cross|2020": {
+    "n": 3,
+    "pct": 64.6
+   },
+   "volkswagen|t-roc|2018": {
+    "n": 4,
+    "pct": 62.5
+   },
+   "volkswagen|t-roc|2019": {
+    "n": 5,
+    "pct": 77.8
+   },
+   "volkswagen|t-roc|2022": {
+    "n": 4,
+    "pct": 65.6
+   },
+   "volkswagen|t-roc|2024": {
+    "n": 5,
+    "pct": 74.0
+   },
+   "volkswagen|tiguan|2016": {
+    "n": 4,
+    "pct": 61.1
+   },
+   "volkswagen|tiguan|2017": {
+    "n": 3,
+    "pct": 65.2
+   },
+   "volkswagen|tiguan|2020": {
+    "n": 6,
+    "pct": 78.5
+   },
+   "volkswagen|touareg|2016": {
+    "n": 3,
+    "pct": 57.8
+   },
+   "volvo|s60|2017": {
+    "n": 3,
+    "pct": 37.9
+   },
+   "volvo|v40|2014": {
+    "n": 7,
+    "pct": 40.1
+   },
+   "volvo|v40|2016": {
+    "n": 8,
+    "pct": 39.4
+   },
+   "volvo|v40|2018": {
+    "n": 4,
+    "pct": 57.2
+   },
+   "volvo|v60|2015": {
+    "n": 4,
+    "pct": 57.9
+   },
+   "volvo|v60|2016": {
+    "n": 3,
+    "pct": 35.7
+   },
+   "volvo|xc40|2021": {
+    "n": 3,
+    "pct": 68.2
+   },
+   "volvo|xc60|2015": {
+    "n": 6,
+    "pct": 43.6
+   },
+   "volvo|xc60|2016": {
+    "n": 14,
+    "pct": 43.7
+   },
+   "volvo|xc60|2017": {
+    "n": 3,
+    "pct": 52.4
+   },
+   "volvo|xc60|2018": {
+    "n": 4,
+    "pct": 61.7
+   },
+   "volvo|xc60|2020": {
+    "n": 3,
+    "pct": 67.3
+   },
+   "volvo|xc90|2016": {
+    "n": 9,
+    "pct": 63.9
+   },
+   "volvo|xc90|2017": {
+    "n": 5,
+    "pct": 60.8
+   },
+   "volvo|xc90|2018": {
+    "n": 4,
+    "pct": 72.6
+   }
+  },
+  "estimator": "hybrid",
+  "global_pct": 58.3,
+  "model_factors": {
+   "audi|a1": {
+    "factor": 0.9572,
+    "n": 15
+   },
+   "audi|a3": {
+    "factor": 1.085,
+    "n": 35
+   },
+   "audi|a4": {
+    "factor": 1.1076,
+    "n": 26
+   },
+   "audi|a5": {
+    "factor": 1.0803,
+    "n": 8
+   },
+   "audi|a6": {
+    "factor": 1.266,
+    "n": 41
+   },
+   "audi|e-tron": {
+    "factor": 1.0119,
+    "n": 6
+   },
+   "audi|q5": {
+    "factor": 1.1343,
+    "n": 12
+   },
+   "audi|q7": {
+    "factor": 1.214,
+    "n": 7
+   },
+   "bmw|1 series": {
+    "factor": 0.8519,
+    "n": 14
+   },
+   "bmw|2 series": {
+    "factor": 0.9931,
+    "n": 6
+   },
+   "bmw|3 series": {
+    "factor": 0.8126,
+    "n": 33
+   },
+   "bmw|4 series": {
+    "factor": 1.1305,
+    "n": 7
+   },
+   "bmw|5 series": {
+    "factor": 0.9763,
+    "n": 28
+   },
+   "bmw|x5": {
+    "factor": 1.0099,
+    "n": 17
+   },
+   "citroen|berlingo": {
+    "factor": 0.8739,
+    "n": 10
+   },
+   "citroen|c3": {
+    "factor": 0.9101,
+    "n": 6
+   },
+   "dacia|duster": {
+    "factor": 0.9114,
+    "n": 13
+   },
+   "fiat|500": {
+    "factor": 0.9181,
+    "n": 14
+   },
+   "ford|ecosport": {
+    "factor": 0.9491,
+    "n": 6
+   },
+   "ford|fiesta": {
+    "factor": 1.0288,
+    "n": 30
+   },
+   "ford|focus": {
+    "factor": 0.9819,
+    "n": 30
+   },
+   "ford|galaxy": {
+    "factor": 1.0893,
+    "n": 8
+   },
+   "ford|kuga": {
+    "factor": 1.033,
+    "n": 21
+   },
+   "ford|mondeo": {
+    "factor": 0.9434,
+    "n": 35
+   },
+   "ford|puma": {
+    "factor": 1.0103,
+    "n": 7
+   },
+   "ford|ranger": {
+    "factor": 1.0123,
+    "n": 11
+   },
+   "ford|s-max": {
+    "factor": 1.0089,
+    "n": 10
+   },
+   "honda|civic": {
+    "factor": 1.0199,
+    "n": 12
+   },
+   "honda|cr-v": {
+    "factor": 1.0441,
+    "n": 9
+   },
+   "honda|fit": {
+    "factor": 0.9929,
+    "n": 6
+   },
+   "hyundai|i10": {
+    "factor": 0.9014,
+    "n": 13
+   },
+   "hyundai|i20": {
+    "factor": 1.016,
+    "n": 15
+   },
+   "hyundai|i30": {
+    "factor": 0.9393,
+    "n": 29
+   },
+   "hyundai|i40": {
+    "factor": 0.9207,
+    "n": 7
+   },
+   "hyundai|ioniq": {
+    "factor": 1.0599,
+    "n": 8
+   },
+   "hyundai|kona": {
+    "factor": 0.9919,
+    "n": 30
+   },
+   "hyundai|santa fe": {
+    "factor": 1.0525,
+    "n": 18
+   },
+   "hyundai|tucson": {
+    "factor": 0.9805,
+    "n": 20
+   },
+   "jaguar|f-pace": {
+    "factor": 0.9639,
+    "n": 10
+   },
+   "jaguar|xf": {
+    "factor": 0.9086,
+    "n": 7
+   },
+   "kia|carens": {
+    "factor": 0.8852,
+    "n": 6
+   },
+   "kia|ceed": {
+    "factor": 1.0004,
+    "n": 8
+   },
+   "kia|niro": {
+    "factor": 0.9626,
+    "n": 7
+   },
+   "kia|sorento": {
+    "factor": 1.0759,
+    "n": 16
+   },
+   "kia|sportage": {
+    "factor": 0.9723,
+    "n": 24
+   },
+   "kia|stonic": {
+    "factor": 0.955,
+    "n": 6
+   },
+   "land rover|discovery": {
+    "factor": 0.8281,
+    "n": 37
+   },
+   "mazda|cx-5": {
+    "factor": 0.8864,
+    "n": 16
+   },
+   "mazda|mazda3": {
+    "factor": 0.9874,
+    "n": 7
+   },
+   "mercedes-benz|a class": {
+    "factor": 0.9772,
+    "n": 8
+   },
+   "mercedes-benz|c class": {
+    "factor": 1.0295,
+    "n": 12
+   },
+   "mercedes-benz|e class": {
+    "factor": 1.0944,
+    "n": 6
+   },
+   "mercedes-benz|glc class": {
+    "factor": 1.0566,
+    "n": 7
+   },
+   "mini|hatch": {
+    "factor": 0.8976,
+    "n": 9
+   },
+   "mitsubishi|outlander": {
+    "factor": 0.9871,
+    "n": 27
+   },
+   "nissan|juke": {
+    "factor": 0.9179,
+    "n": 11
+   },
+   "nissan|leaf": {
+    "factor": 0.8732,
+    "n": 22
+   },
+   "nissan|micra": {
+    "factor": 0.9148,
+    "n": 11
+   },
+   "nissan|note": {
+    "factor": 0.9239,
+    "n": 9
+   },
+   "nissan|qashqai": {
+    "factor": 0.8791,
+    "n": 53
+   },
+   "nissan|x-trail": {
+    "factor": 0.9962,
+    "n": 28
+   },
+   "peugeot|2008": {
+    "factor": 0.8045,
+    "n": 30
+   },
+   "peugeot|208": {
+    "factor": 0.8688,
+    "n": 12
+   },
+   "peugeot|3008": {
+    "factor": 1.0137,
+    "n": 31
+   },
+   "peugeot|308": {
+    "factor": 0.8398,
+    "n": 10
+   },
+   "peugeot|5008": {
+    "factor": 0.9976,
+    "n": 35
+   },
+   "peugeot|partner": {
+    "factor": 0.8439,
+    "n": 25
+   },
+   "renault|captur": {
+    "factor": 0.9246,
+    "n": 35
+   },
+   "renault|clio": {
+    "factor": 0.9034,
+    "n": 19
+   },
+   "renault|kadjar": {
+    "factor": 0.9479,
+    "n": 36
+   },
+   "renault|megane": {
+    "factor": 0.9495,
+    "n": 19
+   },
+   "renault|scenic": {
+    "factor": 0.9845,
+    "n": 8
+   },
+   "seat|arona": {
+    "factor": 1.0047,
+    "n": 10
+   },
+   "seat|ateca": {
+    "factor": 1.0476,
+    "n": 15
+   },
+   "seat|leon": {
+    "factor": 1.0555,
+    "n": 13
+   },
+   "seat|tarraco": {
+    "factor": 1.174,
+    "n": 15
+   },
+   "skoda|enyaq": {
+    "factor": 0.9782,
+    "n": 7
+   },
+   "skoda|fabia": {
+    "factor": 0.9655,
+    "n": 18
+   },
+   "skoda|kamiq": {
+    "factor": 0.9943,
+    "n": 7
+   },
+   "skoda|karoq": {
+    "factor": 1.117,
+    "n": 24
+   },
+   "skoda|kodiaq": {
+    "factor": 1.1957,
+    "n": 32
+   },
+   "skoda|octavia": {
+    "factor": 0.9909,
+    "n": 56
+   },
+   "suzuki|vitara": {
+    "factor": 0.9399,
+    "n": 12
+   },
+   "tesla|model 3": {
+    "factor": 1.0513,
+    "n": 15
+   },
+   "tesla|model y": {
+    "factor": 1.0433,
+    "n": 7
+   },
+   "toyota|auris": {
+    "factor": 1.0268,
+    "n": 20
+   },
+   "toyota|avensis": {
+    "factor": 0.8781,
+    "n": 12
+   },
+   "toyota|c-hr": {
+    "factor": 1.0334,
+    "n": 37
+   },
+   "toyota|corolla": {
+    "factor": 0.9987,
+    "n": 26
+   },
+   "toyota|prius": {
+    "factor": 1.009,
+    "n": 8
+   },
+   "toyota|rav4": {
+    "factor": 1.0857,
+    "n": 36
+   },
+   "toyota|yaris": {
+    "factor": 0.9833,
+    "n": 28
+   },
+   "volkswagen|arteon": {
+    "factor": 1.1056,
+    "n": 11
+   },
+   "volkswagen|caddy": {
+    "factor": 1.1751,
+    "n": 8
+   },
+   "volkswagen|golf": {
+    "factor": 1.0322,
+    "n": 31
+   },
+   "volkswagen|id.3": {
+    "factor": 1.0288,
+    "n": 9
+   },
+   "volkswagen|id.4": {
+    "factor": 1.0226,
+    "n": 22
+   },
+   "volkswagen|passat": {
+    "factor": 1.1156,
+    "n": 34
+   },
+   "volkswagen|polo": {
+    "factor": 0.9901,
+    "n": 41
+   },
+   "volkswagen|t-roc": {
+    "factor": 1.0408,
+    "n": 20
+   },
+   "volkswagen|tiguan": {
+    "factor": 1.1472,
+    "n": 24
+   },
+   "volkswagen|touareg": {
+    "factor": 1.0196,
+    "n": 7
+   },
+   "volkswagen|touran": {
+    "factor": 0.9277,
+    "n": 8
+   },
+   "volvo|v40": {
+    "factor": 0.9001,
+    "n": 22
+   },
+   "volvo|v60": {
+    "factor": 1.0109,
+    "n": 10
+   },
+   "volvo|xc60": {
+    "factor": 1.0403,
+    "n": 33
+   },
+   "volvo|xc90": {
+    "factor": 1.1563,
+    "n": 19
+   }
+  },
+  "n": 2105
+ },
+ "source": "TradeBid Trade Book \u2014 INTERNAL ONLY, never publish or name the source",
+ "target": "top bid as a share of the Irish retail median for the frozen segment (make+model+year)",
+ "this_year": 2026
+}

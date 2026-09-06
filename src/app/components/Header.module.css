@@ -54,16 +54,19 @@
 }
 
 .navList li {
-  padding: 0 14px;
+  padding: 0 10px;
 }
 
 .navLink {
   color: #727272;
   text-transform: uppercase;
-  font-size: 14px;
+  font-size: 13px;
+  letter-spacing: 0.01em;
   text-decoration: none;
   line-height: 2.5rem;
   display: inline-block;
+  /* never let a label break onto two lines inside its own box (owner, 6 Sep) */
+  white-space: nowrap;
 }
 
 .navLink:hover,
@@ -134,8 +137,26 @@ button.navLink {
 
 .phone a {
   color: #b60b0c;
-  font-size: 16px;
+  font-size: 15px;
   text-decoration: none;
+  white-space: nowrap;
+}
+
+/* Between the hamburger breakpoint (900) and ~1100px the row is one line but needs less air. */
+@media (min-width: 901px) and (max-width: 1100px) {
+  .navList li {
+    padding: 0 4px;
+  }
+  .navLink {
+    font-size: 12px;
+    letter-spacing: 0;
+  }
+  .phone {
+    padding-left: 6px !important;
+  }
+  .phone a {
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 900px) {

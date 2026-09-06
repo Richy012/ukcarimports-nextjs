@@ -1,0 +1,9537 @@
+{
+ "built": "2026-09-05",
+ "far_means": "this trim sits 8%+ from its segment median, where knowing the trim is worth EUR 750-2,200. Treat it as both a real adjustment AND a flag that a person should see the quote before it goes out.",
+ "far_threshold_pct": 8.0,
+ "min_segment_listings": 8,
+ "min_trim_listings": 3,
+ "offered": {
+  "alfa romeo|tonale": [
+   "SPECIALE",
+   "VELOCE"
+  ],
+  "audi|a1": [
+   "S LINE",
+   "SE",
+   "SPORT"
+  ],
+  "audi|a3": [
+   "S LINE",
+   "SE",
+   "SPORT"
+  ],
+  "audi|a4": [
+   "S LINE",
+   "SE",
+   "SPORT",
+   "ULTRA"
+  ],
+  "audi|a5": [
+   "BLACK EDITION",
+   "S LINE",
+   "SE",
+   "SPORT"
+  ],
+  "audi|a6": [
+   "BLACK EDITION",
+   "S LINE",
+   "SE"
+  ],
+  "audi|a7": [
+   "S LINE"
+  ],
+  "audi|e-tron": [
+   "BLACK EDITION",
+   "S LINE",
+   "SPORT",
+   "TECHNIK"
+  ],
+  "audi|q2": [
+   "S LINE",
+   "SE",
+   "SPORT"
+  ],
+  "audi|q3": [
+   "S LINE",
+   "SE",
+   "SPORT"
+  ],
+  "audi|q4 e-tron": [
+   "BLACK EDITION",
+   "S LINE",
+   "SPORT"
+  ],
+  "audi|q5": [
+   "BLACK EDITION",
+   "EDITION 1",
+   "S LINE",
+   "SE"
+  ],
+  "audi|q6 e-tron": [
+   "E-TRON",
+   "S LINE"
+  ],
+  "audi|q7": [
+   "BLACK EDITION",
+   "S LINE",
+   "VORSPRUNG"
+  ],
+  "audi|q8": [
+   "BLACK EDITION",
+   "COMPETITION",
+   "S LINE"
+  ],
+  "audi|q8 e-tron": [
+   "SPORT"
+  ],
+  "bmw|1 series": [
+   "M SPORT",
+   "SPORT"
+  ],
+  "bmw|2 series": [
+   "M SPORT"
+  ],
+  "bmw|3 series": [
+   "M SPORT",
+   "SE",
+   "SPORT"
+  ],
+  "bmw|5 series": [
+   "M SPORT",
+   "M SPORT PRO",
+   "MHT",
+   "SE",
+   "SPORT"
+  ],
+  "bmw|i4": [
+   "M SPORT",
+   "M50",
+   "SPORT"
+  ],
+  "bmw|i5": [
+   "M SPORT",
+   "M SPORT PRO"
+  ],
+  "bmw|ix": [
+   "M SPORT",
+   "SPORT"
+  ],
+  "bmw|ix1": [
+   "M SPORT",
+   "SPORT",
+   "XLINE"
+  ],
+  "bmw|ix2": [
+   "M SPORT"
+  ],
+  "bmw|ix3": [
+   "M SPORT",
+   "M SPORT PRO"
+  ],
+  "bmw|x1": [
+   "M SPORT",
+   "SE",
+   "SPORT",
+   "XLINE"
+  ],
+  "bmw|x2": [
+   "SPORT"
+  ],
+  "bmw|x3": [
+   "20D",
+   "M SPORT",
+   "SE",
+   "XLINE"
+  ],
+  "bmw|x5": [
+   "45E",
+   "M SPORT",
+   "XLINE"
+  ],
+  "bmw|xm": [
+   "50E"
+  ],
+  "byd|atto 3": [
+   "COMFORT",
+   "DESIGN"
+  ],
+  "byd|dolphin": [
+   "COMFORT",
+   "DESIGN"
+  ],
+  "byd|dolphin surf": [
+   "BOOST",
+   "COMFORT"
+  ],
+  "byd|seal": [
+   "DESIGN",
+   "EXCELLENCE"
+  ],
+  "byd|seal u": [
+   "BOOST",
+   "COMFORT",
+   "DESIGN"
+  ],
+  "byd|sealion 7": [
+   "COMFORT",
+   "DESIGN",
+   "EXCELLENCE"
+  ],
+  "citroen|berlingo": [
+   "BLUEHDI",
+   "PLUS"
+  ],
+  "citroen|c3": [
+   "EDITION",
+   "PLUS",
+   "PURETECH"
+  ],
+  "citroen|c3 aircross": [
+   "FLAIR",
+   "MAX",
+   "PLUS",
+   "PURETECH"
+  ],
+  "citroen|c4": [
+   "BLUEHDI",
+   "FLAIR",
+   "MAX",
+   "PLUS",
+   "PURETECH"
+  ],
+  "citroen|c5 aircross": [
+   "BLUEHDI",
+   "FEEL",
+   "MAX",
+   "PLUS",
+   "PURETECH"
+  ],
+  "citroen|grand c4 picasso": [
+   "EXCLUSIVE"
+  ],
+  "cupra|born": [
+   "E-BOOST",
+   "V1",
+   "V2"
+  ],
+  "cupra|formentor": [
+   "V1",
+   "V2"
+  ],
+  "cupra|leon": [
+   "V1"
+  ],
+  "fiat|500": [
+   "DOLCEVITA",
+   "MHEV",
+   "POP"
+  ],
+  "fiat|grande panda": [
+   "ICON",
+   "LA PRIMA"
+  ],
+  "fiat|panda": [
+   "CROSS",
+   "ICON",
+   "LA PRIMA",
+   "MHEV"
+  ],
+  "ford|capri": [
+   "EXTENDED RANGE",
+   "PREMIUM",
+   "SELECT"
+  ],
+  "ford|ecosport": [
+   "ECOBOOST",
+   "ST-LINE",
+   "TITANIUM"
+  ],
+  "ford|explorer": [
+   "EXTENDED RANGE",
+   "PREMIUM"
+  ],
+  "ford|fiesta": [
+   "ACTIVE",
+   "ECOBOOST",
+   "ST",
+   "ST-LINE",
+   "TI-VCT",
+   "TITANIUM",
+   "TREND",
+   "ZETEC"
+  ],
+  "ford|focus": [
+   "ACTIVE",
+   "ECOBOOST",
+   "ST-LINE",
+   "ST-LINE EDITION",
+   "ST-LINE X",
+   "TITANIUM",
+   "TITANIUM VIGNALE",
+   "ZETEC"
+  ],
+  "ford|galaxy": [
+   "TITANIUM"
+  ],
+  "ford|kuga": [
+   "ST-LINE",
+   "ST-LINE X",
+   "ST-LINE X EDITION",
+   "TITANIUM",
+   "VIGNALE"
+  ],
+  "ford|mondeo": [
+   "TITANIUM",
+   "VIGNALE",
+   "ZETEC"
+  ],
+  "ford|puma": [
+   "ECOBOOST",
+   "ECOBOOST MHEV",
+   "ST",
+   "ST-LINE",
+   "ST-LINE X",
+   "TITANIUM"
+  ],
+  "ford|tourneo connect": [
+   "ACTIVE",
+   "TITANIUM"
+  ],
+  "honda|civic": [
+   "I-DTEC",
+   "VTEC TURBO"
+  ],
+  "honda|cr-v": [
+   "EX",
+   "I-DTEC"
+  ],
+  "honda|e:ny1": [
+   "ELEGANCE"
+  ],
+  "honda|hr-v": [
+   "ADVANCE",
+   "ELEGANCE"
+  ],
+  "honda|jazz": [
+   "ADVANCE"
+  ],
+  "hyundai|i20": [
+   "ACTIVE"
+  ],
+  "hyundai|i30": [
+   "N LINE"
+  ],
+  "hyundai|ioniq 5": [
+   "NAMSAN EDITION",
+   "PREMIUM",
+   "ULTIMATE"
+  ],
+  "hyundai|kona": [
+   "ADVANCE",
+   "N LINE",
+   "PREMIUM",
+   "T-GDI",
+   "ULTIMATE"
+  ],
+  "hyundai|santa fe": [
+   "PREMIUM"
+  ],
+  "hyundai|tucson": [
+   "N LINE"
+  ],
+  "jaguar|i-pace": [
+   "SE"
+  ],
+  "jaguar|xe": [
+   "PRESTIGE",
+   "R-SPORT"
+  ],
+  "jaguar|xf": [
+   "PRESTIGE",
+   "R-SPORT"
+  ],
+  "jeep|avenger": [
+   "ALTITUDE"
+  ],
+  "kia|ceed": [
+   "GT",
+   "MHEV"
+  ],
+  "kia|ev2": [
+   "AIR"
+  ],
+  "kia|ev3": [
+   "GT",
+   "GT-LINE"
+  ],
+  "kia|ev4": [
+   "GT",
+   "GT-LINE"
+  ],
+  "kia|ev5": [
+   "GT",
+   "GT-LINE",
+   "PLUS"
+  ],
+  "kia|ev6": [
+   "AIR",
+   "GT",
+   "GT-LINE"
+  ],
+  "kia|ev9": [
+   "GT-LINE"
+  ],
+  "kia|niro": [
+   "GDI"
+  ],
+  "kia|sportage": [
+   "GT-LINE",
+   "MHEV"
+  ],
+  "kia|stonic": [
+   "MHEV"
+  ],
+  "kia|xceed": [
+   "GDI"
+  ],
+  "land rover|discovery sport": [
+   "ED4",
+   "HSE",
+   "P300E",
+   "R-DYNAMIC SE",
+   "TD4"
+  ],
+  "land rover|range rover": [
+   "AUTOBIOGRAPHY",
+   "EDITION",
+   "HSE",
+   "P400E",
+   "P460E",
+   "SE"
+  ],
+  "land rover|range rover evoque": [
+   "AUTOBIOGRAPHY",
+   "DYNAMIC",
+   "DYNAMIC SE",
+   "ED4",
+   "P300E",
+   "R-DYNAMIC S",
+   "SE TECH",
+   "TD4"
+  ],
+  "land rover|range rover sport": [
+   "AUTOBIOGRAPHY",
+   "DYNAMIC SE",
+   "HSE",
+   "HSE DYNAMIC",
+   "HSE DYNAMIC BLACK",
+   "HSE SILVER",
+   "P400E",
+   "P440E",
+   "P460E",
+   "SE"
+  ],
+  "lexus|ct 200 h": [
+   "SPORT"
+  ],
+  "lexus|is 300 h": [
+   "SPORT"
+  ],
+  "lexus|nx 300 h": [
+   "300H",
+   "LUXURY",
+   "SPORT"
+  ],
+  "lexus|nx 450 h+": [
+   "450H"
+  ],
+  "lexus|rx 450h+": [
+   "LUXURY",
+   "PREMIUM"
+  ],
+  "lexus|rz": [
+   "TAKUMI"
+  ],
+  "lexus|ux 250 h": [
+   "F SPORT DESIGN"
+  ],
+  "mazda|cx-30": [
+   "E-SKYACTIV X",
+   "GT SPORT",
+   "HOMURA"
+  ],
+  "mazda|cx-5": [
+   "SPORT"
+  ],
+  "mazda|cx-60": [
+   "EXCLUSIVE-LINE",
+   "HOMURA",
+   "TAKUMI"
+  ],
+  "mazda|cx-80": [
+   "E-SKYACTIV",
+   "EXCLUSIVE-LINE",
+   "HOMURA",
+   "TAKUMI"
+  ],
+  "mazda|mazda2": [
+   "CENTRE-LINE"
+  ],
+  "mazda|mazda3": [
+   "EXCLUSIVE-LINE",
+   "HOMURA"
+  ],
+  "mazda|mazda6e": [
+   "TAKUMI"
+  ],
+  "mercedes-benz|a class": [
+   "AMG LINE",
+   "AMG LINE EDITION",
+   "PREMIUM"
+  ],
+  "mercedes-benz|c class": [
+   "AMG LINE",
+   "AMG SPORT",
+   "SPORT"
+  ],
+  "mercedes-benz|cla class": [
+   "AMG LINE",
+   "AMG SPORT",
+   "SPORT"
+  ],
+  "mercedes-benz|cle": [
+   "AMG LINE"
+  ],
+  "mercedes-benz|e class": [
+   "AMG LINE",
+   "MHEV"
+  ],
+  "mercedes-benz|eqa": [
+   "AMG LINE",
+   "EQA 250",
+   "SPORT"
+  ],
+  "mercedes-benz|eqb": [
+   "AMG LINE"
+  ],
+  "mercedes-benz|eqc": [
+   "AMG LINE"
+  ],
+  "mercedes-benz|eqe": [
+   "AMG LINE",
+   "EQE 300",
+   "SPORT EDITION"
+  ],
+  "mercedes-benz|eqs": [
+   "AMG LINE"
+  ],
+  "mercedes-benz|gla class": [
+   "AMG LINE"
+  ],
+  "mercedes-benz|glc class": [
+   "AMG LINE"
+  ],
+  "mercedes-benz|gle class": [
+   "AMG LINE",
+   "SPORT EDITION"
+  ],
+  "mg|4": [
+   "EXCITE",
+   "EXCLUSIVE"
+  ],
+  "mg|hs": [
+   "EXCITE",
+   "EXCLUSIVE"
+  ],
+  "mini|cooper": [
+   "COOPER"
+  ],
+  "mini|countryman": [
+   "CLASSIC",
+   "COOPER",
+   "COOPER S",
+   "EXCLUSIVE"
+  ],
+  "mini|hatch": [
+   "COOPER",
+   "COOPER CLASSIC",
+   "COOPER EXCLUSIVE",
+   "COOPER S",
+   "COOPER SPORT",
+   "JOHN COOPER WORKS",
+   "ONE",
+   "ONE CLASSIC"
+  ],
+  "mitsubishi|outlander": [
+   "4H",
+   "EXCEED",
+   "JURO"
+  ],
+  "nissan|ariya": [
+   "ADVANCE",
+   "ENGAGE",
+   "EVOLVE"
+  ],
+  "nissan|leaf": [
+   "ACENTA",
+   "N-CONNECTA",
+   "TEKNA"
+  ],
+  "nissan|qashqai": [
+   "N-CONNECTA"
+  ],
+  "nissan|x-trail": [
+   "ACENTA",
+   "N-VISION"
+  ],
+  "peugeot|2008": [
+   "ACTIVE",
+   "ACTIVE PREMIUM",
+   "ALLURE",
+   "GT",
+   "PURETECH"
+  ],
+  "peugeot|208": [
+   "ACTIVE",
+   "ALLURE",
+   "GT",
+   "PURETECH",
+   "STYLE"
+  ],
+  "peugeot|3008": [
+   "ACTIVE",
+   "ALLURE",
+   "ALLURE PREMIUM",
+   "BLUEHDI",
+   "GT",
+   "GT PREMIUM",
+   "MHEV",
+   "PURETECH"
+  ],
+  "peugeot|308": [
+   "ALLURE",
+   "BLUEHDI",
+   "GT",
+   "GT LINE",
+   "PURETECH"
+  ],
+  "peugeot|408": [
+   "ALLURE",
+   "GT",
+   "PURETECH"
+  ],
+  "peugeot|5008": [
+   "ACTIVE",
+   "ALLURE",
+   "BLUEHDI",
+   "GT",
+   "GT LINE",
+   "PURETECH"
+  ],
+  "peugeot|508": [
+   "ALLURE",
+   "BLUEHDI",
+   "GT"
+  ],
+  "porsche|taycan": [
+   "4S",
+   "GTS"
+  ],
+  "renault|arkana": [
+   "E-TECH",
+   "E-TECH ENGINEERED",
+   "ESPRIT ALPINE",
+   "EVOLUTION",
+   "R.S. LINE",
+   "S EDITION",
+   "TCE",
+   "TECHNO"
+  ],
+  "renault|austral": [
+   "E-TECH",
+   "ICONIC ESPRIT ALPINE",
+   "TECHNO ESPRIT ALPINE"
+  ],
+  "renault|captur": [
+   "DYNAMIQUE NAV",
+   "E-TECH",
+   "EVOLUTION",
+   "GT LINE",
+   "ICONIC",
+   "LIMITED",
+   "RS LINE",
+   "TCE",
+   "TECHNO"
+  ],
+  "renault|clio": [
+   "DYNAMIQUE NAV",
+   "EVOLUTION",
+   "ICONIC",
+   "SCE",
+   "TCE"
+  ],
+  "renault|grand scenic": [
+   "ICONIC"
+  ],
+  "renault|kadjar": [
+   "BLUE DCI",
+   "DYNAMIQUE NAV",
+   "DYNAMIQUE S NAV",
+   "EQUILIBRE",
+   "GT LINE",
+   "ICONIC",
+   "SIGNATURE NAV",
+   "SIGNATURE S NAV"
+  ],
+  "renault|megane": [
+   "BLUE DCI",
+   "DYNAMIQUE S NAV",
+   "E-TECH",
+   "GT NAV",
+   "ICONIC",
+   "PLAY"
+  ],
+  "renault|megane e-tech": [
+   "EQUILIBRE",
+   "TECHNO"
+  ],
+  "renault|scenic e-tech": [
+   "TECHNO"
+  ],
+  "renault|zoe": [
+   "EV50",
+   "TECHNO"
+  ],
+  "seat|arona": [
+   "FR",
+   "SE",
+   "XCELLENCE",
+   "XPERIENCE"
+  ],
+  "seat|ateca": [
+   "FR",
+   "SE",
+   "XCELLENCE",
+   "XPERIENCE"
+  ],
+  "seat|ibiza": [
+   "FR",
+   "MPI",
+   "SE",
+   "XCELLENCE"
+  ],
+  "seat|leon": [
+   "FR",
+   "SE",
+   "XCELLENCE"
+  ],
+  "seat|tarraco": [
+   "XCELLENCE"
+  ],
+  "skoda|elroq": [
+   "85",
+   "85 EDITION",
+   "SPORTLINE"
+  ],
+  "skoda|enyaq": [
+   "60",
+   "80",
+   "80 SUITE",
+   "85"
+  ],
+  "skoda|fabia": [
+   "MONTE CARLO",
+   "MPI"
+  ],
+  "skoda|kamiq": [
+   "MONTE CARLO"
+  ],
+  "skoda|karoq": [
+   "SPORTLINE"
+  ],
+  "skoda|kodiaq": [
+   "SPORTLINE"
+  ],
+  "skoda|octavia": [
+   "MHEV",
+   "SE",
+   "SPORTLINE"
+  ],
+  "skoda|superb": [
+   "SE",
+   "SE TECHNOLOGY",
+   "SPORTLINE"
+  ],
+  "suzuki|e vitara": [
+   "MOTION",
+   "ULTRA"
+  ],
+  "suzuki|ignis": [
+   "DUALJET",
+   "SZ-T"
+  ],
+  "suzuki|s-cross": [
+   "MOTION",
+   "ULTRA"
+  ],
+  "suzuki|swift": [
+   "MOTION",
+   "SZ5",
+   "ULTRA"
+  ],
+  "suzuki|sx4 s-cross": [
+   "BOOSTERJET"
+  ],
+  "suzuki|vitara": [
+   "BOOSTERJET",
+   "SZ-T",
+   "SZ4",
+   "SZ5"
+  ],
+  "tesla|model 3": [
+   "LONG RANGE",
+   "STANDARD RANGE PLUS"
+  ],
+  "tesla|model x": [
+   "100D"
+  ],
+  "tesla|model y": [
+   "LONG RANGE"
+  ],
+  "toyota|bz4x": [
+   "MOTION",
+   "PREMIERE EDITION"
+  ],
+  "toyota|c-hr": [
+   "GR SPORT",
+   "ICON"
+  ],
+  "toyota|rav4": [
+   "ADVENTURE"
+  ],
+  "toyota|yaris": [
+   "GR SPORT",
+   "SPORT"
+  ],
+  "vauxhall|corsa": [
+   "ELITE"
+  ],
+  "vauxhall|crossland": [
+   "SPORT",
+   "SRI",
+   "TURBO D"
+  ],
+  "vauxhall|crossland x": [
+   "SPORT",
+   "TURBO D"
+  ],
+  "vauxhall|frontera": [
+   "GS"
+  ],
+  "vauxhall|grandland": [
+   "GS",
+   "SRI"
+  ],
+  "vauxhall|grandland x": [
+   "ELITE",
+   "TURBO",
+   "TURBO D"
+  ],
+  "vauxhall|insignia": [
+   "SRI",
+   "TURBO D"
+  ],
+  "vauxhall|mokka": [
+   "GS",
+   "SRI"
+  ],
+  "volkswagen|arteon": [
+   "ELEGANCE",
+   "R-LINE"
+  ],
+  "volkswagen|beetle": [
+   "DESIGN"
+  ],
+  "volkswagen|golf": [
+   "ACTIVE",
+   "BLUEMOTION",
+   "ETSI",
+   "GTI",
+   "LIFE",
+   "R-LINE",
+   "STYLE"
+  ],
+  "volkswagen|id.3": [
+   "FAMILY",
+   "LIFE",
+   "MATCH",
+   "PRO",
+   "PRO PERFORMANCE"
+  ],
+  "volkswagen|id.4": [
+   "GTX",
+   "LIFE",
+   "LIFE EDITION",
+   "PRO",
+   "PRO PERFORMANCE",
+   "PURE",
+   "STYLE"
+  ],
+  "volkswagen|id.5": [
+   "PRO",
+   "PRO PERFORMANCE",
+   "STYLE"
+  ],
+  "volkswagen|id.7": [
+   "GTX",
+   "PRO"
+  ],
+  "volkswagen|passat": [
+   "ALLTRACK",
+   "ELEGANCE",
+   "GTE",
+   "R-LINE",
+   "SE BUSINESS"
+  ],
+  "volkswagen|polo": [
+   "LIFE",
+   "R-LINE"
+  ],
+  "volkswagen|t-cross": [
+   "ACTIVE",
+   "FIRST EDITION",
+   "LIFE",
+   "R-LINE",
+   "STYLE"
+  ],
+  "volkswagen|t-roc": [
+   "DESIGN",
+   "LIFE",
+   "R-LINE",
+   "STYLE"
+  ],
+  "volkswagen|taigo": [
+   "LIFE",
+   "R-LINE",
+   "STYLE"
+  ],
+  "volkswagen|tayron": [
+   "BLACK EDITION",
+   "R-LINE",
+   "R-LINE BLACK EDITION"
+  ],
+  "volkswagen|tiguan": [
+   "ELEGANCE",
+   "LIFE",
+   "R-LINE"
+  ],
+  "volkswagen|tiguan allspace": [
+   "LIFE",
+   "R-LINE"
+  ],
+  "volkswagen|touareg": [
+   "V6"
+  ],
+  "volkswagen|up!": [
+   "BEATS"
+  ],
+  "volvo|c40": [
+   "CORE",
+   "PLUS",
+   "ULTIMATE"
+  ],
+  "volvo|ex30": [
+   "PLUS",
+   "SINGLE MOTOR",
+   "ULTRA"
+  ],
+  "volvo|ex40": [
+   "PLUS"
+  ],
+  "volvo|v40": [
+   "D4",
+   "MOMENTUM",
+   "MOMENTUM EDITION",
+   "R-DESIGN"
+  ],
+  "volvo|v60": [
+   "D4",
+   "PLUS",
+   "PLUS DARK"
+  ],
+  "volvo|xc40": [
+   "CORE",
+   "INSCRIPTION",
+   "MOMENTUM",
+   "PLUS",
+   "R-DESIGN",
+   "R-DESIGN PRO",
+   "T4",
+   "TWIN ENGINE",
+   "ULTIMATE"
+  ],
+  "volvo|xc60": [
+   "CORE",
+   "D4",
+   "INSCRIPTION",
+   "MOMENTUM",
+   "PLUS",
+   "PLUS BLACK EDITION",
+   "R-DESIGN",
+   "SE",
+   "T6",
+   "ULTRA DARK"
+  ],
+  "volvo|xc90": [
+   "CORE",
+   "INSCRIPTION",
+   "MOMENTUM",
+   "PLUS",
+   "R-DESIGN",
+   "R-DESIGN PRO",
+   "ULTIMATE BRIGHT",
+   "ULTRA"
+  ]
+ },
+ "source": "Carzone listings, trims normalised against the UKCI catalogue's own trim vocabulary",
+ "trims": {
+  "alfa romeo|tonale|2023|SPECIALE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0114,
+   "raw_ratio": 1.0228
+  },
+  "alfa romeo|tonale|2023|VELOCE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.015,
+   "raw_ratio": 1.027
+  },
+  "audi|a1|2015|S LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0407,
+   "raw_ratio": 1.095
+  },
+  "audi|a1|2016|S LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9953,
+   "raw_ratio": 0.989
+  },
+  "audi|a1|2016|SPORT": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9962,
+   "raw_ratio": 0.9941
+  },
+  "audi|a1|2017|SE": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9909,
+   "raw_ratio": 0.9858
+  },
+  "audi|a1|2017|SPORT": {
+   "far": false,
+   "n": 12,
+   "ratio": 0.9912,
+   "raw_ratio": 0.9883
+  },
+  "audi|a1|2018|SE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9955,
+   "raw_ratio": 0.9925
+  },
+  "audi|a1|2018|SPORT": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9828,
+   "raw_ratio": 0.969
+  },
+  "audi|a1|2020|SE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0122,
+   "raw_ratio": 1.0284
+  },
+  "audi|a1|2021|SE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0022,
+   "raw_ratio": 1.0044
+  },
+  "audi|a1|2021|SPORT": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9906,
+   "raw_ratio": 0.9831
+  },
+  "audi|a1|2022|SE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0109,
+   "raw_ratio": 1.0255
+  },
+  "audi|a1|2024|S LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0037,
+   "raw_ratio": 1.0086
+  },
+  "audi|a1|2024|SE": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0147,
+   "raw_ratio": 1.023
+  },
+  "audi|a1|2026|S LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9787,
+   "raw_ratio": 0.9503
+  },
+  "audi|a1|2026|SE": {
+   "far": false,
+   "n": 20,
+   "ratio": 0.9951,
+   "raw_ratio": 0.9941
+  },
+  "audi|a3|2016|SE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9992,
+   "raw_ratio": 0.9984
+  },
+  "audi|a3|2017|S LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0582,
+   "raw_ratio": 1.1359
+  },
+  "audi|a3|2017|SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0305,
+   "raw_ratio": 1.0611
+  },
+  "audi|a3|2019|SE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9926,
+   "raw_ratio": 0.9867
+  },
+  "audi|a3|2021|SE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9958,
+   "raw_ratio": 0.9916
+  },
+  "audi|a3|2021|SPORT": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.007,
+   "raw_ratio": 1.0127
+  },
+  "audi|a3|2022|S LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.069,
+   "raw_ratio": 1.161
+  },
+  "audi|a3|2022|SE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.986,
+   "raw_ratio": 0.9672
+  },
+  "audi|a3|2023|S LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.997,
+   "raw_ratio": 0.9945
+  },
+  "audi|a3|2023|SE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0103,
+   "raw_ratio": 1.0155
+  },
+  "audi|a3|2024|S LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0028,
+   "raw_ratio": 1.0066
+  },
+  "audi|a3|2024|SE": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.9848,
+   "raw_ratio": 0.978
+  },
+  "audi|a3|2026|S LINE": {
+   "far": true,
+   "n": 9,
+   "ratio": 1.1011,
+   "raw_ratio": 1.146
+  },
+  "audi|a3|2026|SE": {
+   "far": false,
+   "n": 19,
+   "ratio": 0.963,
+   "raw_ratio": 0.9552
+  },
+  "audi|a4|2015|ULTRA": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9619,
+   "raw_ratio": 0.9112
+  },
+  "audi|a4|2016|S LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0341,
+   "raw_ratio": 1.0569
+  },
+  "audi|a4|2016|ULTRA": {
+   "far": false,
+   "n": 11,
+   "ratio": 0.9345,
+   "raw_ratio": 0.9107
+  },
+  "audi|a4|2017|S LINE": {
+   "far": true,
+   "n": 6,
+   "ratio": 1.1298,
+   "raw_ratio": 1.2164
+  },
+  "audi|a4|2017|SE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9929,
+   "raw_ratio": 0.9872
+  },
+  "audi|a4|2017|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9248,
+   "raw_ratio": 0.8244
+  },
+  "audi|a4|2017|ULTRA": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9663,
+   "raw_ratio": 0.9494
+  },
+  "audi|a4|2018|S LINE": {
+   "far": true,
+   "n": 3,
+   "ratio": 1.0826,
+   "raw_ratio": 1.1927
+  },
+  "audi|a4|2018|SE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9761,
+   "raw_ratio": 0.9443
+  },
+  "audi|a4|2018|SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0014,
+   "raw_ratio": 1.0028
+  },
+  "audi|a4|2018|ULTRA": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9769,
+   "raw_ratio": 0.9585
+  },
+  "audi|a4|2019|S LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0349,
+   "raw_ratio": 1.0581
+  },
+  "audi|a4|2019|SE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9241,
+   "raw_ratio": 0.8228
+  },
+  "audi|a4|2020|S LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9985,
+   "raw_ratio": 0.9971
+  },
+  "audi|a4|2020|SE": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0031,
+   "raw_ratio": 1.0044
+  },
+  "audi|a4|2021|S LINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0302,
+   "raw_ratio": 1.0452
+  },
+  "audi|a4|2021|SE": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.9549,
+   "raw_ratio": 0.9349
+  },
+  "audi|a4|2022|SE": {
+   "far": false,
+   "n": 16,
+   "ratio": 1.0031,
+   "raw_ratio": 1.0039
+  },
+  "audi|a4|2023|S LINE": {
+   "far": false,
+   "n": 11,
+   "ratio": 1.013,
+   "raw_ratio": 1.0177
+  },
+  "audi|a4|2023|SE": {
+   "far": false,
+   "n": 19,
+   "ratio": 0.9803,
+   "raw_ratio": 0.9761
+  },
+  "audi|a4|2024|S LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0189,
+   "raw_ratio": 1.0379
+  },
+  "audi|a4|2024|SE": {
+   "far": false,
+   "n": 14,
+   "ratio": 0.9922,
+   "raw_ratio": 0.9899
+  },
+  "audi|a5|2017|S LINE": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9529,
+   "raw_ratio": 0.9259
+  },
+  "audi|a5|2017|SE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9874,
+   "raw_ratio": 0.9748
+  },
+  "audi|a5|2018|S LINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9984,
+   "raw_ratio": 0.9976
+  },
+  "audi|a5|2019|S LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9778,
+   "raw_ratio": 0.9481
+  },
+  "audi|a5|2019|SE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9244,
+   "raw_ratio": 0.874
+  },
+  "audi|a5|2020|S LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0172,
+   "raw_ratio": 1.0309
+  },
+  "audi|a5|2020|SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9515,
+   "raw_ratio": 0.903
+  },
+  "audi|a5|2021|S LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0149,
+   "raw_ratio": 1.0297
+  },
+  "audi|a5|2021|SE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9815,
+   "raw_ratio": 0.9631
+  },
+  "audi|a5|2022|S LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9882,
+   "raw_ratio": 0.9788
+  },
+  "audi|a5|2022|SE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9712,
+   "raw_ratio": 0.9327
+  },
+  "audi|a5|2023|BLACK EDITION": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.037,
+   "raw_ratio": 1.0739
+  },
+  "audi|a5|2023|S LINE": {
+   "far": false,
+   "n": 15,
+   "ratio": 1.0196,
+   "raw_ratio": 1.0248
+  },
+  "audi|a5|2023|SE": {
+   "far": true,
+   "n": 6,
+   "ratio": 0.8777,
+   "raw_ratio": 0.7962
+  },
+  "audi|a5|2024|BLACK EDITION": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0184,
+   "raw_ratio": 1.0367
+  },
+  "audi|a5|2024|S LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0238,
+   "raw_ratio": 1.0477
+  },
+  "audi|a5|2024|SE": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9429,
+   "raw_ratio": 0.9103
+  },
+  "audi|a5|2025|S LINE": {
+   "far": false,
+   "n": 13,
+   "ratio": 1.0058,
+   "raw_ratio": 1.0076
+  },
+  "audi|a5|2025|SE": {
+   "far": false,
+   "n": 10,
+   "ratio": 0.9571,
+   "raw_ratio": 0.9399
+  },
+  "audi|a5|2026|S LINE": {
+   "far": false,
+   "n": 20,
+   "ratio": 1.0445,
+   "raw_ratio": 1.0533
+  },
+  "audi|a5|2026|SE": {
+   "far": false,
+   "n": 19,
+   "ratio": 0.9536,
+   "raw_ratio": 0.9438
+  },
+  "audi|a6|2017|S LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.987,
+   "raw_ratio": 0.974
+  },
+  "audi|a6|2018|S LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0543,
+   "raw_ratio": 1.1268
+  },
+  "audi|a6|2021|S LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0386,
+   "raw_ratio": 1.0643
+  },
+  "audi|a6|2022|BLACK EDITION": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9971,
+   "raw_ratio": 0.9932
+  },
+  "audi|a6|2022|S LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0283,
+   "raw_ratio": 1.0661
+  },
+  "audi|a6|2022|SE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9769,
+   "raw_ratio": 0.9537
+  },
+  "audi|a6|2023|BLACK EDITION": {
+   "far": true,
+   "n": 3,
+   "ratio": 1.0912,
+   "raw_ratio": 1.2127
+  },
+  "audi|a6|2023|S LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0437,
+   "raw_ratio": 1.0874
+  },
+  "audi|a6|2023|SE": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9587,
+   "raw_ratio": 0.935
+  },
+  "audi|a6|2024|S LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0676,
+   "raw_ratio": 1.1217
+  },
+  "audi|a6|2024|SE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9832,
+   "raw_ratio": 0.9664
+  },
+  "audi|a6|2026|S LINE": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.069,
+   "raw_ratio": 1.1084
+  },
+  "audi|a6|2026|SE": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9772,
+   "raw_ratio": 0.9658
+  },
+  "audi|a7|2015|S LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.996,
+   "raw_ratio": 0.9908
+  },
+  "audi|a7|2019|S LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.015,
+   "raw_ratio": 1.0269
+  },
+  "audi|a7|2023|S LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0011,
+   "raw_ratio": 1.0025
+  },
+  "audi|e-tron|2020|SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9914,
+   "raw_ratio": 0.9829
+  },
+  "audi|e-tron|2020|TECHNIK": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "audi|e-tron|2021|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9739,
+   "raw_ratio": 0.939
+  },
+  "audi|e-tron|2021|TECHNIK": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9889,
+   "raw_ratio": 0.9741
+  },
+  "audi|e-tron|2022|BLACK EDITION": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9923,
+   "raw_ratio": 0.982
+  },
+  "audi|e-tron|2022|S LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.064,
+   "raw_ratio": 1.1153
+  },
+  "audi|e-tron|2022|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9913,
+   "raw_ratio": 0.9797
+  },
+  "audi|e-tron|2022|TECHNIK": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9513,
+   "raw_ratio": 0.9123
+  },
+  "audi|e-tron|2023|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9512,
+   "raw_ratio": 0.8862
+  },
+  "audi|q2|2017|S LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9959,
+   "raw_ratio": 0.9904
+  },
+  "audi|q2|2017|SE": {
+   "far": false,
+   "n": 10,
+   "ratio": 0.998,
+   "raw_ratio": 0.9972
+  },
+  "audi|q2|2017|SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9842,
+   "raw_ratio": 0.9683
+  },
+  "audi|q2|2018|SE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9959,
+   "raw_ratio": 0.9927
+  },
+  "audi|q2|2018|SPORT": {
+   "far": false,
+   "n": 10,
+   "ratio": 0.9898,
+   "raw_ratio": 0.9857
+  },
+  "audi|q2|2019|SE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9878,
+   "raw_ratio": 0.978
+  },
+  "audi|q2|2019|SPORT": {
+   "far": false,
+   "n": 12,
+   "ratio": 0.9924,
+   "raw_ratio": 0.9899
+  },
+  "audi|q2|2020|SE": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9985,
+   "raw_ratio": 0.9978
+  },
+  "audi|q2|2020|SPORT": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "audi|q2|2021|SE": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9895,
+   "raw_ratio": 0.9843
+  },
+  "audi|q2|2021|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9987,
+   "raw_ratio": 0.997
+  },
+  "audi|q2|2022|SE": {
+   "far": false,
+   "n": 12,
+   "ratio": 0.9694,
+   "raw_ratio": 0.9592
+  },
+  "audi|q2|2023|SE": {
+   "far": false,
+   "n": 21,
+   "ratio": 0.9707,
+   "raw_ratio": 0.9651
+  },
+  "audi|q2|2024|SE": {
+   "far": false,
+   "n": 10,
+   "ratio": 1.0206,
+   "raw_ratio": 1.0289
+  },
+  "audi|q2|2026|S LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0477,
+   "raw_ratio": 1.1112
+  },
+  "audi|q2|2026|SE": {
+   "far": false,
+   "n": 10,
+   "ratio": 0.984,
+   "raw_ratio": 0.9776
+  },
+  "audi|q3|2016|SE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9886,
+   "raw_ratio": 0.9734
+  },
+  "audi|q3|2017|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9498,
+   "raw_ratio": 0.8829
+  },
+  "audi|q3|2019|SE": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9944,
+   "raw_ratio": 0.9912
+  },
+  "audi|q3|2020|S LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0155,
+   "raw_ratio": 1.031
+  },
+  "audi|q3|2020|SE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9471,
+   "raw_ratio": 0.9048
+  },
+  "audi|q3|2021|SE": {
+   "far": false,
+   "n": 11,
+   "ratio": 0.9709,
+   "raw_ratio": 0.9604
+  },
+  "audi|q3|2022|S LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0119,
+   "raw_ratio": 1.0214
+  },
+  "audi|q3|2022|SE": {
+   "far": false,
+   "n": 12,
+   "ratio": 0.9917,
+   "raw_ratio": 0.989
+  },
+  "audi|q3|2023|S LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.034,
+   "raw_ratio": 1.0611
+  },
+  "audi|q3|2023|SE": {
+   "far": false,
+   "n": 23,
+   "ratio": 0.9925,
+   "raw_ratio": 0.9912
+  },
+  "audi|q3|2024|S LINE": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0198,
+   "raw_ratio": 1.0286
+  },
+  "audi|q3|2024|SE": {
+   "far": false,
+   "n": 23,
+   "ratio": 0.9742,
+   "raw_ratio": 0.9697
+  },
+  "audi|q3|2025|SE": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9794,
+   "raw_ratio": 0.9677
+  },
+  "audi|q3|2026|S LINE": {
+   "far": false,
+   "n": 16,
+   "ratio": 1.0366,
+   "raw_ratio": 1.0458
+  },
+  "audi|q3|2026|SE": {
+   "far": false,
+   "n": 41,
+   "ratio": 0.9857,
+   "raw_ratio": 0.9843
+  },
+  "audi|q4 e-tron|2023|S LINE": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0147,
+   "raw_ratio": 1.0212
+  },
+  "audi|q4 e-tron|2023|SPORT": {
+   "far": false,
+   "n": 11,
+   "ratio": 0.9782,
+   "raw_ratio": 0.9702
+  },
+  "audi|q4 e-tron|2024|BLACK EDITION": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0554,
+   "raw_ratio": 1.1292
+  },
+  "audi|q4 e-tron|2024|S LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9646,
+   "raw_ratio": 0.9175
+  },
+  "audi|q4 e-tron|2024|SPORT": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9976,
+   "raw_ratio": 0.9957
+  },
+  "audi|q4 e-tron|2025|BLACK EDITION": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0429,
+   "raw_ratio": 1.1002
+  },
+  "audi|q4 e-tron|2025|S LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9988,
+   "raw_ratio": 0.9979
+  },
+  "audi|q4 e-tron|2025|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9857,
+   "raw_ratio": 0.9667
+  },
+  "audi|q4 e-tron|2026|BLACK EDITION": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0383,
+   "raw_ratio": 1.0689
+  },
+  "audi|q4 e-tron|2026|SPORT": {
+   "far": false,
+   "n": 10,
+   "ratio": 0.9319,
+   "raw_ratio": 0.9047
+  },
+  "audi|q5|2019|S LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0112,
+   "raw_ratio": 1.0223
+  },
+  "audi|q5|2019|SE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9386,
+   "raw_ratio": 0.8977
+  },
+  "audi|q5|2020|S LINE": {
+   "far": false,
+   "n": 12,
+   "ratio": 1.004,
+   "raw_ratio": 1.0054
+  },
+  "audi|q5|2020|SE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9737,
+   "raw_ratio": 0.9387
+  },
+  "audi|q5|2021|S LINE": {
+   "far": false,
+   "n": 11,
+   "ratio": 0.9893,
+   "raw_ratio": 0.9854
+  },
+  "audi|q5|2021|SE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9945,
+   "raw_ratio": 0.989
+  },
+  "audi|q5|2022|EDITION 1": {
+   "far": true,
+   "n": 3,
+   "ratio": 1.1002,
+   "raw_ratio": 1.2339
+  },
+  "audi|q5|2022|S LINE": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9514,
+   "raw_ratio": 0.9236
+  },
+  "audi|q5|2022|SE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9688,
+   "raw_ratio": 0.9377
+  },
+  "audi|q5|2023|BLACK EDITION": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0141,
+   "raw_ratio": 1.0329
+  },
+  "audi|q5|2023|S LINE": {
+   "far": false,
+   "n": 16,
+   "ratio": 1.0071,
+   "raw_ratio": 1.0088
+  },
+  "audi|q5|2023|SE": {
+   "far": false,
+   "n": 21,
+   "ratio": 0.9506,
+   "raw_ratio": 0.9412
+  },
+  "audi|q5|2024|BLACK EDITION": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0131,
+   "raw_ratio": 1.0305
+  },
+  "audi|q5|2024|S LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.026,
+   "raw_ratio": 1.0468
+  },
+  "audi|q5|2024|SE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9596,
+   "raw_ratio": 0.9192
+  },
+  "audi|q5|2025|BLACK EDITION": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0352,
+   "raw_ratio": 1.0821
+  },
+  "audi|q5|2025|S LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9883,
+   "raw_ratio": 0.979
+  },
+  "audi|q5|2025|SE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9834,
+   "raw_ratio": 0.9702
+  },
+  "audi|q5|2026|S LINE": {
+   "far": false,
+   "n": 13,
+   "ratio": 1.0038,
+   "raw_ratio": 1.005
+  },
+  "audi|q5|2026|SE": {
+   "far": false,
+   "n": 27,
+   "ratio": 0.9784,
+   "raw_ratio": 0.9752
+  },
+  "audi|q6 e-tron|2026|E-TRON": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0027,
+   "raw_ratio": 1.0063
+  },
+  "audi|q6 e-tron|2026|S LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0268,
+   "raw_ratio": 1.0626
+  },
+  "audi|q7|2018|S LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0017,
+   "raw_ratio": 1.004
+  },
+  "audi|q7|2019|S LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "audi|q7|2023|BLACK EDITION": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9947,
+   "raw_ratio": 0.9875
+  },
+  "audi|q7|2023|S LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0307,
+   "raw_ratio": 1.0511
+  },
+  "audi|q7|2025|BLACK EDITION": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9961,
+   "raw_ratio": 0.9909
+  },
+  "audi|q7|2025|S LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9927,
+   "raw_ratio": 0.9869
+  },
+  "audi|q7|2026|BLACK EDITION": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.965,
+   "raw_ratio": 0.9416
+  },
+  "audi|q7|2026|S LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.998,
+   "raw_ratio": 0.9967
+  },
+  "audi|q7|2026|VORSPRUNG": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0365,
+   "raw_ratio": 1.0852
+  },
+  "audi|q7|2027|S LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9755,
+   "raw_ratio": 0.9428
+  },
+  "audi|q7|2027|VORSPRUNG": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0072,
+   "raw_ratio": 1.0129
+  },
+  "audi|q8 e-tron|2024|SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9361,
+   "raw_ratio": 0.8723
+  },
+  "audi|q8|2023|BLACK EDITION": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0305,
+   "raw_ratio": 1.0609
+  },
+  "audi|q8|2023|S LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0279,
+   "raw_ratio": 1.0652
+  },
+  "audi|q8|2026|COMPETITION": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "bmw|1 series|2017|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0336,
+   "raw_ratio": 1.0784
+  },
+  "bmw|1 series|2019|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0233,
+   "raw_ratio": 1.0544
+  },
+  "bmw|1 series|2020|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.956,
+   "raw_ratio": 0.8973
+  },
+  "bmw|1 series|2021|SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0102,
+   "raw_ratio": 1.0204
+  },
+  "bmw|1 series|2024|M SPORT": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0118,
+   "raw_ratio": 1.0213
+  },
+  "bmw|1 series|2026|M SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0045,
+   "raw_ratio": 1.0091
+  },
+  "bmw|1 series|2026|SPORT": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "bmw|2 series|2023|M SPORT": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0217,
+   "raw_ratio": 1.0361
+  },
+  "bmw|3 series|2017|M SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0718,
+   "raw_ratio": 1.1436
+  },
+  "bmw|3 series|2017|SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0381,
+   "raw_ratio": 1.0762
+  },
+  "bmw|3 series|2018|M SPORT": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9837,
+   "raw_ratio": 0.9743
+  },
+  "bmw|3 series|2018|SPORT": {
+   "far": true,
+   "n": 5,
+   "ratio": 1.0977,
+   "raw_ratio": 1.1759
+  },
+  "bmw|3 series|2019|M SPORT": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0101,
+   "raw_ratio": 1.0168
+  },
+  "bmw|3 series|2019|SE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0071,
+   "raw_ratio": 1.0166
+  },
+  "bmw|3 series|2019|SPORT": {
+   "far": false,
+   "n": 11,
+   "ratio": 0.9912,
+   "raw_ratio": 0.988
+  },
+  "bmw|3 series|2020|M SPORT": {
+   "far": false,
+   "n": 12,
+   "ratio": 0.9965,
+   "raw_ratio": 0.9953
+  },
+  "bmw|3 series|2020|SPORT": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0204,
+   "raw_ratio": 1.0321
+  },
+  "bmw|3 series|2021|M SPORT": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9894,
+   "raw_ratio": 0.9834
+  },
+  "bmw|3 series|2021|SPORT": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0249,
+   "raw_ratio": 1.0392
+  },
+  "bmw|3 series|2022|M SPORT": {
+   "far": false,
+   "n": 11,
+   "ratio": 1.0146,
+   "raw_ratio": 1.0199
+  },
+  "bmw|3 series|2022|SPORT": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9799,
+   "raw_ratio": 0.9638
+  },
+  "bmw|3 series|2023|M SPORT": {
+   "far": false,
+   "n": 15,
+   "ratio": 1.0047,
+   "raw_ratio": 1.0059
+  },
+  "bmw|3 series|2023|SPORT": {
+   "far": true,
+   "n": 5,
+   "ratio": 0.9199,
+   "raw_ratio": 0.8559
+  },
+  "bmw|3 series|2024|M SPORT": {
+   "far": false,
+   "n": 15,
+   "ratio": 1.0189,
+   "raw_ratio": 1.0239
+  },
+  "bmw|3 series|2024|SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9802,
+   "raw_ratio": 0.9605
+  },
+  "bmw|3 series|2025|M SPORT": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0017,
+   "raw_ratio": 1.0026
+  },
+  "bmw|5 series|2017|SE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.993,
+   "raw_ratio": 0.9873
+  },
+  "bmw|5 series|2017|SPORT": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0384,
+   "raw_ratio": 1.064
+  },
+  "bmw|5 series|2018|M SPORT": {
+   "far": false,
+   "n": 14,
+   "ratio": 1.0128,
+   "raw_ratio": 1.0164
+  },
+  "bmw|5 series|2018|SE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.998,
+   "raw_ratio": 0.9963
+  },
+  "bmw|5 series|2018|SPORT": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.9752,
+   "raw_ratio": 0.9642
+  },
+  "bmw|5 series|2019|M SPORT": {
+   "far": false,
+   "n": 13,
+   "ratio": 1.0702,
+   "raw_ratio": 1.0919
+  },
+  "bmw|5 series|2019|SE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9204,
+   "raw_ratio": 0.8408
+  },
+  "bmw|5 series|2019|SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0167,
+   "raw_ratio": 1.0335
+  },
+  "bmw|5 series|2020|M SPORT": {
+   "far": false,
+   "n": 13,
+   "ratio": 1.0155,
+   "raw_ratio": 1.0203
+  },
+  "bmw|5 series|2020|SE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9773,
+   "raw_ratio": 0.9592
+  },
+  "bmw|5 series|2021|M SPORT": {
+   "far": false,
+   "n": 12,
+   "ratio": 1.0195,
+   "raw_ratio": 1.0259
+  },
+  "bmw|5 series|2021|SE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9583,
+   "raw_ratio": 0.9026
+  },
+  "bmw|5 series|2022|M SPORT": {
+   "far": false,
+   "n": 12,
+   "ratio": 1.0176,
+   "raw_ratio": 1.0234
+  },
+  "bmw|5 series|2022|SE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9758,
+   "raw_ratio": 0.9515
+  },
+  "bmw|5 series|2023|M SPORT": {
+   "far": false,
+   "n": 12,
+   "ratio": 1.0261,
+   "raw_ratio": 1.0348
+  },
+  "bmw|5 series|2023|MHT": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9977,
+   "raw_ratio": 0.9946
+  },
+  "bmw|5 series|2023|SE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9616,
+   "raw_ratio": 0.936
+  },
+  "bmw|5 series|2023|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0038,
+   "raw_ratio": 1.0089
+  },
+  "bmw|5 series|2024|M SPORT": {
+   "far": false,
+   "n": 10,
+   "ratio": 0.9611,
+   "raw_ratio": 0.9455
+  },
+  "bmw|5 series|2024|M SPORT PRO": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0193,
+   "raw_ratio": 1.0289
+  },
+  "bmw|5 series|2025|M SPORT": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.9855,
+   "raw_ratio": 0.979
+  },
+  "bmw|5 series|2025|M SPORT PRO": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0146,
+   "raw_ratio": 1.0293
+  },
+  "bmw|5 series|2026|M SPORT": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9928,
+   "raw_ratio": 0.9892
+  },
+  "bmw|5 series|2026|M SPORT PRO": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.018,
+   "raw_ratio": 1.0299
+  },
+  "bmw|i4|2022|M50": {
+   "far": true,
+   "n": 3,
+   "ratio": 1.1047,
+   "raw_ratio": 1.2444
+  },
+  "bmw|i4|2022|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.936,
+   "raw_ratio": 0.8506
+  },
+  "bmw|i4|2023|M SPORT": {
+   "far": false,
+   "n": 16,
+   "ratio": 0.9681,
+   "raw_ratio": 0.9601
+  },
+  "bmw|i4|2023|M50": {
+   "far": true,
+   "n": 10,
+   "ratio": 1.1582,
+   "raw_ratio": 1.2215
+  },
+  "bmw|i4|2023|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9904,
+   "raw_ratio": 0.9775
+  },
+  "bmw|i4|2024|M SPORT": {
+   "far": false,
+   "n": 11,
+   "ratio": 1.0033,
+   "raw_ratio": 1.0045
+  },
+  "bmw|i4|2024|SPORT": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9951,
+   "raw_ratio": 0.9919
+  },
+  "bmw|i4|2025|M SPORT": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0013,
+   "raw_ratio": 1.0019
+  },
+  "bmw|i4|2025|SPORT": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9224,
+   "raw_ratio": 0.8602
+  },
+  "bmw|i4|2026|M SPORT": {
+   "far": false,
+   "n": 19,
+   "ratio": 1.0,
+   "raw_ratio": 1.0001
+  },
+  "bmw|i5|2024|M SPORT": {
+   "far": false,
+   "n": 13,
+   "ratio": 0.9888,
+   "raw_ratio": 0.9853
+  },
+  "bmw|i5|2024|M SPORT PRO": {
+   "far": false,
+   "n": 10,
+   "ratio": 1.0301,
+   "raw_ratio": 1.0422
+  },
+  "bmw|i5|2025|M SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9806,
+   "raw_ratio": 0.9611
+  },
+  "bmw|i5|2025|M SPORT PRO": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0239,
+   "raw_ratio": 1.0376
+  },
+  "bmw|ix1|2023|M SPORT": {
+   "far": false,
+   "n": 14,
+   "ratio": 1.0183,
+   "raw_ratio": 1.0236
+  },
+  "bmw|ix1|2023|SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.998,
+   "raw_ratio": 0.996
+  },
+  "bmw|ix1|2023|XLINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9791,
+   "raw_ratio": 0.9582
+  },
+  "bmw|ix1|2024|M SPORT": {
+   "far": false,
+   "n": 14,
+   "ratio": 1.0189,
+   "raw_ratio": 1.0243
+  },
+  "bmw|ix1|2024|SPORT": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0008,
+   "raw_ratio": 1.0013
+  },
+  "bmw|ix1|2024|XLINE": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.985,
+   "raw_ratio": 0.9765
+  },
+  "bmw|ix1|2025|M SPORT": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0012,
+   "raw_ratio": 1.0019
+  },
+  "bmw|ix1|2026|M SPORT": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0045,
+   "raw_ratio": 1.0067
+  },
+  "bmw|ix1|2026|SPORT": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9679,
+   "raw_ratio": 0.9466
+  },
+  "bmw|ix1|2026|XLINE": {
+   "far": false,
+   "n": 20,
+   "ratio": 1.0088,
+   "raw_ratio": 1.0106
+  },
+  "bmw|ix2|2025|M SPORT": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "bmw|ix2|2026|M SPORT": {
+   "far": false,
+   "n": 16,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "bmw|ix3|2022|M SPORT": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9927,
+   "raw_ratio": 0.9878
+  },
+  "bmw|ix3|2022|M SPORT PRO": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0229,
+   "raw_ratio": 1.0458
+  },
+  "bmw|ix3|2023|M SPORT": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9522,
+   "raw_ratio": 0.9203
+  },
+  "bmw|ix3|2023|M SPORT PRO": {
+   "far": false,
+   "n": 16,
+   "ratio": 1.0341,
+   "raw_ratio": 1.0426
+  },
+  "bmw|ix3|2026|M SPORT": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0079,
+   "raw_ratio": 1.0115
+  },
+  "bmw|ix|2022|M SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0169,
+   "raw_ratio": 1.0338
+  },
+  "bmw|ix|2023|M SPORT": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0389,
+   "raw_ratio": 1.0583
+  },
+  "bmw|ix|2023|SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9802,
+   "raw_ratio": 0.9604
+  },
+  "bmw|ix|2026|M SPORT": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0119,
+   "raw_ratio": 1.0198
+  },
+  "bmw|x1|2017|SE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9421,
+   "raw_ratio": 0.865
+  },
+  "bmw|x1|2019|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9976,
+   "raw_ratio": 0.9945
+  },
+  "bmw|x1|2020|SE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9694,
+   "raw_ratio": 0.9285
+  },
+  "bmw|x1|2020|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0015,
+   "raw_ratio": 1.0035
+  },
+  "bmw|x1|2021|M SPORT": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "bmw|x1|2021|SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9967,
+   "raw_ratio": 0.9934
+  },
+  "bmw|x1|2022|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "bmw|x1|2022|XLINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0305,
+   "raw_ratio": 1.055
+  },
+  "bmw|x1|2023|M SPORT": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9913,
+   "raw_ratio": 0.9843
+  },
+  "bmw|x1|2023|SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9845,
+   "raw_ratio": 0.969
+  },
+  "bmw|x1|2023|XLINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.004,
+   "raw_ratio": 1.006
+  },
+  "bmw|x1|2024|M SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0136,
+   "raw_ratio": 1.0272
+  },
+  "bmw|x1|2024|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9806,
+   "raw_ratio": 0.9548
+  },
+  "bmw|x1|2024|XLINE": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "bmw|x1|2025|M SPORT": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "bmw|x1|2025|XLINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0004,
+   "raw_ratio": 1.001
+  },
+  "bmw|x1|2026|M SPORT": {
+   "far": false,
+   "n": 14,
+   "ratio": 1.0252,
+   "raw_ratio": 1.0324
+  },
+  "bmw|x1|2026|XLINE": {
+   "far": false,
+   "n": 13,
+   "ratio": 0.9816,
+   "raw_ratio": 0.9759
+  },
+  "bmw|x2|2019|SPORT": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9938,
+   "raw_ratio": 0.9902
+  },
+  "bmw|x2|2020|SPORT": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9868,
+   "raw_ratio": 0.978
+  },
+  "bmw|x3|2018|20D": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0018,
+   "raw_ratio": 1.0036
+  },
+  "bmw|x3|2018|M SPORT": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0607,
+   "raw_ratio": 1.1012
+  },
+  "bmw|x3|2018|SE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9754,
+   "raw_ratio": 0.9558
+  },
+  "bmw|x3|2018|XLINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9885,
+   "raw_ratio": 0.9809
+  },
+  "bmw|x3|2019|M SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0214,
+   "raw_ratio": 1.0499
+  },
+  "bmw|x3|2020|M SPORT": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0351,
+   "raw_ratio": 1.0632
+  },
+  "bmw|x3|2020|XLINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0094,
+   "raw_ratio": 1.0157
+  },
+  "bmw|x3|2021|M SPORT": {
+   "far": false,
+   "n": 14,
+   "ratio": 1.0121,
+   "raw_ratio": 1.0156
+  },
+  "bmw|x3|2021|XLINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0077,
+   "raw_ratio": 1.0115
+  },
+  "bmw|x3|2022|M SPORT": {
+   "far": false,
+   "n": 13,
+   "ratio": 1.002,
+   "raw_ratio": 1.0026
+  },
+  "bmw|x3|2022|XLINE": {
+   "far": false,
+   "n": 11,
+   "ratio": 0.9991,
+   "raw_ratio": 0.9987
+  },
+  "bmw|x3|2023|M SPORT": {
+   "far": false,
+   "n": 17,
+   "ratio": 1.0351,
+   "raw_ratio": 1.0433
+  },
+  "bmw|x3|2023|XLINE": {
+   "far": false,
+   "n": 13,
+   "ratio": 0.9739,
+   "raw_ratio": 0.9659
+  },
+  "bmw|x3|2024|M SPORT": {
+   "far": false,
+   "n": 16,
+   "ratio": 1.0167,
+   "raw_ratio": 1.0209
+  },
+  "bmw|x3|2024|XLINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9702,
+   "raw_ratio": 0.9504
+  },
+  "bmw|x3|2025|M SPORT": {
+   "far": false,
+   "n": 17,
+   "ratio": 1.0055,
+   "raw_ratio": 1.0068
+  },
+  "bmw|x3|2025|XLINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9819,
+   "raw_ratio": 0.9577
+  },
+  "bmw|x3|2026|M SPORT": {
+   "far": false,
+   "n": 28,
+   "ratio": 1.0059,
+   "raw_ratio": 1.0067
+  },
+  "bmw|x3|2026|XLINE": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9644,
+   "raw_ratio": 0.9441
+  },
+  "bmw|x5|2017|M SPORT": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "bmw|x5|2019|M SPORT": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.987,
+   "raw_ratio": 0.9784
+  },
+  "bmw|x5|2020|M SPORT": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.021,
+   "raw_ratio": 1.0315
+  },
+  "bmw|x5|2021|45E": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9518,
+   "raw_ratio": 0.8876
+  },
+  "bmw|x5|2021|M SPORT": {
+   "far": false,
+   "n": 24,
+   "ratio": 1.0193,
+   "raw_ratio": 1.0225
+  },
+  "bmw|x5|2021|XLINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9722,
+   "raw_ratio": 0.9445
+  },
+  "bmw|x5|2022|45E": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9917,
+   "raw_ratio": 0.9834
+  },
+  "bmw|x5|2022|M SPORT": {
+   "far": false,
+   "n": 16,
+   "ratio": 1.0059,
+   "raw_ratio": 1.0073
+  },
+  "bmw|x5|2022|XLINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9363,
+   "raw_ratio": 0.8726
+  },
+  "bmw|x5|2023|M SPORT": {
+   "far": false,
+   "n": 34,
+   "ratio": 1.0064,
+   "raw_ratio": 1.0072
+  },
+  "bmw|x5|2024|M SPORT": {
+   "far": false,
+   "n": 21,
+   "ratio": 1.0031,
+   "raw_ratio": 1.0036
+  },
+  "bmw|x5|2025|M SPORT": {
+   "far": false,
+   "n": 20,
+   "ratio": 1.0048,
+   "raw_ratio": 1.0058
+  },
+  "bmw|x5|2026|M SPORT": {
+   "far": false,
+   "n": 52,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "bmw|xm|2025|50E": {
+   "far": false,
+   "n": 10,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "bmw|xm|2026|50E": {
+   "far": false,
+   "n": 17,
+   "ratio": 1.0014,
+   "raw_ratio": 1.0018
+  },
+  "byd|atto 3|2024|DESIGN": {
+   "far": false,
+   "n": 11,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "byd|atto 3|2026|COMFORT": {
+   "far": false,
+   "n": 16,
+   "ratio": 0.9985,
+   "raw_ratio": 0.9982
+  },
+  "byd|dolphin surf|2026|BOOST": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9969,
+   "raw_ratio": 0.9952
+  },
+  "byd|dolphin surf|2026|COMFORT": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0401,
+   "raw_ratio": 1.0668
+  },
+  "byd|dolphin|2024|COMFORT": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9758,
+   "raw_ratio": 0.9564
+  },
+  "byd|dolphin|2024|DESIGN": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0013,
+   "raw_ratio": 1.0021
+  },
+  "byd|dolphin|2026|COMFORT": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "byd|seal u|2025|BOOST": {
+   "far": false,
+   "n": 29,
+   "ratio": 0.999,
+   "raw_ratio": 0.9989
+  },
+  "byd|seal u|2025|COMFORT": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0171,
+   "raw_ratio": 1.0256
+  },
+  "byd|seal u|2026|BOOST": {
+   "far": false,
+   "n": 29,
+   "ratio": 0.9716,
+   "raw_ratio": 0.9676
+  },
+  "byd|seal u|2026|COMFORT": {
+   "far": false,
+   "n": 25,
+   "ratio": 1.0273,
+   "raw_ratio": 1.0316
+  },
+  "byd|seal u|2026|DESIGN": {
+   "far": true,
+   "n": 8,
+   "ratio": 1.0891,
+   "raw_ratio": 1.1336
+  },
+  "byd|sealion 7|2025|COMFORT": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9915,
+   "raw_ratio": 0.9873
+  },
+  "byd|sealion 7|2025|EXCELLENCE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0231,
+   "raw_ratio": 1.0538
+  },
+  "byd|sealion 7|2026|COMFORT": {
+   "far": false,
+   "n": 20,
+   "ratio": 0.9664,
+   "raw_ratio": 0.9596
+  },
+  "byd|sealion 7|2026|DESIGN": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0302,
+   "raw_ratio": 1.0436
+  },
+  "byd|sealion 7|2026|EXCELLENCE": {
+   "far": false,
+   "n": 13,
+   "ratio": 1.0481,
+   "raw_ratio": 1.0628
+  },
+  "byd|seal|2024|DESIGN": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9974,
+   "raw_ratio": 0.9961
+  },
+  "byd|seal|2024|EXCELLENCE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0229,
+   "raw_ratio": 1.0459
+  },
+  "byd|seal|2025|DESIGN": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9995,
+   "raw_ratio": 0.999
+  },
+  "byd|seal|2025|EXCELLENCE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0195,
+   "raw_ratio": 1.0324
+  },
+  "byd|seal|2026|DESIGN": {
+   "far": false,
+   "n": 19,
+   "ratio": 0.994,
+   "raw_ratio": 0.9927
+  },
+  "byd|seal|2026|EXCELLENCE": {
+   "far": false,
+   "n": 11,
+   "ratio": 1.0542,
+   "raw_ratio": 1.074
+  },
+  "citroen|berlingo|2026|BLUEHDI": {
+   "far": false,
+   "n": 17,
+   "ratio": 0.9606,
+   "raw_ratio": 0.9514
+  },
+  "citroen|berlingo|2026|PLUS": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0029,
+   "raw_ratio": 1.0068
+  },
+  "citroen|c3 aircross|2022|PURETECH": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9644,
+   "raw_ratio": 0.9467
+  },
+  "citroen|c3 aircross|2023|FLAIR": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0057,
+   "raw_ratio": 1.0102
+  },
+  "citroen|c3 aircross|2026|MAX": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0516,
+   "raw_ratio": 1.0746
+  },
+  "citroen|c3 aircross|2026|PLUS": {
+   "far": false,
+   "n": 17,
+   "ratio": 0.9733,
+   "raw_ratio": 0.967
+  },
+  "citroen|c3|2018|PURETECH": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "citroen|c3|2019|EDITION": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0236,
+   "raw_ratio": 1.0472
+  },
+  "citroen|c3|2019|PURETECH": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9698,
+   "raw_ratio": 0.9497
+  },
+  "citroen|c3|2023|PURETECH": {
+   "far": false,
+   "n": 10,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "citroen|c3|2026|PLUS": {
+   "far": false,
+   "n": 19,
+   "ratio": 0.9844,
+   "raw_ratio": 0.9811
+  },
+  "citroen|c3|2026|PURETECH": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0324,
+   "raw_ratio": 1.0486
+  },
+  "citroen|c4|2022|BLUEHDI": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0092,
+   "raw_ratio": 1.0153
+  },
+  "citroen|c4|2022|PURETECH": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.98,
+   "raw_ratio": 0.96
+  },
+  "citroen|c4|2023|FLAIR": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9698,
+   "raw_ratio": 0.9296
+  },
+  "citroen|c4|2023|PURETECH": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0352,
+   "raw_ratio": 1.0704
+  },
+  "citroen|c4|2024|BLUEHDI": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0182,
+   "raw_ratio": 1.0426
+  },
+  "citroen|c4|2024|PURETECH": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9909,
+   "raw_ratio": 0.9863
+  },
+  "citroen|c4|2025|MAX": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0063,
+   "raw_ratio": 1.0127
+  },
+  "citroen|c4|2025|PURETECH": {
+   "far": false,
+   "n": 10,
+   "ratio": 0.9763,
+   "raw_ratio": 0.9668
+  },
+  "citroen|c4|2026|MAX": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0364,
+   "raw_ratio": 1.0727
+  },
+  "citroen|c4|2026|PLUS": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.9954,
+   "raw_ratio": 0.9934
+  },
+  "citroen|c4|2026|PURETECH": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0264,
+   "raw_ratio": 1.0616
+  },
+  "citroen|c5 aircross|2020|BLUEHDI": {
+   "far": true,
+   "n": 4,
+   "ratio": 1.1254,
+   "raw_ratio": 1.2509
+  },
+  "citroen|c5 aircross|2020|PURETECH": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9984,
+   "raw_ratio": 0.9976
+  },
+  "citroen|c5 aircross|2021|BLUEHDI": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0358,
+   "raw_ratio": 1.0645
+  },
+  "citroen|c5 aircross|2021|FEEL": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9328,
+   "raw_ratio": 0.8432
+  },
+  "citroen|c5 aircross|2022|BLUEHDI": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0094,
+   "raw_ratio": 1.0157
+  },
+  "citroen|c5 aircross|2023|BLUEHDI": {
+   "far": false,
+   "n": 15,
+   "ratio": 1.0353,
+   "raw_ratio": 1.0447
+  },
+  "citroen|c5 aircross|2023|FEEL": {
+   "far": true,
+   "n": 8,
+   "ratio": 0.8798,
+   "raw_ratio": 0.8197
+  },
+  "citroen|c5 aircross|2023|PURETECH": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9817,
+   "raw_ratio": 0.9634
+  },
+  "citroen|c5 aircross|2024|BLUEHDI": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0264,
+   "raw_ratio": 1.0528
+  },
+  "citroen|c5 aircross|2024|MAX": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "citroen|c5 aircross|2024|PURETECH": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9628,
+   "raw_ratio": 0.9132
+  },
+  "citroen|c5 aircross|2025|PLUS": {
+   "far": false,
+   "n": 10,
+   "ratio": 1.0017,
+   "raw_ratio": 1.0024
+  },
+  "citroen|c5 aircross|2025|PURETECH": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.988,
+   "raw_ratio": 0.9719
+  },
+  "citroen|c5 aircross|2026|MAX": {
+   "far": false,
+   "n": 18,
+   "ratio": 1.0349,
+   "raw_ratio": 1.0426
+  },
+  "citroen|c5 aircross|2026|PLUS": {
+   "far": false,
+   "n": 13,
+   "ratio": 0.9879,
+   "raw_ratio": 0.9842
+  },
+  "citroen|grand c4 picasso|2016|EXCLUSIVE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.975,
+   "raw_ratio": 0.9417
+  },
+  "cupra|born|2023|E-BOOST": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0432,
+   "raw_ratio": 1.1008
+  },
+  "cupra|born|2023|V1": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9899,
+   "raw_ratio": 0.9831
+  },
+  "cupra|born|2024|V1": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9867,
+   "raw_ratio": 0.9689
+  },
+  "cupra|born|2026|E-BOOST": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9392,
+   "raw_ratio": 0.8784
+  },
+  "cupra|born|2026|V2": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0162,
+   "raw_ratio": 1.0271
+  },
+  "cupra|formentor|2022|V1": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "cupra|formentor|2024|V1": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9964,
+   "raw_ratio": 0.9928
+  },
+  "cupra|formentor|2025|V2": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0135,
+   "raw_ratio": 1.0314
+  },
+  "cupra|formentor|2026|V1": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9881,
+   "raw_ratio": 0.9763
+  },
+  "cupra|formentor|2026|V2": {
+   "far": false,
+   "n": 30,
+   "ratio": 1.0011,
+   "raw_ratio": 1.0013
+  },
+  "cupra|leon|2026|V1": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9608,
+   "raw_ratio": 0.9085
+  },
+  "fiat|500|2019|POP": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0006,
+   "raw_ratio": 1.0011
+  },
+  "fiat|500|2023|DOLCEVITA": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9912,
+   "raw_ratio": 0.9795
+  },
+  "fiat|500|2023|MHEV": {
+   "far": false,
+   "n": 10,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "fiat|grande panda|2026|ICON": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9372,
+   "raw_ratio": 0.8869
+  },
+  "fiat|grande panda|2026|LA PRIMA": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0089,
+   "raw_ratio": 1.0133
+  },
+  "fiat|panda|2023|CROSS": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0068,
+   "raw_ratio": 1.0123
+  },
+  "fiat|panda|2023|MHEV": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9949,
+   "raw_ratio": 0.9898
+  },
+  "fiat|panda|2024|MHEV": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9871,
+   "raw_ratio": 0.9784
+  },
+  "fiat|panda|2026|ICON": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9444,
+   "raw_ratio": 0.9165
+  },
+  "fiat|panda|2026|LA PRIMA": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0142,
+   "raw_ratio": 1.0205
+  },
+  "ford|capri|2025|EXTENDED RANGE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9239,
+   "raw_ratio": 0.8732
+  },
+  "ford|capri|2026|EXTENDED RANGE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0099,
+   "raw_ratio": 1.0148
+  },
+  "ford|capri|2026|PREMIUM": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "ford|capri|2026|SELECT": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9922,
+   "raw_ratio": 0.9819
+  },
+  "ford|ecosport|2020|ECOBOOST": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9901,
+   "raw_ratio": 0.9802
+  },
+  "ford|ecosport|2020|ST-LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0253,
+   "raw_ratio": 1.0591
+  },
+  "ford|ecosport|2020|TITANIUM": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.939,
+   "raw_ratio": 0.878
+  },
+  "ford|explorer|2025|EXTENDED RANGE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9926,
+   "raw_ratio": 0.9867
+  },
+  "ford|explorer|2025|PREMIUM": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0473,
+   "raw_ratio": 1.0851
+  },
+  "ford|explorer|2026|EXTENDED RANGE": {
+   "far": false,
+   "n": 17,
+   "ratio": 1.0214,
+   "raw_ratio": 1.0264
+  },
+  "ford|explorer|2026|PREMIUM": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9865,
+   "raw_ratio": 0.9774
+  },
+  "ford|fiesta|2016|TITANIUM": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0182,
+   "raw_ratio": 1.0303
+  },
+  "ford|fiesta|2017|TITANIUM": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0168,
+   "raw_ratio": 1.0281
+  },
+  "ford|fiesta|2017|ZETEC": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.02,
+   "raw_ratio": 1.0315
+  },
+  "ford|fiesta|2018|TITANIUM": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0528,
+   "raw_ratio": 1.095
+  },
+  "ford|fiesta|2018|ZETEC": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9639,
+   "raw_ratio": 0.9433
+  },
+  "ford|fiesta|2019|ST": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9786,
+   "raw_ratio": 0.95
+  },
+  "ford|fiesta|2019|ST-LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9853,
+   "raw_ratio": 0.9707
+  },
+  "ford|fiesta|2019|TI-VCT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0058,
+   "raw_ratio": 1.0135
+  },
+  "ford|fiesta|2019|TITANIUM": {
+   "far": false,
+   "n": 12,
+   "ratio": 1.0527,
+   "raw_ratio": 1.0703
+  },
+  "ford|fiesta|2019|ZETEC": {
+   "far": false,
+   "n": 13,
+   "ratio": 1.0096,
+   "raw_ratio": 1.0126
+  },
+  "ford|fiesta|2020|TITANIUM": {
+   "far": false,
+   "n": 10,
+   "ratio": 0.9977,
+   "raw_ratio": 0.9967
+  },
+  "ford|fiesta|2020|ZETEC": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0224,
+   "raw_ratio": 1.0523
+  },
+  "ford|fiesta|2021|ACTIVE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9914,
+   "raw_ratio": 0.9799
+  },
+  "ford|fiesta|2021|ECOBOOST": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9789,
+   "raw_ratio": 0.9507
+  },
+  "ford|fiesta|2021|TITANIUM": {
+   "far": false,
+   "n": 12,
+   "ratio": 1.0188,
+   "raw_ratio": 1.025
+  },
+  "ford|fiesta|2021|TREND": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9787,
+   "raw_ratio": 0.9502
+  },
+  "ford|fiesta|2022|TITANIUM": {
+   "far": false,
+   "n": 11,
+   "ratio": 1.0055,
+   "raw_ratio": 1.0076
+  },
+  "ford|fiesta|2022|TREND": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9677,
+   "raw_ratio": 0.9419
+  },
+  "ford|fiesta|2023|TITANIUM": {
+   "far": false,
+   "n": 12,
+   "ratio": 1.0078,
+   "raw_ratio": 1.0104
+  },
+  "ford|fiesta|2023|TREND": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0243,
+   "raw_ratio": 1.0486
+  },
+  "ford|focus|2017|ST-LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.979,
+   "raw_ratio": 0.965
+  },
+  "ford|focus|2017|TITANIUM": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9999,
+   "raw_ratio": 0.9997
+  },
+  "ford|focus|2018|ECOBOOST": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0338,
+   "raw_ratio": 1.0676
+  },
+  "ford|focus|2018|ST-LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0299,
+   "raw_ratio": 1.0599
+  },
+  "ford|focus|2018|TITANIUM": {
+   "far": true,
+   "n": 10,
+   "ratio": 0.9188,
+   "raw_ratio": 0.8863
+  },
+  "ford|focus|2019|ECOBOOST": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0054,
+   "raw_ratio": 1.0085
+  },
+  "ford|focus|2019|ST-LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0146,
+   "raw_ratio": 1.0263
+  },
+  "ford|focus|2019|TITANIUM": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9939,
+   "raw_ratio": 0.9908
+  },
+  "ford|focus|2020|ACTIVE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9905,
+   "raw_ratio": 0.9779
+  },
+  "ford|focus|2020|ST-LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0162,
+   "raw_ratio": 1.027
+  },
+  "ford|focus|2020|TITANIUM": {
+   "far": false,
+   "n": 13,
+   "ratio": 0.993,
+   "raw_ratio": 0.9909
+  },
+  "ford|focus|2021|ECOBOOST": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0042,
+   "raw_ratio": 1.0076
+  },
+  "ford|focus|2021|ST-LINE EDITION": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0094,
+   "raw_ratio": 1.0148
+  },
+  "ford|focus|2021|TITANIUM": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9551,
+   "raw_ratio": 0.9102
+  },
+  "ford|focus|2021|ZETEC": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9203,
+   "raw_ratio": 0.814
+  },
+  "ford|focus|2022|ST-LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0146,
+   "raw_ratio": 1.0293
+  },
+  "ford|focus|2023|ECOBOOST": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0061,
+   "raw_ratio": 1.0142
+  },
+  "ford|focus|2023|ST-LINE": {
+   "far": false,
+   "n": 10,
+   "ratio": 1.0292,
+   "raw_ratio": 1.0409
+  },
+  "ford|focus|2023|ST-LINE X": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0528,
+   "raw_ratio": 1.095
+  },
+  "ford|focus|2023|TITANIUM": {
+   "far": false,
+   "n": 16,
+   "ratio": 0.9231,
+   "raw_ratio": 0.9039
+  },
+  "ford|focus|2023|TITANIUM VIGNALE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9267,
+   "raw_ratio": 0.8681
+  },
+  "ford|focus|2024|ECOBOOST": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9934,
+   "raw_ratio": 0.989
+  },
+  "ford|focus|2024|ST-LINE": {
+   "far": false,
+   "n": 17,
+   "ratio": 1.0052,
+   "raw_ratio": 1.0064
+  },
+  "ford|focus|2024|TITANIUM": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9873,
+   "raw_ratio": 0.98
+  },
+  "ford|focus|2025|ST-LINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9939,
+   "raw_ratio": 0.9909
+  },
+  "ford|galaxy|2019|TITANIUM": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.049,
+   "raw_ratio": 1.0816
+  },
+  "ford|kuga|2018|ST-LINE": {
+   "far": true,
+   "n": 3,
+   "ratio": 1.1074,
+   "raw_ratio": 1.2506
+  },
+  "ford|kuga|2018|TITANIUM": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.973,
+   "raw_ratio": 0.9611
+  },
+  "ford|kuga|2019|ST-LINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0253,
+   "raw_ratio": 1.038
+  },
+  "ford|kuga|2019|TITANIUM": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9645,
+   "raw_ratio": 0.929
+  },
+  "ford|kuga|2020|ST-LINE X": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0122,
+   "raw_ratio": 1.0285
+  },
+  "ford|kuga|2020|TITANIUM": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9794,
+   "raw_ratio": 0.963
+  },
+  "ford|kuga|2021|ST-LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9849,
+   "raw_ratio": 0.9749
+  },
+  "ford|kuga|2021|ST-LINE X": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9987,
+   "raw_ratio": 0.9971
+  },
+  "ford|kuga|2021|TITANIUM": {
+   "far": false,
+   "n": 13,
+   "ratio": 1.0022,
+   "raw_ratio": 1.0029
+  },
+  "ford|kuga|2022|ST-LINE": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0189,
+   "raw_ratio": 1.0298
+  },
+  "ford|kuga|2022|TITANIUM": {
+   "far": false,
+   "n": 17,
+   "ratio": 0.943,
+   "raw_ratio": 0.9295
+  },
+  "ford|kuga|2023|ST-LINE": {
+   "far": false,
+   "n": 17,
+   "ratio": 1.0399,
+   "raw_ratio": 1.0493
+  },
+  "ford|kuga|2023|ST-LINE X": {
+   "far": false,
+   "n": 11,
+   "ratio": 0.991,
+   "raw_ratio": 0.9877
+  },
+  "ford|kuga|2023|TITANIUM": {
+   "far": false,
+   "n": 20,
+   "ratio": 0.9726,
+   "raw_ratio": 0.9672
+  },
+  "ford|kuga|2023|VIGNALE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0413,
+   "raw_ratio": 1.0825
+  },
+  "ford|kuga|2024|ST-LINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0277,
+   "raw_ratio": 1.0416
+  },
+  "ford|kuga|2024|ST-LINE X": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0285,
+   "raw_ratio": 1.0571
+  },
+  "ford|kuga|2024|TITANIUM": {
+   "far": false,
+   "n": 31,
+   "ratio": 0.971,
+   "raw_ratio": 0.9673
+  },
+  "ford|kuga|2025|ST-LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.972,
+   "raw_ratio": 0.9533
+  },
+  "ford|kuga|2025|ST-LINE X": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0417,
+   "raw_ratio": 1.0625
+  },
+  "ford|kuga|2026|ST-LINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9374,
+   "raw_ratio": 0.9061
+  },
+  "ford|kuga|2026|ST-LINE X": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "ford|kuga|2026|ST-LINE X EDITION": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0482,
+   "raw_ratio": 1.0868
+  },
+  "ford|kuga|2026|TITANIUM": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9794,
+   "raw_ratio": 0.9691
+  },
+  "ford|mondeo|2017|TITANIUM": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0325,
+   "raw_ratio": 1.0511
+  },
+  "ford|mondeo|2018|TITANIUM": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9991,
+   "raw_ratio": 0.9984
+  },
+  "ford|mondeo|2018|VIGNALE": {
+   "far": true,
+   "n": 3,
+   "ratio": 1.1211,
+   "raw_ratio": 1.2826
+  },
+  "ford|mondeo|2019|TITANIUM": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9984,
+   "raw_ratio": 0.9969
+  },
+  "ford|mondeo|2020|TITANIUM": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.9846,
+   "raw_ratio": 0.9777
+  },
+  "ford|mondeo|2020|VIGNALE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0692,
+   "raw_ratio": 1.1153
+  },
+  "ford|mondeo|2021|TITANIUM": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0421,
+   "raw_ratio": 1.0662
+  },
+  "ford|mondeo|2021|ZETEC": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9579,
+   "raw_ratio": 0.9018
+  },
+  "ford|puma|2020|ECOBOOST MHEV": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.012,
+   "raw_ratio": 1.024
+  },
+  "ford|puma|2020|TITANIUM": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0426,
+   "raw_ratio": 1.0638
+  },
+  "ford|puma|2021|ST": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9795,
+   "raw_ratio": 0.9522
+  },
+  "ford|puma|2021|ST-LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9961,
+   "raw_ratio": 0.9936
+  },
+  "ford|puma|2021|TITANIUM": {
+   "far": false,
+   "n": 10,
+   "ratio": 1.0055,
+   "raw_ratio": 1.0077
+  },
+  "ford|puma|2022|ST-LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9884,
+   "raw_ratio": 0.9807
+  },
+  "ford|puma|2022|TITANIUM": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9999,
+   "raw_ratio": 0.9998
+  },
+  "ford|puma|2023|ECOBOOST": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.957,
+   "raw_ratio": 0.938
+  },
+  "ford|puma|2023|ST-LINE": {
+   "far": false,
+   "n": 18,
+   "ratio": 1.0398,
+   "raw_ratio": 1.0486
+  },
+  "ford|puma|2023|ST-LINE X": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0431,
+   "raw_ratio": 1.0718
+  },
+  "ford|puma|2023|TITANIUM": {
+   "far": false,
+   "n": 35,
+   "ratio": 0.9826,
+   "raw_ratio": 0.9806
+  },
+  "ford|puma|2024|ECOBOOST": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9453,
+   "raw_ratio": 0.9141
+  },
+  "ford|puma|2024|ST-LINE": {
+   "far": false,
+   "n": 21,
+   "ratio": 1.0034,
+   "raw_ratio": 1.004
+  },
+  "ford|puma|2024|TITANIUM": {
+   "far": false,
+   "n": 20,
+   "ratio": 0.9849,
+   "raw_ratio": 0.9819
+  },
+  "ford|puma|2025|ECOBOOST": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9711,
+   "raw_ratio": 0.9326
+  },
+  "ford|puma|2025|ST-LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0205,
+   "raw_ratio": 1.0478
+  },
+  "ford|puma|2025|TITANIUM": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.999,
+   "raw_ratio": 0.9983
+  },
+  "ford|puma|2026|ECOBOOST": {
+   "far": false,
+   "n": 10,
+   "ratio": 0.9229,
+   "raw_ratio": 0.892
+  },
+  "ford|puma|2026|ST": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0011,
+   "raw_ratio": 1.0016
+  },
+  "ford|puma|2026|ST-LINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9317,
+   "raw_ratio": 0.8976
+  },
+  "ford|puma|2026|ST-LINE X": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0055,
+   "raw_ratio": 1.0128
+  },
+  "ford|puma|2026|TITANIUM": {
+   "far": true,
+   "n": 9,
+   "ratio": 0.8952,
+   "raw_ratio": 0.8486
+  },
+  "ford|tourneo connect|2026|ACTIVE": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "ford|tourneo connect|2026|TITANIUM": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0775,
+   "raw_ratio": 1.1292
+  },
+  "honda|civic|2019|I-DTEC": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9737,
+   "raw_ratio": 0.9561
+  },
+  "honda|civic|2020|I-DTEC": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0117,
+   "raw_ratio": 1.0194
+  },
+  "honda|civic|2020|VTEC TURBO": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9976,
+   "raw_ratio": 0.9944
+  },
+  "honda|civic|2021|VTEC TURBO": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9853,
+   "raw_ratio": 0.9707
+  },
+  "honda|cr-v|2017|I-DTEC": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "honda|cr-v|2019|EX": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "honda|e:ny1|2024|ELEGANCE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "honda|hr-v|2025|ADVANCE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0004,
+   "raw_ratio": 1.0006
+  },
+  "honda|hr-v|2025|ELEGANCE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.987,
+   "raw_ratio": 0.9696
+  },
+  "honda|hr-v|2026|ADVANCE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0325,
+   "raw_ratio": 1.0651
+  },
+  "honda|hr-v|2026|ELEGANCE": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "honda|jazz|2026|ADVANCE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "hyundai|i20|2017|ACTIVE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0461,
+   "raw_ratio": 1.0922
+  },
+  "hyundai|i20|2019|ACTIVE": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9569,
+   "raw_ratio": 0.9323
+  },
+  "hyundai|i30|2025|N LINE": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "hyundai|i30|2026|N LINE": {
+   "far": false,
+   "n": 16,
+   "ratio": 1.0027,
+   "raw_ratio": 1.0034
+  },
+  "hyundai|ioniq 5|2022|PREMIUM": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9914,
+   "raw_ratio": 0.9871
+  },
+  "hyundai|ioniq 5|2022|ULTIMATE": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0128,
+   "raw_ratio": 1.0201
+  },
+  "hyundai|ioniq 5|2023|NAMSAN EDITION": {
+   "far": true,
+   "n": 3,
+   "ratio": 1.0923,
+   "raw_ratio": 1.2154
+  },
+  "hyundai|ioniq 5|2023|PREMIUM": {
+   "far": false,
+   "n": 12,
+   "ratio": 0.9988,
+   "raw_ratio": 0.9984
+  },
+  "hyundai|ioniq 5|2024|PREMIUM": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9223,
+   "raw_ratio": 0.8779
+  },
+  "hyundai|kona|2019|T-GDI": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0181,
+   "raw_ratio": 1.0361
+  },
+  "hyundai|kona|2020|T-GDI": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0081,
+   "raw_ratio": 1.0189
+  },
+  "hyundai|kona|2021|T-GDI": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9831,
+   "raw_ratio": 0.9606
+  },
+  "hyundai|kona|2022|PREMIUM": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9775,
+   "raw_ratio": 0.9475
+  },
+  "hyundai|kona|2022|T-GDI": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0087,
+   "raw_ratio": 1.0125
+  },
+  "hyundai|kona|2023|N LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.041,
+   "raw_ratio": 1.082
+  },
+  "hyundai|kona|2023|PREMIUM": {
+   "far": false,
+   "n": 15,
+   "ratio": 0.9703,
+   "raw_ratio": 0.9624
+  },
+  "hyundai|kona|2023|T-GDI": {
+   "far": false,
+   "n": 10,
+   "ratio": 0.99,
+   "raw_ratio": 0.986
+  },
+  "hyundai|kona|2023|ULTIMATE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9881,
+   "raw_ratio": 0.9722
+  },
+  "hyundai|kona|2024|ADVANCE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9538,
+   "raw_ratio": 0.8922
+  },
+  "hyundai|kona|2024|N LINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.025,
+   "raw_ratio": 1.0375
+  },
+  "hyundai|kona|2024|T-GDI": {
+   "far": false,
+   "n": 10,
+   "ratio": 0.9752,
+   "raw_ratio": 0.9653
+  },
+  "hyundai|kona|2025|N LINE": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9996,
+   "raw_ratio": 0.9994
+  },
+  "hyundai|kona|2026|N LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9988,
+   "raw_ratio": 0.9978
+  },
+  "hyundai|kona|2026|T-GDI": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9661,
+   "raw_ratio": 0.9323
+  },
+  "hyundai|santa fe|2022|PREMIUM": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0265,
+   "raw_ratio": 1.0618
+  },
+  "hyundai|santa fe|2023|PREMIUM": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9702,
+   "raw_ratio": 0.9532
+  },
+  "hyundai|santa fe|2025|PREMIUM": {
+   "far": false,
+   "n": 23,
+   "ratio": 0.9981,
+   "raw_ratio": 0.9977
+  },
+  "hyundai|santa fe|2026|PREMIUM": {
+   "far": false,
+   "n": 26,
+   "ratio": 0.9977,
+   "raw_ratio": 0.9974
+  },
+  "hyundai|tucson|2023|N LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0639,
+   "raw_ratio": 1.1278
+  },
+  "jaguar|i-pace|2024|SE": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9998,
+   "raw_ratio": 0.9997
+  },
+  "jaguar|xe|2016|PRESTIGE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.997,
+   "raw_ratio": 0.9929
+  },
+  "jaguar|xe|2016|R-SPORT": {
+   "far": true,
+   "n": 5,
+   "ratio": 1.2491,
+   "raw_ratio": 1.4484
+  },
+  "jaguar|xe|2017|R-SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9559,
+   "raw_ratio": 0.9118
+  },
+  "jaguar|xf|2017|PRESTIGE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.029,
+   "raw_ratio": 1.0676
+  },
+  "jaguar|xf|2017|R-SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9803,
+   "raw_ratio": 0.954
+  },
+  "jaguar|xf|2018|R-SPORT": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "jeep|avenger|2025|ALTITUDE": {
+   "far": false,
+   "n": 17,
+   "ratio": 0.9988,
+   "raw_ratio": 0.9985
+  },
+  "jeep|avenger|2026|ALTITUDE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0255,
+   "raw_ratio": 1.051
+  },
+  "kia|ceed|2019|GT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0263,
+   "raw_ratio": 1.0613
+  },
+  "kia|ceed|2020|GT": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0236,
+   "raw_ratio": 1.0473
+  },
+  "kia|ceed|2021|GT": {
+   "far": false,
+   "n": 12,
+   "ratio": 0.9825,
+   "raw_ratio": 0.9767
+  },
+  "kia|ceed|2022|GT": {
+   "far": false,
+   "n": 11,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "kia|ceed|2023|GT": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9957,
+   "raw_ratio": 0.9928
+  },
+  "kia|ceed|2023|MHEV": {
+   "far": false,
+   "n": 13,
+   "ratio": 1.0007,
+   "raw_ratio": 1.001
+  },
+  "kia|ceed|2024|MHEV": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0097,
+   "raw_ratio": 1.0152
+  },
+  "kia|ceed|2025|GT": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9993,
+   "raw_ratio": 0.9989
+  },
+  "kia|ev2|2026|AIR": {
+   "far": false,
+   "n": 18,
+   "ratio": 0.9531,
+   "raw_ratio": 0.9426
+  },
+  "kia|ev3|2026|GT": {
+   "far": true,
+   "n": 10,
+   "ratio": 1.1153,
+   "raw_ratio": 1.1614
+  },
+  "kia|ev3|2026|GT-LINE": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0637,
+   "raw_ratio": 1.092
+  },
+  "kia|ev4|2025|GT": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9941,
+   "raw_ratio": 0.9894
+  },
+  "kia|ev4|2026|GT": {
+   "far": false,
+   "n": 19,
+   "ratio": 1.0451,
+   "raw_ratio": 1.0546
+  },
+  "kia|ev4|2026|GT-LINE": {
+   "far": false,
+   "n": 10,
+   "ratio": 1.0212,
+   "raw_ratio": 1.0297
+  },
+  "kia|ev5|2026|GT": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0077,
+   "raw_ratio": 1.0115
+  },
+  "kia|ev5|2026|GT-LINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0206,
+   "raw_ratio": 1.0308
+  },
+  "kia|ev5|2026|PLUS": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0492,
+   "raw_ratio": 1.0885
+  },
+  "kia|ev6|2022|GT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0206,
+   "raw_ratio": 1.048
+  },
+  "kia|ev6|2022|GT-LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0079,
+   "raw_ratio": 1.0131
+  },
+  "kia|ev6|2023|GT": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0217,
+   "raw_ratio": 1.0391
+  },
+  "kia|ev6|2023|GT-LINE": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0037,
+   "raw_ratio": 1.0058
+  },
+  "kia|ev6|2024|AIR": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9226,
+   "raw_ratio": 0.8607
+  },
+  "kia|ev6|2024|GT": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0326,
+   "raw_ratio": 1.0512
+  },
+  "kia|ev6|2025|GT": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0471,
+   "raw_ratio": 1.0707
+  },
+  "kia|ev6|2025|GT-LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0194,
+   "raw_ratio": 1.0323
+  },
+  "kia|ev6|2026|GT": {
+   "far": false,
+   "n": 12,
+   "ratio": 1.0616,
+   "raw_ratio": 1.0821
+  },
+  "kia|ev9|2026|GT-LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9932,
+   "raw_ratio": 0.9886
+  },
+  "kia|niro|2020|GDI": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0193,
+   "raw_ratio": 1.0451
+  },
+  "kia|niro|2023|GDI": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0195,
+   "raw_ratio": 1.0389
+  },
+  "kia|sportage|2020|MHEV": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9576,
+   "raw_ratio": 0.9364
+  },
+  "kia|sportage|2021|MHEV": {
+   "far": false,
+   "n": 13,
+   "ratio": 0.9944,
+   "raw_ratio": 0.9926
+  },
+  "kia|sportage|2022|MHEV": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "kia|sportage|2023|MHEV": {
+   "far": false,
+   "n": 22,
+   "ratio": 0.9619,
+   "raw_ratio": 0.955
+  },
+  "kia|sportage|2024|GT-LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0125,
+   "raw_ratio": 1.0249
+  },
+  "kia|sportage|2024|MHEV": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0292,
+   "raw_ratio": 1.0459
+  },
+  "kia|sportage|2026|MHEV": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9838,
+   "raw_ratio": 0.9709
+  },
+  "kia|stonic|2021|MHEV": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0622,
+   "raw_ratio": 1.1119
+  },
+  "kia|stonic|2026|MHEV": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0467,
+   "raw_ratio": 1.0675
+  },
+  "kia|xceed|2023|GDI": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9979,
+   "raw_ratio": 0.9967
+  },
+  "kia|xceed|2024|GDI": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0004,
+   "raw_ratio": 1.0007
+  },
+  "land rover|discovery sport|2016|HSE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "land rover|discovery sport|2016|TD4": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.001,
+   "raw_ratio": 1.002
+  },
+  "land rover|discovery sport|2017|HSE": {
+   "far": true,
+   "n": 4,
+   "ratio": 1.0819,
+   "raw_ratio": 1.1638
+  },
+  "land rover|discovery sport|2017|TD4": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9636,
+   "raw_ratio": 0.9151
+  },
+  "land rover|discovery sport|2018|TD4": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0098,
+   "raw_ratio": 1.0229
+  },
+  "land rover|discovery sport|2020|ED4": {
+   "far": true,
+   "n": 3,
+   "ratio": 0.9073,
+   "raw_ratio": 0.7837
+  },
+  "land rover|discovery sport|2021|P300E": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9823,
+   "raw_ratio": 0.9645
+  },
+  "land rover|discovery sport|2022|R-DYNAMIC SE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0457,
+   "raw_ratio": 1.1066
+  },
+  "land rover|range rover evoque|2016|ED4": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0158,
+   "raw_ratio": 1.0368
+  },
+  "land rover|range rover evoque|2016|TD4": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0499,
+   "raw_ratio": 1.1165
+  },
+  "land rover|range rover evoque|2017|ED4": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "land rover|range rover evoque|2017|SE TECH": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9303,
+   "raw_ratio": 0.8746
+  },
+  "land rover|range rover evoque|2018|ED4": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.99,
+   "raw_ratio": 0.982
+  },
+  "land rover|range rover evoque|2018|TD4": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0231,
+   "raw_ratio": 1.0539
+  },
+  "land rover|range rover evoque|2021|DYNAMIC": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0131,
+   "raw_ratio": 1.0305
+  },
+  "land rover|range rover evoque|2021|P300E": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0169,
+   "raw_ratio": 1.0305
+  },
+  "land rover|range rover evoque|2022|DYNAMIC": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.967,
+   "raw_ratio": 0.9481
+  },
+  "land rover|range rover evoque|2022|P300E": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0452,
+   "raw_ratio": 1.0753
+  },
+  "land rover|range rover evoque|2022|R-DYNAMIC S": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9683,
+   "raw_ratio": 0.9365
+  },
+  "land rover|range rover evoque|2023|DYNAMIC": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.984,
+   "raw_ratio": 0.9713
+  },
+  "land rover|range rover evoque|2023|P300E": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0017,
+   "raw_ratio": 1.0039
+  },
+  "land rover|range rover evoque|2023|R-DYNAMIC S": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9864,
+   "raw_ratio": 0.9787
+  },
+  "land rover|range rover evoque|2024|P300E": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9826,
+   "raw_ratio": 0.9593
+  },
+  "land rover|range rover evoque|2025|AUTOBIOGRAPHY": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0301,
+   "raw_ratio": 1.0703
+  },
+  "land rover|range rover evoque|2026|DYNAMIC SE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9569,
+   "raw_ratio": 0.9225
+  },
+  "land rover|range rover sport|2017|HSE": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.9462,
+   "raw_ratio": 0.9223
+  },
+  "land rover|range rover sport|2018|HSE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0045,
+   "raw_ratio": 1.0067
+  },
+  "land rover|range rover sport|2018|P400E": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9818,
+   "raw_ratio": 0.9576
+  },
+  "land rover|range rover sport|2019|HSE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9566,
+   "raw_ratio": 0.9219
+  },
+  "land rover|range rover sport|2019|P400E": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9963,
+   "raw_ratio": 0.9938
+  },
+  "land rover|range rover sport|2020|HSE": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0113,
+   "raw_ratio": 1.0178
+  },
+  "land rover|range rover sport|2020|HSE DYNAMIC": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9806,
+   "raw_ratio": 0.9651
+  },
+  "land rover|range rover sport|2020|P400E": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9765,
+   "raw_ratio": 0.9529
+  },
+  "land rover|range rover sport|2021|HSE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0444,
+   "raw_ratio": 1.0888
+  },
+  "land rover|range rover sport|2021|HSE DYNAMIC": {
+   "far": false,
+   "n": 11,
+   "ratio": 0.9858,
+   "raw_ratio": 0.9807
+  },
+  "land rover|range rover sport|2021|HSE DYNAMIC BLACK": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "land rover|range rover sport|2021|P400E": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0139,
+   "raw_ratio": 1.0231
+  },
+  "land rover|range rover sport|2022|HSE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0205,
+   "raw_ratio": 1.0368
+  },
+  "land rover|range rover sport|2022|HSE DYNAMIC": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.007,
+   "raw_ratio": 1.0104
+  },
+  "land rover|range rover sport|2022|HSE SILVER": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.958,
+   "raw_ratio": 0.9161
+  },
+  "land rover|range rover sport|2022|P400E": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.9952,
+   "raw_ratio": 0.9931
+  },
+  "land rover|range rover sport|2022|P440E": {
+   "far": true,
+   "n": 3,
+   "ratio": 1.1245,
+   "raw_ratio": 1.2905
+  },
+  "land rover|range rover sport|2023|AUTOBIOGRAPHY": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0294,
+   "raw_ratio": 1.0589
+  },
+  "land rover|range rover sport|2023|DYNAMIC SE": {
+   "far": false,
+   "n": 15,
+   "ratio": 0.9986,
+   "raw_ratio": 0.9983
+  },
+  "land rover|range rover sport|2023|P440E": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9885,
+   "raw_ratio": 0.9793
+  },
+  "land rover|range rover sport|2023|SE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0051,
+   "raw_ratio": 1.0119
+  },
+  "land rover|range rover sport|2024|AUTOBIOGRAPHY": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0748,
+   "raw_ratio": 1.1496
+  },
+  "land rover|range rover sport|2024|DYNAMIC SE": {
+   "far": false,
+   "n": 14,
+   "ratio": 0.9782,
+   "raw_ratio": 0.972
+  },
+  "land rover|range rover sport|2024|HSE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0145,
+   "raw_ratio": 1.029
+  },
+  "land rover|range rover sport|2024|P460E": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0018,
+   "raw_ratio": 1.0031
+  },
+  "land rover|range rover sport|2025|DYNAMIC SE": {
+   "far": false,
+   "n": 24,
+   "ratio": 1.0057,
+   "raw_ratio": 1.0066
+  },
+  "land rover|range rover sport|2025|P460E": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9985,
+   "raw_ratio": 0.9965
+  },
+  "land rover|range rover sport|2026|AUTOBIOGRAPHY": {
+   "far": true,
+   "n": 5,
+   "ratio": 1.0991,
+   "raw_ratio": 1.1784
+  },
+  "land rover|range rover sport|2026|DYNAMIC SE": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9893,
+   "raw_ratio": 0.9839
+  },
+  "land rover|range rover|2018|P400E": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9811,
+   "raw_ratio": 0.9558
+  },
+  "land rover|range rover|2019|P400E": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0771,
+   "raw_ratio": 1.1799
+  },
+  "land rover|range rover|2020|AUTOBIOGRAPHY": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0063,
+   "raw_ratio": 1.0114
+  },
+  "land rover|range rover|2020|P400E": {
+   "far": false,
+   "n": 10,
+   "ratio": 0.9882,
+   "raw_ratio": 0.9835
+  },
+  "land rover|range rover|2021|P400E": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "land rover|range rover|2022|AUTOBIOGRAPHY": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0652,
+   "raw_ratio": 1.152
+  },
+  "land rover|range rover|2023|SE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0238,
+   "raw_ratio": 1.0555
+  },
+  "land rover|range rover|2025|AUTOBIOGRAPHY": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0368,
+   "raw_ratio": 1.0736
+  },
+  "land rover|range rover|2025|P460E": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9712,
+   "raw_ratio": 0.9328
+  },
+  "land rover|range rover|2026|EDITION": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.992,
+   "raw_ratio": 0.9812
+  },
+  "land rover|range rover|2026|HSE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0179,
+   "raw_ratio": 1.0299
+  },
+  "lexus|ct 200 h|2017|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0198,
+   "raw_ratio": 1.0462
+  },
+  "lexus|is 300 h|2017|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0441,
+   "raw_ratio": 1.1029
+  },
+  "lexus|nx 300 h|2017|LUXURY": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0058,
+   "raw_ratio": 1.0135
+  },
+  "lexus|nx 300 h|2018|300H": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0064,
+   "raw_ratio": 1.0149
+  },
+  "lexus|nx 300 h|2018|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0241,
+   "raw_ratio": 1.0562
+  },
+  "lexus|nx 300 h|2019|SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0206,
+   "raw_ratio": 1.0412
+  },
+  "lexus|nx 450 h+|2022|450H": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9957,
+   "raw_ratio": 0.9901
+  },
+  "lexus|nx 450 h+|2023|450H": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0047,
+   "raw_ratio": 1.0093
+  },
+  "lexus|nx 450 h+|2024|450H": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.994,
+   "raw_ratio": 0.9881
+  },
+  "lexus|rx 450h+|2023|LUXURY": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9873,
+   "raw_ratio": 0.9746
+  },
+  "lexus|rx 450h+|2023|PREMIUM": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0088,
+   "raw_ratio": 1.0177
+  },
+  "lexus|rz|2024|TAKUMI": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0045,
+   "raw_ratio": 1.0071
+  },
+  "lexus|ux 250 h|2023|F SPORT DESIGN": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0008,
+   "raw_ratio": 1.0014
+  },
+  "mazda|cx-30|2022|HOMURA": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "mazda|cx-30|2023|GT SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0495,
+   "raw_ratio": 1.1154
+  },
+  "mazda|cx-30|2023|HOMURA": {
+   "far": false,
+   "n": 11,
+   "ratio": 0.9876,
+   "raw_ratio": 0.9831
+  },
+  "mazda|cx-30|2025|HOMURA": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0124,
+   "raw_ratio": 1.0195
+  },
+  "mazda|cx-30|2026|E-SKYACTIV X": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0068,
+   "raw_ratio": 1.0135
+  },
+  "mazda|cx-30|2026|HOMURA": {
+   "far": false,
+   "n": 17,
+   "ratio": 1.0157,
+   "raw_ratio": 1.0194
+  },
+  "mazda|cx-5|2020|SPORT": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9755,
+   "raw_ratio": 0.9559
+  },
+  "mazda|cx-5|2021|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0149,
+   "raw_ratio": 1.0348
+  },
+  "mazda|cx-5|2022|SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0751,
+   "raw_ratio": 1.1503
+  },
+  "mazda|cx-60|2023|EXCLUSIVE-LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9956,
+   "raw_ratio": 0.9912
+  },
+  "mazda|cx-60|2023|HOMURA": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0037,
+   "raw_ratio": 1.0062
+  },
+  "mazda|cx-60|2023|TAKUMI": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.014,
+   "raw_ratio": 1.028
+  },
+  "mazda|cx-60|2024|HOMURA": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0067,
+   "raw_ratio": 1.0097
+  },
+  "mazda|cx-60|2025|HOMURA": {
+   "far": true,
+   "n": 6,
+   "ratio": 1.0813,
+   "raw_ratio": 1.1355
+  },
+  "mazda|cx-60|2025|TAKUMI": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0059,
+   "raw_ratio": 1.0138
+  },
+  "mazda|cx-60|2026|EXCLUSIVE-LINE": {
+   "far": false,
+   "n": 15,
+   "ratio": 0.9234,
+   "raw_ratio": 0.903
+  },
+  "mazda|cx-60|2026|HOMURA": {
+   "far": true,
+   "n": 9,
+   "ratio": 1.1063,
+   "raw_ratio": 1.1535
+  },
+  "mazda|cx-60|2026|TAKUMI": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0066,
+   "raw_ratio": 1.0132
+  },
+  "mazda|cx-80|2026|E-SKYACTIV": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0086,
+   "raw_ratio": 1.0155
+  },
+  "mazda|cx-80|2026|EXCLUSIVE-LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9631,
+   "raw_ratio": 0.9139
+  },
+  "mazda|cx-80|2026|HOMURA": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0126,
+   "raw_ratio": 1.021
+  },
+  "mazda|cx-80|2026|TAKUMI": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9979,
+   "raw_ratio": 0.9951
+  },
+  "mazda|mazda2|2024|CENTRE-LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9877,
+   "raw_ratio": 0.9754
+  },
+  "mazda|mazda3|2026|EXCLUSIVE-LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0378,
+   "raw_ratio": 1.0756
+  },
+  "mazda|mazda3|2026|HOMURA": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9631,
+   "raw_ratio": 0.9261
+  },
+  "mazda|mazda6e|2026|TAKUMI": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.9977,
+   "raw_ratio": 0.9966
+  },
+  "mercedes-benz|a class|2017|AMG LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9958,
+   "raw_ratio": 0.9916
+  },
+  "mercedes-benz|a class|2019|AMG LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0322,
+   "raw_ratio": 1.0752
+  },
+  "mercedes-benz|a class|2019|PREMIUM": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0251,
+   "raw_ratio": 1.0502
+  },
+  "mercedes-benz|a class|2020|AMG LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0141,
+   "raw_ratio": 1.0283
+  },
+  "mercedes-benz|a class|2021|AMG LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9878,
+   "raw_ratio": 0.9796
+  },
+  "mercedes-benz|a class|2021|PREMIUM": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0206,
+   "raw_ratio": 1.0482
+  },
+  "mercedes-benz|a class|2026|AMG LINE EDITION": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0306,
+   "raw_ratio": 1.0714
+  },
+  "mercedes-benz|c class|2017|AMG SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0766,
+   "raw_ratio": 1.1786
+  },
+  "mercedes-benz|c class|2018|AMG LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0481,
+   "raw_ratio": 1.0866
+  },
+  "mercedes-benz|c class|2018|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9299,
+   "raw_ratio": 0.8364
+  },
+  "mercedes-benz|c class|2019|AMG LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0106,
+   "raw_ratio": 1.0248
+  },
+  "mercedes-benz|c class|2024|AMG LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "mercedes-benz|c class|2026|AMG LINE": {
+   "far": false,
+   "n": 17,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "mercedes-benz|cla class|2017|AMG SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9705,
+   "raw_ratio": 0.9312
+  },
+  "mercedes-benz|cla class|2017|SPORT": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0256,
+   "raw_ratio": 1.0461
+  },
+  "mercedes-benz|cla class|2018|AMG LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9963,
+   "raw_ratio": 0.9914
+  },
+  "mercedes-benz|cla class|2022|AMG LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9972,
+   "raw_ratio": 0.9934
+  },
+  "mercedes-benz|cla class|2025|AMG LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0026,
+   "raw_ratio": 1.0044
+  },
+  "mercedes-benz|cle|2024|AMG LINE": {
+   "far": false,
+   "n": 19,
+   "ratio": 0.998,
+   "raw_ratio": 0.9976
+  },
+  "mercedes-benz|cle|2025|AMG LINE": {
+   "far": false,
+   "n": 15,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "mercedes-benz|cle|2026|AMG LINE": {
+   "far": false,
+   "n": 29,
+   "ratio": 0.9941,
+   "raw_ratio": 0.9933
+  },
+  "mercedes-benz|e class|2017|AMG LINE": {
+   "far": true,
+   "n": 3,
+   "ratio": 1.1011,
+   "raw_ratio": 1.2358
+  },
+  "mercedes-benz|e class|2018|AMG LINE": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9892,
+   "raw_ratio": 0.9831
+  },
+  "mercedes-benz|e class|2019|AMG LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0016,
+   "raw_ratio": 1.0036
+  },
+  "mercedes-benz|e class|2020|AMG LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9997,
+   "raw_ratio": 0.9996
+  },
+  "mercedes-benz|e class|2021|AMG LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9846,
+   "raw_ratio": 0.9743
+  },
+  "mercedes-benz|e class|2022|AMG LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0031,
+   "raw_ratio": 1.0073
+  },
+  "mercedes-benz|e class|2023|AMG LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0125,
+   "raw_ratio": 1.0208
+  },
+  "mercedes-benz|e class|2024|AMG LINE": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.9961,
+   "raw_ratio": 0.9944
+  },
+  "mercedes-benz|e class|2024|MHEV": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9828,
+   "raw_ratio": 0.969
+  },
+  "mercedes-benz|e class|2025|AMG LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "mercedes-benz|e class|2026|AMG LINE": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.9945,
+   "raw_ratio": 0.992
+  },
+  "mercedes-benz|eqa|2022|AMG LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0067,
+   "raw_ratio": 1.0112
+  },
+  "mercedes-benz|eqa|2022|EQA 250": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9956,
+   "raw_ratio": 0.9896
+  },
+  "mercedes-benz|eqa|2023|AMG LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9947,
+   "raw_ratio": 0.9905
+  },
+  "mercedes-benz|eqa|2024|AMG LINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9955,
+   "raw_ratio": 0.9933
+  },
+  "mercedes-benz|eqa|2025|AMG LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9949,
+   "raw_ratio": 0.9909
+  },
+  "mercedes-benz|eqa|2025|EQA 250": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9989,
+   "raw_ratio": 0.9973
+  },
+  "mercedes-benz|eqa|2025|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0123,
+   "raw_ratio": 1.0287
+  },
+  "mercedes-benz|eqb|2022|AMG LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0069,
+   "raw_ratio": 1.0161
+  },
+  "mercedes-benz|eqb|2023|AMG LINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9967,
+   "raw_ratio": 0.995
+  },
+  "mercedes-benz|eqb|2024|AMG LINE": {
+   "far": false,
+   "n": 10,
+   "ratio": 1.0305,
+   "raw_ratio": 1.0426
+  },
+  "mercedes-benz|eqc|2023|AMG LINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9834,
+   "raw_ratio": 0.9751
+  },
+  "mercedes-benz|eqe|2023|AMG LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9668,
+   "raw_ratio": 0.9224
+  },
+  "mercedes-benz|eqe|2024|AMG LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "mercedes-benz|eqe|2024|EQE 300": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9716,
+   "raw_ratio": 0.9488
+  },
+  "mercedes-benz|eqe|2025|AMG LINE": {
+   "far": false,
+   "n": 14,
+   "ratio": 1.0101,
+   "raw_ratio": 1.013
+  },
+  "mercedes-benz|eqe|2025|EQE 300": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9944,
+   "raw_ratio": 0.9888
+  },
+  "mercedes-benz|eqe|2025|SPORT EDITION": {
+   "far": true,
+   "n": 3,
+   "ratio": 0.9178,
+   "raw_ratio": 0.8082
+  },
+  "mercedes-benz|eqs|2025|AMG LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9971,
+   "raw_ratio": 0.9952
+  },
+  "mercedes-benz|gla class|2026|AMG LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.018,
+   "raw_ratio": 1.0323
+  },
+  "mercedes-benz|glc class|2022|AMG LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9914,
+   "raw_ratio": 0.98
+  },
+  "mercedes-benz|glc class|2023|AMG LINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0456,
+   "raw_ratio": 1.0683
+  },
+  "mercedes-benz|glc class|2024|AMG LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9938,
+   "raw_ratio": 0.9897
+  },
+  "mercedes-benz|glc class|2025|AMG LINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0081,
+   "raw_ratio": 1.0122
+  },
+  "mercedes-benz|glc class|2026|AMG LINE": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0269,
+   "raw_ratio": 1.0388
+  },
+  "mercedes-benz|gle class|2022|AMG LINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9907,
+   "raw_ratio": 0.986
+  },
+  "mercedes-benz|gle class|2024|AMG LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0056,
+   "raw_ratio": 1.0131
+  },
+  "mercedes-benz|gle class|2026|SPORT EDITION": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9831,
+   "raw_ratio": 0.9695
+  },
+  "mg|4|2023|EXCITE": {
+   "far": false,
+   "n": 14,
+   "ratio": 0.9399,
+   "raw_ratio": 0.9227
+  },
+  "mg|4|2023|EXCLUSIVE": {
+   "far": false,
+   "n": 13,
+   "ratio": 1.0194,
+   "raw_ratio": 1.0254
+  },
+  "mg|4|2024|EXCLUSIVE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.982,
+   "raw_ratio": 0.964
+  },
+  "mg|hs|2022|EXCITE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9607,
+   "raw_ratio": 0.9083
+  },
+  "mg|hs|2022|EXCLUSIVE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0588,
+   "raw_ratio": 1.0882
+  },
+  "mg|hs|2023|EXCLUSIVE": {
+   "far": false,
+   "n": 16,
+   "ratio": 0.9972,
+   "raw_ratio": 0.9965
+  },
+  "mini|cooper|2019|COOPER": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9986,
+   "raw_ratio": 0.9975
+  },
+  "mini|countryman|2022|COOPER": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9901,
+   "raw_ratio": 0.9769
+  },
+  "mini|countryman|2022|EXCLUSIVE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "mini|countryman|2023|COOPER S": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0049,
+   "raw_ratio": 1.0098
+  },
+  "mini|countryman|2023|EXCLUSIVE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.05,
+   "raw_ratio": 1.1166
+  },
+  "mini|countryman|2025|CLASSIC": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0354,
+   "raw_ratio": 1.059
+  },
+  "mini|hatch|2016|COOPER": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0383,
+   "raw_ratio": 1.0689
+  },
+  "mini|hatch|2017|COOPER": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0111,
+   "raw_ratio": 1.0174
+  },
+  "mini|hatch|2017|ONE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9648,
+   "raw_ratio": 0.9179
+  },
+  "mini|hatch|2018|COOPER": {
+   "far": false,
+   "n": 13,
+   "ratio": 0.9486,
+   "raw_ratio": 0.9328
+  },
+  "mini|hatch|2019|COOPER": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.984,
+   "raw_ratio": 0.9628
+  },
+  "mini|hatch|2019|ONE CLASSIC": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9929,
+   "raw_ratio": 0.9835
+  },
+  "mini|hatch|2020|COOPER SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0194,
+   "raw_ratio": 1.0453
+  },
+  "mini|hatch|2022|COOPER CLASSIC": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0066,
+   "raw_ratio": 1.0155
+  },
+  "mini|hatch|2022|COOPER EXCLUSIVE": {
+   "far": true,
+   "n": 5,
+   "ratio": 1.1414,
+   "raw_ratio": 1.2545
+  },
+  "mini|hatch|2023|COOPER S": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9477,
+   "raw_ratio": 0.8955
+  },
+  "mini|hatch|2026|COOPER": {
+   "far": false,
+   "n": 10,
+   "ratio": 0.9431,
+   "raw_ratio": 0.9203
+  },
+  "mini|hatch|2026|COOPER S": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0006,
+   "raw_ratio": 1.0013
+  },
+  "mini|hatch|2026|JOHN COOPER WORKS": {
+   "far": true,
+   "n": 3,
+   "ratio": 1.0824,
+   "raw_ratio": 1.1924
+  },
+  "mitsubishi|outlander|2017|4H": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.956,
+   "raw_ratio": 0.9308
+  },
+  "mitsubishi|outlander|2019|JURO": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9768,
+   "raw_ratio": 0.9459
+  },
+  "mitsubishi|outlander|2022|EXCEED": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0027,
+   "raw_ratio": 1.0048
+  },
+  "nissan|ariya|2024|ADVANCE": {
+   "far": false,
+   "n": 12,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "nissan|ariya|2024|ENGAGE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9858,
+   "raw_ratio": 0.9716
+  },
+  "nissan|ariya|2024|EVOLVE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0171,
+   "raw_ratio": 1.0284
+  },
+  "nissan|ariya|2026|ADVANCE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0001,
+   "raw_ratio": 1.0003
+  },
+  "nissan|ariya|2026|ENGAGE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9998,
+   "raw_ratio": 0.9997
+  },
+  "nissan|leaf|2022|ACENTA": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9624,
+   "raw_ratio": 0.9374
+  },
+  "nissan|leaf|2022|N-CONNECTA": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9648,
+   "raw_ratio": 0.9297
+  },
+  "nissan|leaf|2023|ACENTA": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9853,
+   "raw_ratio": 0.9755
+  },
+  "nissan|leaf|2023|N-CONNECTA": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9865,
+   "raw_ratio": 0.9797
+  },
+  "nissan|leaf|2024|N-CONNECTA": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.961,
+   "raw_ratio": 0.9436
+  },
+  "nissan|leaf|2024|TEKNA": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0339,
+   "raw_ratio": 1.0533
+  },
+  "nissan|qashqai|2018|N-CONNECTA": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0135,
+   "raw_ratio": 1.0315
+  },
+  "nissan|x-trail|2017|ACENTA": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0172,
+   "raw_ratio": 1.0402
+  },
+  "nissan|x-trail|2017|N-VISION": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9459,
+   "raw_ratio": 0.8737
+  },
+  "peugeot|2008|2018|PURETECH": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9774,
+   "raw_ratio": 0.9624
+  },
+  "peugeot|2008|2020|ALLURE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9994,
+   "raw_ratio": 0.9988
+  },
+  "peugeot|2008|2021|ACTIVE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0173,
+   "raw_ratio": 1.0404
+  },
+  "peugeot|2008|2021|ALLURE": {
+   "far": false,
+   "n": 18,
+   "ratio": 1.0058,
+   "raw_ratio": 1.0071
+  },
+  "peugeot|2008|2021|GT": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9926,
+   "raw_ratio": 0.9828
+  },
+  "peugeot|2008|2021|PURETECH": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0197,
+   "raw_ratio": 1.0284
+  },
+  "peugeot|2008|2022|ACTIVE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9734,
+   "raw_ratio": 0.9468
+  },
+  "peugeot|2008|2022|ALLURE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0104,
+   "raw_ratio": 1.0173
+  },
+  "peugeot|2008|2022|PURETECH": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.017,
+   "raw_ratio": 1.0305
+  },
+  "peugeot|2008|2023|ACTIVE PREMIUM": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9425,
+   "raw_ratio": 0.8658
+  },
+  "peugeot|2008|2023|ALLURE": {
+   "far": false,
+   "n": 25,
+   "ratio": 1.0004,
+   "raw_ratio": 1.0005
+  },
+  "peugeot|2008|2023|GT": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9611,
+   "raw_ratio": 0.9389
+  },
+  "peugeot|2008|2023|PURETECH": {
+   "far": false,
+   "n": 18,
+   "ratio": 1.013,
+   "raw_ratio": 1.0159
+  },
+  "peugeot|2008|2024|ALLURE": {
+   "far": false,
+   "n": 18,
+   "ratio": 0.9954,
+   "raw_ratio": 0.9943
+  },
+  "peugeot|2008|2024|GT": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.978,
+   "raw_ratio": 0.9603
+  },
+  "peugeot|2008|2024|PURETECH": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0189,
+   "raw_ratio": 1.0283
+  },
+  "peugeot|2008|2025|ALLURE": {
+   "far": false,
+   "n": 15,
+   "ratio": 1.008,
+   "raw_ratio": 1.0101
+  },
+  "peugeot|2008|2025|GT": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9929,
+   "raw_ratio": 0.9881
+  },
+  "peugeot|2008|2025|PURETECH": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9903,
+   "raw_ratio": 0.9838
+  },
+  "peugeot|2008|2026|ALLURE": {
+   "far": false,
+   "n": 21,
+   "ratio": 1.0097,
+   "raw_ratio": 1.0116
+  },
+  "peugeot|2008|2026|GT": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9687,
+   "raw_ratio": 0.9478
+  },
+  "peugeot|208|2020|ACTIVE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9588,
+   "raw_ratio": 0.9313
+  },
+  "peugeot|208|2020|GT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0664,
+   "raw_ratio": 1.155
+  },
+  "peugeot|208|2021|GT": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0112,
+   "raw_ratio": 1.0187
+  },
+  "peugeot|208|2022|ACTIVE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9815,
+   "raw_ratio": 0.9631
+  },
+  "peugeot|208|2022|ALLURE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.995,
+   "raw_ratio": 0.9883
+  },
+  "peugeot|208|2022|PURETECH": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0045,
+   "raw_ratio": 1.0105
+  },
+  "peugeot|208|2023|ACTIVE": {
+   "far": false,
+   "n": 11,
+   "ratio": 0.9688,
+   "raw_ratio": 0.9575
+  },
+  "peugeot|208|2023|ALLURE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0151,
+   "raw_ratio": 1.0352
+  },
+  "peugeot|208|2023|PURETECH": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0222,
+   "raw_ratio": 1.04
+  },
+  "peugeot|208|2025|ACTIVE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.96,
+   "raw_ratio": 0.9068
+  },
+  "peugeot|208|2025|ALLURE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0342,
+   "raw_ratio": 1.0615
+  },
+  "peugeot|208|2025|PURETECH": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0119,
+   "raw_ratio": 1.0239
+  },
+  "peugeot|208|2026|STYLE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0023,
+   "raw_ratio": 1.0041
+  },
+  "peugeot|3008|2017|ALLURE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9397,
+   "raw_ratio": 0.8592
+  },
+  "peugeot|3008|2018|ACTIVE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9598,
+   "raw_ratio": 0.9062
+  },
+  "peugeot|3008|2018|ALLURE": {
+   "far": false,
+   "n": 13,
+   "ratio": 0.9919,
+   "raw_ratio": 0.9894
+  },
+  "peugeot|3008|2018|BLUEHDI": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9999,
+   "raw_ratio": 0.9998
+  },
+  "peugeot|3008|2019|ACTIVE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.989,
+   "raw_ratio": 0.9743
+  },
+  "peugeot|3008|2019|ALLURE": {
+   "far": false,
+   "n": 19,
+   "ratio": 0.9733,
+   "raw_ratio": 0.9677
+  },
+  "peugeot|3008|2019|BLUEHDI": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9898,
+   "raw_ratio": 0.984
+  },
+  "peugeot|3008|2019|GT": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0422,
+   "raw_ratio": 1.0703
+  },
+  "peugeot|3008|2020|ALLURE": {
+   "far": false,
+   "n": 17,
+   "ratio": 0.9931,
+   "raw_ratio": 0.9914
+  },
+  "peugeot|3008|2020|BLUEHDI": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0197,
+   "raw_ratio": 1.0459
+  },
+  "peugeot|3008|2020|GT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0378,
+   "raw_ratio": 1.0881
+  },
+  "peugeot|3008|2021|ACTIVE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9441,
+   "raw_ratio": 0.8695
+  },
+  "peugeot|3008|2021|ALLURE": {
+   "far": false,
+   "n": 16,
+   "ratio": 1.0052,
+   "raw_ratio": 1.0065
+  },
+  "peugeot|3008|2021|ALLURE PREMIUM": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9864,
+   "raw_ratio": 0.9684
+  },
+  "peugeot|3008|2021|GT PREMIUM": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0494,
+   "raw_ratio": 1.0989
+  },
+  "peugeot|3008|2022|ALLURE": {
+   "far": false,
+   "n": 16,
+   "ratio": 1.0008,
+   "raw_ratio": 1.001
+  },
+  "peugeot|3008|2022|BLUEHDI": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9823,
+   "raw_ratio": 0.9682
+  },
+  "peugeot|3008|2023|ALLURE": {
+   "far": false,
+   "n": 21,
+   "ratio": 1.0059,
+   "raw_ratio": 1.007
+  },
+  "peugeot|3008|2023|BLUEHDI": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9741,
+   "raw_ratio": 0.9568
+  },
+  "peugeot|3008|2023|GT": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0028,
+   "raw_ratio": 1.0057
+  },
+  "peugeot|3008|2023|PURETECH": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0006,
+   "raw_ratio": 1.0014
+  },
+  "peugeot|3008|2024|ALLURE": {
+   "far": false,
+   "n": 23,
+   "ratio": 1.0131,
+   "raw_ratio": 1.0154
+  },
+  "peugeot|3008|2024|BLUEHDI": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9913,
+   "raw_ratio": 0.9856
+  },
+  "peugeot|3008|2024|GT": {
+   "far": false,
+   "n": 16,
+   "ratio": 0.9697,
+   "raw_ratio": 0.9622
+  },
+  "peugeot|3008|2024|MHEV": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9981,
+   "raw_ratio": 0.9962
+  },
+  "peugeot|3008|2024|PURETECH": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0134,
+   "raw_ratio": 1.0223
+  },
+  "peugeot|3008|2025|ALLURE": {
+   "far": false,
+   "n": 35,
+   "ratio": 0.9976,
+   "raw_ratio": 0.9973
+  },
+  "peugeot|3008|2025|GT": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9975,
+   "raw_ratio": 0.995
+  },
+  "peugeot|3008|2026|ALLURE": {
+   "far": false,
+   "n": 14,
+   "ratio": 0.9814,
+   "raw_ratio": 0.9761
+  },
+  "peugeot|3008|2026|MHEV": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0272,
+   "raw_ratio": 1.0543
+  },
+  "peugeot|308|2018|GT LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9998,
+   "raw_ratio": 0.9995
+  },
+  "peugeot|308|2019|BLUEHDI": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9416,
+   "raw_ratio": 0.8637
+  },
+  "peugeot|308|2019|GT": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0398,
+   "raw_ratio": 1.0796
+  },
+  "peugeot|308|2020|PURETECH": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9942,
+   "raw_ratio": 0.9883
+  },
+  "peugeot|308|2021|GT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0262,
+   "raw_ratio": 1.0612
+  },
+  "peugeot|308|2023|ALLURE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0232,
+   "raw_ratio": 1.0348
+  },
+  "peugeot|308|2023|BLUEHDI": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0138,
+   "raw_ratio": 1.0248
+  },
+  "peugeot|308|2023|GT": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0384,
+   "raw_ratio": 1.0767
+  },
+  "peugeot|308|2024|ALLURE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0049,
+   "raw_ratio": 1.0098
+  },
+  "peugeot|308|2024|BLUEHDI": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "peugeot|308|2026|ALLURE": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9657,
+   "raw_ratio": 0.9462
+  },
+  "peugeot|408|2023|ALLURE": {
+   "far": false,
+   "n": 15,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "peugeot|408|2023|GT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0195,
+   "raw_ratio": 1.0455
+  },
+  "peugeot|408|2023|PURETECH": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9975,
+   "raw_ratio": 0.996
+  },
+  "peugeot|408|2024|ALLURE": {
+   "far": false,
+   "n": 11,
+   "ratio": 0.9901,
+   "raw_ratio": 0.9866
+  },
+  "peugeot|408|2024|GT": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.994,
+   "raw_ratio": 0.986
+  },
+  "peugeot|408|2024|PURETECH": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0041,
+   "raw_ratio": 1.0082
+  },
+  "peugeot|408|2025|ALLURE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0145,
+   "raw_ratio": 1.0262
+  },
+  "peugeot|408|2025|PURETECH": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9415,
+   "raw_ratio": 0.9025
+  },
+  "peugeot|408|2026|ALLURE": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9403,
+   "raw_ratio": 0.9062
+  },
+  "peugeot|408|2026|GT": {
+   "far": false,
+   "n": 11,
+   "ratio": 1.0727,
+   "raw_ratio": 1.0992
+  },
+  "peugeot|5008|2018|ACTIVE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9731,
+   "raw_ratio": 0.9373
+  },
+  "peugeot|5008|2018|ALLURE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9638,
+   "raw_ratio": 0.9396
+  },
+  "peugeot|5008|2018|BLUEHDI": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0776,
+   "raw_ratio": 1.181
+  },
+  "peugeot|5008|2018|GT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0222,
+   "raw_ratio": 1.0518
+  },
+  "peugeot|5008|2018|GT LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0429,
+   "raw_ratio": 1.0858
+  },
+  "peugeot|5008|2019|ACTIVE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9458,
+   "raw_ratio": 0.8735
+  },
+  "peugeot|5008|2019|ALLURE": {
+   "far": true,
+   "n": 6,
+   "ratio": 0.9137,
+   "raw_ratio": 0.8562
+  },
+  "peugeot|5008|2019|BLUEHDI": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.984,
+   "raw_ratio": 0.9627
+  },
+  "peugeot|5008|2019|GT": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0542,
+   "raw_ratio": 1.0904
+  },
+  "peugeot|5008|2020|ALLURE": {
+   "far": false,
+   "n": 10,
+   "ratio": 0.9863,
+   "raw_ratio": 0.9808
+  },
+  "peugeot|5008|2020|BLUEHDI": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0145,
+   "raw_ratio": 1.0338
+  },
+  "peugeot|5008|2020|GT": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0542,
+   "raw_ratio": 1.1083
+  },
+  "peugeot|5008|2020|PURETECH": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9728,
+   "raw_ratio": 0.9366
+  },
+  "peugeot|5008|2021|ALLURE": {
+   "far": false,
+   "n": 15,
+   "ratio": 0.9461,
+   "raw_ratio": 0.9317
+  },
+  "peugeot|5008|2021|BLUEHDI": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0562,
+   "raw_ratio": 1.0884
+  },
+  "peugeot|5008|2021|GT": {
+   "far": true,
+   "n": 5,
+   "ratio": 1.1015,
+   "raw_ratio": 1.1826
+  },
+  "peugeot|5008|2022|ALLURE": {
+   "far": false,
+   "n": 18,
+   "ratio": 0.9932,
+   "raw_ratio": 0.9917
+  },
+  "peugeot|5008|2022|BLUEHDI": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0142,
+   "raw_ratio": 1.0237
+  },
+  "peugeot|5008|2023|ALLURE": {
+   "far": false,
+   "n": 14,
+   "ratio": 1.0039,
+   "raw_ratio": 1.0051
+  },
+  "peugeot|5008|2023|BLUEHDI": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9893,
+   "raw_ratio": 0.9785
+  },
+  "peugeot|5008|2023|PURETECH": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9782,
+   "raw_ratio": 0.9565
+  },
+  "peugeot|5008|2024|ALLURE": {
+   "far": false,
+   "n": 16,
+   "ratio": 0.9919,
+   "raw_ratio": 0.9899
+  },
+  "peugeot|5008|2024|BLUEHDI": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9997,
+   "raw_ratio": 0.9994
+  },
+  "peugeot|5008|2024|GT": {
+   "far": false,
+   "n": 12,
+   "ratio": 1.0133,
+   "raw_ratio": 1.0177
+  },
+  "peugeot|5008|2025|ALLURE": {
+   "far": false,
+   "n": 16,
+   "ratio": 0.9805,
+   "raw_ratio": 0.9757
+  },
+  "peugeot|5008|2025|GT": {
+   "far": false,
+   "n": 18,
+   "ratio": 1.0135,
+   "raw_ratio": 1.0165
+  },
+  "peugeot|5008|2026|ALLURE": {
+   "far": false,
+   "n": 18,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "peugeot|5008|2026|GT": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0217,
+   "raw_ratio": 1.0391
+  },
+  "peugeot|508|2019|ALLURE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "peugeot|508|2019|BLUEHDI": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9848,
+   "raw_ratio": 0.9727
+  },
+  "peugeot|508|2020|BLUEHDI": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9899,
+   "raw_ratio": 0.9798
+  },
+  "peugeot|508|2020|GT": {
+   "far": true,
+   "n": 3,
+   "ratio": 1.0862,
+   "raw_ratio": 1.2011
+  },
+  "porsche|taycan|2023|4S": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0108,
+   "raw_ratio": 1.0215
+  },
+  "porsche|taycan|2023|GTS": {
+   "far": true,
+   "n": 3,
+   "ratio": 1.0871,
+   "raw_ratio": 1.2033
+  },
+  "porsche|taycan|2024|4S": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0069,
+   "raw_ratio": 1.0125
+  },
+  "renault|arkana|2021|R.S. LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0082,
+   "raw_ratio": 1.0148
+  },
+  "renault|arkana|2022|E-TECH": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.937,
+   "raw_ratio": 0.8867
+  },
+  "renault|arkana|2022|R.S. LINE": {
+   "far": false,
+   "n": 17,
+   "ratio": 1.0079,
+   "raw_ratio": 1.0098
+  },
+  "renault|arkana|2022|S EDITION": {
+   "far": false,
+   "n": 16,
+   "ratio": 1.0224,
+   "raw_ratio": 1.0281
+  },
+  "renault|arkana|2023|E-TECH": {
+   "far": false,
+   "n": 26,
+   "ratio": 0.9956,
+   "raw_ratio": 0.995
+  },
+  "renault|arkana|2023|E-TECH ENGINEERED": {
+   "far": false,
+   "n": 13,
+   "ratio": 1.0511,
+   "raw_ratio": 1.0669
+  },
+  "renault|arkana|2023|EVOLUTION": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.95,
+   "raw_ratio": 0.9278
+  },
+  "renault|arkana|2023|R.S. LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0179,
+   "raw_ratio": 1.0322
+  },
+  "renault|arkana|2023|TCE": {
+   "far": false,
+   "n": 13,
+   "ratio": 1.0111,
+   "raw_ratio": 1.0145
+  },
+  "renault|arkana|2023|TECHNO": {
+   "far": false,
+   "n": 33,
+   "ratio": 0.9792,
+   "raw_ratio": 0.9767
+  },
+  "renault|arkana|2024|E-TECH": {
+   "far": false,
+   "n": 21,
+   "ratio": 1.0188,
+   "raw_ratio": 1.0224
+  },
+  "renault|arkana|2024|ESPRIT ALPINE": {
+   "far": false,
+   "n": 31,
+   "ratio": 1.0066,
+   "raw_ratio": 1.0074
+  },
+  "renault|arkana|2024|EVOLUTION": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9698,
+   "raw_ratio": 0.9456
+  },
+  "renault|arkana|2024|TECHNO": {
+   "far": false,
+   "n": 15,
+   "ratio": 0.9905,
+   "raw_ratio": 0.988
+  },
+  "renault|arkana|2025|ESPRIT ALPINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0546,
+   "raw_ratio": 1.091
+  },
+  "renault|arkana|2025|TECHNO": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.996,
+   "raw_ratio": 0.9942
+  },
+  "renault|austral|2023|E-TECH": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.96,
+   "raw_ratio": 0.9066
+  },
+  "renault|austral|2023|ICONIC ESPRIT ALPINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9788,
+   "raw_ratio": 0.9505
+  },
+  "renault|austral|2023|TECHNO ESPRIT ALPINE": {
+   "far": false,
+   "n": 21,
+   "ratio": 1.0196,
+   "raw_ratio": 1.0234
+  },
+  "renault|austral|2024|E-TECH": {
+   "far": false,
+   "n": 12,
+   "ratio": 0.9399,
+   "raw_ratio": 0.9198
+  },
+  "renault|austral|2024|TECHNO ESPRIT ALPINE": {
+   "far": false,
+   "n": 24,
+   "ratio": 1.0234,
+   "raw_ratio": 1.0273
+  },
+  "renault|austral|2025|E-TECH": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "renault|austral|2025|TECHNO ESPRIT ALPINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9998,
+   "raw_ratio": 0.9997
+  },
+  "renault|austral|2026|E-TECH": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9669,
+   "raw_ratio": 0.9337
+  },
+  "renault|austral|2026|TECHNO ESPRIT ALPINE": {
+   "far": false,
+   "n": 18,
+   "ratio": 1.0007,
+   "raw_ratio": 1.0009
+  },
+  "renault|captur|2018|DYNAMIQUE NAV": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.971,
+   "raw_ratio": 0.9516
+  },
+  "renault|captur|2019|GT LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.001,
+   "raw_ratio": 1.0019
+  },
+  "renault|captur|2019|ICONIC": {
+   "far": false,
+   "n": 12,
+   "ratio": 0.9594,
+   "raw_ratio": 0.9459
+  },
+  "renault|captur|2020|ICONIC": {
+   "far": false,
+   "n": 18,
+   "ratio": 0.9982,
+   "raw_ratio": 0.9978
+  },
+  "renault|captur|2020|TCE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0174,
+   "raw_ratio": 1.0348
+  },
+  "renault|captur|2021|E-TECH": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0458,
+   "raw_ratio": 1.0764
+  },
+  "renault|captur|2021|ICONIC": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9473,
+   "raw_ratio": 0.9209
+  },
+  "renault|captur|2021|TCE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.971,
+   "raw_ratio": 0.9323
+  },
+  "renault|captur|2022|LIMITED": {
+   "far": false,
+   "n": 12,
+   "ratio": 0.9706,
+   "raw_ratio": 0.9608
+  },
+  "renault|captur|2022|TCE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0138,
+   "raw_ratio": 1.0248
+  },
+  "renault|captur|2023|EVOLUTION": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9595,
+   "raw_ratio": 0.9393
+  },
+  "renault|captur|2023|RS LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9929,
+   "raw_ratio": 0.9858
+  },
+  "renault|captur|2023|TECHNO": {
+   "far": false,
+   "n": 12,
+   "ratio": 1.0661,
+   "raw_ratio": 1.0881
+  },
+  "renault|captur|2024|EVOLUTION": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9606,
+   "raw_ratio": 0.9409
+  },
+  "renault|captur|2024|TECHNO": {
+   "far": false,
+   "n": 10,
+   "ratio": 1.0054,
+   "raw_ratio": 1.0076
+  },
+  "renault|captur|2025|EVOLUTION": {
+   "far": false,
+   "n": 11,
+   "ratio": 0.9993,
+   "raw_ratio": 0.9991
+  },
+  "renault|captur|2025|TECHNO": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0246,
+   "raw_ratio": 1.0355
+  },
+  "renault|captur|2026|EVOLUTION": {
+   "far": false,
+   "n": 20,
+   "ratio": 0.9898,
+   "raw_ratio": 0.9878
+  },
+  "renault|captur|2026|TCE": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9386,
+   "raw_ratio": 0.9079
+  },
+  "renault|captur|2026|TECHNO": {
+   "far": false,
+   "n": 14,
+   "ratio": 1.0545,
+   "raw_ratio": 1.0701
+  },
+  "renault|clio|2017|DYNAMIQUE NAV": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9985,
+   "raw_ratio": 0.9966
+  },
+  "renault|clio|2018|DYNAMIQUE NAV": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0077,
+   "raw_ratio": 1.0154
+  },
+  "renault|clio|2019|DYNAMIQUE NAV": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9689,
+   "raw_ratio": 0.944
+  },
+  "renault|clio|2020|ICONIC": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9871,
+   "raw_ratio": 0.9767
+  },
+  "renault|clio|2021|ICONIC": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9624,
+   "raw_ratio": 0.9408
+  },
+  "renault|clio|2021|TCE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0166,
+   "raw_ratio": 1.0276
+  },
+  "renault|clio|2022|ICONIC": {
+   "far": false,
+   "n": 11,
+   "ratio": 1.0156,
+   "raw_ratio": 1.0212
+  },
+  "renault|clio|2022|SCE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0236,
+   "raw_ratio": 1.0425
+  },
+  "renault|clio|2022|TCE": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9842,
+   "raw_ratio": 0.9764
+  },
+  "renault|clio|2023|EVOLUTION": {
+   "far": false,
+   "n": 15,
+   "ratio": 0.9872,
+   "raw_ratio": 0.9838
+  },
+  "renault|clio|2023|TCE": {
+   "far": false,
+   "n": 15,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "renault|clio|2024|EVOLUTION": {
+   "far": false,
+   "n": 13,
+   "ratio": 0.9858,
+   "raw_ratio": 0.9814
+  },
+  "renault|clio|2025|EVOLUTION": {
+   "far": false,
+   "n": 17,
+   "ratio": 1.0015,
+   "raw_ratio": 1.0019
+  },
+  "renault|clio|2025|TCE": {
+   "far": false,
+   "n": 11,
+   "ratio": 0.9632,
+   "raw_ratio": 0.9498
+  },
+  "renault|clio|2026|EVOLUTION": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "renault|grand scenic|2019|ICONIC": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0007,
+   "raw_ratio": 1.0012
+  },
+  "renault|kadjar|2016|DYNAMIQUE NAV": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0665,
+   "raw_ratio": 1.0998
+  },
+  "renault|kadjar|2016|DYNAMIQUE S NAV": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9922,
+   "raw_ratio": 0.9878
+  },
+  "renault|kadjar|2016|SIGNATURE NAV": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0681,
+   "raw_ratio": 1.1225
+  },
+  "renault|kadjar|2017|DYNAMIQUE S NAV": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9814,
+   "raw_ratio": 0.9666
+  },
+  "renault|kadjar|2017|SIGNATURE NAV": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0233,
+   "raw_ratio": 1.0465
+  },
+  "renault|kadjar|2018|DYNAMIQUE NAV": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9748,
+   "raw_ratio": 0.9579
+  },
+  "renault|kadjar|2018|SIGNATURE NAV": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0083,
+   "raw_ratio": 1.0194
+  },
+  "renault|kadjar|2018|SIGNATURE S NAV": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9764,
+   "raw_ratio": 0.9529
+  },
+  "renault|kadjar|2019|BLUE DCI": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.9845,
+   "raw_ratio": 0.9777
+  },
+  "renault|kadjar|2019|GT LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0408,
+   "raw_ratio": 1.0815
+  },
+  "renault|kadjar|2019|ICONIC": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9975,
+   "raw_ratio": 0.9951
+  },
+  "renault|kadjar|2020|BLUE DCI": {
+   "far": false,
+   "n": 13,
+   "ratio": 0.9904,
+   "raw_ratio": 0.9875
+  },
+  "renault|kadjar|2020|GT LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.031,
+   "raw_ratio": 1.0724
+  },
+  "renault|kadjar|2020|ICONIC": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0131,
+   "raw_ratio": 1.0236
+  },
+  "renault|kadjar|2021|BLUE DCI": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0275,
+   "raw_ratio": 1.0495
+  },
+  "renault|kadjar|2021|ICONIC": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.021,
+   "raw_ratio": 1.042
+  },
+  "renault|kadjar|2022|EQUILIBRE": {
+   "far": false,
+   "n": 11,
+   "ratio": 0.9981,
+   "raw_ratio": 0.9974
+  },
+  "renault|megane e-tech|2023|EQUILIBRE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9586,
+   "raw_ratio": 0.9311
+  },
+  "renault|megane e-tech|2023|TECHNO": {
+   "far": false,
+   "n": 32,
+   "ratio": 1.024,
+   "raw_ratio": 1.027
+  },
+  "renault|megane e-tech|2024|TECHNO": {
+   "far": false,
+   "n": 13,
+   "ratio": 1.001,
+   "raw_ratio": 1.0013
+  },
+  "renault|megane|2017|DYNAMIQUE S NAV": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9757,
+   "raw_ratio": 0.9433
+  },
+  "renault|megane|2017|GT NAV": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0728,
+   "raw_ratio": 1.1698
+  },
+  "renault|megane|2019|ICONIC": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "renault|megane|2019|PLAY": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0298,
+   "raw_ratio": 1.0536
+  },
+  "renault|megane|2020|BLUE DCI": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0362,
+   "raw_ratio": 1.0651
+  },
+  "renault|megane|2021|BLUE DCI": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9752,
+   "raw_ratio": 0.9586
+  },
+  "renault|megane|2021|E-TECH": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0407,
+   "raw_ratio": 1.0815
+  },
+  "renault|megane|2021|ICONIC": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9666,
+   "raw_ratio": 0.9221
+  },
+  "renault|scenic e-tech|2024|TECHNO": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9934,
+   "raw_ratio": 0.9897
+  },
+  "renault|scenic e-tech|2025|TECHNO": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9775,
+   "raw_ratio": 0.9595
+  },
+  "renault|scenic e-tech|2026|TECHNO": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.9886,
+   "raw_ratio": 0.9836
+  },
+  "renault|zoe|2023|EV50": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.035,
+   "raw_ratio": 1.0816
+  },
+  "renault|zoe|2023|TECHNO": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9878,
+   "raw_ratio": 0.9808
+  },
+  "seat|arona|2018|SE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0171,
+   "raw_ratio": 1.0342
+  },
+  "seat|arona|2019|SE": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9833,
+   "raw_ratio": 0.975
+  },
+  "seat|arona|2019|XCELLENCE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0238,
+   "raw_ratio": 1.0428
+  },
+  "seat|arona|2020|SE": {
+   "far": false,
+   "n": 11,
+   "ratio": 0.9779,
+   "raw_ratio": 0.9699
+  },
+  "seat|arona|2020|XCELLENCE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9951,
+   "raw_ratio": 0.9912
+  },
+  "seat|arona|2021|FR": {
+   "far": true,
+   "n": 4,
+   "ratio": 1.0836,
+   "raw_ratio": 1.1671
+  },
+  "seat|arona|2021|SE": {
+   "far": false,
+   "n": 15,
+   "ratio": 0.9563,
+   "raw_ratio": 0.9446
+  },
+  "seat|arona|2021|XCELLENCE": {
+   "far": false,
+   "n": 10,
+   "ratio": 1.0202,
+   "raw_ratio": 1.0283
+  },
+  "seat|arona|2023|FR": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0462,
+   "raw_ratio": 1.0769
+  },
+  "seat|arona|2023|SE": {
+   "far": false,
+   "n": 19,
+   "ratio": 0.9993,
+   "raw_ratio": 0.9991
+  },
+  "seat|arona|2023|XPERIENCE": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9902,
+   "raw_ratio": 0.9853
+  },
+  "seat|arona|2024|FR": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9946,
+   "raw_ratio": 0.9875
+  },
+  "seat|arona|2024|SE": {
+   "far": false,
+   "n": 10,
+   "ratio": 0.9782,
+   "raw_ratio": 0.9695
+  },
+  "seat|arona|2025|SE": {
+   "far": false,
+   "n": 31,
+   "ratio": 0.9645,
+   "raw_ratio": 0.9599
+  },
+  "seat|arona|2025|XPERIENCE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0397,
+   "raw_ratio": 1.0662
+  },
+  "seat|arona|2026|FR": {
+   "far": false,
+   "n": 11,
+   "ratio": 1.0487,
+   "raw_ratio": 1.0664
+  },
+  "seat|arona|2026|SE": {
+   "far": false,
+   "n": 34,
+   "ratio": 0.9663,
+   "raw_ratio": 0.9624
+  },
+  "seat|ateca|2017|SE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9669,
+   "raw_ratio": 0.9339
+  },
+  "seat|ateca|2017|XCELLENCE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0191,
+   "raw_ratio": 1.0446
+  },
+  "seat|ateca|2018|SE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9827,
+   "raw_ratio": 0.9688
+  },
+  "seat|ateca|2018|XCELLENCE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0436,
+   "raw_ratio": 1.0784
+  },
+  "seat|ateca|2019|SE": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0085,
+   "raw_ratio": 1.0123
+  },
+  "seat|ateca|2019|XCELLENCE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0056,
+   "raw_ratio": 1.0132
+  },
+  "seat|ateca|2020|FR": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0339,
+   "raw_ratio": 1.0678
+  },
+  "seat|ateca|2020|SE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9775,
+   "raw_ratio": 0.9625
+  },
+  "seat|ateca|2020|XCELLENCE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9887,
+   "raw_ratio": 0.9736
+  },
+  "seat|ateca|2021|FR": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0514,
+   "raw_ratio": 1.0857
+  },
+  "seat|ateca|2021|SE": {
+   "far": false,
+   "n": 14,
+   "ratio": 0.9454,
+   "raw_ratio": 0.9298
+  },
+  "seat|ateca|2022|SE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.95,
+   "raw_ratio": 0.9167
+  },
+  "seat|ateca|2023|FR": {
+   "far": false,
+   "n": 11,
+   "ratio": 1.0357,
+   "raw_ratio": 1.0486
+  },
+  "seat|ateca|2023|SE": {
+   "far": true,
+   "n": 24,
+   "ratio": 0.9004,
+   "raw_ratio": 0.8838
+  },
+  "seat|ateca|2023|XPERIENCE": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0216,
+   "raw_ratio": 1.0339
+  },
+  "seat|ateca|2024|SE": {
+   "far": false,
+   "n": 20,
+   "ratio": 0.9567,
+   "raw_ratio": 0.948
+  },
+  "seat|ateca|2024|XPERIENCE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0765,
+   "raw_ratio": 1.1377
+  },
+  "seat|ateca|2025|SE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9977,
+   "raw_ratio": 0.9959
+  },
+  "seat|ateca|2025|XPERIENCE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0059,
+   "raw_ratio": 1.0117
+  },
+  "seat|ateca|2026|SE": {
+   "far": false,
+   "n": 18,
+   "ratio": 0.9959,
+   "raw_ratio": 0.9949
+  },
+  "seat|ibiza|2019|MPI": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9495,
+   "raw_ratio": 0.899
+  },
+  "seat|ibiza|2021|SE": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0011,
+   "raw_ratio": 1.0016
+  },
+  "seat|ibiza|2023|SE": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9683,
+   "raw_ratio": 0.9501
+  },
+  "seat|ibiza|2023|XCELLENCE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0522,
+   "raw_ratio": 1.1218
+  },
+  "seat|ibiza|2024|FR": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0304,
+   "raw_ratio": 1.0709
+  },
+  "seat|ibiza|2024|MPI": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9347,
+   "raw_ratio": 0.8824
+  },
+  "seat|ibiza|2024|SE": {
+   "far": false,
+   "n": 12,
+   "ratio": 1.0096,
+   "raw_ratio": 1.0129
+  },
+  "seat|ibiza|2024|XCELLENCE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0166,
+   "raw_ratio": 1.0387
+  },
+  "seat|ibiza|2025|FR": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9988,
+   "raw_ratio": 0.9983
+  },
+  "seat|ibiza|2025|XCELLENCE": {
+   "far": false,
+   "n": 18,
+   "ratio": 1.0042,
+   "raw_ratio": 1.0051
+  },
+  "seat|ibiza|2026|FR": {
+   "far": false,
+   "n": 10,
+   "ratio": 1.0778,
+   "raw_ratio": 1.1089
+  },
+  "seat|ibiza|2026|SE": {
+   "far": false,
+   "n": 13,
+   "ratio": 0.9612,
+   "raw_ratio": 0.9493
+  },
+  "seat|leon|2017|SE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9239,
+   "raw_ratio": 0.8225
+  },
+  "seat|leon|2018|SE": {
+   "far": true,
+   "n": 3,
+   "ratio": 0.8886,
+   "raw_ratio": 0.7401
+  },
+  "seat|leon|2020|FR": {
+   "far": true,
+   "n": 5,
+   "ratio": 1.1233,
+   "raw_ratio": 1.2219
+  },
+  "seat|leon|2020|SE": {
+   "far": true,
+   "n": 6,
+   "ratio": 0.9114,
+   "raw_ratio": 0.8524
+  },
+  "seat|leon|2021|FR": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0728,
+   "raw_ratio": 1.1051
+  },
+  "seat|leon|2021|SE": {
+   "far": true,
+   "n": 9,
+   "ratio": 0.8957,
+   "raw_ratio": 0.8493
+  },
+  "seat|leon|2021|XCELLENCE": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0163,
+   "raw_ratio": 1.0256
+  },
+  "seat|leon|2025|FR": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0276,
+   "raw_ratio": 1.0433
+  },
+  "seat|leon|2025|SE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9542,
+   "raw_ratio": 0.8932
+  },
+  "seat|leon|2026|SE": {
+   "far": false,
+   "n": 11,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "seat|tarraco|2019|XCELLENCE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0661,
+   "raw_ratio": 1.1189
+  },
+  "seat|tarraco|2020|XCELLENCE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.009,
+   "raw_ratio": 1.0135
+  },
+  "seat|tarraco|2021|XCELLENCE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0437,
+   "raw_ratio": 1.102
+  },
+  "seat|tarraco|2023|XCELLENCE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0265,
+   "raw_ratio": 1.0618
+  },
+  "skoda|elroq|2025|85 EDITION": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9613,
+   "raw_ratio": 0.9096
+  },
+  "skoda|elroq|2025|SPORTLINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0325,
+   "raw_ratio": 1.0758
+  },
+  "skoda|elroq|2026|85": {
+   "far": false,
+   "n": 15,
+   "ratio": 0.9944,
+   "raw_ratio": 0.9929
+  },
+  "skoda|elroq|2026|SPORTLINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0034,
+   "raw_ratio": 1.0079
+  },
+  "skoda|enyaq|2022|60": {
+   "far": false,
+   "n": 13,
+   "ratio": 0.977,
+   "raw_ratio": 0.9699
+  },
+  "skoda|enyaq|2022|80": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0429,
+   "raw_ratio": 1.0857
+  },
+  "skoda|enyaq|2023|60": {
+   "far": false,
+   "n": 28,
+   "ratio": 0.9575,
+   "raw_ratio": 0.9514
+  },
+  "skoda|enyaq|2023|80": {
+   "far": false,
+   "n": 15,
+   "ratio": 1.0267,
+   "raw_ratio": 1.0339
+  },
+  "skoda|enyaq|2023|80 SUITE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0345,
+   "raw_ratio": 1.0805
+  },
+  "skoda|enyaq|2024|60": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9501,
+   "raw_ratio": 0.9168
+  },
+  "skoda|enyaq|2025|85": {
+   "far": true,
+   "n": 5,
+   "ratio": 1.0958,
+   "raw_ratio": 1.1725
+  },
+  "skoda|enyaq|2026|85": {
+   "far": false,
+   "n": 21,
+   "ratio": 1.0081,
+   "raw_ratio": 1.0097
+  },
+  "skoda|fabia|2018|MPI": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0033,
+   "raw_ratio": 1.0066
+  },
+  "skoda|fabia|2019|MPI": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9619,
+   "raw_ratio": 0.9365
+  },
+  "skoda|fabia|2023|MPI": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0117,
+   "raw_ratio": 1.017
+  },
+  "skoda|fabia|2024|MONTE CARLO": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0622,
+   "raw_ratio": 1.0977
+  },
+  "skoda|fabia|2024|MPI": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.958,
+   "raw_ratio": 0.902
+  },
+  "skoda|fabia|2025|MONTE CARLO": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0058,
+   "raw_ratio": 1.0116
+  },
+  "skoda|fabia|2026|MONTE CARLO": {
+   "far": true,
+   "n": 10,
+   "ratio": 1.0839,
+   "raw_ratio": 1.1174
+  },
+  "skoda|kamiq|2025|MONTE CARLO": {
+   "far": true,
+   "n": 3,
+   "ratio": 1.1073,
+   "raw_ratio": 1.2503
+  },
+  "skoda|kamiq|2026|MONTE CARLO": {
+   "far": true,
+   "n": 3,
+   "ratio": 1.0853,
+   "raw_ratio": 1.199
+  },
+  "skoda|karoq|2023|SPORTLINE": {
+   "far": true,
+   "n": 9,
+   "ratio": 1.0848,
+   "raw_ratio": 1.1224
+  },
+  "skoda|karoq|2024|SPORTLINE": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0553,
+   "raw_ratio": 1.0869
+  },
+  "skoda|karoq|2025|SPORTLINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0277,
+   "raw_ratio": 1.0499
+  },
+  "skoda|karoq|2026|SPORTLINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0594,
+   "raw_ratio": 1.0891
+  },
+  "skoda|kodiaq|2019|SPORTLINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.066,
+   "raw_ratio": 1.154
+  },
+  "skoda|kodiaq|2020|SPORTLINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0208,
+   "raw_ratio": 1.0485
+  },
+  "skoda|kodiaq|2021|SPORTLINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0549,
+   "raw_ratio": 1.1097
+  },
+  "skoda|kodiaq|2022|SPORTLINE": {
+   "far": true,
+   "n": 6,
+   "ratio": 1.0947,
+   "raw_ratio": 1.1578
+  },
+  "skoda|kodiaq|2023|SPORTLINE": {
+   "far": false,
+   "n": 17,
+   "ratio": 1.0751,
+   "raw_ratio": 1.0928
+  },
+  "skoda|kodiaq|2024|SPORTLINE": {
+   "far": false,
+   "n": 10,
+   "ratio": 1.0444,
+   "raw_ratio": 1.0622
+  },
+  "skoda|kodiaq|2025|SPORTLINE": {
+   "far": false,
+   "n": 15,
+   "ratio": 1.0073,
+   "raw_ratio": 1.0092
+  },
+  "skoda|kodiaq|2026|SPORTLINE": {
+   "far": false,
+   "n": 22,
+   "ratio": 1.0116,
+   "raw_ratio": 1.0138
+  },
+  "skoda|octavia|2024|MHEV": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0008,
+   "raw_ratio": 1.0018
+  },
+  "skoda|octavia|2024|SE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9804,
+   "raw_ratio": 0.9543
+  },
+  "skoda|octavia|2025|SPORTLINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0478,
+   "raw_ratio": 1.1114
+  },
+  "skoda|octavia|2026|SE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9983,
+   "raw_ratio": 0.996
+  },
+  "skoda|octavia|2026|SPORTLINE": {
+   "far": true,
+   "n": 9,
+   "ratio": 1.1878,
+   "raw_ratio": 1.2712
+  },
+  "skoda|superb|2023|SE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9907,
+   "raw_ratio": 0.9783
+  },
+  "skoda|superb|2023|SPORTLINE": {
+   "far": true,
+   "n": 13,
+   "ratio": 1.1242,
+   "raw_ratio": 1.1624
+  },
+  "skoda|superb|2024|SPORTLINE": {
+   "far": false,
+   "n": 15,
+   "ratio": 1.0341,
+   "raw_ratio": 1.0432
+  },
+  "skoda|superb|2025|SE TECHNOLOGY": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9437,
+   "raw_ratio": 0.8687
+  },
+  "skoda|superb|2025|SPORTLINE": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0287,
+   "raw_ratio": 1.0414
+  },
+  "skoda|superb|2026|SPORTLINE": {
+   "far": false,
+   "n": 15,
+   "ratio": 1.0097,
+   "raw_ratio": 1.0123
+  },
+  "suzuki|e vitara|2026|MOTION": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9503,
+   "raw_ratio": 0.9218
+  },
+  "suzuki|e vitara|2026|ULTRA": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0141,
+   "raw_ratio": 1.0212
+  },
+  "suzuki|ignis|2023|DUALJET": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.012,
+   "raw_ratio": 1.0215
+  },
+  "suzuki|ignis|2023|SZ-T": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "suzuki|s-cross|2024|MOTION": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9836,
+   "raw_ratio": 0.9672
+  },
+  "suzuki|s-cross|2024|ULTRA": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0243,
+   "raw_ratio": 1.0486
+  },
+  "suzuki|s-cross|2026|MOTION": {
+   "far": false,
+   "n": 26,
+   "ratio": 0.9673,
+   "raw_ratio": 0.9623
+  },
+  "suzuki|s-cross|2026|ULTRA": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0424,
+   "raw_ratio": 1.0613
+  },
+  "suzuki|swift|2022|SZ5": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9792,
+   "raw_ratio": 0.9515
+  },
+  "suzuki|swift|2024|MOTION": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0179,
+   "raw_ratio": 1.0299
+  },
+  "suzuki|swift|2024|ULTRA": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0539,
+   "raw_ratio": 1.097
+  },
+  "suzuki|swift|2026|MOTION": {
+   "far": false,
+   "n": 21,
+   "ratio": 0.9928,
+   "raw_ratio": 0.9914
+  },
+  "suzuki|swift|2026|ULTRA": {
+   "far": false,
+   "n": 18,
+   "ratio": 1.0226,
+   "raw_ratio": 1.0276
+  },
+  "suzuki|sx4 s-cross|2023|BOOSTERJET": {
+   "far": false,
+   "n": 10,
+   "ratio": 0.9857,
+   "raw_ratio": 0.98
+  },
+  "suzuki|sx4 s-cross|2024|BOOSTERJET": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9979,
+   "raw_ratio": 0.9958
+  },
+  "suzuki|vitara|2019|BOOSTERJET": {
+   "far": true,
+   "n": 5,
+   "ratio": 1.085,
+   "raw_ratio": 1.153
+  },
+  "suzuki|vitara|2021|BOOSTERJET": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0457,
+   "raw_ratio": 1.0823
+  },
+  "suzuki|vitara|2021|SZ4": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9934,
+   "raw_ratio": 0.9845
+  },
+  "suzuki|vitara|2023|BOOSTERJET": {
+   "far": false,
+   "n": 11,
+   "ratio": 0.9755,
+   "raw_ratio": 0.9666
+  },
+  "suzuki|vitara|2023|SZ-T": {
+   "far": false,
+   "n": 22,
+   "ratio": 0.9739,
+   "raw_ratio": 0.9692
+  },
+  "suzuki|vitara|2023|SZ5": {
+   "far": false,
+   "n": 11,
+   "ratio": 1.064,
+   "raw_ratio": 1.0873
+  },
+  "suzuki|vitara|2024|SZ-T": {
+   "far": false,
+   "n": 12,
+   "ratio": 1.0034,
+   "raw_ratio": 1.0046
+  },
+  "suzuki|vitara|2024|SZ5": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0272,
+   "raw_ratio": 1.0408
+  },
+  "suzuki|vitara|2025|SZ5": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0033,
+   "raw_ratio": 1.0076
+  },
+  "tesla|model 3|2021|LONG RANGE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.034,
+   "raw_ratio": 1.0793
+  },
+  "tesla|model 3|2021|STANDARD RANGE PLUS": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "tesla|model 3|2022|LONG RANGE": {
+   "far": false,
+   "n": 12,
+   "ratio": 1.025,
+   "raw_ratio": 1.0334
+  },
+  "tesla|model 3|2023|LONG RANGE": {
+   "far": false,
+   "n": 10,
+   "ratio": 1.0099,
+   "raw_ratio": 1.0138
+  },
+  "tesla|model x|2019|100D": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9293,
+   "raw_ratio": 0.8349
+  },
+  "tesla|model y|2023|LONG RANGE": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0132,
+   "raw_ratio": 1.0207
+  },
+  "tesla|model y|2024|LONG RANGE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "toyota|bz4x|2023|PREMIERE EDITION": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0067,
+   "raw_ratio": 1.0133
+  },
+  "toyota|bz4x|2024|MOTION": {
+   "far": false,
+   "n": 13,
+   "ratio": 0.9951,
+   "raw_ratio": 0.9936
+  },
+  "toyota|c-hr|2023|GR SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0034,
+   "raw_ratio": 1.008
+  },
+  "toyota|c-hr|2024|ICON": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9639,
+   "raw_ratio": 0.9158
+  },
+  "toyota|rav4|2023|ADVENTURE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9868,
+   "raw_ratio": 0.9735
+  },
+  "toyota|yaris|2022|SPORT": {
+   "far": true,
+   "n": 4,
+   "ratio": 1.121,
+   "raw_ratio": 1.2419
+  },
+  "toyota|yaris|2023|GR SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.065,
+   "raw_ratio": 1.1517
+  },
+  "toyota|yaris|2023|SPORT": {
+   "far": true,
+   "n": 7,
+   "ratio": 1.0848,
+   "raw_ratio": 1.1333
+  },
+  "toyota|yaris|2024|SPORT": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.015,
+   "raw_ratio": 1.0301
+  },
+  "vauxhall|corsa|2022|ELITE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0091,
+   "raw_ratio": 1.0152
+  },
+  "vauxhall|corsa|2023|ELITE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0637,
+   "raw_ratio": 1.0956
+  },
+  "vauxhall|crossland x|2020|TURBO D": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0381,
+   "raw_ratio": 1.0761
+  },
+  "vauxhall|crossland x|2022|SPORT": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0066,
+   "raw_ratio": 1.0098
+  },
+  "vauxhall|crossland|2022|SRI": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9906,
+   "raw_ratio": 0.9859
+  },
+  "vauxhall|crossland|2022|TURBO D": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.046,
+   "raw_ratio": 1.0828
+  },
+  "vauxhall|crossland|2023|SPORT": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9956,
+   "raw_ratio": 0.9897
+  },
+  "vauxhall|crossland|2023|SRI": {
+   "far": false,
+   "n": 11,
+   "ratio": 1.0507,
+   "raw_ratio": 1.0692
+  },
+  "vauxhall|frontera|2026|GS": {
+   "far": false,
+   "n": 39,
+   "ratio": 1.0369,
+   "raw_ratio": 1.0407
+  },
+  "vauxhall|grandland x|2018|ELITE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.006,
+   "raw_ratio": 1.0108
+  },
+  "vauxhall|grandland x|2018|TURBO D": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0071,
+   "raw_ratio": 1.0128
+  },
+  "vauxhall|grandland x|2019|TURBO": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9932,
+   "raw_ratio": 0.984
+  },
+  "vauxhall|grandland x|2019|TURBO D": {
+   "far": true,
+   "n": 3,
+   "ratio": 1.1637,
+   "raw_ratio": 1.382
+  },
+  "vauxhall|grandland|2023|SRI": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9944,
+   "raw_ratio": 0.9868
+  },
+  "vauxhall|grandland|2025|GS": {
+   "far": false,
+   "n": 15,
+   "ratio": 1.0009,
+   "raw_ratio": 1.0011
+  },
+  "vauxhall|grandland|2026|GS": {
+   "far": false,
+   "n": 27,
+   "ratio": 1.0244,
+   "raw_ratio": 1.028
+  },
+  "vauxhall|insignia|2018|SRI": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0358,
+   "raw_ratio": 1.0835
+  },
+  "vauxhall|insignia|2018|TURBO D": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9986,
+   "raw_ratio": 0.9966
+  },
+  "vauxhall|mokka|2021|SRI": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9945,
+   "raw_ratio": 0.989
+  },
+  "vauxhall|mokka|2022|SRI": {
+   "far": false,
+   "n": 14,
+   "ratio": 1.0072,
+   "raw_ratio": 1.0093
+  },
+  "vauxhall|mokka|2023|GS": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0374,
+   "raw_ratio": 1.0748
+  },
+  "vauxhall|mokka|2023|SRI": {
+   "far": false,
+   "n": 11,
+   "ratio": 0.9764,
+   "raw_ratio": 0.9679
+  },
+  "vauxhall|mokka|2024|GS": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0023,
+   "raw_ratio": 1.0035
+  },
+  "vauxhall|mokka|2025|GS": {
+   "far": false,
+   "n": 13,
+   "ratio": 1.0267,
+   "raw_ratio": 1.0349
+  },
+  "vauxhall|mokka|2025|SRI": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9575,
+   "raw_ratio": 0.9009
+  },
+  "vauxhall|mokka|2026|GS": {
+   "far": false,
+   "n": 13,
+   "ratio": 1.0167,
+   "raw_ratio": 1.0219
+  },
+  "volkswagen|arteon|2017|R-LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0104,
+   "raw_ratio": 1.0173
+  },
+  "volkswagen|arteon|2018|R-LINE": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0055,
+   "raw_ratio": 1.0079
+  },
+  "volkswagen|arteon|2019|ELEGANCE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9729,
+   "raw_ratio": 0.9367
+  },
+  "volkswagen|arteon|2019|R-LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0192,
+   "raw_ratio": 1.0346
+  },
+  "volkswagen|arteon|2020|R-LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0051,
+   "raw_ratio": 1.0103
+  },
+  "volkswagen|arteon|2022|R-LINE": {
+   "far": false,
+   "n": 13,
+   "ratio": 1.0099,
+   "raw_ratio": 1.0129
+  },
+  "volkswagen|arteon|2023|ELEGANCE": {
+   "far": false,
+   "n": 16,
+   "ratio": 0.9484,
+   "raw_ratio": 0.9355
+  },
+  "volkswagen|arteon|2023|R-LINE": {
+   "far": false,
+   "n": 12,
+   "ratio": 1.0328,
+   "raw_ratio": 1.0438
+  },
+  "volkswagen|arteon|2024|ELEGANCE": {
+   "far": false,
+   "n": 19,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "volkswagen|arteon|2024|R-LINE": {
+   "far": false,
+   "n": 13,
+   "ratio": 1.0122,
+   "raw_ratio": 1.016
+  },
+  "volkswagen|beetle|2017|DESIGN": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9998,
+   "raw_ratio": 0.9996
+  },
+  "volkswagen|golf|2015|BLUEMOTION": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.001,
+   "raw_ratio": 1.0023
+  },
+  "volkswagen|golf|2017|GTI": {
+   "far": true,
+   "n": 3,
+   "ratio": 1.1556,
+   "raw_ratio": 1.3631
+  },
+  "volkswagen|golf|2021|ETSI": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0076,
+   "raw_ratio": 1.0176
+  },
+  "volkswagen|golf|2021|R-LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.049,
+   "raw_ratio": 1.0817
+  },
+  "volkswagen|golf|2022|ACTIVE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9735,
+   "raw_ratio": 0.9558
+  },
+  "volkswagen|golf|2022|R-LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0589,
+   "raw_ratio": 1.0982
+  },
+  "volkswagen|golf|2022|STYLE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "volkswagen|golf|2023|ACTIVE": {
+   "far": false,
+   "n": 11,
+   "ratio": 0.9489,
+   "raw_ratio": 0.9303
+  },
+  "volkswagen|golf|2023|R-LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0747,
+   "raw_ratio": 1.1344
+  },
+  "volkswagen|golf|2023|STYLE": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9982,
+   "raw_ratio": 0.9971
+  },
+  "volkswagen|golf|2024|ACTIVE": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.9936,
+   "raw_ratio": 0.9907
+  },
+  "volkswagen|golf|2024|LIFE": {
+   "far": true,
+   "n": 6,
+   "ratio": 0.8789,
+   "raw_ratio": 0.7982
+  },
+  "volkswagen|golf|2024|R-LINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0722,
+   "raw_ratio": 1.1084
+  },
+  "volkswagen|golf|2024|STYLE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9941,
+   "raw_ratio": 0.9894
+  },
+  "volkswagen|golf|2026|R-LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0248,
+   "raw_ratio": 1.0413
+  },
+  "volkswagen|id.3|2021|FAMILY": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.012,
+   "raw_ratio": 1.0239
+  },
+  "volkswagen|id.3|2022|FAMILY": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0347,
+   "raw_ratio": 1.0624
+  },
+  "volkswagen|id.3|2022|LIFE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9826,
+   "raw_ratio": 0.9653
+  },
+  "volkswagen|id.3|2023|LIFE": {
+   "far": false,
+   "n": 33,
+   "ratio": 1.0056,
+   "raw_ratio": 1.0063
+  },
+  "volkswagen|id.3|2023|PRO": {
+   "far": false,
+   "n": 16,
+   "ratio": 0.99,
+   "raw_ratio": 0.9875
+  },
+  "volkswagen|id.3|2023|PRO PERFORMANCE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9948,
+   "raw_ratio": 0.9895
+  },
+  "volkswagen|id.3|2024|PRO": {
+   "far": false,
+   "n": 10,
+   "ratio": 0.9919,
+   "raw_ratio": 0.9887
+  },
+  "volkswagen|id.3|2025|PRO": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0033,
+   "raw_ratio": 1.0066
+  },
+  "volkswagen|id.3|2026|MATCH": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9693,
+   "raw_ratio": 0.9284
+  },
+  "volkswagen|id.4|2021|PRO": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "volkswagen|id.4|2022|LIFE": {
+   "far": false,
+   "n": 15,
+   "ratio": 0.9795,
+   "raw_ratio": 0.974
+  },
+  "volkswagen|id.4|2022|LIFE EDITION": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "volkswagen|id.4|2023|LIFE": {
+   "far": false,
+   "n": 78,
+   "ratio": 1.0469,
+   "raw_ratio": 1.0493
+  },
+  "volkswagen|id.4|2023|PRO": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0511,
+   "raw_ratio": 1.092
+  },
+  "volkswagen|id.4|2023|PURE": {
+   "far": true,
+   "n": 8,
+   "ratio": 0.9034,
+   "raw_ratio": 0.8551
+  },
+  "volkswagen|id.4|2023|STYLE": {
+   "far": false,
+   "n": 22,
+   "ratio": 0.9785,
+   "raw_ratio": 0.9746
+  },
+  "volkswagen|id.4|2024|LIFE": {
+   "far": false,
+   "n": 10,
+   "ratio": 0.991,
+   "raw_ratio": 0.9874
+  },
+  "volkswagen|id.4|2024|LIFE EDITION": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9853,
+   "raw_ratio": 0.9706
+  },
+  "volkswagen|id.4|2024|PRO": {
+   "far": false,
+   "n": 10,
+   "ratio": 1.0035,
+   "raw_ratio": 1.0048
+  },
+  "volkswagen|id.4|2025|PRO": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0089,
+   "raw_ratio": 1.0128
+  },
+  "volkswagen|id.4|2025|PRO PERFORMANCE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9675,
+   "raw_ratio": 0.9458
+  },
+  "volkswagen|id.4|2026|GTX": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0728,
+   "raw_ratio": 1.1698
+  },
+  "volkswagen|id.4|2026|PRO": {
+   "far": false,
+   "n": 22,
+   "ratio": 0.9844,
+   "raw_ratio": 0.9816
+  },
+  "volkswagen|id.4|2026|STYLE": {
+   "far": false,
+   "n": 11,
+   "ratio": 1.0548,
+   "raw_ratio": 1.0747
+  },
+  "volkswagen|id.5|2022|PRO PERFORMANCE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "volkswagen|id.5|2023|PRO": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9888,
+   "raw_ratio": 0.9825
+  },
+  "volkswagen|id.5|2024|STYLE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "volkswagen|id.5|2026|PRO": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9819,
+   "raw_ratio": 0.9715
+  },
+  "volkswagen|id.7|2024|PRO": {
+   "far": false,
+   "n": 14,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "volkswagen|id.7|2025|PRO": {
+   "far": false,
+   "n": 12,
+   "ratio": 0.9991,
+   "raw_ratio": 0.9988
+  },
+  "volkswagen|id.7|2026|GTX": {
+   "far": true,
+   "n": 7,
+   "ratio": 1.1341,
+   "raw_ratio": 1.2107
+  },
+  "volkswagen|id.7|2026|PRO": {
+   "far": false,
+   "n": 26,
+   "ratio": 0.9977,
+   "raw_ratio": 0.9974
+  },
+  "volkswagen|passat|2017|R-LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0062,
+   "raw_ratio": 1.0146
+  },
+  "volkswagen|passat|2018|R-LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0259,
+   "raw_ratio": 1.0517
+  },
+  "volkswagen|passat|2018|SE BUSINESS": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9909,
+   "raw_ratio": 0.9848
+  },
+  "volkswagen|passat|2019|ALLTRACK": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0446,
+   "raw_ratio": 1.104
+  },
+  "volkswagen|passat|2020|ELEGANCE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "volkswagen|passat|2020|R-LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.032,
+   "raw_ratio": 1.0533
+  },
+  "volkswagen|passat|2021|ELEGANCE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0434,
+   "raw_ratio": 1.0782
+  },
+  "volkswagen|passat|2021|GTE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9504,
+   "raw_ratio": 0.8843
+  },
+  "volkswagen|passat|2022|ELEGANCE": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9924,
+   "raw_ratio": 0.9881
+  },
+  "volkswagen|passat|2022|GTE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9953,
+   "raw_ratio": 0.989
+  },
+  "volkswagen|passat|2026|R-LINE": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0264,
+   "raw_ratio": 1.0382
+  },
+  "volkswagen|polo|2020|R-LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9928,
+   "raw_ratio": 0.9832
+  },
+  "volkswagen|polo|2023|LIFE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9887,
+   "raw_ratio": 0.9775
+  },
+  "volkswagen|polo|2024|LIFE": {
+   "far": false,
+   "n": 10,
+   "ratio": 0.9946,
+   "raw_ratio": 0.9925
+  },
+  "volkswagen|polo|2025|R-LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0313,
+   "raw_ratio": 1.073
+  },
+  "volkswagen|polo|2026|R-LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0351,
+   "raw_ratio": 1.0701
+  },
+  "volkswagen|t-cross|2020|FIRST EDITION": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9818,
+   "raw_ratio": 0.9637
+  },
+  "volkswagen|t-cross|2020|LIFE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0143,
+   "raw_ratio": 1.0286
+  },
+  "volkswagen|t-cross|2020|STYLE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9598,
+   "raw_ratio": 0.9061
+  },
+  "volkswagen|t-cross|2021|ACTIVE": {
+   "far": false,
+   "n": 16,
+   "ratio": 1.0009,
+   "raw_ratio": 1.0011
+  },
+  "volkswagen|t-cross|2021|FIRST EDITION": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9713,
+   "raw_ratio": 0.9483
+  },
+  "volkswagen|t-cross|2021|LIFE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0461,
+   "raw_ratio": 1.083
+  },
+  "volkswagen|t-cross|2021|R-LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0474,
+   "raw_ratio": 1.1106
+  },
+  "volkswagen|t-cross|2021|STYLE": {
+   "far": false,
+   "n": 14,
+   "ratio": 0.9953,
+   "raw_ratio": 0.994
+  },
+  "volkswagen|t-cross|2022|ACTIVE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0021,
+   "raw_ratio": 1.0035
+  },
+  "volkswagen|t-cross|2022|LIFE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9671,
+   "raw_ratio": 0.9408
+  },
+  "volkswagen|t-cross|2022|STYLE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9911,
+   "raw_ratio": 0.9823
+  },
+  "volkswagen|t-cross|2023|ACTIVE": {
+   "far": false,
+   "n": 12,
+   "ratio": 1.0007,
+   "raw_ratio": 1.001
+  },
+  "volkswagen|t-cross|2023|LIFE": {
+   "far": false,
+   "n": 24,
+   "ratio": 0.9704,
+   "raw_ratio": 0.9655
+  },
+  "volkswagen|t-cross|2023|R-LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0599,
+   "raw_ratio": 1.1198
+  },
+  "volkswagen|t-cross|2023|STYLE": {
+   "far": true,
+   "n": 16,
+   "ratio": 1.0929,
+   "raw_ratio": 1.1161
+  },
+  "volkswagen|t-cross|2024|ACTIVE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9939,
+   "raw_ratio": 0.9857
+  },
+  "volkswagen|t-cross|2024|LIFE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.953,
+   "raw_ratio": 0.9154
+  },
+  "volkswagen|t-cross|2024|R-LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0212,
+   "raw_ratio": 1.0424
+  },
+  "volkswagen|t-cross|2025|STYLE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0123,
+   "raw_ratio": 1.0287
+  },
+  "volkswagen|t-cross|2026|R-LINE": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0258,
+   "raw_ratio": 1.0405
+  },
+  "volkswagen|t-cross|2026|STYLE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9891,
+   "raw_ratio": 0.9747
+  },
+  "volkswagen|t-roc|2019|DESIGN": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9729,
+   "raw_ratio": 0.9574
+  },
+  "volkswagen|t-roc|2020|DESIGN": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9813,
+   "raw_ratio": 0.9663
+  },
+  "volkswagen|t-roc|2021|DESIGN": {
+   "far": false,
+   "n": 19,
+   "ratio": 0.96,
+   "raw_ratio": 0.9516
+  },
+  "volkswagen|t-roc|2021|R-LINE": {
+   "far": false,
+   "n": 19,
+   "ratio": 1.0593,
+   "raw_ratio": 1.0717
+  },
+  "volkswagen|t-roc|2021|STYLE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9637,
+   "raw_ratio": 0.9394
+  },
+  "volkswagen|t-roc|2022|LIFE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9897,
+   "raw_ratio": 0.9794
+  },
+  "volkswagen|t-roc|2022|R-LINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0312,
+   "raw_ratio": 1.0562
+  },
+  "volkswagen|t-roc|2022|STYLE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9987,
+   "raw_ratio": 0.9974
+  },
+  "volkswagen|t-roc|2023|LIFE": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.9481,
+   "raw_ratio": 0.925
+  },
+  "volkswagen|t-roc|2023|R-LINE": {
+   "far": false,
+   "n": 31,
+   "ratio": 1.0125,
+   "raw_ratio": 1.0141
+  },
+  "volkswagen|t-roc|2023|STYLE": {
+   "far": false,
+   "n": 27,
+   "ratio": 0.9979,
+   "raw_ratio": 0.9975
+  },
+  "volkswagen|t-roc|2024|LIFE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9848,
+   "raw_ratio": 0.9646
+  },
+  "volkswagen|t-roc|2024|R-LINE": {
+   "far": false,
+   "n": 11,
+   "ratio": 1.0302,
+   "raw_ratio": 1.0411
+  },
+  "volkswagen|t-roc|2024|STYLE": {
+   "far": false,
+   "n": 11,
+   "ratio": 0.9901,
+   "raw_ratio": 0.9865
+  },
+  "volkswagen|t-roc|2026|LIFE": {
+   "far": false,
+   "n": 10,
+   "ratio": 0.938,
+   "raw_ratio": 0.9132
+  },
+  "volkswagen|t-roc|2026|R-LINE": {
+   "far": false,
+   "n": 24,
+   "ratio": 1.0209,
+   "raw_ratio": 1.0243
+  },
+  "volkswagen|taigo|2022|LIFE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9693,
+   "raw_ratio": 0.9447
+  },
+  "volkswagen|taigo|2022|STYLE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.022,
+   "raw_ratio": 1.044
+  },
+  "volkswagen|taigo|2023|LIFE": {
+   "far": false,
+   "n": 13,
+   "ratio": 0.9965,
+   "raw_ratio": 0.9954
+  },
+  "volkswagen|taigo|2023|R-LINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0337,
+   "raw_ratio": 1.0506
+  },
+  "volkswagen|taigo|2026|R-LINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.044,
+   "raw_ratio": 1.066
+  },
+  "volkswagen|tayron|2025|R-LINE": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.9879,
+   "raw_ratio": 0.9825
+  },
+  "volkswagen|tayron|2026|BLACK EDITION": {
+   "far": true,
+   "n": 5,
+   "ratio": 1.1219,
+   "raw_ratio": 1.2194
+  },
+  "volkswagen|tayron|2026|R-LINE": {
+   "far": false,
+   "n": 50,
+   "ratio": 1.0089,
+   "raw_ratio": 1.0096
+  },
+  "volkswagen|tayron|2026|R-LINE BLACK EDITION": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9834,
+   "raw_ratio": 0.9612
+  },
+  "volkswagen|tiguan allspace|2020|R-LINE": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0034,
+   "raw_ratio": 1.0053
+  },
+  "volkswagen|tiguan allspace|2021|R-LINE": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0269,
+   "raw_ratio": 1.0448
+  },
+  "volkswagen|tiguan allspace|2022|LIFE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9922,
+   "raw_ratio": 0.9845
+  },
+  "volkswagen|tiguan allspace|2023|LIFE": {
+   "far": true,
+   "n": 8,
+   "ratio": 0.8875,
+   "raw_ratio": 0.8313
+  },
+  "volkswagen|tiguan allspace|2023|R-LINE": {
+   "far": false,
+   "n": 17,
+   "ratio": 1.0566,
+   "raw_ratio": 1.0699
+  },
+  "volkswagen|tiguan allspace|2024|LIFE": {
+   "far": true,
+   "n": 9,
+   "ratio": 0.9134,
+   "raw_ratio": 0.8749
+  },
+  "volkswagen|tiguan allspace|2024|R-LINE": {
+   "far": false,
+   "n": 13,
+   "ratio": 1.015,
+   "raw_ratio": 1.0196
+  },
+  "volkswagen|tiguan|2018|R-LINE": {
+   "far": true,
+   "n": 12,
+   "ratio": 1.1036,
+   "raw_ratio": 1.1381
+  },
+  "volkswagen|tiguan|2019|R-LINE": {
+   "far": false,
+   "n": 19,
+   "ratio": 1.0594,
+   "raw_ratio": 1.0719
+  },
+  "volkswagen|tiguan|2020|R-LINE": {
+   "far": false,
+   "n": 15,
+   "ratio": 1.0164,
+   "raw_ratio": 1.0207
+  },
+  "volkswagen|tiguan|2021|ELEGANCE": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0068,
+   "raw_ratio": 1.0159
+  },
+  "volkswagen|tiguan|2021|LIFE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.948,
+   "raw_ratio": 0.9064
+  },
+  "volkswagen|tiguan|2021|R-LINE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.023,
+   "raw_ratio": 1.0461
+  },
+  "volkswagen|tiguan|2022|LIFE": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9596,
+   "raw_ratio": 0.9365
+  },
+  "volkswagen|tiguan|2022|R-LINE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9923,
+   "raw_ratio": 0.982
+  },
+  "volkswagen|tiguan|2023|ELEGANCE": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9909,
+   "raw_ratio": 0.9864
+  },
+  "volkswagen|tiguan|2023|LIFE": {
+   "far": true,
+   "n": 7,
+   "ratio": 0.8774,
+   "raw_ratio": 0.8074
+  },
+  "volkswagen|tiguan|2023|R-LINE": {
+   "far": false,
+   "n": 18,
+   "ratio": 1.0333,
+   "raw_ratio": 1.0407
+  },
+  "volkswagen|tiguan|2024|ELEGANCE": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9765,
+   "raw_ratio": 0.9647
+  },
+  "volkswagen|tiguan|2024|LIFE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9398,
+   "raw_ratio": 0.8916
+  },
+  "volkswagen|tiguan|2024|R-LINE": {
+   "far": false,
+   "n": 13,
+   "ratio": 1.0622,
+   "raw_ratio": 1.0813
+  },
+  "volkswagen|tiguan|2025|R-LINE": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0033,
+   "raw_ratio": 1.0049
+  },
+  "volkswagen|tiguan|2026|R-LINE": {
+   "far": false,
+   "n": 14,
+   "ratio": 1.0213,
+   "raw_ratio": 1.0274
+  },
+  "volkswagen|touareg|2018|V6": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0139,
+   "raw_ratio": 1.0232
+  },
+  "volkswagen|touareg|2023|V6": {
+   "far": true,
+   "n": 7,
+   "ratio": 1.2123,
+   "raw_ratio": 1.3336
+  },
+  "volkswagen|up!|2017|BEATS": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0289,
+   "raw_ratio": 1.0579
+  },
+  "volvo|c40|2023|CORE": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "volvo|c40|2023|PLUS": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9929,
+   "raw_ratio": 0.9872
+  },
+  "volvo|c40|2023|ULTIMATE": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.005,
+   "raw_ratio": 1.0072
+  },
+  "volvo|ex30|2024|PLUS": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9975,
+   "raw_ratio": 0.9941
+  },
+  "volvo|ex30|2024|SINGLE MOTOR": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0164,
+   "raw_ratio": 1.0328
+  },
+  "volvo|ex30|2024|ULTRA": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0093,
+   "raw_ratio": 1.0156
+  },
+  "volvo|ex30|2025|PLUS": {
+   "far": false,
+   "n": 7,
+   "ratio": 1.0067,
+   "raw_ratio": 1.0106
+  },
+  "volvo|ex30|2025|SINGLE MOTOR": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9559,
+   "raw_ratio": 0.8971
+  },
+  "volvo|ex30|2025|ULTRA": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9964,
+   "raw_ratio": 0.9916
+  },
+  "volvo|ex40|2027|PLUS": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0019,
+   "raw_ratio": 1.0039
+  },
+  "volvo|v40|2016|D4": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0048,
+   "raw_ratio": 1.0096
+  },
+  "volvo|v40|2016|R-DESIGN": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0403,
+   "raw_ratio": 1.0725
+  },
+  "volvo|v40|2017|D4": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0199,
+   "raw_ratio": 1.0464
+  },
+  "volvo|v40|2017|MOMENTUM": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9714,
+   "raw_ratio": 0.9429
+  },
+  "volvo|v40|2017|MOMENTUM EDITION": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.002,
+   "raw_ratio": 1.0047
+  },
+  "volvo|v40|2018|D4": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9991,
+   "raw_ratio": 0.9982
+  },
+  "volvo|v40|2018|MOMENTUM": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9783,
+   "raw_ratio": 0.961
+  },
+  "volvo|v40|2019|D4": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0592,
+   "raw_ratio": 1.1382
+  },
+  "volvo|v40|2019|MOMENTUM EDITION": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9748,
+   "raw_ratio": 0.9496
+  },
+  "volvo|v60|2017|D4": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0213,
+   "raw_ratio": 1.0383
+  },
+  "volvo|v60|2017|PLUS": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0027,
+   "raw_ratio": 1.0063
+  },
+  "volvo|v60|2018|D4": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "volvo|v60|2026|PLUS": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0087,
+   "raw_ratio": 1.0157
+  },
+  "volvo|v60|2026|PLUS DARK": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9751,
+   "raw_ratio": 0.9552
+  },
+  "volvo|xc40|2019|MOMENTUM": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9954,
+   "raw_ratio": 0.9927
+  },
+  "volvo|xc40|2019|R-DESIGN": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.054,
+   "raw_ratio": 1.126
+  },
+  "volvo|xc40|2020|INSCRIPTION": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0186,
+   "raw_ratio": 1.0433
+  },
+  "volvo|xc40|2020|MOMENTUM": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9906,
+   "raw_ratio": 0.9813
+  },
+  "volvo|xc40|2021|MOMENTUM": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9577,
+   "raw_ratio": 0.9154
+  },
+  "volvo|xc40|2021|R-DESIGN": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0409,
+   "raw_ratio": 1.0954
+  },
+  "volvo|xc40|2022|INSCRIPTION": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "volvo|xc40|2022|PLUS": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9372,
+   "raw_ratio": 0.8869
+  },
+  "volvo|xc40|2022|R-DESIGN": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9862,
+   "raw_ratio": 0.9751
+  },
+  "volvo|xc40|2022|R-DESIGN PRO": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0384,
+   "raw_ratio": 1.0692
+  },
+  "volvo|xc40|2022|ULTIMATE": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.972,
+   "raw_ratio": 0.9534
+  },
+  "volvo|xc40|2023|CORE": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9762,
+   "raw_ratio": 0.9523
+  },
+  "volvo|xc40|2023|PLUS": {
+   "far": false,
+   "n": 18,
+   "ratio": 0.9784,
+   "raw_ratio": 0.9736
+  },
+  "volvo|xc40|2023|T4": {
+   "far": true,
+   "n": 3,
+   "ratio": 1.0955,
+   "raw_ratio": 1.2229
+  },
+  "volvo|xc40|2023|TWIN ENGINE": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0496,
+   "raw_ratio": 1.0894
+  },
+  "volvo|xc40|2023|ULTIMATE": {
+   "far": false,
+   "n": 14,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "volvo|xc60|2016|SE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9857,
+   "raw_ratio": 0.9666
+  },
+  "volvo|xc60|2017|D4": {
+   "far": false,
+   "n": 17,
+   "ratio": 1.0163,
+   "raw_ratio": 1.0201
+  },
+  "volvo|xc60|2017|INSCRIPTION": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0292,
+   "raw_ratio": 1.0682
+  },
+  "volvo|xc60|2017|PLUS": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9779,
+   "raw_ratio": 0.9559
+  },
+  "volvo|xc60|2017|SE": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9731,
+   "raw_ratio": 0.9515
+  },
+  "volvo|xc60|2018|INSCRIPTION": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0113,
+   "raw_ratio": 1.0226
+  },
+  "volvo|xc60|2019|MOMENTUM": {
+   "far": false,
+   "n": 7,
+   "ratio": 0.9913,
+   "raw_ratio": 0.9863
+  },
+  "volvo|xc60|2019|R-DESIGN": {
+   "far": false,
+   "n": 6,
+   "ratio": 1.0339,
+   "raw_ratio": 1.0564
+  },
+  "volvo|xc60|2020|MOMENTUM": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0016,
+   "raw_ratio": 1.0033
+  },
+  "volvo|xc60|2021|MOMENTUM": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0071,
+   "raw_ratio": 1.0128
+  },
+  "volvo|xc60|2021|R-DESIGN": {
+   "far": false,
+   "n": 8,
+   "ratio": 1.0062,
+   "raw_ratio": 1.0094
+  },
+  "volvo|xc60|2022|INSCRIPTION": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.989,
+   "raw_ratio": 0.9779
+  },
+  "volvo|xc60|2023|CORE": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9995,
+   "raw_ratio": 0.9989
+  },
+  "volvo|xc60|2023|PLUS": {
+   "far": false,
+   "n": 32,
+   "ratio": 1.0142,
+   "raw_ratio": 1.016
+  },
+  "volvo|xc60|2023|T6": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9854,
+   "raw_ratio": 0.9709
+  },
+  "volvo|xc60|2024|PLUS": {
+   "far": false,
+   "n": 6,
+   "ratio": 0.9828,
+   "raw_ratio": 0.9714
+  },
+  "volvo|xc60|2024|T6": {
+   "far": false,
+   "n": 3,
+   "ratio": 0.9801,
+   "raw_ratio": 0.9537
+  },
+  "volvo|xc60|2025|PLUS": {
+   "far": false,
+   "n": 12,
+   "ratio": 0.9914,
+   "raw_ratio": 0.9886
+  },
+  "volvo|xc60|2025|ULTRA DARK": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0389,
+   "raw_ratio": 1.0907
+  },
+  "volvo|xc60|2026|PLUS": {
+   "far": false,
+   "n": 19,
+   "ratio": 0.994,
+   "raw_ratio": 0.9927
+  },
+  "volvo|xc60|2026|PLUS BLACK EDITION": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9881,
+   "raw_ratio": 0.9763
+  },
+  "volvo|xc60|2026|T6": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0034,
+   "raw_ratio": 1.0068
+  },
+  "volvo|xc90|2016|INSCRIPTION": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0113,
+   "raw_ratio": 1.0203
+  },
+  "volvo|xc90|2016|MOMENTUM": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9859,
+   "raw_ratio": 0.9718
+  },
+  "volvo|xc90|2017|INSCRIPTION": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0186,
+   "raw_ratio": 1.0434
+  },
+  "volvo|xc90|2017|MOMENTUM": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9564,
+   "raw_ratio": 0.9347
+  },
+  "volvo|xc90|2018|INSCRIPTION": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0417,
+   "raw_ratio": 1.0974
+  },
+  "volvo|xc90|2018|MOMENTUM": {
+   "far": false,
+   "n": 4,
+   "ratio": 0.9519,
+   "raw_ratio": 0.9037
+  },
+  "volvo|xc90|2019|MOMENTUM": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0261,
+   "raw_ratio": 1.061
+  },
+  "volvo|xc90|2019|R-DESIGN": {
+   "far": false,
+   "n": 8,
+   "ratio": 0.9668,
+   "raw_ratio": 0.9502
+  },
+  "volvo|xc90|2020|R-DESIGN": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0162,
+   "raw_ratio": 1.0292
+  },
+  "volvo|xc90|2020|R-DESIGN PRO": {
+   "far": false,
+   "n": 4,
+   "ratio": 1.0187,
+   "raw_ratio": 1.0374
+  },
+  "volvo|xc90|2021|INSCRIPTION": {
+   "far": false,
+   "n": 5,
+   "ratio": 1.0412,
+   "raw_ratio": 1.0741
+  },
+  "volvo|xc90|2021|R-DESIGN": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9667,
+   "raw_ratio": 0.94
+  },
+  "volvo|xc90|2022|INSCRIPTION": {
+   "far": false,
+   "n": 5,
+   "ratio": 0.9692,
+   "raw_ratio": 0.9445
+  },
+  "volvo|xc90|2023|CORE": {
+   "far": false,
+   "n": 9,
+   "ratio": 1.0,
+   "raw_ratio": 1.0
+  },
+  "volvo|xc90|2023|PLUS": {
+   "far": false,
+   "n": 15,
+   "ratio": 1.0177,
+   "raw_ratio": 1.0224
+  },
+  "volvo|xc90|2024|PLUS": {
+   "far": false,
+   "n": 9,
+   "ratio": 0.9988,
+   "raw_ratio": 0.9982
+  },
+  "volvo|xc90|2024|ULTIMATE BRIGHT": {
+   "far": false,
+   "n": 3,
+   "ratio": 1.0296,
+   "raw_ratio": 1.069
+  },
+  "volvo|xc90|2025|PLUS": {
+   "far": false,
+   "n": 20,
+   "ratio": 0.9846,
+   "raw_ratio": 0.9815
+  },
+  "volvo|xc90|2025|ULTRA": {
+   "far": false,
+   "n": 13,
+   "ratio": 1.0193,
+   "raw_ratio": 1.0252
+  },
+  "volvo|xc90|2026|PLUS": {
+   "far": false,
+   "n": 28,
+   "ratio": 0.9963,
+   "raw_ratio": 0.9958
+  },
+  "volvo|xc90|2026|ULTRA": {
+   "far": false,
+   "n": 12,
+   "ratio": 1.0123,
+   "raw_ratio": 1.0164
+  }
+ },
+ "what_ratio_means": "multiply the segment's retail median by this to get the retail figure for THIS trim. 1.0 = the trim is worth exactly the segment average."
+}

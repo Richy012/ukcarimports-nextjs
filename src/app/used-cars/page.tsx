@@ -5,6 +5,7 @@
 import { preload } from "react-dom";
 import { facetBody, keepSelected, parseFacet, type FacetName, type FacetOption } from "@/lib/facets";
 import FilterBar from "./FilterBar";
+import { irishListings } from "@/lib/irishListings";
 import { getStockCount } from "@/lib/stockCount";
 import styles from "./page.module.css";
 import { toTileCar } from "@/lib/publicCar";
@@ -350,6 +351,10 @@ export default async function UsedCarsPage({
   // uses the same shared cached canonical count as the homepage
   // (getStockCount) so the two pages can never disagree. Once the user
   // filters, the count is a live filter-result figure and may differ.
+  // Irish-registered (Above Board Cars) cars: a toggle that exists only while there is at
+  // least one such car, and a grid shown when it is on (owner, 6 Sep).
+  const irish = await irishListings().catch(() => []);
+  const irishOn = firstParam(params, "irish") === "1";
   const isDefaultView = Object.keys(params).filter((k) => k !== "page").length === 0;
   // Either source can come back null when the API is briefly slow or a count
   // query times out; rendering null crashed the whole page with a 500
@@ -385,6 +390,36 @@ export default async function UsedCarsPage({
           {isDefaultView ? "Total vehicles" : "Vehicles matching your filters"}:{" "}
           {displayCount.toLocaleString("en-IE")}
         </p>
+      )}
+      {irish.length > 0 && (
+        <p style={{ margin: "0 0 10px" }}>
+          <a href={irishOn ? "/used-cars" : "/used-cars?irish=1"}
+             style={{ display: "inline-block", padding: "6px 12px", borderRadius: 999, border: "1px solid #0a7d33",
+                      background: irishOn ? "#0a7d33" : "#fff", color: irishOn ? "#fff" : "#0a7d33", fontWeight: 700, fontSize: 13, textDecoration: "none" }}>
+            {irishOn ? "✓ " : ""}Irish registered ({irish.length})
+          </a>
+        </p>
+      )}
+      {irishOn && irish.length > 0 && (
+        <section style={{ margin: "0 0 18px" }}>
+          <h2 style={{ fontSize: 18, margin: "0 0 8px" }}>Irish registered cars &mdash; sold privately, Above Board Cars protected</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 14 }}>
+            {irish.map((c) => (
+              <a key={c.id} href={`/irish-cars/${c.id}`} style={{ display: "block", border: "1px solid #e2e8f0", borderRadius: 12, overflow: "hidden", background: "#fff", color: "inherit", textDecoration: "none" }}>
+                {c.photos[0] ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={c.photos[0]} alt={c.title} style={{ width: "100%", aspectRatio: "4 / 3", objectFit: "cover" }} />
+                ) : null}
+                <div style={{ padding: "8px 10px 10px" }}>
+                  <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: ".05em", color: "#0a7d33", fontWeight: 700 }}>Irish registered</div>
+                  <div style={{ fontWeight: 700 }}>{c.title}</div>
+                  <div style={{ fontSize: 12.5, color: "#64748b" }}>{c.mileage != null ? `${c.mileage.toLocaleString("en-IE")} ${c.mileageUnit}` : ""}</div>
+                  <div style={{ fontWeight: 800, marginTop: 4 }}>{c.priceEur ? "€" + Math.round(c.priceEur).toLocaleString("en-IE") : "Price on application"}</div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
       )}
 
       {/* Pre-paint veil: if this load is a deep-scroll return, hide the
