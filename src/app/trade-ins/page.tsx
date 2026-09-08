@@ -925,7 +925,7 @@ function TradeInsFlow() {
                   the page dropped every figure without a word. */}
               {car && !pricing && !pricingBusy && unpriced && (
                 <div style={{ margin: "0 0 14px", padding: "12px 14px", borderRadius: 10, background: "#fffbeb", border: "1px solid #fde68a", fontSize: 13.2, lineHeight: 1.5, color: "#3f3f46" }}>
-                  <b>No range for this car yet.</b> We have too few comparable {car.year ? `${car.year} ` : ""}{car.make} {car.model}{" "}adverts in Ireland to measure one &mdash; nothing to do with your car. Carry on as normal: send the photos and answer the condition questions, and a person prices it from those, usually the same working day. Nothing is committed until you accept.
+                  <b>No range for this car yet.</b> We have too few comparable {car.year ? `${car.year} ` : ""}{car.make} {car.model}{" "}adverts in Ireland to measure one.
                 </div>
               )}
               {/* THE YARDSTICK, shown (owner, 5 Sep: "what does Carzone data say this
