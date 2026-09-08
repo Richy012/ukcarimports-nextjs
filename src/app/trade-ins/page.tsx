@@ -230,7 +230,7 @@ const ROUTES: {
     // Shown instead when the car could not be priced (no comparable Irish adverts):
     // there is no range above, so the card must not point at one.
     blurbNoRange:
-      "The simple one. Send us your photos and answer the condition questions, we go through them, and we come back to you with our offer — the allowance off the price of the car we import for you.",
+      "We can\u2019t value this car, so we can\u2019t make a trade-in offer on it.",
     points: [
       "You keep driving your car right up to delivery day.",
       "One handover, one appointment, nothing to arrange yourself.",
@@ -925,7 +925,7 @@ function TradeInsFlow() {
                   the page dropped every figure without a word. */}
               {car && !pricing && !pricingBusy && unpriced && (
                 <div style={{ margin: "0 0 14px", padding: "12px 14px", borderRadius: 10, background: "#fffbeb", border: "1px solid #fde68a", fontSize: 13.2, lineHeight: 1.5, color: "#3f3f46" }}>
-                  <b>No range for this car yet.</b> We have too few comparable {car.year ? `${car.year} ` : ""}{car.make} {car.model}{" "}adverts in Ireland to measure one.
+                  <b>We can&rsquo;t value this car.</b> There are too few comparable {car.year ? `${car.year} ` : ""}{car.make} {car.model}{" "}adverts in Ireland to measure it.
                 </div>
               )}
               {/* THE YARDSTICK, shown (owner, 5 Sep: "what does Carzone data say this
@@ -951,16 +951,19 @@ function TradeInsFlow() {
               {ROUTES.filter((r) => !(financeNeed === "finance_house" && r.id === "privateproof")).map((r) => {
                 const pick = () => { setRoute(r.id); setStep(3); };
                 const on = route === r.id;
+                // owner, 8 Sep: no offer on a car we cannot value - the trade-in card
+                // says so and offers nothing. The private route stays (seller-priced).
+                const dead = r.id === "tradein" && !pricingBusy && !!unpriced && !pricing?.routes.find((x) => x.route === "trade");
                 return (
                   <div
                     key={r.id}
-                    role="button"
-                    tabIndex={0}
-                    onClick={pick}
+                    role={dead ? undefined : "button"}
+                    tabIndex={dead ? -1 : 0}
+                    onClick={dead ? undefined : pick}
                     onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); }
+                      if (!dead && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); pick(); }
                     }}
-                    style={{ ...S.routeCard, ...(on ? S.routeCardOn : {}) }}
+                    style={{ ...S.routeCard, ...(on ? S.routeCardOn : {}), ...(dead ? { opacity: 0.8, cursor: "default" } : {}) }}
                   >
                     <div style={S.routeTop}>
                       <span style={S.routeName}>{r.name}</span>
@@ -1020,9 +1023,11 @@ function TradeInsFlow() {
                         How Above Board Cars works &rarr;
                       </a>
                     )}
-                    <ul style={S.routePoints}>
-                      {r.points.map((p) => <li key={p}>{p}</li>)}
-                    </ul>
+                    {!dead && (
+                      <ul style={S.routePoints}>
+                        {r.points.map((p) => <li key={p}>{p}</li>)}
+                      </ul>
+                    )}
                     {r.fees && (
                       <div style={S.routeFees}>
                         <div style={S.routeFeesHead}>What it costs</div>
@@ -1057,9 +1062,11 @@ function TradeInsFlow() {
                         )}
                       </div>
                     )}
-                    <button type="button" onClick={pick} style={S.routeCta}>
-                      Choose this &rarr;
-                    </button>
+                    {!dead && (
+                      <button type="button" onClick={pick} style={S.routeCta}>
+                        Choose this &rarr;
+                      </button>
+                    )}
                   </div>
                 );
               })}
