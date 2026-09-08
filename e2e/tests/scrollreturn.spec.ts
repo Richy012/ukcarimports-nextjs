@@ -36,7 +36,10 @@ test("deep-scroll return lands on the clicked car and holds still", async ({ pag
   await page.waitForTimeout(300);
   const href = await target.getAttribute("href");
   const topAtClick = await target.evaluate((el) => Math.round(el.getBoundingClientRect().top));
-  await target.click();
+  // Click low in the card, under the image: the carousel dots/arrows are siblings ABOVE the
+  // stretched link (z-index 2, by design), and the anchor's centre can land on a dot.
+  const box = await target.boundingBox();
+  await target.click({ position: { x: 30, y: Math.max(30, (box?.height ?? 300) - 30) } });
   await page.waitForURL(new RegExp(href!.replace(/[/]/g, "\\/")), { timeout: 30000 });
   await expect(page).toHaveURL(new RegExp(href!.replace(/[/]/g, "\\/")));
   await page.waitForTimeout(1500);
