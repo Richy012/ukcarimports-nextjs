@@ -970,7 +970,7 @@ function TradeInsFlow() {
                     <div style={S.routeTop}>
                       <span style={S.routeName}>{r.name}</span>
                     </div>
-                    <div style={S.routeMeta}>{r.when}</div>
+                    {!dead && <div style={S.routeMeta}>{r.when}</div>}
                     {(() => {
                       // The figure, if we have one. A card with no figure keeps
                       // its original wording rather than showing a gap - the
