@@ -219,7 +219,7 @@ type RouteId = "tradein" | "privateproof";
 // The private route's name WILL CHANGE (owner, 5 Sep). Change it here only.
 const PRIVATE_ROUTE_NAME = "Sell it privately, protected by Above Board Cars";
 const ROUTES: {
-  id: RouteId; name: string; when: string; blurb: string; points: string[]; fees?: string[];
+  id: RouteId; name: string; when: string; blurb: string; blurbNoRange: string; points: string[]; fees?: string[];
 }[] = [
   {
     id: "tradein",
@@ -227,6 +227,10 @@ const ROUTES: {
     when: "Certain today, settled on delivery day",
     blurb:
       "The simple one. The range above runs from a car with no service history and mechanical faults to a perfect one. Send us your photos and answer the condition questions, we go through them, and we come back to you with our offer — the allowance off the price of the car we import for you.",
+    // Shown instead when the car could not be priced (no comparable Irish adverts):
+    // there is no range above, so the card must not point at one.
+    blurbNoRange:
+      "The simple one. Send us your photos and answer the condition questions, we go through them, and we come back to you with our offer — the allowance off the price of the car we import for you.",
     points: [
       "You keep driving your car right up to delivery day.",
       "One handover, one appointment, nothing to arrange yourself.",
@@ -239,6 +243,8 @@ const ROUTES: {
     when: "Usually a few weeks, no guarantee of a sale",
     blurb:
       "The bigger number. You keep the car, you set the price, and you sell it to a private buyer for more than any trade will pay \u2014 with Above Board Cars giving that buyer everything a garage would: an independent inspection, a 12-month warranty and protected payment. The range above is what comparable cars actually sold for privately; where you list within it is your call.",
+    blurbNoRange:
+      "The bigger number. You keep the car, you set the price, and you sell it to a private buyer for more than any trade will pay \u2014 with Above Board Cars giving that buyer everything a garage would: an independent inspection, a 12-month warranty and protected payment. What you list it at is your call.",
     points: [
       "More money than any trade will pay. You keep the car, you set the price, you keep the difference.",
       "More buyers, a better price, a quicker sale. Buyers want a private-sale price but are wary of a private seller \u2014 give them a garage\u2019s protection and your ad pulls the buyers a garage\u2019s does.",
@@ -302,6 +308,9 @@ function TradeInsFlow() {
     }[];
   }>(null);
   const [pricingBusy, setPricingBusy] = useState(false);
+  // Set when the pricing call answered but could not price the car (no
+  // comparable Irish adverts). Null while busy, on a failed call, or when priced.
+  const [unpriced, setUnpriced] = useState<string | null>(null);
   // THE TRIM (owner, 5 Sep). Worth EUR 19 on an ordinary car and EUR 750-2,200
   // on the 13% whose spec sits well away from their segment - his catch, and
   // three of my own measurements missed it by averaging it away. A DROPDOWN,
@@ -636,7 +645,7 @@ function TradeInsFlow() {
     km: number | null,
     trimNow?: string,
   ) {
-    if (!c || !c.make || !c.model || !c.year || !km) { setPricing(null); return; }
+    if (!c || !c.make || !c.model || !c.year || !km) { setPricing(null); setUnpriced(null); return; }
     setPricingBusy(true);
     try {
       const qs = new URLSearchParams({
@@ -647,8 +656,10 @@ function TradeInsFlow() {
       const r = await fetch(`/api/route-pricing?${qs}`);
       const j = await r.json();
       setPricing(j?.priced ? j.pricing : null);
+      setUnpriced(j?.priced ? null : (j?.reason || "not enough Irish evidence"));
     } catch {
       setPricing(null);
+      setUnpriced(null);
     }
     setPricingBusy(false);
   }
@@ -845,7 +856,9 @@ function TradeInsFlow() {
           {step === 2 && (
             <Panel
               title="How would you like to sell your car?"
-              sub="Two ways to sell it, each with a range for your exact car and mileage. Pick the one that suits you; nothing is committed by choosing."
+              sub={pricing
+                ? "Two ways to sell it, each with a range for your exact car and mileage. Pick the one that suits you; nothing is committed by choosing."
+                : "Two ways to sell it. Pick the one that suits you; nothing is committed by choosing."}
             >
               {/* WHICH CAR WE FOUND, on the page where a wrong lookup costs most
                   (field test, 5 Sep): the confirmation used to appear only on the
@@ -864,6 +877,7 @@ function TradeInsFlow() {
                 <div style={S.notfound}>
                   <b>We couldn&rsquo;t read that reg from the national file</b> &mdash; you can tell us the make and
                   model on the Photos step, but we cannot show a range without it.{" "}
+                  <b>We do not take UK-registered trade-ins.</b>{" "}
                   <button type="button" onClick={() => setStep(1)} style={{ background: "none", border: "none", color: "#1a5fb4", textDecoration: "underline", fontSize: 12.5, cursor: "pointer", padding: 0, font: "inherit" }}>
                     Try the reg again
                   </button>
@@ -905,6 +919,15 @@ function TradeInsFlow() {
               <p style={{ ...(S.sm as React.CSSProperties), marginTop: 0 }}>
                 Just looking round? The step pills above open any page without picking anything.
               </p>
+              {/* NO RANGE — SAY SO (owner, 8 Sep: "where is the range of prices for
+                  this car?" / "so where the fuck does it say that?"). A 2017 Ford Ka
+                  had no comparable Irish adverts, the API answered priced:false, and
+                  the page dropped every figure without a word. */}
+              {car && !pricing && !pricingBusy && unpriced && (
+                <div style={{ margin: "0 0 14px", padding: "12px 14px", borderRadius: 10, background: "#fffbeb", border: "1px solid #fde68a", fontSize: 13.2, lineHeight: 1.5, color: "#3f3f46" }}>
+                  <b>No range for this car yet.</b> We have too few comparable {car.year ? `${car.year} ` : ""}{car.make} {car.model}{" "}adverts in Ireland to measure one &mdash; nothing to do with your car. Carry on as normal: send the photos and answer the condition questions, and a person prices it from those, usually the same working day. Nothing is committed until you accept.
+                </div>
+              )}
               {/* THE YARDSTICK, shown (owner, 5 Sep: "what does Carzone data say this
                   car is worth?"). Every range below is a share of this number, so
                   it has to be on the page or the ranges cannot be judged. */}
@@ -988,7 +1011,9 @@ function TradeInsFlow() {
                         </div>
                       );
                     })()}
-                    <div style={S.routeBlurb}>{r.blurb}</div>
+                    <div style={S.routeBlurb}>
+                      {pricing?.routes.find((x) => x.route === (r.id === "tradein" ? "trade" : "private")) ? r.blurb : r.blurbNoRange}
+                    </div>
                     {r.id === "privateproof" && (
                       // the card itself is a button (click = choose this route), so the link must not bubble
                       <a href="/trade-ins/above-board-cars" onClick={(e) => e.stopPropagation()} style={S.routeMore}>
@@ -1089,6 +1114,8 @@ function TradeInsFlow() {
           {step === 1 && (
             <Panel title="What are you driving?" sub="Type the reg — the national vehicle file does the rest. Then we can show you what your car is worth each way.">
               <Field label="Registration" placeholder="191-D-12345" value={reg} onChange={setReg} />
+              {/* owner, 8 Sep: say it under the reg box */}
+              <p style={{ ...(S.sm as React.CSSProperties), marginTop: -2, marginBottom: 10 }}>Irish-registered cars only — we do not take UK-registered trade-ins.</p>
               <Field
                 label={unit === "km" ? "Mileage (kilometres)" : "Mileage (miles)"}
                 placeholder={unit === "km" ? "96,000" : "60,000"}
@@ -1145,7 +1172,7 @@ function TradeInsFlow() {
               {lookupFailed && (
                 <div style={S.notfound}>
                   <b>We couldn&rsquo;t read that reg from the national file.</b>
-                  <div style={S.sm}>No harm — tell us the make and model yourself:</div>
+                  <div style={S.sm}>No harm — tell us the make and model yourself. We do not take UK-registered trade-ins.</div>
                   <div style={S.twoCol}>
                     <Field label="Make" placeholder="Toyota" value={manualMake} onChange={setManualMake} />
                     <Field label="Model" placeholder="Yaris" value={manualModel} onChange={setManualModel} />
