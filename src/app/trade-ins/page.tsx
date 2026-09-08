@@ -244,7 +244,7 @@ const ROUTES: {
     blurb:
       "The bigger number. You keep the car, you set the price, and you sell it to a private buyer for more than any trade will pay \u2014 with Above Board Cars giving that buyer everything a garage would: an independent inspection, a 12-month warranty and protected payment. The range above is what comparable cars actually sold for privately; where you list within it is your call.",
     blurbNoRange:
-      "The bigger number. You keep the car, you set the price, and you sell it to a private buyer for more than any trade will pay \u2014 with Above Board Cars giving that buyer everything a garage would: an independent inspection, a 12-month warranty and protected payment. What you list it at is your call.",
+      "We can\u2019t value this car, so there is no range to guide your price \u2014 you set it yourself. The buyer\u2019s protection is the same: payment through Stripe\u2019s escrow-like transfer account, an inspection if they want one, and a 12-month warranty.",
     points: [
       "More money than any trade will pay. You keep the car, you set the price, you keep the difference.",
       "More buyers, a better price, a quicker sale. Buyers want a private-sale price but are wary of a private seller \u2014 give them a garage\u2019s protection and your ad pulls the buyers a garage\u2019s does.",
@@ -858,7 +858,9 @@ function TradeInsFlow() {
               title="How would you like to sell your car?"
               sub={pricing
                 ? "Two ways to sell it, each with a range for your exact car and mileage. Pick the one that suits you; nothing is committed by choosing."
-                : "Two ways to sell it. Pick the one that suits you; nothing is committed by choosing."}
+                : (!pricingBusy && !!unpriced)
+                  ? "We can\u2019t value this car, so only the private route is open. Nothing is committed by choosing."
+                  : "Two ways to sell it. Pick the one that suits you; nothing is committed by choosing."}
             >
               {/* WHICH CAR WE FOUND, on the page where a wrong lookup costs most
                   (field test, 5 Sep): the confirmation used to appear only on the
