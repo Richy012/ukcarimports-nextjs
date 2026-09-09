@@ -11,6 +11,7 @@ import {
   Handshake,
   LayoutDashboard,
   LogOut,
+  BadgeCheck,
   Building2,
   Megaphone,
   Scale,
@@ -33,6 +34,11 @@ const NAV_ITEMS: { href: string; label: string; icon: LucideIcon }[] = [
   // Owner, 6 Sep 2026: a submitted trade-in is a car waiting for his number — it lives here
   // with the other staff work, behind the staff login.
   { href: "/tradeins", label: "Trade-ins", icon: Handshake },
+  // Owner, 9 Sep 2026: the private-sale cars were being advertised with
+  // nothing in admin to show or stop them. This is that screen. The path is
+  // /private-sales, NOT /irish-cars -- a route group adds no segment, so an
+  // (admin)/irish-cars folder would collide with the public page.
+  { href: "/private-sales", label: "Irish cars", icon: BadgeCheck },
   { href: "/members", label: "Members", icon: Users },
   { href: "/comparisons", label: "Comparisons", icon: Scale },
   { href: "/social", label: "Social", icon: Megaphone },

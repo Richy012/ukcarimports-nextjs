@@ -268,6 +268,15 @@ export interface Deal {
   declaration: Declaration | null;
   marginNote: string;          // staff-set, per deal — never a fixed rule
   staffNote: string;
+  /**
+   * ADVERT SWITCH (owner, 9 Sep 2026: "only fully complete listings with
+   * photos should be advertised"). Separate from `status` on purpose: status
+   * runs the auction, this runs the shop window. Staff pulling a photo-less
+   * car off the site must not withdraw a live deal to do it.
+   */
+  listingHidden?: boolean;
+  listingHiddenAt?: string | null;
+  listingHiddenReason?: string | null;
   history: { at: string; event: string; detail: string }[];
 }
 

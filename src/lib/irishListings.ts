@@ -115,11 +115,14 @@ export function listingComplete(l: IrishListing): boolean {
   );
 }
 
+/** Staff pulled it off the site by hand — see Deal.listingHidden. */
+function shown(d: Deal): boolean {
+  return d.tradeIn?.route === "privateproof" && LIVE_STATUSES.has(d.status) && !d.listingHidden;
+}
+
 /** Every live Above Board Cars car, newest first. */
 export async function irishListings(): Promise<IrishListing[]> {
-  const deals = await readOnly((db) =>
-    db.deals.filter((d) => d.tradeIn?.route === "privateproof" && LIVE_STATUSES.has(d.status)),
-  );
+  const deals = await readOnly((db) => db.deals.filter(shown));
   const out: IrishListing[] = [];
   for (const d of deals.sort((a, b) => b.createdAt.localeCompare(a.createdAt))) {
     const l = toListing(d, await photoUrls(d.draftId));
@@ -129,12 +132,92 @@ export async function irishListings(): Promise<IrishListing[]> {
 }
 
 export async function irishListing(id: string): Promise<IrishListing | null> {
-  const d = await readOnly((db) =>
-    db.deals.find((x) => x.id === id && x.tradeIn?.route === "privateproof" && LIVE_STATUSES.has(x.status)) ?? null,
-  );
+  const d = await readOnly((db) => db.deals.find((x) => x.id === id && shown(x)) ?? null);
   if (!d) return null;
   const l = toListing(d, await photoUrls(d.draftId));
   return listingComplete(l) ? l : null;
+}
+
+/**
+ * STAFF ONLY. Every private-sale car we hold, with the exact reason each one
+ * is or is not on the site. Carries the seller's contact details, so it must
+ * never be reachable without the staff token — see /api/staff-irish-cars.
+ */
+export interface ListingAudit {
+  id: string;
+  draftId: string;
+  dealStatus: string;
+  createdAt: string;
+  title: string;
+  mileage: number | null;
+  mileageUnit: string;
+  priceEur: number | null;
+  area: string;
+  nct: string;
+  serviceHistory: string;
+  damage: string;
+  photos: string[];
+  photoCount: number;
+  complete: boolean;
+  missing: string[];
+  statusLive: boolean;
+  hidden: boolean;
+  hiddenAt: string | null;
+  hiddenReason: string | null;
+  advertised: boolean;
+  seller: { name: string; email: string; phone: string; eircode: string };
+}
+
+function missingBits(l: IrishListing): string[] {
+  const out: string[] = [];
+  if (l.photos.length < MIN_PHOTOS) out.push(`${l.photos.length} of ${MIN_PHOTOS} photos`);
+  if (!l.year) out.push("year");
+  if (!l.make.trim()) out.push("make");
+  if (!l.model.trim()) out.push("model");
+  if (l.mileage == null) out.push("mileage");
+  if (l.priceEur == null) out.push("asking price");
+  return out;
+}
+
+export async function listingAudit(): Promise<ListingAudit[]> {
+  const deals = await readOnly((db) => db.deals.filter((d) => d.tradeIn?.route === "privateproof"));
+  const out: ListingAudit[] = [];
+  for (const d of deals.sort((a, b) => b.createdAt.localeCompare(a.createdAt))) {
+    const l = toListing(d, await photoUrls(d.draftId));
+    const complete = listingComplete(l);
+    const statusLive = LIVE_STATUSES.has(d.status);
+    const hidden = !!d.listingHidden;
+    out.push({
+      id: d.id,
+      draftId: d.draftId,
+      dealStatus: d.status,
+      createdAt: d.createdAt,
+      title: l.title,
+      mileage: l.mileage,
+      mileageUnit: l.mileageUnit,
+      priceEur: l.priceEur,
+      area: l.area,
+      nct: l.nct,
+      serviceHistory: l.serviceHistory,
+      damage: l.damage,
+      photos: l.photos,
+      photoCount: l.photos.length,
+      complete,
+      missing: missingBits(l),
+      statusLive,
+      hidden,
+      hiddenAt: d.listingHiddenAt ?? null,
+      hiddenReason: d.listingHiddenReason ?? null,
+      advertised: complete && statusLive && !hidden,
+      seller: {
+        name: d.buyer?.name || "",
+        email: d.buyer?.email || "",
+        phone: d.buyer?.phone || "",
+        eircode: d.buyer?.eircode || "",
+      },
+    });
+  }
+  return out;
 }
 
 export async function irishCount(): Promise<number> {
