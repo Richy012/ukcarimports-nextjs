@@ -95,6 +95,26 @@ function toListing(d: Deal, photos: string[]): IrishListing {
   };
 }
 
+/**
+ * OWNER RULE, 9 Sep 2026: only a FULLY COMPLETE listing is ever advertised.
+ * A live deal is not enough — a seller who stops half way through, or whose
+ * photos never uploaded, must not appear on the homepage, on /irish-cars or
+ * on a detail page. Staff approval decides whether a car MAY be shown; this
+ * decides whether it is FIT to be shown.
+ */
+export const MIN_PHOTOS = 4;
+
+export function listingComplete(l: IrishListing): boolean {
+  return (
+    l.photos.length >= MIN_PHOTOS &&
+    !!l.year &&
+    !!l.make.trim() &&
+    !!l.model.trim() &&
+    l.mileage != null &&
+    l.priceEur != null
+  );
+}
+
 /** Every live Above Board Cars car, newest first. */
 export async function irishListings(): Promise<IrishListing[]> {
   const deals = await readOnly((db) =>
@@ -102,7 +122,8 @@ export async function irishListings(): Promise<IrishListing[]> {
   );
   const out: IrishListing[] = [];
   for (const d of deals.sort((a, b) => b.createdAt.localeCompare(a.createdAt))) {
-    out.push(toListing(d, await photoUrls(d.draftId)));
+    const l = toListing(d, await photoUrls(d.draftId));
+    if (listingComplete(l)) out.push(l);
   }
   return out;
 }
@@ -112,11 +133,10 @@ export async function irishListing(id: string): Promise<IrishListing | null> {
     db.deals.find((x) => x.id === id && x.tradeIn?.route === "privateproof" && LIVE_STATUSES.has(x.status)) ?? null,
   );
   if (!d) return null;
-  return toListing(d, await photoUrls(d.draftId));
+  const l = toListing(d, await photoUrls(d.draftId));
+  return listingComplete(l) ? l : null;
 }
 
 export async function irishCount(): Promise<number> {
-  return readOnly((db) =>
-    db.deals.filter((d) => d.tradeIn?.route === "privateproof" && LIVE_STATUSES.has(d.status)).length,
-  );
+  return (await irishListings()).length;
 }
