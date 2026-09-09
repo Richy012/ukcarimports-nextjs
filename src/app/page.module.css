@@ -1081,3 +1081,54 @@
 .valueBadgeR5 { background: linear-gradient(135deg, #d21415 0%, #b60b0c 55%, #8f0809 100%); }
 .valueBadgeR6 { background: linear-gradient(135deg, #8f0809 0%, #6e0506 60%, #4f0304 100%); }
 .valueBadgeR6 .valueBadgeTier { color: #f5c542; }
+
+
+/* Arklight Labs band (8 Sep 2026) — navy, sits above the closing strip */
+.arklightBand {
+  background: radial-gradient(120% 80% at 80% 0%, #17509c 0%, #0e3a6e 40%, #0b1f3a 100%);
+}
+.arklightBandInner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 34px 20px;
+  display: flex;
+  gap: 26px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.arklightBandMark { flex: none; }
+.arklightBandText { flex: 1 1 420px; min-width: 260px; }
+.arklightBandKicker {
+  color: #7cc4ff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+}
+.arklightBandText h2 {
+  color: #fff;
+  margin: 0 0 6px;
+  font-size: 1.45rem;
+  letter-spacing: -0.01em;
+}
+.arklightBandText h2::after { content: none; }
+.arklightBandText p:last-child {
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0;
+  font-size: 0.93rem;
+  line-height: 1.55;
+  max-width: 600px;
+}
+.arklightBandActions { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.arklightBandCta {
+  background: #f2c94c;
+  color: #0b1f3a;
+  border-radius: 8px;
+  padding: 13px 26px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.arklightBandCta:hover { background: #e0a410; }
+.arklightBandLink { color: #7cc4ff; font-size: 0.85rem; text-decoration: underline; }

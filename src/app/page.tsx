@@ -5,6 +5,7 @@ import { BadgeEuro, CarFront } from "lucide-react";
 import HomeSearchPanel from "./HomeSearchPanel";
 import ProcessTimeline from "./ProcessTimeline";
 import ReviewCarousel from "./ReviewCarousel";
+import ArklightBand from "./components/ArklightBand";
 import googleReviews from "@/data/google-reviews.json";
 import { getStockCount, formatStockCount, roundStockDown } from "@/lib/stockCount";
 import styles from "./page.module.css";
@@ -439,6 +440,8 @@ export default async function HomePage() {
           cardClass={styles.reviewCard}
         />
       </section>
+
+      <ArklightBand />
 
       <section className={styles.closing}>
         <div className={styles.closingInner}>
