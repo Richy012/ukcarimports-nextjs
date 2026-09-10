@@ -106,6 +106,13 @@ export default async function BlogPostPage({
         <div dangerouslySetInnerHTML={{ __html: blog.blog_description }} />
         <div className={styles.meta}>
           <time>{blog.blog_date}</time> &mdash; By <strong>{blog.Author}</strong>
+          {/* In-content credit (owner, 10 Sep 2026). A link inside an indexed,
+              read article is worth far more to arklightlabs.com than the
+              sitewide footer link Google discounts as boilerplate. */}
+          <span className={styles.builtOn}>
+            {" "}&middot; Published on a platform built in-house by{" "}
+            <a href="https://arklightlabs.com" title="Arklight Labs: websites for businesses that sell things">Arklight Labs</a>
+          </span>
         </div>
       </article>
       <RelatedDeals text={blog.blog_heading + " " + blog.blog_description} />

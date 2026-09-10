@@ -71,3 +71,9 @@
   justify-content: flex-start;
   gap: 6px;
 }
+
+
+/* the Arklight credit beside the byline (10 Sep 2026) */
+.builtOn { color: #64748b; }
+.builtOn a { color: #64748b; text-decoration: underline; }
+.builtOn a:hover { color: #b30000; }

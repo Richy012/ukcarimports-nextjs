@@ -213,6 +213,15 @@ export default function ImportLanding({ data, makeSlug }: { data: LandingData; m
           </>
         )}
       </p>
+      {/* In-content credit (owner, 10 Sep 2026). Names this page's own
+          subject so it reads as content, not a repeated footer; links the
+          two arklightlabs.com pages that most need Google to find them. */}
+      <p style={{ fontSize: 13, color: "#64748b", margin: "6px 0 0", lineHeight: 1.5 }}>
+        The live {subject} stock, landed prices and enquiry handling on this page run on a platform built
+        in-house by{" "}
+        <a href="https://arklightlabs.com" style={{ color: "#64748b", textDecoration: "underline" }}>Arklight Labs</a>, who build the same{" "}
+        <a href="https://arklightlabs.com/websites-for" style={{ color: "#64748b", textDecoration: "underline" }}>websites for other businesses that sell things</a>.
+      </p>
 
       <div className={styles.statRow}>
         <div className={styles.statCard}>
