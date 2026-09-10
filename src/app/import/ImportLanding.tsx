@@ -11,6 +11,7 @@ const BRAND_GUIDES: Record<string, { href: string; label: string }> = {
   jaecoo: { href: "/blog/jaecoo-7-ireland-import-guide", label: "Read our Jaecoo Ireland buyer's guide" },
   omoda: { href: "/blog/omoda-5-9-ireland-import-guide", label: "Read our Omoda Ireland buyer's guide" },
   byd: { href: "/blog/byd-ireland-import-guide-seal-dolphin-sealion", label: "Read our BYD Ireland buyer's guide" },
+  polestar: { href: "/blog/polestar-ireland-import-guide", label: "Read our Polestar Ireland buyer's guide" },
 };
 
 export interface LandingData {

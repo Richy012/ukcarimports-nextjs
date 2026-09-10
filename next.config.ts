@@ -15,6 +15,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/how-it-works.html", destination: "/how-it-works", permanent: true },
       { source: "/index.html", destination: "/", permanent: true },
+      { source: "/blog/polestar-2-ireland-import-guide", destination: "/blog/polestar-ireland-import-guide", permanent: true },
     ];
   },
   async rewrites() {
