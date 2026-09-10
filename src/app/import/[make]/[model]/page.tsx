@@ -15,17 +15,22 @@ export async function generateMetadata({
   const subject = `${titleCase(data.make)} ${displayModel(data.make, data.model)}`;
   const bs = data.bestseller && data.bestseller.count > 0 ? data.bestseller : null;
   const priceFrom = `€${Math.round(data.price_min ?? 0).toLocaleString()}`;
-  // CTR overrides (2026-08-29, owner-approved): these pages rank top-10 with
-  // sub-1% CTR (xc90 ~2,000 impr/28d on its queries, i8 ~300) while a twin
-  // /used-cars/ireland/ URL splits their impressions. Lead with the landed
-  // price and the saving - the one thing marketplace results cannot say.
-  const CTR_OVERRIDES = new Set(["volvo/xc90", "bmw/i8"]);
-  if (CTR_OVERRIDES.has(`${make}/${model}`)) {
+  // CTR_V2 (2026-09-10, owner: "rewrite the titles and descriptions on the
+  // XC90, XC60 and i8 pages"). Measured before changing: the 29 Aug version
+  // moved the i8 from 0.6% to 1.1% and the XC90 not at all (0.4% -> 0.5%);
+  // the XC60 sat at 0.3% on the default template. So this is a deliberately
+  // different shape for all three - the searcher's words first, then the two
+  // facts a marketplace result cannot show (stock count, landed from-price),
+  // and a description that opens with the measured under-Irish count. The
+  // weekly report compares click rate from this date.
+  const CTR_V2 = new Set(["volvo/xc90", "volvo/xc60", "bmw/i8"]);
+  if (CTR_V2.has(`${make}/${model}`)) {
+    const under = bs ? bs.count.toLocaleString() : null;
     return {
-      title: bs
-        ? `${subject} for Sale in Ireland from ${priceFrom} \u2014 Save up to \u20ac${bs.max_saving_eur.toLocaleString()} vs Irish Prices`
-        : `${subject} for Sale in Ireland from ${priceFrom} \u2014 Fully Landed, VRT Included`,
-      description: `${data.count.toLocaleString()} used ${subject} cars priced fully landed for Ireland \u2014 VRT, VAT, customs and delivery all in the price you see, from ${priceFrom}. Checked against real Irish asking prices weekly.`,
+      title: `${subject} for Sale in Ireland \u2014 ${data.count.toLocaleString()} Cars from ${priceFrom}, VRT Included`,
+      description: bs
+        ? `${under} of our ${data.count.toLocaleString()} ${subject} are priced at least \u20ac750 under the same car on Irish forecourts today, the best by \u20ac${bs.max_saving_eur.toLocaleString()}. Every price is fully landed: VRT, VAT, customs and delivery in. Independent inspection, Irish plates in about two weeks.`
+        : `${data.count.toLocaleString()} used ${subject} from ${priceFrom}, every one priced fully landed for Ireland: VRT, VAT, customs and delivery in the price you see. Independent inspection before you commit, Irish plates in about two weeks.`,
       alternates: { canonical: `https://ukcarimports.ie/import/${make}/${model}` },
     };
   }
