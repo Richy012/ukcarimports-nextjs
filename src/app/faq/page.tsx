@@ -26,11 +26,14 @@ async function getFaqs(): Promise<FaqItem[]> {
   }
 }
 
+import FaqHashOpener from "./FaqHashOpener";
+
 export default async function FaqPage() {
   const faqs = await getFaqs();
 
   return (
     <main className={styles.page}>
+      <FaqHashOpener />
       <h1>Frequently Asked Questions</h1>
       <div className={styles.faqList}>
         {faqs.map((faq, index) => (
