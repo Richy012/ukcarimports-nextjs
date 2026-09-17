@@ -92,6 +92,25 @@ const TOWN_TO_COUNTY: Record<string, string> = {
   enniscrone: "sligo", collooney: "sligo", ballaghaderrin: "roscommon",
 };
 
+// Every make with an /import/<make> page (sitemap, 17 Sep 2026), plus the
+// spellings the old site's URLs used for some of them.
+const MAKES = new Set([
+  "abarth", "alfa-romeo", "alpine", "audi", "bmw", "byd", "citroen", "cupra", "dacia", "ds-automobiles",
+  "fiat", "ford", "honda", "hyundai", "infiniti", "jaecoo", "jaguar", "jeep", "kia", "land-rover",
+  "leapmotor", "lexus", "mazda", "mercedes-benz", "mg", "mini", "mitsubishi", "nissan", "omoda", "peugeot",
+  "polestar", "porsche", "renault", "seat", "skoda", "smart", "ssangyong", "subaru", "suzuki", "tesla",
+  "toyota", "vauxhall", "volkswagen", "volvo",
+]);
+const MAKE_ALIAS: Record<string, string> = {
+  mercedes: "mercedes-benz", "mercedes-benz": "mercedes-benz", merc: "mercedes-benz",
+  ds: "ds-automobiles", landrover: "land-rover", "land-rover": "land-rover", alfa: "alfa-romeo",
+  alfaromeo: "alfa-romeo", vw: "volkswagen", citroën: "citroen", "range-rover": "land-rover",
+};
+
+function makeSlug(s: string): string {
+  return MAKE_ALIAS[s] ?? s;
+}
+
 function slug(s: string): string {
   let d = s;
   try {
@@ -113,11 +132,15 @@ export function middleware(req: NextRequest) {
   let dest: string | null = null;
   if (first === "ireland") {
     if (rest.length === 0) dest = "/used-cars";
-    else if (rest.length === 1) dest = `/import/${rest[0]}`;
-    else dest = `/import/${rest[0]}/${rest[1]}`;
+    else if (rest.length === 1) dest = `/import/${makeSlug(rest[0])}`;
+    else dest = `/import/${makeSlug(rest[0])}/${rest[1]}`;
+  } else if (MAKES.has(makeSlug(first))) {
+    // make [+ model] with no place: /used-cars/volvo/xc90 (17 Sep 2026 — this
+    // shape was being read as place+make and sent to /import/xc90, a 404)
+    dest = rest.length >= 1 ? `/import/${makeSlug(first)}/${rest[0]}` : `/import/${makeSlug(first)}`;
   } else if (rest.length >= 1) {
     // place + make [+ model]: the closest page we have is the make (or model) page
-    dest = rest.length >= 2 ? `/import/${rest[0]}/${rest[1]}` : `/import/${rest[0]}`;
+    dest = rest.length >= 2 ? `/import/${makeSlug(rest[0])}/${rest[1]}` : `/import/${makeSlug(rest[0])}`;
   } else {
     const county = COUNTIES.has(first) ? first : TOWN_TO_COUNTY[first];
     if (county) dest = `/used-cars/${county}`;
