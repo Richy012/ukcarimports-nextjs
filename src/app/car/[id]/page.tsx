@@ -15,6 +15,7 @@ import SaveCarButton from "./SaveCarButton";
 import { stripStaffPriceFields } from "@/lib/publicCar";
 import { warrantyStatusFor } from "@/lib/warrantyGuide";
 import { ladderRung, RUNG_LABEL } from "@/lib/ladder";
+import { getLanding, displayModel } from "@/app/import/ImportLanding";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
 interface CarImage {
@@ -349,6 +350,37 @@ export default async function CarDetailPage({
       : undefined,
   };
 
+  // Breadcrumb (owner 17 Sep 2026, from the Big Motoring World comparison):
+  // every car page links up to its make and model landing, so the model
+  // pages that now carry stock are fed by ~130k car pages. The model link is
+  // only rendered when the landing API knows the slug (family models such
+  // as "3 Series" resolve; an unknown model_name falls back to the make).
+  const crumbSlug = (v: string) => (v || "").trim().toLowerCase().replace(/[\s_]+/g, "-").replace(/-+/g, "-");
+  const makeSlug = crumbSlug(car.make_name);
+  const modelSlug = crumbSlug(car.model_name);
+  const landing = makeSlug && modelSlug ? await getLanding(makeSlug, modelSlug) : null;
+  const makeLabel = titleCase(car.make_name || "");
+  const modelLabel = car.model_name ? displayModel(car.make_name || "", car.model_name) : "";
+  const crumbs = [
+    { name: "Home", href: "/" },
+    { name: "Used cars", href: "/used-cars" },
+    ...(makeSlug ? [{ name: `${makeLabel} imports`, href: `/import/${makeSlug}` }] : []),
+    ...(landing && landing.model
+      ? [{ name: `${makeLabel} ${modelLabel}${landing.count ? ` \u2014 ${landing.count.toLocaleString("en-IE")} in stock` : ""}`, href: `/import/${makeSlug}/${modelSlug}` }]
+      : []),
+    { name: `${year ? year.split(" ")[0] + " " : ""}${makeLabel} ${modelLabel}`.trim() || car.car_name, href: `/car/${car.car_id}` },
+  ];
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: crumbs.map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: c.name,
+      item: `https://ukcarimports.ie${c.href}`,
+    })),
+  };
+
   // Bestseller ladder (owner 2026-09-03): rung, gauge and the evidence line.
   const ladderSaving = Number(car.bestseller_saving_eur ?? 0);
   const rung = ladderRung(car.bestseller_tier, ladderSaving);
@@ -363,6 +395,18 @@ export default async function CarDetailPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(carJsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <nav className={styles.crumb} aria-label="Breadcrumb">
+        {crumbs.map((c, i) => (
+          <span key={c.href}>
+            {i > 0 ? <span className={styles.crumbSep} aria-hidden="true">{"\u203a"}</span> : null}
+            {i < crumbs.length - 1 ? <Link href={c.href}>{c.name}</Link> : <span className={styles.crumbHere}>{c.name}</span>}
+          </span>
+        ))}
+      </nav>
       <BackToResults className={styles.backLink} />
 
       <div className={styles.headingRow}>
@@ -433,6 +477,22 @@ export default async function CarDetailPage({
               fuelTypeName={car.fuel_type_name}
             />
           )}
+
+          {/* Owner 17 Sep 2026: the trade-in module's natural audience is the
+              person on a car page. Reg goes straight into the /trade-ins flow
+              with this car attached as the one they want. */}
+          <aside className={styles.sellBox}>
+            <h2 className={styles.sellHeading}>Selling your current car?</h2>
+            <p className={styles.sellText}>
+              Enter the reg and we show you what Irish dealers are asking for it and the range you can
+              expect &mdash; a minute, no obligation.
+            </p>
+            <form action="/trade-ins" method="get" className={styles.sellForm}>
+              <input type="hidden" name="car" value={car.car_id} />
+              <input name="reg" className={styles.sellReg} placeholder="191 D 12345" aria-label="Your registration" autoComplete="off" />
+              <button type="submit" className={styles.sellBtn}>Get a range &rarr;</button>
+            </form>
+          </aside>
 
           <dl className={styles.specGrid}>
             {specs.map((s) => (

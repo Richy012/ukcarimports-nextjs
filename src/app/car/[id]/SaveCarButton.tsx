@@ -59,11 +59,12 @@ export default function SaveCarButton({ carId }: { carId: string }) {
         type="button"
         className={saved ? `${styles.saveBtn} ${styles.saveBtnSaved}` : styles.saveBtn}
         onClick={handleClick}
+        title="Saves this car to your account and emails you when a similar car arrives"
       >
         <svg viewBox="0 0 24 24" width="18" height="18" fill={saved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" aria-hidden="true">
           <path d="M12 21s-7.5-4.6-10-9.3C.3 8.2 2 4.5 5.6 4c2-.3 3.9.7 6.4 3 2.5-2.3 4.4-3.3 6.4-3 3.6.5 5.3 4.2 3.6 7.7-2.5 4.7-10 9.3-10 9.3z"></path>
         </svg>
-        {saved ? "Saved" : "Save this car"}
+        {saved ? "Saved \u00b7 alerts on" : "Save + alerts"}
       </button>
       <SignInSlideOver open={signInOpen} onClose={() => setSignInOpen(false)} onSuccess={handleSignInSuccess} />
     </>

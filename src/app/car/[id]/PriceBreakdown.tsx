@@ -336,15 +336,49 @@ export default function PriceBreakdown({
       <div className={styles.priceNote}>
         Price is all inclusive &mdash; that is to have your car here in ROI, in your name, on Irish plates
       </div>
+      {/* Owner 17 Sep 2026: the one honest finance line - the FAQ carries the rest. */}
+      <p className={styles.financeNote}>
+        Finance through AIB, Bank of Ireland or PTSB works with an import: once your deposit is in
+        place we send the quote and invoice the bank needs.{" "}
+        <Link href="/faq#faq-534238813919320">How finance works &rarr;</Link>
+      </p>
 
-      <label className={styles.inspectionToggle}>
-        <input
-          type="checkbox"
-          checked={includeInspection}
-          onChange={(e) => setIncludeInspection(e.target.checked)}
-        />
-        Add Mechanical Inspection (€{formatEuro(carInfo.mechanical_inspection_fee)})
-      </label>
+      {/* Owner 17 Sep 2026: the inspection shown as what it is - the seven
+          areas from our own Mechanical & Condition Report - not a bare
+          checkbox. Fee from the API; the PDF is the full list. */}
+      <div className={styles.inspectionBox}>
+        <div className={styles.inspectionHead}>
+          <span>Independent mechanical inspection</span>
+          <strong>€{formatEuro(carInfo.mechanical_inspection_fee)}</strong>
+        </div>
+        <p className={styles.inspectionText}>
+          An independent mechanic goes to the car once your deposit is in, drives it, and sends you a
+          written report with photographs before you are committed to buying.
+        </p>
+        <ul className={styles.inspectionTicks}>
+          <li>Interior compartment</li>
+          <li>Electrical and controls</li>
+          <li>Engine compartment</li>
+          <li>Wheels and tyres</li>
+          <li>Bodywork and exterior</li>
+          <li>Suspension, brakes and steering</li>
+          <li>Road test</li>
+          <li>Diagnostic scan</li>
+        </ul>
+        <div className={styles.inspectionFoot}>
+          <label className={styles.inspectionToggle}>
+            <input
+              type="checkbox"
+              checked={includeInspection}
+              onChange={(e) => setIncludeInspection(e.target.checked)}
+            />
+            Add the inspection (€{formatEuro(carInfo.mechanical_inspection_fee)})
+          </label>
+          <a href={`${API_BASE}/report/Mech_And_Cond_Report.pdf`} target="_blank" rel="noreferrer" className={styles.inspectionLink}>
+            What the inspection covers &rarr;
+          </a>
+        </div>
+      </div>
 
       {warrantyTiers.length > 0 && (
         <div className={styles.warrantySelector}>

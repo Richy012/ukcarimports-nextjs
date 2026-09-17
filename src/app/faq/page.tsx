@@ -34,7 +34,7 @@ export default async function FaqPage() {
       <h1>Frequently Asked Questions</h1>
       <div className={styles.faqList}>
         {faqs.map((faq, index) => (
-          <details key={faq.id} className={styles.faqItem} open={index === 0}>
+          <details key={faq.id} id={`faq-${faq.id}`} className={styles.faqItem} open={index === 0}>
             <summary className={styles.faqQuestion}>{faq.question}</summary>
             <div
               className={styles.faqAnswer}

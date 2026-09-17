@@ -558,6 +558,14 @@ function TradeInsFlow() {
     </div>
   );
 
+  // 17 Sep 2026: the car page's "Selling your current car?" box hands the
+  // reg over in the URL so the flow starts with it filled in.
+  useEffect(() => {
+    const r = searchParams.get("reg");
+    if (r) setReg(r.toUpperCase().trim());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     const id = searchParams.get("car");
     if (!id) return;
