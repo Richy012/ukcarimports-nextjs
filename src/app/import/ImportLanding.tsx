@@ -2,6 +2,8 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import { artForMake, DEFAULT_BANNER } from "@/lib/brandArt";
 import { warrantyGuideFor } from "@/lib/warrantyGuide";
+import { getModelStock } from "@/lib/modelStock";
+import CardsGrid from "../used-cars/CardsGrid";
 
 
 // 2026-08-11, owner: "dominate those lanes". Each new-Chinese-brand landing
@@ -92,7 +94,7 @@ function euro(v: number | null): string {
   return v === null ? "-" : "€" + Math.round(v).toLocaleString();
 }
 
-export default function ImportLanding({ data, makeSlug }: { data: LandingData; makeSlug: string }) {
+export default async function ImportLanding({ data, makeSlug }: { data: LandingData; makeSlug: string }) {
   const makeT = titleCase(data.make);
   const modelT = data.model ? displayModel(data.make, data.model) : null;
   const subject = modelT ? `${makeT} ${modelT}` : makeT;
@@ -109,6 +111,10 @@ export default function ImportLanding({ data, makeSlug }: { data: LandingData; m
       ? `/used-cars?Make=${encodeURIComponent(data.make)}&Model=${encodeURIComponent(data.model)}`
       : `/used-cars?Make=${encodeURIComponent(data.make)}`;
   const bs = data.bestseller && data.bestseller.count > 0 ? data.bestseller : null;
+  // Owner 17 Sep 2026: "put the stock on the model pages" - the cars, not a
+  // count. Family pages ("3 Series") have no single model_name, so they show
+  // the make's stock, like their browse link.
+  const stock = await getModelStock(data.make, data.model && !isFamily ? data.model : null, 12);
 
   const faq = [
     {
@@ -274,6 +280,19 @@ export default function ImportLanding({ data, makeSlug }: { data: LandingData; m
               Browse {bs.count.toLocaleString()} {subject} cars under Irish prices — biggest saving first
             </Link>
           </div>
+        </section>
+      )}
+
+      {stock.cars.length > 0 && (
+        <section className={styles.models} id="stock">
+          <h2>{subject} in stock now</h2>
+          <p className={styles.fliersSub}>
+            {data.count > stock.cars.length
+              ? `${stock.cars.length} of ${data.count.toLocaleString()} \u2014 the biggest measured savings against Irish asking prices first. `
+              : ""}
+            Every price is the landed price: VRT, VAT, customs and delivery included.
+          </p>
+          <CardsGrid cars={stock.cars} />
         </section>
       )}
 
