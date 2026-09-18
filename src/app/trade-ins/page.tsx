@@ -372,6 +372,10 @@ function TradeInsFlow() {
   const [buyerEmail, setBuyerEmail] = useState("");
   const [buyerEircode, setBuyerEircode] = useState("");
   const [adLink, setAdLink] = useState("");
+  // 18 Sep 2026 (owner): "ask them if they think the valuation is fair" -
+  // one optional click under the ranges, saved with the draft, changes nothing.
+  const [fair, setFair] = useState("");
+  const [fairExpected, setFairExpected] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [vlcStatus, setVlcStatus] = useState<"idle" | "working" | "done" | "error">("idle");
   const vlcInput = useRef<HTMLInputElement | null>(null);
@@ -400,7 +404,7 @@ function TradeInsFlow() {
 
   const answerState = () => ({
     step, reg, mileage, unit, car, manualMake, manualModel, trim, route, thirdPartyOptOut, financeNeed,
-    finance, settle, nct, history, damage, damageNote, disc, discText, adLink,
+    finance, settle, nct, history, damage, damageNote, disc, discText, adLink, fair, fairExpected,
     vrcHolder, vrcHolderName, ownerConsent, declName, target,
     buyerName, buyerPhone, buyerEmail, buyerEircode,
   });
@@ -419,7 +423,7 @@ function TradeInsFlow() {
     setNct(s("nct")); setHistory(s("history")); setDamage(s("damage")); setDamageNote(s("damageNote"));
     if (a.disc && typeof a.disc === "object") setDisc(a.disc as Record<string, string>);
     if (a.discText && typeof a.discText === "object") setDiscText(a.discText as Record<string, string>);
-    setAdLink(s("adLink"));
+    setAdLink(s("adLink")); setFair(s("fair")); setFairExpected(s("fairExpected"));
     if (a.vrcHolder === "me" || a.vrcHolder === "spouse" || a.vrcHolder === "other") setVrcHolder(a.vrcHolder);
     setVrcHolderName(s("vrcHolderName")); setOwnerConsent(b("ownerConsent")); setDeclName(s("declName"));
     setTarget(s("target")); setBuyerName(s("buyerName")); setBuyerPhone(s("buyerPhone"));
@@ -498,7 +502,7 @@ function TradeInsFlow() {
     return () => clearTimeout(h);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [restored, step, reg, mileage, unit, car, manualMake, manualModel, trim, route, thirdPartyOptOut, financeNeed,
-      finance, settle, nct, history, damage, damageNote, disc, discText, adLink,
+      finance, settle, nct, history, damage, damageNote, disc, discText, adLink, fair, fairExpected,
       vrcHolder, vrcHolderName, ownerConsent, declName, target, buyerName, buyerPhone, buyerEmail, buyerEircode]);
 
   async function sendResumeLink() {
@@ -1078,6 +1082,30 @@ function TradeInsFlow() {
                             </button>
                           </div>
                         )}
+                      </div>
+                    )}
+                    {r.id === "tradein" && !dead && (
+                      <div style={S.q} onClick={(e) => e.stopPropagation()}>
+                        <div style={S.qlab}>Do you think this price is fair?</div>
+                        <div style={S.opts}>
+                          {["Yes", "No"].map((o) => (
+                            <Opt key={o} on={fair === o} onClick={() => setFair(o)}>{o}</Opt>
+                          ))}
+                        </div>
+                        {fair === "No" && (
+                          <div style={{ marginTop: 10 }}>
+                            <div style={S.qlab}>How much did you expect to get for your trade in?</div>
+                            <input
+                              type="text"
+                              inputMode="numeric"
+                              placeholder="€"
+                              value={fairExpected}
+                              onChange={(e) => setFairExpected(e.target.value.replace(/[^0-9]/g, ""))}
+                              style={S.input}
+                            />
+                          </div>
+                        )}
+                        <p style={S.sm}>Optional. Every range here is worked from published market data for your make, model, year and mileage.</p>
                       </div>
                     )}
                     {!dead && (
