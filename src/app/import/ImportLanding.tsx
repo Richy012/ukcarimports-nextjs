@@ -84,7 +84,12 @@ export function displayModel(make: string, model: string): string {
   const mk = make.toLowerCase();
   if (mk === "bmw" && /^i[x0-9][a-z0-9]*$/i.test(m)) return "i" + m.slice(1).toUpperCase();
   if (mk === "hyundai" && /^i\d+$/i.test(m)) return m.toLowerCase();
-  if (/[\s-]/.test(m)) return titleCase(m);
+  if (/[\s-]/.test(m)) {
+    // 17 Sep 2026: "cx-60" rendered "Cx-60" in the page title and in a
+    // published post. A short letter code in front of digits or "-digits"
+    // (CX-60, MX-30, EV6) is upper case; words stay title case (E-Tron, Aircross).
+    return titleCase(m).replace(/\b([A-Za-z]{1,3})(?=\d|-\d)/g, (c) => c.toUpperCase());
+  }
   if (/^[a-z]+$/.test(m)) return m.length <= 3 ? m.toUpperCase() : titleCase(m);
   if (/^[a-z]{1,2}\d+[a-z]*$/.test(m)) return m.toUpperCase();
   return m;

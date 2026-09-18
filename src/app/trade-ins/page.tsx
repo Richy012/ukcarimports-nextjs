@@ -455,11 +455,19 @@ function TradeInsFlow() {
             window.history.replaceState(null, "", "/trade-ins");
           }
         }
+        // 17 Sep 2026: a reg handed over in the URL (the car page's "Selling
+        // your current car?" box) is a fresh start. Restoring the browser's
+        // old draft here overwrote that reg with a previous car AND its saved
+        // mileage, so the page opened on step 2 pricing the wrong car with no
+        // mileage typed. The draft is restored only when the URL carries no
+        // reg, or the same reg the draft already holds.
+        const urlReg = (new URLSearchParams(window.location.search).get("reg") || "").replace(/[\s-]/g, "").toUpperCase();
         const id = draftIdOk();
         if (id) {
           const r = await fetch(`/api/tradein-draft?draftId=${encodeURIComponent(id)}`);
           const j = await r.json();
-          if (j?.ok && j.answers && !j.sealed) { applyAnswers(j.answers); setSavedAt(j.savedAt || null); }
+          const draftReg = String(j?.answers?.reg || "").replace(/[\s-]/g, "").toUpperCase();
+          if (j?.ok && j.answers && !j.sealed && (!urlReg || urlReg === draftReg)) { applyAnswers(j.answers); setSavedAt(j.savedAt || null); }
         }
       } catch { /* a failed restore must never block a fresh start */ }
       // Mint the draft id NOW if there is none, so the answers autosave from

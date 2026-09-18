@@ -482,10 +482,11 @@ export default async function CarDetailPage({
               person on a car page. Reg goes straight into the /trade-ins flow
               with this car attached as the one they want. */}
           <aside className={styles.sellBox}>
-            <h2 className={styles.sellHeading}>Selling your current car?</h2>
+            {/* Owner's wording, 18 Sep 2026 */}
+            <h2 className={styles.sellHeading}>Sell or part exchange your car</h2>
             <p className={styles.sellText}>
-              Enter the reg and we show you what Irish dealers are asking for it and the range you can
-              expect &mdash; a minute, no obligation.
+              Get a free, instant valuation for your car to trade or to sell privately. All you need is
+              your vehicle registration and mileage.
             </p>
             <form action="/trade-ins" method="get" className={styles.sellForm}>
               <input type="hidden" name="car" value={car.car_id} />

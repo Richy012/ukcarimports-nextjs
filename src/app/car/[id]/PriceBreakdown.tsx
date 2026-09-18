@@ -259,6 +259,9 @@ export default function PriceBreakdown({
   }
 
   const isElectric = (fuelTypeName || "").toLowerCase() === "electric";
+  // Owner 17 Sep 2026: electrics and hybrids get a Battery Health Assessment
+  // of the drive battery in the inspection list.
+  const hasDriveBattery = /electric|hybrid/i.test(fuelTypeName || "");
   const warrantyTiers = getWarrantyTiers(carInfo, isElectric);
   const selectedTier = warrantyTiers.find((t) => t.key === selectedWarrantyKey);
   const warrantyPrice = includeWarranty && selectedTier ? selectedTier.price : 0;
@@ -364,6 +367,7 @@ export default function PriceBreakdown({
           <li>Suspension, brakes and steering</li>
           <li>Road test</li>
           <li>Diagnostic scan</li>
+          {hasDriveBattery && <li>Battery Health Assessment (range battery)</li>}
         </ul>
         <div className={styles.inspectionFoot}>
           <label className={styles.inspectionToggle}>
