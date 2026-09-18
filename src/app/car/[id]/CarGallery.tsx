@@ -105,6 +105,12 @@ export default function CarGallery({
                     width={260}
                     height={140}
                     loading="lazy"
+                    /* These sit inside the initial viewport, so loading=lazy
+                       does not defer them -- and they are full-size photos,
+                       ~28 KiB each. Chrome gave two of the four HIGH priority,
+                       putting 60 KiB in the same bandwidth window as the hero.
+                       The hero is the LCP element and has to land first. */
+                    fetchPriority="low"
                     decoding="async"
                     className={styles.thumb}
                     onError={() => setFailedThumbs((s) => new Set(s).add(img.id))}

@@ -23,6 +23,53 @@ export default function MembersClient() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [busyEmail, setBusyEmail] = useState<string | null>(null);
+  const [purging, setPurging] = useState(false);
+
+  // Permanently deletes every inactive MEMBER account and all their data
+  // (saved cars, saved searches, alert history, queued emails). Admin accounts
+  // are never touched — the backend scopes to user_role='user' and there are
+  // live admin accounts sitting at user_status='inactive'.
+  // Two steps on purpose: a dry run first so the confirm box shows a real
+  // number, then the irreversible call.
+  function purgeInactive() {
+    setPurging(true);
+    fetch("/api/staff-purge-members", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...staffAuthHeaders() },
+      body: JSON.stringify({}),
+    })
+      .then((res) => res.json())
+      .then((preview) => {
+        const n = Number(preview?.count ?? 0);
+        if (!n) {
+          alert("No inactive members to clear.");
+          return null;
+        }
+        if (
+          !window.confirm(
+            `Permanently delete ${n} inactive member${n === 1 ? "" : "s"} and ALL their information?\n\n` +
+              `This removes their account, saved cars, saved searches, alert history and any queued emails.\n\n` +
+              `This CANNOT be undone. Admin accounts are not affected.`
+          )
+        )
+          return null;
+        return fetch("/api/staff-purge-members", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", ...staffAuthHeaders() },
+          body: JSON.stringify({ confirm: "1" }),
+        }).then((res) => res.json());
+      })
+      .then((data) => {
+        if (!data) return;
+        if (data?.ResponseCode == 1) {
+          alert(data?.ResponseText || "Done");
+          load();
+        } else {
+          alert(data?.ResponseText || "Purge failed");
+        }
+      })
+      .finally(() => setPurging(false));
+  }
 
   function load() {
     fetch("/api/staff-members", { headers: staffAuthHeaders() })
@@ -81,6 +128,27 @@ export default function MembersClient() {
           <span className={styles.countText}>
             {filtered.length} of {members.length}
           </span>
+          <button
+            type="button"
+            onClick={purgeInactive}
+            disabled={purging}
+            title="Permanently delete all inactive members and every trace of their data. Admin accounts are never affected."
+            style={{
+              marginLeft: 12,
+              padding: "6px 12px",
+              border: "1px solid #b00020",
+              borderRadius: 6,
+              background: "#fff",
+              color: "#b00020",
+              font: "inherit",
+              fontSize: "0.85em",
+              cursor: purging ? "default" : "pointer",
+              opacity: purging ? 0.5 : 1,
+              whiteSpace: "nowrap",
+            }}
+          >
+            {purging ? "Clearing..." : "Clear inactive members"}
+          </button>
         </div>
       </div>
 

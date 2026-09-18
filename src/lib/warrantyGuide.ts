@@ -120,19 +120,87 @@ const BASE_YEARS: Record<string, number> = {
   "warranty-volkswagen": 2, "warranty-volvo": 3,
 };
 
+// Mileage caps. Owner caught the years-only version claiming live cover on cars
+// long past the brand's own mileage limit -- an MG 5 at 126,099 miles was being
+// told its "7 years or 80,000 miles" ran to December 2027.
+//
+// Every figure is the brand's own published number, in the brand's own unit,
+// sourced in WARRANTY_TRANSFERS.md. A brand with NO verified figure is absent
+// here and keeps the date-only behaviour: Jaguar, Land Rover, Mazda and Renault
+// have no single published cap we can stand over, and Audi, BMW, Hyundai, Mini,
+// Mercedes-Benz, SEAT, Skoda and VW are genuinely unlimited across the years we
+// count. Never fill a blank with a plausible number -- denying cover a customer
+// really has is as bad as promising cover they do not.
+//
+// fromMonths is the age at which the cap starts to bite; before it the term is
+// unlimited mileage.
+type MileageCap = { limit: number; unit: "mi" | "km"; fromMonths?: number };
+
+const MILEAGE_CAP: Record<string, MileageCap> = {
+  "warranty-byd":      { limit: 150000, unit: "km" },
+  "warranty-citroen":  { limit: 60000,  unit: "mi", fromMonths: 24 },
+  "warranty-cupra":    { limit: 90000,  unit: "mi", fromMonths: 24 },
+  "warranty-dacia":    { limit: 60000,  unit: "mi" },
+  "warranty-fiat":     { limit: 60000,  unit: "mi", fromMonths: 24 },
+  "warranty-ford":     { limit: 60000,  unit: "mi" },
+  "warranty-honda":    { limit: 90000,  unit: "mi" },
+  "warranty-jaecoo":   { limit: 100000, unit: "mi" },
+  "warranty-jeep":     { limit: 60000,  unit: "mi", fromMonths: 24 },
+  "warranty-kia":      { limit: 150000, unit: "km", fromMonths: 36 },
+  "warranty-lexus":    { limit: 60000,  unit: "mi" },
+  "warranty-mg":       { limit: 80000,  unit: "mi", fromMonths: 12 },
+  "warranty-nissan":   { limit: 60000,  unit: "mi" },
+  "warranty-omoda":    { limit: 100000, unit: "mi" },
+  "warranty-peugeot":  { limit: 60000,  unit: "mi", fromMonths: 24 },
+  "warranty-polestar": { limit: 60000,  unit: "mi" },
+  "warranty-suzuki":   { limit: 60000,  unit: "mi" },
+  "warranty-tesla":    { limit: 60000,  unit: "mi" },
+  "warranty-toyota":   { limit: 60000,  unit: "mi" },
+  "warranty-vauxhall": { limit: 60000,  unit: "mi", fromMonths: 12 },
+  "warranty-volvo":    { limit: 60000,  unit: "mi" },
+};
+
+// automerchcars_2.mileage stores MILES, not kilometres -- the page multiplies by
+// 1.60934 to render km. So only the two km caps convert, and it is the CAR that
+// is converted, never the cap.
+//
+// Vans and pickups carry a higher published cap (100,000 miles at Ford, Nissan,
+// Vauxhall and Fiat) which we do not hold per model, so a commercial body is
+// never mileage-tested.
+const COMMERCIAL_BODY = /van|pickup|minibus|dciv|flexcab|combi/;
+
+function overMileageCap(
+  anchor: string,
+  ageYears: number,
+  mileageMiles?: string | number | null,
+  bodyStyleName?: string | null,
+): boolean {
+  const cap = MILEAGE_CAP[anchor];
+  if (!cap) return false;
+  if (COMMERCIAL_BODY.test((bodyStyleName ?? "").toLowerCase())) return false;
+  const miles = Number(String(mileageMiles ?? "").replace(/[^0-9]/g, ""));
+  // Unknown or zero mileage NEVER denies cover.
+  if (!Number.isFinite(miles) || miles <= 0) return false;
+  if (cap.fromMonths && ageYears * 12 <= cap.fromMonths) return false;
+  const travelled = cap.unit === "km" ? miles * 1.60934 : miles;
+  return travelled > cap.limit;
+}
+
 // Toyota Relax and Lexus Battery Care are re-activated at each qualifying
 // service, so they are not a fixed clock from registration -- they get their
 // own wording rather than an expiry date.
 const SERVICE_RENEWED: Record<string, string> = {
   "warranty-toyota": "Toyota Relax can be re-activated at each qualifying service by an Irish dealer, up to 10 years",
-  "warranty-lexus": "Lexus renews the hybrid battery cover at each qualifying service, up to 10 years",
+  // Lexus removed 2026-08-22: the 10-year figure is Lexus Relax, the whole-car
+  // extension, NOT the hybrid battery term. WARRANTY_TRANSFERS.md records the
+  // battery as 5 years / 60,000 miles and warns not to promise Relax travels.
 };
 
 const BATTERY_YEARS: Record<string, number> = {
   "warranty-audi": 8, "warranty-bmw": 8, "warranty-byd": 8, "warranty-citroen": 8,
   "warranty-cupra": 8, "warranty-dacia": 8, "warranty-fiat": 8, "warranty-ford": 8,
   "warranty-honda": 8, "warranty-hyundai": 8, "warranty-jaecoo": 8, "warranty-jaguar": 8,
-  "warranty-jeep": 8, "warranty-kia": 7, "warranty-land-rover": 8, "warranty-lexus": 10,
+  "warranty-jeep": 8, "warranty-kia": 7, "warranty-land-rover": 8, "warranty-lexus": 5,
   "warranty-mazda": 8, "warranty-mercedes-benz": 8, "warranty-mg": 8, "warranty-mini": 8,
   "warranty-nissan": 8, "warranty-omoda": 8, "warranty-peugeot": 8, "warranty-polestar": 8,
   "warranty-renault": 8, "warranty-seat": 8, "warranty-skoda": 8,
@@ -175,6 +243,8 @@ export function warrantyStatusFor(
   makeName?: string | null,
   registrationDate?: string | null,
   fuelTypeName?: string | null,
+  mileageMiles?: string | number | null,
+  bodyStyleName?: string | null,
 ): { href: string; hook: string | null; make: string } {
   const base = warrantyGuideFor(makeName);
   const make = titleCaseMake(makeName);
@@ -188,7 +258,9 @@ export function warrantyStatusFor(
   const ageYears = (now.getTime() - reg.getTime()) / (365.25 * 24 * 3600 * 1000);
 
   const baseYears = BASE_YEARS[anchor];
-  if (baseYears && ageYears < baseYears) {
+  const inTerm = !!baseYears && ageYears < baseYears;
+  const pastCap = inTerm && overMileageCap(anchor, ageYears, mileageMiles, bodyStyleName);
+  if (inTerm && !pastCap) {
     const end = new Date(reg.getTime());
     end.setFullYear(end.getFullYear() + baseYears);
     return {
@@ -206,7 +278,7 @@ export function warrantyStatusFor(
     end.setFullYear(end.getFullYear() + battYears);
     return {
       href: base.href,
-      hook: `the manufacturer warranty has run out on a car this age, but the high-voltage battery is covered to about ${MONTHS[end.getMonth()]} ${end.getFullYear()} — conditions apply`,
+      hook: `${pastCap ? "the manufacturer warranty no longer covers this car on mileage" : "the manufacturer warranty has run out on a car this age"}, but the high-voltage battery is covered to about ${MONTHS[end.getMonth()]} ${end.getFullYear()} — conditions apply`,
       make,
     };
   }

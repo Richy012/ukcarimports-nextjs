@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { staffAuthHeaders } from "@/lib/auth";
+import { CANONICAL_BROWSE_BODY } from "@/lib/stockCount";
 import CollectionHealth from "./CollectionHealth";
-import HealthRegister from "./HealthRegister";
 import Servers from "./Servers";
 import styles from "./page.module.css";
 
@@ -12,33 +12,17 @@ export default function DashboardClient() {
   const [totalLeads, setTotalLeads] = useState<number | null>(null);
 
   useEffect(() => {
-    // Same body shape FilterBar.tsx sends for an unfiltered count -- the
-    // endpoint expects every field present, not an empty object.
+    // ONE number across the site (owner requirement, restated 2026-08-25):
+    // send the SAME canonical body getStockCount() and the homepage use.
+    // This block used to hand-roll its own body with minPrice: "" where the
+    // public browse sends "1". CarsNewTwoController caches the count for 30
+    // minutes keyed on the filter values, so a different minPrice is a
+    // DIFFERENT CACHE KEY - the two numbers expired at different times and
+    // drifted apart (127,531 here against 128,281 public, same minute).
     fetch("/api/car-count", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        is_manheim_car: "0",
-        premium_car: 0,
-        minPrice: "",
-        maxPrice: "",
-        minYear: "",
-        maxYear: "",
-        Make: "",
-        Model: "",
-        Fuel: "",
-        seats: "",
-        body_style: "",
-        Condition: "",
-        minMileage: "",
-        maxMileage: "",
-        minEnginesize: "",
-        maxEnginesize: "",
-        transmission_type: "",
-        engine: "",
-        color: "",
-        vrtFilter: "Yes",
-      }),
+      body: JSON.stringify(CANONICAL_BROWSE_BODY),
     })
       .then((res) => res.json())
       .then((data) => setTotalCars(typeof data?.data?.count === "number" ? data.data.count : null))
@@ -68,7 +52,6 @@ export default function DashboardClient() {
         </div>
       </div>
       <CollectionHealth />
-      <HealthRegister />
       <Servers />
     </>
   );

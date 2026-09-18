@@ -11,6 +11,8 @@ interface Lead {
   Email: string;
   Phone: string;
   car_id: string;
+  message?: string | null;
+  source?: string | null;
   twelvemonthwarrenty: string;
   vrt_proccessing: string;
   transferuktodub: string;
@@ -79,7 +81,8 @@ export default function LeadsClient() {
         (l.name || "").toLowerCase().includes(q) ||
         (l.Email || "").toLowerCase().includes(q) ||
         (l.Phone || "").toLowerCase().includes(q) ||
-        (l.car_id || "").includes(q)
+        (l.car_id || "").includes(q) ||
+        (l.message || "").toLowerCase().includes(q)
       );
     });
   }, [leads, search, statusFilter]);
@@ -123,9 +126,56 @@ export default function LeadsClient() {
           filtered.map((lead) => (
             <div key={lead.id} className={styles.tableRow}>
               <div className={styles.cellStack}>
-                <span>{lead.name}</span>
-                <span className={styles.sub}>{lead.Email}</span>
-                <span className={styles.sub}>{lead.Phone}</span>
+                <span>
+                  {lead.name}
+                  {lead.source === "enquiry" && (
+                    <span
+                      style={{
+                        marginLeft: 8,
+                        fontSize: "0.7em",
+                        padding: "2px 6px",
+                        borderRadius: 4,
+                        background: "#eef4ff",
+                        color: "#2b5fd9",
+                        verticalAlign: "middle",
+                      }}
+                    >
+                      ENQUIRY
+                    </span>
+                  )}
+                </span>
+                <a
+                  className={styles.sub}
+                  href={`mailto:${lead.Email}?subject=${encodeURIComponent(
+                    "Re: your enquiry to UK Car Imports"
+                  )}&body=${encodeURIComponent(
+                    `Hi ${(lead.name || "").split(" ")[0]},
+
+
+
+---
+You wrote:
+${lead.message || ""}`
+                  )}`}
+                  style={{ color: "#2b5fd9", textDecoration: "none" }}
+                >
+                  {lead.Email}
+                </a>
+                <a
+                  className={styles.sub}
+                  href={`tel:${(lead.Phone || "").replace(/\s/g, "")}`}
+                  style={{ color: "#2b5fd9", textDecoration: "none" }}
+                >
+                  {lead.Phone}
+                </a>
+                {lead.message && (
+                  <span
+                    className={styles.sub}
+                    style={{ whiteSpace: "pre-wrap", marginTop: 4, opacity: 0.95 }}
+                  >
+                    {lead.message}
+                  </span>
+                )}
               </div>
               <div className={styles.cellStack}>
                 <span className={styles.sub}>

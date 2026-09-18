@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { BellRing, Heart, LogOut, Search, type LucideIcon } from "lucide-react";
 import { clearToken } from "@/lib/auth";
 import styles from "./layout.module.css";
+import AccountNotice from "./AccountNotice";
 
 // Same Lucide icon family as the How It Works journey (site-wide icon language).
 const NAV_ITEMS: { href: string; label: string; icon: LucideIcon }[] = [
@@ -44,7 +45,10 @@ export default function MyAccountLayout({ children }: { children: React.ReactNod
           Log out
         </button>
       </aside>
-      <div className={styles.content}>{children}</div>
+      <div className={styles.content}>
+        <AccountNotice />
+        {children}
+      </div>
     </div>
   );
 }

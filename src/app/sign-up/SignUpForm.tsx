@@ -184,6 +184,23 @@ export default function SignUpForm() {
           Email me offers and promotions from UK Car Imports
         </label>
 
+        {/* Owner, 2026-08-24: tell people up front that an account which never
+            saves anything is removed -- "what are they members for if not
+            searching for a car?" -- but still let them register. Measured that
+            day: 23 of 33 members had saved nothing, and 11 were deleted. */}
+        <p
+          style={{
+            fontSize: "0.85rem",
+            color: "#666",
+            lineHeight: 1.6,
+            margin: "4px 0 16px",
+          }}
+        >
+          An account is how we know what you&rsquo;re looking for. Save a car or a search and
+          we&rsquo;ll email you when a matching one lands. Accounts with{" "}
+          <strong>no saved car or search are removed after 30 days</strong>.
+        </p>
+
         <button type="submit" className={styles.submit} disabled={submitting}>
           {submitting ? "Please wait..." : "Register"}
         </button>
