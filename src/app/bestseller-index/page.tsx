@@ -163,10 +163,11 @@ export default async function BestsellerIndexPage() {
         </p>
         <p>
           <em>
-            We do not adjust for mileage or specification. We measured both: our cars average
-            slightly higher mileage (worth about €585 per 10,000 km) and slightly higher
-            specification (worth about €765). The two cancel to within about €55, so we compare
-            prices exactly as listed.
+            Where 10 or more of those Irish listings sit within 20,000 km of our car&rsquo;s
+            mileage, we compare against the median of that similar-mileage group rather than the
+            whole model-year, so like is judged against like. We do not adjust for specification:
+            our cars average about €765 more equipment than the Irish listings they are compared
+            with, so if anything the saving is understated. Prices are compared exactly as listed.
           </em>
         </p>
         <p className={styles.methodNote}>

@@ -30,6 +30,10 @@ interface Car {
   bestseller_median_eur?: number | null;
   bestseller_cheapest_eur?: number | null;
   bestseller_below_cheapest?: number | null;
+  // Mileage-matched median (owner 2026-09-19): the Irish listings within
+  // 20,000 km of this car that priced it, when 10+ exist; null = whole segment.
+  bestseller_km_ads?: number | null;
+  bestseller_km_median_eur?: number | null;
   price_drop_eur?: number | null;
   price_dropped_at?: string | null;
 }
@@ -51,7 +55,7 @@ function bestsellerBadge(car: Car): { cls: string; label: string; saving: string
       cls: RUNG_CLASS[rung],
       label: RUNG_LABEL[rung],
       saving: sav >= 750 ? `€${formatEuro(sav)} less than in Ireland` : "",
-      evidence: evidenceLine(car.bestseller_irish_ads),
+      evidence: evidenceLine(car.bestseller_irish_ads, car.bestseller_km_ads),
       rung,
     };
   }

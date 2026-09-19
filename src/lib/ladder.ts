@@ -49,7 +49,11 @@ export const RUNG_CHIPS = [
   { value: "5000", label: "\u20ac5,000+", cls: "rungC6" },
 ] as const;
 
-export function evidenceLine(irishAds: number | null | undefined): string {
+// Mileage-matched median (owner 2026-09-19): when the badge was priced off
+// the 10+ Irish listings within 20,000 km of this car, say so.
+export function evidenceLine(irishAds: number | null | undefined, kmAds?: number | null): string {
+  const k = Number(kmAds ?? 0);
+  if (k >= 10) return `vs ${k.toLocaleString("en-IE")} Irish listings at similar mileage`;
   const n = Number(irishAds ?? 0);
   return n >= 10 ? `vs ${n.toLocaleString("en-IE")} Irish listings` : "vs the same car in Ireland";
 }

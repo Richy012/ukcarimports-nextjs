@@ -78,6 +78,10 @@ interface CarDetail {
   bestseller_median_eur?: number | null;
   bestseller_cheapest_eur?: number | null;
   bestseller_below_cheapest?: number | null;
+  // Mileage-matched median (owner 2026-09-19): the Irish listings within
+  // 20,000 km of this car that priced it, when 10+ exist; null = whole segment.
+  bestseller_km_ads?: number | null;
+  bestseller_km_median_eur?: number | null;
   service_history?: number;
   last_service?: string;
   last_service_mileage?: string;
@@ -387,6 +391,9 @@ export default async function CarDetailPage({
   const irishAds = Number(car.bestseller_irish_ads ?? 0);
   const irishMedian = car.bestseller_median_eur ?? null;
   const irishCheapest = car.bestseller_cheapest_eur ?? null;
+  // Mileage-matched median (owner 2026-09-19).
+  const kmAds = Number(car.bestseller_km_ads ?? 0);
+  const kmMedian = kmAds >= 10 ? (car.bestseller_km_median_eur ?? null) : null;
   const belowCheapest = rung !== null && Number(car.bestseller_below_cheapest ?? 0) === 1 && irishAds >= 10;
 
   return (
@@ -434,10 +441,16 @@ export default async function CarDetailPage({
               <span>€750</span><span>€1,000</span><span>€1,500</span><span>€2,000</span><span>€2,500</span><span>€5,000+</span>
             </span>
           ) : null}
-          {rung && irishAds >= 10 && irishMedian ? (
+          {rung && irishAds >= 10 && irishMedian && kmMedian ? (
             <span className={styles.carBadgeEvidence}>
-              Irish dealers ask a median €{Math.round(irishMedian).toLocaleString("en-IE")} for this model and year, across {irishAds.toLocaleString("en-IE")} listings.
-              No mileage or spec adjustment — prices exactly as listed.
+              Irish dealers ask a median €{Math.round(irishMedian).toLocaleString("en-IE")} for this model and year, across {irishAds.toLocaleString("en-IE")} listings;
+              the {kmAds.toLocaleString("en-IE")} within 20,000 km of this car&rsquo;s mileage ask a median €{Math.round(kmMedian).toLocaleString("en-IE")}, and that is the figure we compare against.
+              No spec adjustment — prices exactly as listed.
+            </span>
+          ) : rung && irishAds >= 10 && irishMedian ? (
+            <span className={styles.carBadgeEvidence}>
+              Irish dealers ask a median €{Math.round(irishMedian).toLocaleString("en-IE")} for this model and year, across {irishAds.toLocaleString("en-IE")} listings
+              (too few near this car&rsquo;s mileage to narrow it further). No spec adjustment — prices exactly as listed.
             </span>
           ) : rung ? (
             <span className={styles.carBadgeEvidence}>Matched to the same car for sale in Ireland.</span>

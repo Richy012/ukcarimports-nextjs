@@ -35,6 +35,10 @@ export interface TileCar {
   bestseller_median_eur?: number | null;
   bestseller_cheapest_eur?: number | null;
   bestseller_below_cheapest?: number | null;
+  // Mileage-matched median (owner 2026-09-19): the Irish listings within
+  // 20,000 km of this car that priced it, when 10+ exist; null = whole segment.
+  bestseller_km_ads?: number | null;
+  bestseller_km_median_eur?: number | null;
   price_drop_eur?: number | null;
   price_dropped_at?: string | null;
 }

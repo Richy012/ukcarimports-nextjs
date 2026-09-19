@@ -46,6 +46,13 @@ interface WhyData {
     irish_median: number;
     ads: number;
     saving_eur: number;
+    // Mileage-matched median (owner 2026-09-19): basis 'mileage' = the
+    // saving is against the median of the km_ads listings within km_band km
+    // of our mileage; 'segment' = the whole model-year median as before.
+    basis?: "mileage" | "segment";
+    km_ads?: number | null;
+    km_median?: number | null;
+    km_band?: number;
   } | null;
   matches: WhyMatch[];
   evidence?: {
@@ -126,13 +133,18 @@ export default async function BestValueWhyPage(props: {
   const qualifyingMatch =
     data.live_price != null
       ? upgraded
-        ? data.matches.find((m) => m.sound === true && (liveSaving(m) ?? 0) >= 2500)
+        ? data.matches.find((m) => m.sound === true && (liveSaving(m) ?? 0) >= 750)
         : data.matches.find(
-            (m) => m.direction === "uk_cheaper" && m.irish_price - (data.live_price as number) >= 2500
+            (m) => m.direction === "uk_cheaper" && m.irish_price - (data.live_price as number) >= 750
           )
       : undefined;
   const med = data.median;
-  const medQualifies = med != null && med.saving_eur >= 2500;
+  const medQualifies = med != null && med.saving_eur >= 750;
+  // Mileage-matched median (owner 2026-09-19).
+  const kmBased = med != null && med.basis === "mileage" && med.km_median != null && (med.km_ads ?? 0) >= 10;
+  const medUsed = kmBased ? (med.km_median as number) : med?.irish_median;
+  const medAdsUsed = kmBased ? (med.km_ads as number) : med?.ads;
+  const kmBand = med?.km_band ?? 20000;
   // Which route the page will actually SHOW as the badge's working. Derived
   // from what renders (a route only counts when its live saving clears the
   // band); the API's deciding_route is a tiebreak only.
@@ -179,13 +191,15 @@ export default async function BestValueWhyPage(props: {
             {data.badge.tier === "trending"
               ? "The saving is real against one Irish advert, but that advert is either thinly evidenced or priced outside the normal range for this model-year, so we call it a trend rather than a verified figure."
               : qualifyingMatch && medQualifies
-                ? `Qualifies both ways: matched to a real Irish advert${med ? " priced within the normal range for its model-year" : ""}, and priced under the Irish median of ${med ? med.ads : ""} listings — the strongest evidence we hold. The badge shows the bigger of the two savings — Route ${decidedBy === "median" ? "2" : "1"} below.`
+                ? `Qualifies both ways: matched to a real Irish advert${med ? " priced within the normal range for its model-year" : ""}, and priced under the Irish median of ${medAdsUsed ?? ""} listings${kmBased ? " at similar mileage" : ""} — the strongest evidence we hold. The badge shows the bigger of the two savings — Route ${decidedBy === "median" ? "2" : "1"} below.`
                 : decidedBy === "pair"
                   ? med
                     ? "Qualified by a direct match: this exact car against a real Irish advert priced within 15% of the Irish median for its model and year — a representative price, not a freak listing."
                     : "Qualified by a direct match: this exact car against a real Irish advert. There is no 10-listing Irish median for this model-year, so the strong-match test alone applies."
                   : decidedBy === "median"
-                    ? "Qualified by market position: priced under the Irish median for its exact model and year."
+                    ? kmBased
+                      ? "Qualified by market position: priced under the Irish median for its exact model and year, taken from the listings closest to this car's mileage."
+                      : "Qualified by market position: priced under the Irish median for its exact model and year."
                     : data.badge.matched_pair
                       ? "Qualified by a direct match: this exact car against a real Irish advert."
                       : "Qualified by market position: priced under the Irish median for its exact model and year."}
@@ -223,17 +237,30 @@ export default async function BestValueWhyPage(props: {
 
       {medQualifies && med && data.live_price && (
         <section className={styles.whyBlock}>
-          <h2>Route 2 — under the Irish median for its exact model and year</h2>
+          <h2>Route 2 — under the Irish median for its exact model{kmBased ? ", year and mileage" : " and year"}</h2>
           <p className={styles.whyFormula}>
-            {eur(med.irish_median)} Irish median (across {med.ads} real listings) −{" "}
+            {eur(medUsed as number)} Irish median (across {medAdsUsed} real listings{kmBased ? ` within ${kmBand.toLocaleString("en-IE")} km of our mileage` : ""}) −{" "}
             {eur(data.live_price)} ours = <strong>{eur(med.saving_eur)} saving</strong>
           </p>
-          <p>
-            The median is the middle asking price of all {med.ads} Irish listings for this
-            exact make, model and year — it ignores freak highs and lows, and one or two
-            mispriced ads cannot move it. We only use medians built from 10 or more real
-            listings.
-          </p>
+          {kmBased ? (
+            <p>
+              Irish dealers list {med.ads} of this exact make, model and year, with a median asking
+              price of {eur(med.irish_median)}. {medAdsUsed} of them sit within{" "}
+              {kmBand.toLocaleString("en-IE")} km of this car&rsquo;s mileage, and their median is{" "}
+              {eur(medUsed as number)} — the like-for-like figure, and the one we compare against. We
+              only narrow to mileage where 10 or more such listings exist, inside
+              model-years with 10 or more listings; a median ignores freak highs and lows, so one or
+              two mispriced ads cannot move it.
+            </p>
+          ) : (
+            <p>
+              The median is the middle asking price of all {med.ads} Irish listings for this
+              exact make, model and year — it ignores freak highs and lows, and one or two
+              mispriced ads cannot move it. We only use medians built from 10 or more real
+              listings. Fewer than 10 of these sit within {kmBand.toLocaleString("en-IE")} km of
+              this car&rsquo;s mileage, so the whole model-year is the comparison.
+            </p>
+          )}
         </section>
       )}
 
@@ -307,10 +334,10 @@ export default async function BestValueWhyPage(props: {
           <li>Irish evidence covers listings from the <strong>past six months</strong>, each car counted once at its most recent asking price — a car that sold at its price is proof the price was real. Measured drift is negligible (24,775 identical listings ten days apart: 91% unchanged, average move −€78).</li>
           <li><strong>The Bestseller ladder: any saving of €750+ earns the badge and the colour deepens with the saving — €2,500+ is a Bestseller, €5,000+ a #1 Bestseller.</strong> Euro figures, not percentages — €2,800 off a €48k car is real money even when the percentage looks small.</li>
           <li>Route 1: this exact car against a real Irish advert, with strong evidence — several comparisons, high match confidence, or same year with our mileage no higher — <strong>and</strong> that advert priced within 15% of the Irish median for its model and year where one exists, so a single freak listing can never earn a verified Bestseller badge; at most it shows as a trend.</li>
-          <li>Route 2: our all-in price against the <strong>median</strong> asking price of 10 or more real Irish listings for the exact make, model and year.</li>
+          <li>Route 2: our all-in price against the <strong>median</strong> asking price of 10 or more real Irish listings for the exact make, model and year — narrowed to the listings within 20,000 km of our car&rsquo;s mileage where 10 or more exist, so a low-mileage car is judged against low-mileage listings and a high-mileage car against high-mileage ones.</li>
           <li>Only routes that pass their own test are in the running. Where both pass, the badge shows the <strong>bigger of the two savings</strong>; where one passes, that one decides.</li>
           <li>A real saving whose evidence doesn&rsquo;t stand up is a <strong>Trending Bestseller</strong> — worded &ldquo;around&rdquo;, never as a verified figure.</li>
-          <li>We do not adjust for mileage or specification — we measured both (about €585 per 10,000 km against about €765 of extra spec on our side) and they cancel to within about €55, so we compare prices exactly as listed.</li>
+          <li>Mileage is handled by comparing like with like (above), not by adjusting prices. We do not adjust for specification: our cars average about €765 more equipment than the Irish listings they are compared with, so if anything the saving is understated. Prices are compared exactly as listed.</li>
           <li>Savings above 45% are excluded as implausible; every figure is re-checked against our live price, so the badge always equals the arithmetic of the prices shown. Irish figures are asking prices; ours is the final all-in price.</li>
         </ul>
         </details>
