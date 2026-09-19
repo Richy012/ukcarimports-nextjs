@@ -466,8 +466,13 @@ function TradeInsFlow() {
         // mileage typed. The draft is restored only when the URL carries no
         // reg, or the same reg the draft already holds.
         const urlReg = (new URLSearchParams(window.location.search).get("reg") || "").replace(/[\s-]/g, "").toUpperCase();
+        // 19 Sep 2026 (owner): "Value my car" opened on a previous car from
+        // this browser's draft. A plain visit (no reg, no resume link) now
+        // starts at step 1 with nothing filled in; the draft is kept only for
+        // the emailed resume link and for a reg the URL hands over.
+        const resumed = !!rt;
         const id = draftIdOk();
-        if (id) {
+        if (id && (urlReg || resumed)) {
           const r = await fetch(`/api/tradein-draft?draftId=${encodeURIComponent(id)}`);
           const j = await r.json();
           const draftReg = String(j?.answers?.reg || "").replace(/[\s-]/g, "").toUpperCase();
