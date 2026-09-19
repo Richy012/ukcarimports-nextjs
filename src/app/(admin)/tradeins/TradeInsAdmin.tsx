@@ -51,8 +51,23 @@ interface Deal {
 }
 interface Slot { slot: string; takenAt: string }
 
+interface ValReq {
+  draftId: string; savedAt: string; reg: string; km: number | null; car: string;
+  stepLabel: string; route: string; fair: string; fairExpectedEur: number | null;
+  wantedCarId: string; wantedTitle: string; wantedLandedEur: number | null;
+  retailEur: number | null; comparables: number;
+  tradeLowEur: number | null; tradeHighEur: number | null; tradeMedianEur: number | null;
+  privateLowEur: number | null; privateHighEur: number | null; unpriced: string;
+}
+
+const pct = (part: number | null, whole: number | null) =>
+  part != null && whole ? `${Math.round((part / whole) * 100)}%` : "";
+
 export default function TradeInsAdmin() {
   const [deals, setDeals] = useState<Deal[] | null>(null);
+  // 19 Sep 2026 (owner): every valuation request, not only the submissions
+  const [reqs, setReqs] = useState<ValReq[] | null>(null);
+  const [reqErr, setReqErr] = useState("");
   const [err, setErr] = useState("");
   const [photos, setPhotos] = useState<Record<string, Slot[]>>({});
 
@@ -74,6 +89,14 @@ export default function TradeInsAdmin() {
         }));
         setPhotos(out);
       } catch { setErr("Could not load."); }
+    })();
+    (async () => {
+      try {
+        const r = await fetch("/api/staff-tradein-valuations", { headers: staffAuthHeaders(), cache: "no-store" });
+        const j = await r.json();
+        if (!j.ok) { setReqErr(j.error || "Could not load the valuation requests."); return; }
+        setReqs(j.requests as ValReq[]);
+      } catch { setReqErr("Could not load the valuation requests."); }
     })();
   }, []);
 
@@ -173,6 +196,45 @@ export default function TradeInsAdmin() {
           </section>
         );
       })}
+
+      <h2 style={S.h2}>Valuation requests</h2>
+      <p style={S.sub}>
+        Everyone who typed a reg on /trade-ins or on a car page and has not submitted, newest first. Ranges are
+        re-priced now with the same engine they were shown; &ldquo;fair?&rdquo; is their own answer on the trade-in card.
+      </p>
+      {reqErr && <p style={{ color: "#b91c1c" }}>{reqErr}</p>}
+      {reqs && reqs.length === 0 && <p>No valuation requests yet.</p>}
+      {reqs && reqs.length > 0 && (
+        <div style={S.tableWrap}>
+          <table style={S.table}>
+            <thead>
+              <tr>
+                {["when", "reg", "km", "their car", "got to", "route", "Irish asking", "trade-in range", "private range", "fair?", "expected", "import car they came from"].map((h) => (
+                  <th key={h} style={S.th}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {reqs.map((q) => (
+                <tr key={q.draftId}>
+                  <td style={S.td}>{new Date(q.savedAt).toLocaleString("en-IE", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</td>
+                  <td style={S.td}><b>{q.reg || "—"}</b></td>
+                  <td style={S.td}>{q.km != null ? q.km.toLocaleString("en-IE") : "—"}</td>
+                  <td style={S.td}>{q.car || "—"}</td>
+                  <td style={S.td}>{q.stepLabel}</td>
+                  <td style={S.td}>{q.route || "—"}</td>
+                  <td style={S.td}>{q.retailEur != null ? <>{eur(q.retailEur)}<div style={S.tiny}>{q.comparables} ads</div></> : <span style={S.tiny}>{q.unpriced}</span>}</td>
+                  <td style={S.td}>{q.tradeLowEur != null ? <>{eur(q.tradeLowEur)} – {eur(q.tradeHighEur)}<div style={S.tiny}>{pct(q.tradeLowEur, q.retailEur)} – {pct(q.tradeHighEur, q.retailEur)} of asking</div></> : "—"}</td>
+                  <td style={S.td}>{q.privateLowEur != null ? <>{eur(q.privateLowEur)} – {eur(q.privateHighEur)}<div style={S.tiny}>{pct(q.privateLowEur, q.retailEur)} – {pct(q.privateHighEur, q.retailEur)}</div></> : "—"}</td>
+                  <td style={{ ...S.td, ...(q.fair === "No" ? { color: "#b91c1c", fontWeight: 700 } : {}) }}>{q.fair || "—"}</td>
+                  <td style={S.td}>{q.fairExpectedEur != null ? eur(q.fairExpectedEur) : "—"}</td>
+                  <td style={S.td}>{q.wantedCarId ? <a href={`/car/${q.wantedCarId}`} target="_blank" rel="noreferrer">{q.wantedTitle || q.wantedCarId}</a> : "—"}{q.wantedLandedEur != null ? <div style={S.tiny}>{eur(q.wantedLandedEur)} landed</div> : null}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </main>
   );
 }
@@ -198,4 +260,10 @@ const S: Record<string, React.CSSProperties> = {
   chip: { display: "inline-block", margin: "2px 4px 2px 0", padding: "1px 7px", borderRadius: 999, background: "#e2e8f0", fontSize: 11.5 },
   chipNo: { background: "#fee2e2" },
   thumb: { width: 72, height: 54, objectFit: "cover", borderRadius: 6, border: "1px solid #e2e8f0" },
+  h2: { fontSize: 20, margin: "28px 0 6px" },
+  tableWrap: { border: "1px solid #e2e8f0", borderRadius: 12, background: "#fff", width: "calc(100vw - 300px)", maxWidth: "calc(100vw - 300px)", overflowX: "auto" },
+  table: { borderCollapse: "collapse", width: "100%", fontSize: 12, tableLayout: "auto" },
+  th: { textAlign: "left", padding: "8px 8px", background: "#f8fafc", borderBottom: "1px solid #e2e8f0", fontSize: 11, textTransform: "uppercase", letterSpacing: ".04em", color: "#64748b", whiteSpace: "nowrap" },
+  td: { padding: "6px 8px", borderBottom: "1px solid #f1f5f9", verticalAlign: "top", whiteSpace: "normal", lineHeight: 1.35 },
+  tiny: { fontSize: 11, color: "#64748b" },
 };
