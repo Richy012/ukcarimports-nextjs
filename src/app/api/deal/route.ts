@@ -251,8 +251,8 @@ export async function POST(req: NextRequest) {
   // starting point (lib/conditionOffer.ts). dealForBuyer never emits it.
   let suggestion: Suggestion | null = null;
   let ranges: RangesShown | null = null;
-  const pricing = await priceRoutes(
-    tradeIn.make, tradeIn.model, tradeIn.year, km, valuation.estimateEur, valuation.comparables,
+  const pricing = await priceRoutes(tradeIn.make, tradeIn.model, tradeIn.year, km, valuation.estimateEur, valuation.comparables,
+    !!valuation.mileageMatched,
   );
   if (pricing) {
     const tr = pricing.routes.find((x) => x.route === "trade");

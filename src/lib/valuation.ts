@@ -47,7 +47,12 @@ const MIN_ADS = 5;
 const FAST_ADS = 10;
 const CACHE_MS = 10 * 60 * 1000;
 
-interface SegRow { n: number; median: number; p25?: number; p75?: number }
+interface SegRow {
+  n: number; median: number; p25?: number; p75?: number;
+  /** [km, price] per ad, km rounded to 100 — carzone_intel.py since 19 Sep 2026 */
+  ads?: [number, number][];
+  mileage_slope_per_10k?: number | null;
+}
 interface ValIndex {
   segments: Record<string, SegRow>;
   year_steps: Record<string, Record<string, number>>;
@@ -110,6 +115,37 @@ function velocityNote(velo: Velocity | null, mk: string, md: string, y: number):
 }
 
 const to50 = (x: number) => Math.round(x / 50) * 50;
+
+/**
+ * MILEAGE-MATCHED RETAIL — owner, 19 Sep 2026: "we use the ads closest to the
+ * mileage to calculate the retail price ... then adjust for a mileage adjusted
+ * price." The whole-year median is right for the population-level comparison
+ * (mileage and spec were measured to cancel) and wrong for ONE car: a 219,000 km
+ * XC90 is not the median XC90. So: take the K ads nearest this car's mileage
+ * (K = max(5, a quarter of the ads)), their median price, then move it by the
+ * segment's measured €/10,000 km slope for whatever gap is left between the
+ * car's km and those ads' median km. Clamped to 0.5–1.5× the nearest-ads
+ * median so a freak slope cannot run away. Same rule, line for line, as
+ * retail_at_km() in tb_model.py, so the trade percentages are fitted against
+ * the very figure the customer is shown. Fewer than 5 ads with km -> null and
+ * the caller keeps the segment median.
+ */
+function retailAtKm(row: SegRow, km: number): { est: number; used: number; medKm: number } | null {
+  const ads = row.ads ?? [];
+  if (ads.length < 5) return null;
+  const k = Math.max(5, Math.ceil(ads.length / 4));
+  const near = [...ads].sort((a, b) => Math.abs(a[0] - km) - Math.abs(b[0] - km)).slice(0, k);
+  const med = (xs: number[]) => {
+    const s = [...xs].sort((a, b) => a - b);
+    const h = Math.floor(s.length / 2);
+    return s.length % 2 ? s[h] : (s[h - 1] + s[h]) / 2;
+  };
+  const m = med(near.map((a) => a[1]));
+  const medKm = med(near.map((a) => a[0]));
+  const slope = row.mileage_slope_per_10k ?? 0;
+  const est = m + (slope * (km - medKm)) / 10000;
+  return { est: Math.max(0.5 * m, Math.min(1.5 * m, est)), used: near.length, medKm };
+}
 
 type Tier = "fast" | "ordinary" | "slow";
 
@@ -248,9 +284,19 @@ export async function valueTradeIn(
     };
   };
 
-  // 1. exact segment
+  // 1. exact segment — priced from the ads nearest the mileage when we have one
   const exact = seg(idx, mk, md, year);
   if (exact) {
+    const atKm = km ? retailAtKm(exact, km) : null;
+    if (atKm) {
+      const v = finish(
+        to50(atKm.est),
+        exact.n,
+        exact.n < FAST_ADS,
+        `Estimate from ${exact.n} similar Irish cars, priced from the ${atKm.used} nearest your mileage.`,
+      );
+      return { ...v, mileageMatched: true, retailAdsUsed: atKm.used, segmentMedianEur: Math.round(exact.median) };
+    }
     return finish(
       Math.round(exact.median),
       exact.n,

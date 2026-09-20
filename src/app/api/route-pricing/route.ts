@@ -48,13 +48,13 @@ export async function GET(req: NextRequest) {
   const trim = (q.get("trim") || "").trim().toUpperCase().slice(0, 40) || null;
 
   const valuation = await valueTradeIn(make, model, year, km, trim);
-  const pricing = await priceRoutes(
-    make,
+  const pricing = await priceRoutes(make,
     model,
     year,
     km,
     valuation.estimateEur,
     valuation.comparables,
+    !!valuation.mileageMatched,
   );
 
   if (!pricing) {

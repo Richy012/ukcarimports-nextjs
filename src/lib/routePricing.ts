@@ -132,6 +132,7 @@ export async function priceRoutes(
   km: number | null,
   retailEur: number | null,
   comparables: number,
+  mileageMatched = false,
 ): Promise<RoutePricing | null> {
   if (!retailEur || retailEur <= 0 || year == null || !km) return null;
 
@@ -180,7 +181,9 @@ export async function priceRoutes(
 
     // the private percentages are relative to a dealer ad AT THIS MILEAGE, so
     // scale by the control to turn them into euro off the segment median
-    const ctrl = (pm.mileage_control_pct?.[mb] ?? 100) / 100;
+    // v5: a mileage-matched retail already IS a dealer ad at this mileage, so the
+    // control would count the mileage twice; it applies only to the year median.
+    const ctrl = mileageMatched ? 1 : (pm.mileage_control_pct?.[mb] ?? 100) / 100;
     const lowPct = Math.max((movesAt + loOff) * ctrl, trade.sold.pct); // trade floor
     const highPct = Math.min(movesAt + hiOff, capped) * ctrl;
     const low = to50((retailEur * lowPct) / 100);

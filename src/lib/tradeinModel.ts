@@ -42,6 +42,10 @@ import { promises as fs } from "fs";
 import path from "path";
 
 const FILE = path.join(process.cwd(), "data", "tradein_model.json");
+// v5: the percentages refitted against MILEAGE-MATCHED retail (tb_model.py with
+// TB_KM=1). Preferred when present; a box without it falls back to the old fit,
+// which is what keeps a half-deployed site consistent with itself.
+const FILE_KM = path.join(process.cwd(), "data", "tradein_model_km.json");
 const CACHE_MS = 10 * 60 * 1000;
 
 interface Cell { pct: number; n: number }
@@ -70,6 +74,7 @@ interface Side {
 }
 interface Model {
   built: string;
+  km_matched?: boolean;
   this_year: number;
   mileage_bands: [number, number, string][];
   age_bands: [number, number, string][];
@@ -84,9 +89,13 @@ async function load(): Promise<Model | null> {
   if (cache && Date.now() - cache.at < CACHE_MS) return cache.model;
   let model: Model | null = null;
   try {
-    model = JSON.parse(await fs.readFile(FILE, "utf8")) as Model;
+    model = JSON.parse(await fs.readFile(FILE_KM, "utf8")) as Model;
   } catch {
-    model = null; // no artifact -> caller falls back to the configured tiers
+    try {
+      model = JSON.parse(await fs.readFile(FILE, "utf8")) as Model;
+    } catch {
+      model = null; // no artifact -> caller falls back to the configured tiers
+    }
   }
   cache = { at: Date.now(), model };
   return model;
@@ -121,6 +130,8 @@ export interface TradeShare {
   maePts: number;               // out-of-sample MAE of the chosen estimator
   bandCoverage: 50;             // what share of cars land inside the band
   built: string;
+  /** true when the percentages were fitted against mileage-matched retail */
+  kmMatched: boolean;
 }
 
 /** km, whatever the customer typed in. */
@@ -203,5 +214,6 @@ export async function tradeShare(
     maePts: m.sold.accuracy.mae_pts,
     bandCoverage: 50,
     built: m.built,
+    kmMatched: !!m.km_matched,
   };
 }

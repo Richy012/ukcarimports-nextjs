@@ -109,6 +109,12 @@ export interface Valuation {
   trimApplied?: string;
   trimRatio?: number;
   trimNeedsReview?: boolean;
+  // v5 (2026-09-19, owner): the retail figure is priced from the Irish ads
+  // NEAREST THE CAR'S MILEAGE, not the whole model-year median. Present when
+  // that route was used; `retailAdsUsed` is how many ads set the figure.
+  mileageMatched?: boolean;
+  retailAdsUsed?: number;
+  segmentMedianEur?: number;
 }
 
 export interface Bid {
