@@ -26,6 +26,7 @@
  * dealer as a real premium.
  */
 
+import { normaliseMake, normaliseModel } from "./carNames";
 import { promises as fs } from "fs";
 import path from "path";
 
@@ -55,7 +56,7 @@ async function load(): Promise<TrimIndex | null> {
 }
 
 const key = (mk: string, md: string) =>
-  `${mk.trim().toLowerCase()}|${md.trim().toLowerCase()}`;
+  `${normaliseMake(mk)}|${normaliseModel(mk, md)}`;
 
 /** The trims we can actually price for this make/model — the dropdown. */
 export async function trimsFor(make: string, model: string): Promise<string[]> {

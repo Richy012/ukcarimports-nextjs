@@ -39,6 +39,7 @@
  */
 
 import { promises as fs } from "fs";
+import { normaliseMake, normaliseModel } from "./carNames";
 import path from "path";
 
 const FILE = path.join(process.cwd(), "data", "tradein_model.json");
@@ -191,8 +192,8 @@ export async function tradeShare(
   if (!m || !km || year == null || !Number.isInteger(year)) return null;
   if (km <= 1000 || km > 400000) return null; // outside what was measured
 
-  const mk = (make || "").trim().toLowerCase();
-  const md = (model || "").trim().toLowerCase();
+  const mk = normaliseMake(make);
+  const md = normaliseModel(make, model);
   if (!mk || !md) return null;
 
   const key = `${mk}|${md}`;

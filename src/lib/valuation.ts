@@ -41,6 +41,7 @@ import path from "path";
 import { readOnly, type Valuation } from "./dealstore";
 import { tradeShare } from "./tradeinModel";
 import { trimAdjustment } from "./trimIndex";
+import { normaliseMake, normaliseModel } from "./carNames";
 
 const DATA = (f: string) => path.join(process.cwd(), "data", f);
 const MIN_ADS = 5;
@@ -191,8 +192,10 @@ export async function valueTradeIn(
   km: number | null = null,
   trim: string | null = null,
 ): Promise<Valuation> {
-  const mk = (make || "").trim().toLowerCase();
-  const md = (model || "").trim().toLowerCase();
+  // 22 Sep 2026: fold vehicle-file names ("BMW 520", "MERCEDES BENZ S350")
+  // into the index families ("5 series", "s class") - see lib/carNames.ts
+  const mk = normaliseMake(make);
+  const md = normaliseModel(make, model);
   const segment = [make?.trim(), model?.trim(), year ?? ""].join(" ").replace(/\s+/g, " ").trim();
 
   const noEvidence: Valuation = {
