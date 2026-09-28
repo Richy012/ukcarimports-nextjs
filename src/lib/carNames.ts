@@ -67,5 +67,8 @@ export function normaliseModel(make: string, model: string): string {
   else if (mk === "audi") md = audiFamily(md);
   else if (mk === "lexus") md = lexusFamily(md);
   else if (mk === "volkswagen" && /^golf\b/.test(md)) md = "golf"; // "golf s", "golf gti"
+  // 29 Sep 2026: the vehicle file calls the V40 "40 SERIES" (a 2015 car on /trade-ins came back
+  // "not enough Irish evidence"). S40 production ended in 2012, so from 2013 on it can only be a V40.
+  if (mk === "volvo" && /^40\s*series\b/.test(md)) md = "v40";
   return md;
 }
