@@ -62,6 +62,14 @@ function lexusFamily(md: string): string {
 export function normaliseModel(make: string, model: string): string {
   const mk = normaliseMake(make);
   let md = (model || "").trim().toLowerCase().replace(/\s+/g, " ");
+  // 30 Sep 2026: the national vehicle file appends a powertrain descriptor to
+  // some models ("MONDEO HEV", "... PHEV") — it is never part of a model name
+  // in the Irish index, and a 2020 Mondeo (26 ads) came back "not enough Irish
+  // evidence" because of it. Strip a trailing HEV/PHEV/MHEV/HYBRID token.
+  md = md.replace(/\s+(?:p?hev|mhev|hybrid|plug[- ]?in hybrid)$/i, "").trim();
+  // 30 Sep 2026: the same file mis-spells Range Rover as "RANGR ROVER"
+  // (a 2023 Range Rover Sport, 47 Irish ads / ~€85k, came back with no value).
+  if (mk === "land rover") md = md.replace(/\brangr\b/g, "range");
   if (mk === "bmw") md = bmwFamily(md);
   else if (mk === "mercedes-benz") md = mercedesFamily(md);
   else if (mk === "audi") md = audiFamily(md);

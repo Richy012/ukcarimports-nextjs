@@ -45,6 +45,14 @@ const DAILY_CEILING = 400;
 
 type Hit = { make: string; model: string; year: number | null };
 
+// 30 Sep 2026: the national vehicle file mis-spells some models — notably
+// "RANGR ROVER" for Range Rover. Fix obvious source typos on the way in so the
+// name we cache, show the visitor, and value against is correct. Case is kept
+// for display; the valuation normaliser (lib/carNames) folds it separately.
+function fixModelTypos(model: string): string {
+  return (model || "").replace(/\bRANGR\b/gi, "RANGE").replace(/\s+/g, " ").trim();
+}
+
 let cache: Record<string, Hit> | null = null;
 let cacheDirty = false;
 
@@ -186,7 +194,7 @@ export async function GET(req: NextRequest) {
   // 1. already answered once — no request to motortax at all
   const known = (await loadCache())[reg];
   if (known) {
-    return NextResponse.json({ found: true, reg, make: known.make, model: known.model, year: known.year ?? year, cached: true });
+    return NextResponse.json({ found: true, reg, make: known.make, model: fixModelTypos(known.model), year: known.year ?? year, cached: true });
   }
   // 2. this visitor has asked enough for one day
   if (tooMany(clientIp(req))) {
@@ -233,7 +241,7 @@ export async function GET(req: NextRequest) {
     const m = text.match(/^(.*?)\s*\/\s*(.*)$/);
     if (!m || !m[1]) return NextResponse.json({ found: false, year });
 
-    const hit = { make: m[1].trim(), model: (m[2] || "").trim(), year };
+    const hit = { make: m[1].trim(), model: fixModelTypos(m[2] || ""), year };
     await remember(reg, hit);
     return NextResponse.json({ found: true, reg, ...hit });
   } catch {
