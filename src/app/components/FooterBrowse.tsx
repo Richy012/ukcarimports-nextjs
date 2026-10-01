@@ -11,7 +11,7 @@ import styles from "./Footer.module.css";
 // Server component: the lists are in the HTML, which is the point.
 
 const API_BASE = "https://api.ukcarimports.ie/public";
-const MODEL_LINKS = 40;
+const MODEL_LINKS = 48;
 
 type MakeRow = { make: string; slug: string; n: number };
 type ModelRow = { make_slug: string; model_slug: string; n: number };
@@ -36,7 +36,16 @@ async function getLinks() {
     const res = await fetch(`${API_BASE}/import-landing-index`, { next: { revalidate: 3600 } });
     const json = await res.json();
     makes = json?.data?.makes ?? [];
-    models = (json?.data?.models ?? []).slice(0, MODEL_LINKS);
+    // The index is ordered by stock, and one make with many variants (BMW)
+    // filled all 40 slots. Take the top two models of each make instead, in
+    // stock order, so the row reads across the market.
+    const perMake = new Map<string, number>();
+    models = ((json?.data?.models ?? []) as ModelRow[]).filter((m) => {
+      const n = perMake.get(m.make_slug) ?? 0;
+      if (n >= 2) return false;
+      perMake.set(m.make_slug, n + 1);
+      return true;
+    }).slice(0, MODEL_LINKS);
   } catch {
     // Index unreachable: the footer still renders the counties and the rest.
   }
