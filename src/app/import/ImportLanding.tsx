@@ -4,6 +4,7 @@ import { artForMake, DEFAULT_BANNER } from "@/lib/brandArt";
 import { warrantyGuideFor } from "@/lib/warrantyGuide";
 import { getModelStock } from "@/lib/modelStock";
 import CardsGrid from "../used-cars/CardsGrid";
+import ChipLink from "./ChipLink";
 
 
 // 2026-08-11, owner: "dominate those lanes". Each new-Chinese-brand landing
@@ -151,14 +152,9 @@ export default async function ImportLanding({ data, makeSlug }: { data: LandingD
             : []),
         ],
       },
-      {
-        "@type": "FAQPage",
-        mainEntity: faq.map((f) => ({
-          "@type": "Question",
-          name: f.q,
-          acceptedAnswer: { "@type": "Answer", text: f.a },
-        })),
-      },
+      // FAQPage markup removed 1 Oct 2026: Google dropped the FAQ rich result
+      // for sites like this in 2025, so it was dead weight. The visible FAQ
+      // section below is unchanged.
     ],
   };
 
@@ -329,13 +325,13 @@ export default async function ImportLanding({ data, makeSlug }: { data: LandingD
           <h2>{subject} by year</h2>
           <div className={styles.chipRow}>
             {data.years!.filter((y) => y.n >= 1).map((y) => (
-              <Link
+              <ChipLink
                 key={y.year}
                 href={`${browseHref}&minYear=${y.year}&maxYear=${y.year}`}
                 className={styles.chip}
               >
                 {y.year} <span className={styles.chipCount}>({y.n.toLocaleString()})</span>
-              </Link>
+              </ChipLink>
             ))}
           </div>
         </section>
@@ -346,13 +342,13 @@ export default async function ImportLanding({ data, makeSlug }: { data: LandingD
           <h2>{subject} by fuel type</h2>
           <div className={styles.chipRow}>
             {data.fuels!.filter((f) => f.n >= 3).map((f) => (
-              <Link
+              <ChipLink
                 key={f.fuel}
                 href={`${browseHref}&Fuel=${encodeURIComponent(f.fuel)}`}
                 className={styles.chip}
               >
                 {f.fuel} <span className={styles.chipCount}>({f.n.toLocaleString()})</span>
-              </Link>
+              </ChipLink>
             ))}
           </div>
         </section>

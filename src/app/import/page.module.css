@@ -285,6 +285,14 @@
   color: #b01112;
 }
 
+/* The same chip as a <button> (ChipLink): inherit the page font, hand cursor. */
+button.chip {
+  font: inherit;
+  font-size: 0.9rem;
+  line-height: normal;
+  cursor: pointer;
+}
+
 .chipCount {
   color: #888;
   font-size: 0.8rem;

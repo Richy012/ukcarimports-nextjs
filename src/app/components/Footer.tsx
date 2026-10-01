@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Mail, MapPin } from "lucide-react";
 import FooterMap from "./FooterMap";
+import FooterBrowse from "./FooterBrowse";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
@@ -31,6 +32,8 @@ export default function Footer() {
           <FooterMap />
         </div>
       </div>
+
+      <FooterBrowse />
 
       <div className={styles.bottom}>
         <div className={styles.social}>

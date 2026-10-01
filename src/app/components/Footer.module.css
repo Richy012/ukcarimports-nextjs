@@ -270,3 +270,52 @@
   line-height: 0;
   margin-left: 1px;
 }
+
+
+/* Browse rows (1 Oct 2026): make, model, county and guide links on every
+   page, so the pages that rank are one click from anywhere. Plain, small,
+   above the legal row; same ink and red as the rest of the footer. */
+.browse {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px 24px;
+  border-top: 1px solid #ddd;
+}
+
+.browseRow {
+  padding: 14px 0 0;
+}
+
+.browseRow h3 {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #b60b0c;
+}
+
+.browseRow ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+}
+
+.browseRow li {
+  margin: 0;
+}
+
+.browseRow a {
+  color: #454443;
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.browseRow a:hover {
+  color: #b60b0c;
+  text-decoration: underline;
+}

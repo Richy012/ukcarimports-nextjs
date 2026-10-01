@@ -27,7 +27,8 @@ export async function generateMetadata({
   if (CTR_V2.has(`${make}/${model}`)) {
     const under = bs ? bs.count.toLocaleString() : null;
     return {
-      title: `${subject} for Sale in Ireland \u2014 ${data.count.toLocaleString()} Cars from ${priceFrom}, VRT Included`,
+      // 1 Oct 2026: same test shape as every other model page (below).
+      title: { absolute: `${subject} for Sale Ireland – VRT Included, from ${priceFrom}` },
       description: bs
         ? `${under} of our ${data.count.toLocaleString()} ${subject} are priced at least \u20ac750 under the same car on Irish forecourts today, the best by \u20ac${bs.max_saving_eur.toLocaleString()}. Every price is fully landed: VRT, VAT, customs and delivery in. Independent inspection, Irish plates in about two weeks.`
         : `${data.count.toLocaleString()} used ${subject} from ${priceFrom}, every one priced fully landed for Ireland: VRT, VAT, customs and delivery in the price you see. Independent inspection before you commit, Irish plates in about two weeks.`,
@@ -39,7 +40,7 @@ export async function generateMetadata({
   // marketplace result cannot say. Same move as the XC90/i8 test above.
   if (bs && bs.count >= 10) {
     return {
-      title: `${subject} for Sale Ireland — ${bs.count.toLocaleString()} Cars Under Irish Prices, from ${priceFrom}`,
+      title: { absolute: `${subject} for Sale Ireland – VRT Included, from ${priceFrom}` },
       description: `${bs.count.toLocaleString()} of our ${data.count.toLocaleString()} used ${subject} cars are measured €750+ under the Irish market, the best by €${bs.max_saving_eur.toLocaleString()}. Priced fully landed — VRT, VAT, customs & delivery included. Benchmarked against real Irish ads weekly.`,
       alternates: { canonical: `https://ukcarimports.ie/import/${make}/${model}` },
     };
@@ -47,7 +48,13 @@ export async function generateMetadata({
   return {
     // Query-shaped: "{model} for sale ireland" is the search these pages
     // exist to win (GSC 2026-08-05: big impressions, pos 8-15, sub-1% CTR).
-    title: `${subject} for Sale in Ireland — ${data.count.toLocaleString()} Available, VRT Included`,
+    // 1 Oct 2026 title test (SEO review): titles ran ~77-90 characters with
+    // the " | UK Car Imports" layout suffix and Google truncated "VRT
+    // Included" away; the 10 Sep CTR_V2 rewrite did not move CTR. One shape
+    // for all 399 model pages: searcher's words, VRT inside 60 characters,
+    // suffix dropped (absolute). The under-Irish count stays in the
+    // description. Judge on the XC90/XC60/XC40/Polestar/i8 CTR at 28 days.
+    title: { absolute: `${subject} for Sale Ireland – VRT Included, from ${priceFrom}` },
     description: bs
       ? `Up to €${bs.max_saving_eur.toLocaleString()} under Irish asking prices: ${data.count.toLocaleString()} used ${subject} cars from ${priceFrom}, priced fully landed — VRT, VAT, customs & delivery included. Benchmarked against real Irish ads weekly.`
       : `${data.count.toLocaleString()} used ${subject} cars for sale from ${priceFrom}, priced fully landed for Ireland — VRT, VAT, customs & delivery included. Benchmarked against Irish prices weekly.`,

@@ -1,5 +1,7 @@
 export const revalidate = 86400;
 
+import { COUNTIES } from "@/lib/counties";
+
 const API_BASE = "https://api.ukcarimports.ie/public";
 const SITE = "https://ukcarimports.ie";
 
@@ -24,6 +26,10 @@ export async function GET() {
   ];
 
   const urls = [...fixed];
+  // 1 Oct 2026: the 26 county pages (live since 19 Aug) were in no sitemap.
+  for (const c of COUNTIES) {
+    urls.push({ loc: `${SITE}/used-cars/${c.slug}`, freq: "weekly", pri: "0.6" });
+  }
   try {
     const res = await fetch(`${API_BASE}/import-landing-index`, {
       next: { revalidate: 86400 },
