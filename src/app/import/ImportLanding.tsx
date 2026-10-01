@@ -89,6 +89,10 @@ export function displayModel(make: string, model: string): string {
     // 17 Sep 2026: "cx-60" rendered "Cx-60" in the page title and in a
     // published post. A short letter code in front of digits or "-digits"
     // (CX-60, MX-30, EV6) is upper case; words stay title case (E-Tron, Aircross).
+    // 1 Oct 2026: two short letter codes joined by a hyphen (c-hr, hr-v) are
+    // both upper case - C-HR, HR-V - not C-Hr; a real word after the hyphen
+    // (e-tron, x-trail) still reads E-Tron, X-Trail.
+    if (/^[a-z]{1,3}-[a-z]{1,3}$/i.test(m)) return m.toUpperCase();
     return titleCase(m).replace(/\b([A-Za-z]{1,3})(?=\d|-\d)/g, (c) => c.toUpperCase());
   }
   if (/^[a-z]+$/.test(m)) return m.length <= 3 ? m.toUpperCase() : titleCase(m);

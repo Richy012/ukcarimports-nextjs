@@ -14,10 +14,15 @@ const API_BASE = "https://api.ukcarimports.ie/public";
 const MODEL_LINKS = 48;
 
 type MakeRow = { make: string; slug: string; n: number };
-type ModelRow = { make_slug: string; model_slug: string; n: number };
+type ModelRow = { make_slug: string; model_slug: string; make?: string; model?: string; n: number };
 type BlogRow = { blog_url?: string; blog_heading?: string };
 
-function modelLabel(makeSlug: string, modelSlug: string): string {
+function modelLabel(m: ModelRow): string {
+  // The index carries the stored names since 1 Oct 2026; label exactly as the
+  // model page's own h1 does. The slug fallback below is for an older index.
+  if (m.make && m.model) return `${titleCase(m.make)} ${displayModel(m.make, m.model)}`;
+  const makeSlug = m.make_slug;
+  const modelSlug = m.model_slug;
   // Slugs are the stored model name with spaces as hyphens ("1-series",
   // "xc90", "e-tron", "model-3"). Give displayModel the spaced form where the
   // page itself would show a space.
@@ -84,7 +89,7 @@ export default async function FooterBrowse() {
             {models.map((m) => (
               <li key={`${m.make_slug}/${m.model_slug}`}>
                 <Link href={`/import/${m.make_slug}/${m.model_slug}`}>
-                  {modelLabel(m.make_slug, m.model_slug)}
+                  {modelLabel(m)}
                 </Link>
               </li>
             ))}
