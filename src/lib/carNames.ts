@@ -67,6 +67,9 @@ export function normaliseModel(make: string, model: string): string {
   // in the Irish index, and a 2020 Mondeo (26 ads) came back "not enough Irish
   // evidence" because of it. Strip a trailing HEV/PHEV/MHEV/HYBRID token.
   md = md.replace(/\s+(?:p?hev|mhev|hybrid|plug[- ]?in hybrid)$/i, "").trim();
+  // 2 Oct 2026: BYD's plug-in badge the same way - the file says "SEAL U DM-I",
+  // the Irish index says "seal u" (86 ads for 2025); "DM-p" is its sporty twin.
+  md = md.replace(/\s+dm[- ]?[ip]$/i, "").trim();
   // 30 Sep 2026: the same file mis-spells Range Rover as "RANGR ROVER"
   // (a 2023 Range Rover Sport, 47 Irish ads / ~€85k, came back with no value).
   if (mk === "land rover") md = md.replace(/\brangr\b/g, "range");

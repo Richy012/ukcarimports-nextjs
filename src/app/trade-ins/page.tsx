@@ -352,6 +352,8 @@ function TradeInsFlow() {
   // the quote silently falls back to the old assumed tiers. The owner's own
   // test went through with no mileage and got the wrong band.
   const [mileageMissing, setMileageMissing] = useState(false);
+  // 2 Oct 2026: "80" typed for 80,000 - the figure awaiting "did you mean?"
+  const [mileageQuery, setMileageQuery] = useState<number | null>(null);
   // Owner, 6 Sep: asked at the very start. Banks (AIB, BOI, PTSB) work with
   // us; finance houses do not, so a finance-house deal goes straight to a
   // dealer and the private route is not offered.
@@ -622,12 +624,32 @@ function TradeInsFlow() {
   // Family name from the vehicle file that the customer has not resolved yet.
   const modelChoices = car && !car.picked ? familyChoices(car.make, car.model, car.year) : null;
 
-  async function findCar() {
-    if (!kmNow()) {
+  /** Registration year from an Irish reg ("232G823" -> 2023), or null. */
+  function regYear(r: string): number | null {
+    const m = r.replace(/[\s-]/g, "").match(/^(\d{2})\d?[A-Z]/i);
+    if (!m) return null;
+    const y = Number(m[1]);
+    return y > 50 ? 1900 + y : 2000 + y;
+  }
+
+  async function findCar(mileageText: string = mileage, lowMileageOk = false) {
+    const typed = Number(mileageText.replace(/[^0-9.]/g, ""));
+    const kmHere = Number.isFinite(typed) && typed > 0 ? Math.round(unit === "miles" ? typed * 1.609 : typed) : null;
+    setMileageQuery(null);
+    if (!kmHere) {
       setMileageMissing(true);
       return;
     }
     setMileageMissing(false);
+    // 2 Oct 2026: five real requests typed the mileage in thousands ("80" for
+    // 80,000) and got no range - the engine prices nothing under 1,000 km and
+    // the page then blamed a lack of Irish adverts. Ask before going on,
+    // unless the car was registered this year (nearly new is possible).
+    const ry = regYear(reg);
+    if (!lowMileageOk && typed < 1000 && (ry == null || ry < new Date().getFullYear())) {
+      setMileageQuery(typed);
+      return;
+    }
     if (!financeNeed) {
       setFinanceMissing(true);
       return;
@@ -652,7 +674,7 @@ function TradeInsFlow() {
         if (familyChoices(found.make, found.model, found.year)) {
           setPricing(null); setUnpriced(null); setTrims([]); setTrim("");
         } else {
-          void priceIt(found, kmNow(), "");
+          void priceIt(found, kmHere, "");
           void loadTrims(found);
         }
       } else {
@@ -1258,7 +1280,33 @@ function TradeInsFlow() {
                   car is worth, and we cannot show you a figure without it.
                 </p>
               )}
-              <button className={L.cta} style={{ ...S.cta, ...(looking ? S.ctaBusy : {}) }} disabled={looking} onClick={findCar}>
+              {mileageQuery != null && (() => {
+                const u = unit === "km" ? "km" : "miles";
+                const big = mileageQuery * 1000;
+                const btn: React.CSSProperties = { font: "inherit", padding: "9px 14px", fontSize: 14, fontWeight: 600, borderRadius: 8, cursor: "pointer" };
+                return (
+                  <div style={{ margin: "10px 0 0", padding: "12px 14px", borderRadius: 10, background: "#fffbeb", border: "1px solid #fde68a", fontSize: 14, lineHeight: 1.5 }}>
+                    <b>You typed {mileageQuery.toLocaleString("en-IE")} {u}.</b> Did you mean {big.toLocaleString("en-IE")} {u}?
+                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 10 }}>
+                      <button
+                        type="button"
+                        onClick={() => { const t = String(big); setMileage(t); void findCar(t, true); }}
+                        style={{ ...btn, border: "1px solid #1a5fb4", background: "#1a5fb4", color: "#fff" }}
+                      >
+                        Yes, {big.toLocaleString("en-IE")} {u}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => { void findCar(mileage, true); }}
+                        style={{ ...btn, border: "1px solid #cbd5e1", background: "#fff", color: "#334155" }}
+                      >
+                        No, it really is {mileageQuery.toLocaleString("en-IE")} {u}
+                      </button>
+                    </div>
+                  </div>
+                );
+              })()}
+              <button className={L.cta} style={{ ...S.cta, ...(looking ? S.ctaBusy : {}) }} disabled={looking} onClick={() => { void findCar(); }}>
                 {looking ? "Reading the national vehicle file…" : "Continue"}
               </button>
               <p style={S.sm}>No sign-up, no obligation, nothing to pay. The ranges on the next page come from real Irish sales; a person makes the offer once your photos and answers are in.</p>
