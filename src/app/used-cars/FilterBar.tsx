@@ -139,6 +139,11 @@ function sortToParams(sort: string): { price_sort: string; mileage_sort: string;
   return { price_sort: "", mileage_sort: "", drop_sort: "", saving_sort: "" };
 }
 
+type FeatureResolve = {
+  resolved: { id: string; label: string } | null;
+  suggestions: { id: string; label: string }[];
+};
+
 function ChipSearch({
   label,
   placeholder,
@@ -147,6 +152,7 @@ function ChipSearch({
   quickPicks,
   onDraftChange,
   note,
+  coach,
 }: {
   label: string;
   placeholder: string;
@@ -155,26 +161,96 @@ function ChipSearch({
   quickPicks?: string[];
   onDraftChange?: (draft: string) => void;
   note?: string;
+  // Owner, 3 Oct 2026: show buyers what their words are searched as, and when they are not obvious, ask them to
+  // pick the feature they mean ("Do you mean Leather seats?"). Backed by /api/feature-resolve.
+  coach?: boolean;
 }) {
   const [inputValue, setInputValue] = useState("");
+  const [live, setLive] = useState<{ term: string; r: FeatureResolve } | null>(null);
+  const [asking, setAsking] = useState<{ term: string; r: FeatureResolve } | null>(null);
+  const [notice, setNotice] = useState("");
+  const cache = useRef(new Map<string, FeatureResolve>());
 
-  function addChip(raw: string) {
-    const term = raw.trim();
-    if (!term) return;
-    const key = term.toLowerCase();
-    if (chips.some((c) => c.toLowerCase() === key)) {
-      setInputValue("");
-      onDraftChange?.("");
+  async function resolveTerm(term: string): Promise<FeatureResolve | null> {
+    const t = term.trim();
+    if (t.replace(/^-/, "").length < 2) return null;
+    const k = t.toLowerCase();
+    const hit = cache.current.get(k);
+    if (hit) return hit;
+    try {
+      const r = (await fetch(`/api/feature-resolve?q=${encodeURIComponent(t)}`).then((x) => x.json())) as FeatureResolve;
+      if (r && Array.isArray(r.suggestions)) {
+        cache.current.set(k, r);
+        return r;
+      }
+    } catch {
+      /* coaching is a help, never a blocker: fall through to the plain chip */
+    }
+    return null;
+  }
+
+  useEffect(() => {
+    if (!coach) return;
+    const t = inputValue.trim();
+    if (t.replace(/^-/, "").length < 2) {
+      setLive(null);
       return;
     }
-    onChipsChange([...chips, term]);
+    const id = setTimeout(async () => {
+      const r = await resolveTerm(t);
+      setLive(r ? { term: t, r } : null);
+    }, 250);
+    return () => clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputValue, coach]);
+
+  function commit(term: string) {
+    const key = term.toLowerCase();
+    setAsking(null);
+    setLive(null);
     setInputValue("");
     onDraftChange?.("");
+    if (chips.some((c) => c.toLowerCase() === key)) return;
+    onChipsChange([...chips, term]);
+  }
+
+  async function addChip(raw: string, fromBlur = false) {
+    const term = raw.trim();
+    if (!term) return;
+    if (!coach) {
+      commit(term);
+      return;
+    }
+    const neg = term.startsWith("-");
+    const r = await resolveTerm(term);
+    if (r?.resolved) {
+      setNotice("");
+      commit((neg ? "-" : "") + r.resolved.label);
+      return;
+    }
+    if (r && r.suggestions.length > 0) {
+      // not obvious: ask the buyer to pick (a blur never forces the question; the text stays in the box)
+      if (!fromBlur) setAsking({ term, r });
+      return;
+    }
+    if (fromBlur) return;
+    setNotice(`"${term.replace(/^-/, "")}" is not a feature we recognise, so we are searching the advert wording for it.`);
+    commit(term);
+  }
+
+  function choose(featureLabel: string, neg: boolean) {
+    setNotice("");
+    commit((neg ? "-" : "") + featureLabel);
   }
 
   function removeChip(term: string) {
     onChipsChange(chips.filter((c) => c !== term));
   }
+
+  const typed = inputValue.trim();
+  const shownLive = coach && !asking && live && live.term === typed ? live.r : null;
+  // keep the input focused while a choice is clicked, so the blur does not add the typed word first
+  const keepFocus = (e: { preventDefault: () => void }) => e.preventDefault();
 
   return (
     <div className={styles.chipSearchWrap}>
@@ -186,26 +262,66 @@ function ChipSearch({
         value={inputValue}
         onChange={(e) => {
           setInputValue(e.target.value);
+          setAsking(null);
           onDraftChange?.(e.target.value);
         }}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             e.preventDefault();
-            addChip(inputValue);
+            void addChip(inputValue);
           }
         }}
-        onBlur={() => addChip(inputValue)}
+        onBlur={() => void addChip(inputValue, true)}
       />
+      {asking && (
+        <div className={styles.coachBox} role="status">
+          <span className={styles.coachText}>{`Which did you mean by "${asking.term.replace(/^-/, "")}"?`}</span>
+          <div className={styles.quickPicks}>
+            {asking.r.suggestions.map((sg) => (
+              <button key={sg.id} type="button" className={styles.quickPickBtn} onMouseDown={keepFocus} onClick={() => choose(sg.label, asking.term.startsWith("-"))}>
+                {sg.label}
+              </button>
+            ))}
+            <button type="button" className={styles.coachPlain} onMouseDown={keepFocus} onClick={() => { setNotice(""); commit(asking.term); }}>
+              {`Search the advert wording for "${asking.term.replace(/^-/, "")}"`}
+            </button>
+          </div>
+        </div>
+      )}
+      {shownLive && (
+        <div className={styles.coachBox} role="status">
+          {shownLive.resolved ? (
+            <span className={styles.coachText}>
+              {"Searching for "}<strong>{shownLive.resolved.label}</strong>{" - press Enter to add it."}
+            </span>
+          ) : shownLive.suggestions.length > 0 ? (
+            <span className={styles.coachText}>Do you mean:</span>
+          ) : typed.replace(/^-/, "").length >= 3 ? (
+            <span className={styles.coachText}>Not a feature we recognise - press Enter to search the advert wording for it.</span>
+          ) : null}
+          {shownLive.suggestions.length > 0 && (
+            <div className={styles.quickPicks}>
+              {shownLive.resolved && <span className={styles.coachText}>Or:</span>}
+              {shownLive.suggestions.map((sg) => (
+                <button key={sg.id} type="button" className={styles.quickPickBtn} onMouseDown={keepFocus} onClick={() => choose(sg.label, typed.startsWith("-"))}>
+                  {sg.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
       {quickPicks && (
         <div className={styles.quickPicks}>
           {quickPicks.map((term) => (
-            <button key={term} type="button" className={styles.quickPickBtn} onClick={() => addChip(term)}>
+            <button key={term} type="button" className={styles.quickPickBtn} onClick={() => void addChip(term)}>
               {term}
             </button>
           ))}
         </div>
       )}
       {note && <p className={styles.chipHint}>{note}</p>}
+      {notice && <p className={styles.chipHint}>{notice}</p>}
       {chips.length > 0 && (
         <div className={styles.chipRow}>
           {chips.map((chip) => {
@@ -947,6 +1063,7 @@ export default function FilterBar({
             onChipsChange={setSearchChips}
             quickPicks={QUICK_PICKS}
             onDraftChange={setSearchDraft}
+            coach
             note={"Garages do not always describe every feature accurately or in full. Please contact the garage yourself to confirm any specific detail."}
           />
         )}

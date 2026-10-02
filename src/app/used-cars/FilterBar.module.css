@@ -389,3 +389,29 @@
 .rungC4 { background: #1d7a3a; }
 .rungC5 { background: #b60b0c; }
 .rungC6 { background: #6e0506; }
+
+/* Search features coaching (owner, 3 Oct 2026): "Do you mean Leather seats?" */
+.coachBox {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border: 1px solid #e5e7eb;
+  border-left: 3px solid #b60b0c;
+  border-radius: 6px;
+  background: #fffafa;
+}
+
+.coachText {
+  font-size: 13px;
+  color: #454443;
+  margin-right: 6px;
+}
+
+.coachPlain {
+  padding: 5px 12px;
+  border: 1px dashed #bbb;
+  border-radius: 999px;
+  background: #fff;
+  color: #595959;
+  font-size: 12px;
+  cursor: pointer;
+}
