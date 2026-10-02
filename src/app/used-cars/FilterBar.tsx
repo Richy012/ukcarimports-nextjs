@@ -942,7 +942,7 @@ export default function FilterBar({
             onChipsChange={setSearchChips}
             quickPicks={QUICK_PICKS}
             onDraftChange={setSearchDraft}
-            note={"Features come from each UK dealer’s own advert, and dealers describe the same feature in many different ways, so a match isn’t guaranteed — please confirm any must-have feature with us before you reserve."}
+            note={"Garages do not always describe every feature accurately or in full. Please contact the garage yourself to confirm any specific detail."}
           />
         )}
         <ChipSearch
