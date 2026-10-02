@@ -14,6 +14,7 @@ import {
   BadgeCheck,
   Building2,
   Megaphone,
+  PenLine,
   Scale,
   UserPlus,
   Users,
@@ -31,6 +32,8 @@ const NAV_ITEMS: { href: string; label: string; icon: LucideIcon }[] = [
   { href: "/cars", label: "Cars", icon: CarFront },
   { href: "/leads", label: "Leads", icon: UserPlus },
   { href: "/deposits", label: "Deposits", icon: HandCoins },
+  // Owner, 2 Oct 2026: photo of the car and the customer, and their signature, at handover.
+  { href: "/handovers", label: "Handovers", icon: PenLine },
   // Owner, 6 Sep 2026: a submitted trade-in is a car waiting for his number — it lives here
   // with the other staff work, behind the staff login.
   { href: "/tradeins", label: "Trade-ins", icon: Handshake },
