@@ -931,9 +931,14 @@ export default function FilterBar({
           </span>
         </button>
 
-        {/* Feature search hidden until the description backfill gives it
-            real coverage (owner call, 2026-08-04). All wiring stays live --
-            flip FEATURE_SEARCH_ENABLED to bring it back. */}
+        <ChipSearch
+          label="Version / trim"
+          placeholder="e.g. Inscription"
+          chips={versionChips}
+          onChipsChange={setVersionChips}
+          onDraftChange={setVersionDraft}
+        />
+        {/* Feature search sits below Version / trim (owner, 3 Oct 2026). FEATURE_SEARCH_ENABLED hides it again. */}
         {FEATURE_SEARCH_ENABLED && (
           <ChipSearch
             label="Search features"
@@ -945,13 +950,6 @@ export default function FilterBar({
             note={"Garages do not always describe every feature accurately or in full. Please contact the garage yourself to confirm any specific detail."}
           />
         )}
-        <ChipSearch
-          label="Version / trim"
-          placeholder="e.g. Inscription"
-          chips={versionChips}
-          onChipsChange={setVersionChips}
-          onDraftChange={setVersionDraft}
-        />
 
         <div className={styles.bar}>
           <select className={styles.select} value={make} onChange={(e) => handleMakeChange(e.target.value)} aria-label="Make">
