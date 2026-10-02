@@ -31,6 +31,7 @@ import { useEffect, useRef, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import PhotoCapture, { type ShotGroup } from "./PhotoCapture";
 import L from "./tradein_layout.module.css";
+import { familyChoices } from "@/lib/familyModels";
 
 /** Whole euro, no cents. Every figure on this page is an estimate; showing
  *  cents on an estimate implies a precision that does not exist. */
@@ -357,7 +358,8 @@ function TradeInsFlow() {
   const [financeNeed, setFinanceNeed] = useState<"" | "none" | "bank" | "finance_house">("");
   const [financeMissing, setFinanceMissing] = useState(false);
   const [looking, setLooking] = useState(false);
-  const [car, setCar] = useState<null | { make: string; model: string; year: number | null }>(null);
+  // picked = the customer chose the model from a family name ("Range Rover")
+  const [car, setCar] = useState<null | { make: string; model: string; year: number | null; picked?: boolean }>(null);
   const [lookupFailed, setLookupFailed] = useState(false);
   const [manualMake, setManualMake] = useState("");
   const [manualModel, setManualModel] = useState("");
@@ -432,7 +434,9 @@ function TradeInsFlow() {
     // never drop someone back onto step 1 with a car already known
     setStep(a.car && st < 2 ? 2 : st);
     if (a.car && typeof a.car === "object") {
-      const c = a.car as { make: string; model: string; year: number | null };
+      const c = a.car as { make: string; model: string; year: number | null; picked?: boolean };
+      // a family name the customer has not resolved yet: show the question, no figure
+      if (!c.picked && familyChoices(c.make, c.model, c.year)) return;
       const kmv = (() => { const n = Number(s("mileage").replace(/[^0-9.]/g, "")); return n > 0 ? Math.round(a.unit === "miles" ? n * 1.609 : n) : null; })();
       void priceIt(c, kmv, s("trim"));
       void (async () => {
@@ -615,6 +619,9 @@ function TradeInsFlow() {
     return Math.round(unit === "miles" ? n * 1.609 : n);
   }
 
+  // Family name from the vehicle file that the customer has not resolved yet.
+  const modelChoices = car && !car.picked ? familyChoices(car.make, car.model, car.year) : null;
+
   async function findCar() {
     if (!kmNow()) {
       setMileageMissing(true);
@@ -639,15 +646,15 @@ function TradeInsFlow() {
         const found = { make: carCase(String(j.make)), model: carCase(String(j.model)), year: j.year };
         setCar(found);
         setLookupFailed(false);
-        void priceIt(found, kmNow(), "");
-        void (async () => {
-          try {
-            const q = new URLSearchParams({ make: found.make, model: found.model });
-            const t = await fetch(`/api/trims?${q}`);
-            const j = await t.json();
-            setTrims(Array.isArray(j?.trims) ? j.trims : []);
-          } catch { setTrims([]); }
-        })();
+        // 2 Oct 2026: "RANGE ROVER" from the file can be four different cars at
+        // very different prices. Ask which one before showing any figure -
+        // see lib/familyModels.ts.
+        if (familyChoices(found.make, found.model, found.year)) {
+          setPricing(null); setUnpriced(null); setTrims([]); setTrim("");
+        } else {
+          void priceIt(found, kmNow(), "");
+          void loadTrims(found);
+        }
       } else {
         setCar(null);
         setLookupFailed(true);
@@ -687,6 +694,25 @@ function TradeInsFlow() {
       setUnpriced(null);
     }
     setPricingBusy(false);
+  }
+
+  async function loadTrims(c: { make: string; model: string }) {
+    try {
+      const q = new URLSearchParams({ make: c.make, model: c.model });
+      const t = await fetch(`/api/trims?${q}`);
+      const j = await t.json();
+      setTrims(Array.isArray(j?.trims) ? j.trims : []);
+    } catch { setTrims([]); }
+  }
+
+  /** The customer's answer to "which Range Rover is it?" - prices that car. */
+  function pickModel(model: string) {
+    if (!car) return;
+    const c = { ...car, model, picked: true };
+    setCar(c);
+    setTrim("");
+    void priceIt(c, kmNow(), "");
+    void loadTrims(c);
   }
 
   // The VLC goes through the same photo endpoint but into the protected
@@ -735,6 +761,7 @@ function TradeInsFlow() {
           model: car ? car.model : manualModel.trim(),
           year: car ? car.year : null,
           lookupSource: car ? "nvf" : "manual",
+          modelPicked: car?.picked === true,
           financeOutstanding: finance,
           financeNeed,
           settlementEur: finance === "yes" ? settle : 0,
@@ -910,6 +937,28 @@ function TradeInsFlow() {
                   </button>
                 </div>
               ) : null}
+              {modelChoices && car && (
+                <div style={{ margin: "0 0 14px", padding: "12px 14px", borderRadius: 10, background: "#eff6ff", border: "1px solid #bfdbfe" }}>
+                  <div style={{ fontSize: 14.5, fontWeight: 700, marginBottom: 4 }}>Which {car.model} is it?</div>
+                  <div style={{ fontSize: 13, color: "#475569", lineHeight: 1.5, marginBottom: 10 }}>
+                    The national vehicle file only says &ldquo;{car.model}&rdquo;, which covers {modelChoices.length} different
+                    cars at very different prices. Pick yours and we&rsquo;ll show the ranges for that car &mdash; it&rsquo;s
+                    on line D.2 of your registration certificate.
+                  </div>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                    {modelChoices.map((m) => (
+                      <button
+                        key={m}
+                        type="button"
+                        onClick={() => pickModel(m)}
+                        style={{ font: "inherit", padding: "10px 14px", fontSize: 14.5, fontWeight: 600, border: "1px solid #1a5fb4", borderRadius: 8, background: "#fff", color: "#1a5fb4", cursor: "pointer" }}
+                      >
+                        {m}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
               {/*
                 A card is a DIV, not a button, for two reasons the first version
                 got wrong: a <ul> inside a <button> is invalid HTML, and a real
@@ -975,7 +1024,7 @@ function TradeInsFlow() {
                   finance the import and take your trade-in together. Selling privately is not offered on this route.
                 </div>
               )}
-              {ROUTES.filter((r) => !(financeNeed === "finance_house" && r.id === "privateproof")).map((r) => {
+              {!modelChoices && ROUTES.filter((r) => !(financeNeed === "finance_house" && r.id === "privateproof")).map((r) => {
                 const pick = () => { setRoute(r.id); setStep(3); };
                 const on = route === r.id;
                 // owner, 8 Sep: no offer on a car we cannot value - the trade-in card
@@ -1224,7 +1273,7 @@ function TradeInsFlow() {
               {car && (
                 <div style={S.found}>
                   ✓ {reg.replace(/[\s-]/g, "").toUpperCase()} — {car.year ? `${car.year} ` : ""}
-                  {car.make} {car.model}, read from the national vehicle file.
+                  {car.make} {car.model}, {car.picked ? "the model as you confirmed it" : "read from the national vehicle file"}.
                 </div>
               )}
               {lookupFailed && (

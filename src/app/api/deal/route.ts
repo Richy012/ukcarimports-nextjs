@@ -37,6 +37,7 @@ const REQUIRED_DISCLOSURES: [string, ((d: Record<string, string>) => boolean) | 
   ["retail_ready", null], ["serviced", (d) => d.retail_ready === "yes"], ["valeted", (d) => d.retail_ready === "yes"],
 ];
 import { priceRoutes } from "../../../lib/routePricing";
+import { familyChoices } from "../../../lib/familyModels";
 import { makeOffer } from "../../../lib/conditionOffer";
 import type { Suggestion, RangesShown } from "../../../lib/dealstore";
 
@@ -242,7 +243,15 @@ export async function POST(req: NextRequest) {
 
   const km = toKm(tradeIn.mileage, tradeIn.mileageUnit);
   const trimSent = str(t.trim, 40).toUpperCase() || null;
-  const valuation = await valueTradeIn(tradeIn.make, tradeIn.model, tradeIn.year, km, trimSent);
+  // 2 Oct 2026: a family name from the vehicle file ("Range Rover") that the
+  // customer never resolved is NOT priced - it priced a 2020 Evoque as a
+  // full-size Range Rover, ~€15,000 high. Staff see the note and price it by
+  // hand. A model typed by the customer (lookupSource manual) is their answer.
+  const unresolved = tradeIn.lookupSource === "nvf" && t.modelPicked !== true
+    && !!familyChoices(tradeIn.make, tradeIn.model, tradeIn.year);
+  const pricedModel = unresolved ? "" : tradeIn.model;
+  const valuation = await valueTradeIn(tradeIn.make, pricedModel, tradeIn.year, km, trimSent);
+  if (unresolved) valuation.note = `model not confirmed - the national vehicle file says only "${tradeIn.model}"`;
 
   // NO OFFER IS MADE HERE (owner, 5 Sep: he prices the car himself after
   // seeing the photos and answers). What is kept: the two ranges the customer
@@ -251,7 +260,7 @@ export async function POST(req: NextRequest) {
   // starting point (lib/conditionOffer.ts). dealForBuyer never emits it.
   let suggestion: Suggestion | null = null;
   let ranges: RangesShown | null = null;
-  const pricing = await priceRoutes(tradeIn.make, tradeIn.model, tradeIn.year, km, valuation.estimateEur, valuation.comparables,
+  const pricing = await priceRoutes(tradeIn.make, pricedModel, tradeIn.year, km, valuation.estimateEur, valuation.comparables,
     !!valuation.mileageMatched,
   );
   if (pricing) {
