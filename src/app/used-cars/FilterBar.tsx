@@ -72,7 +72,9 @@ interface FilterBarProps {
   nextHref: string | null;
 }
 
-const FEATURE_SEARCH_ENABLED = false;
+// Back on 3 Oct 2026 (owner): the box now resolves a buyer's words to tested synonym groups across all seven
+// equipment columns (API: App\Services\FeatureConcepts; results in FEATURE_SEARCH_GROUPS_2OCT.md).
+const FEATURE_SEARCH_ENABLED = true;
 
 const QUICK_PICKS = ["Leather seats", "Heated seats", "Panoramic roof", "Apple CarPlay", "Android Auto", "Sat nav"];
 
@@ -144,6 +146,7 @@ function ChipSearch({
   onChipsChange,
   quickPicks,
   onDraftChange,
+  note,
 }: {
   label: string;
   placeholder: string;
@@ -151,6 +154,7 @@ function ChipSearch({
   onChipsChange: (chips: string[]) => void;
   quickPicks?: string[];
   onDraftChange?: (draft: string) => void;
+  note?: string;
 }) {
   const [inputValue, setInputValue] = useState("");
 
@@ -201,6 +205,7 @@ function ChipSearch({
           ))}
         </div>
       )}
+      {note && <p className={styles.chipHint}>{note}</p>}
       {chips.length > 0 && (
         <div className={styles.chipRow}>
           {chips.map((chip) => {
@@ -937,6 +942,7 @@ export default function FilterBar({
             onChipsChange={setSearchChips}
             quickPicks={QUICK_PICKS}
             onDraftChange={setSearchDraft}
+            note={"Features come from each UK dealer’s own advert, and dealers describe the same feature in many different ways, so a match isn’t guaranteed — please confirm any must-have feature with us before you reserve."}
           />
         )}
         <ChipSearch
