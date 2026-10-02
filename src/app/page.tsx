@@ -18,7 +18,8 @@ const API_BASE = "https://api.ukcarimports.ie/public";
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: "UK Car Imports — The Price You See Is The Price You Pay",
+  // Owner 2 Oct 2026: brand first, the searched phrase second (SEO_MASTER_PLAN_1OCT step 5).
+  title: { absolute: "UK Car Imports – Importing a Car from the UK to Ireland, VRT Included" },
   description:
     "Import your next car from the UK: 135,000+ cars priced fully landed for Ireland — VRT, VAT, customs & delivery included. Independent inspection, Irish plates in ~2 weeks. Est. 2013.",
   alternates: { canonical: "https://ukcarimports.ie/" },
@@ -277,6 +278,11 @@ export default async function HomePage() {
           Irish plates in ~2 weeks
         </span>
       </section>
+      <p style={{ textAlign: "center", margin: "10px 16px 0", fontSize: 14 }}>
+        <Link href="/blog/importing-a-car-from-the-uk-to-ireland" style={{ color: "#b60b0c", fontWeight: 600 }}>
+          {"Importing a car from the UK to Ireland: every cost and step, in one guide →"}
+        </Link>
+      </p>
 
       {/* THE TRADE-IN ADVERT — owner, 6 Sep */}
       <section className={styles.alertBand} style={{ background: "#fdf7f7", borderTop: "1px solid #f3d6d6", borderBottom: "1px solid #f3d6d6" }}>

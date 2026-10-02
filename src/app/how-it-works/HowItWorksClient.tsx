@@ -342,6 +342,9 @@ export default function HowItWorksClient({ stockLabel }: { stockLabel?: string }
 
       <section className={styles.finalCta}>
         <h2>Ready to find your car?</h2>
+        <p>
+          <Link href="/blog/importing-a-car-from-the-uk-to-ireland">{"The full rules and costs: importing a car from the UK to Ireland, the 2026 guide →"}</Link>
+        </p>
         <div className={styles.finalCtaRow}>
           <Link href="/used-cars" className={styles.ctaPrimary}>
             Browse used cars
