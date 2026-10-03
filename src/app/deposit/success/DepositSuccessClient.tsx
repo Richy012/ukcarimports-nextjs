@@ -37,7 +37,7 @@ export default function DepositSuccessClient() {
         .then((data) => {
           if (cancelled) return;
           const d = data?.data;
-          if (d?.status === "paid") {
+          if (d?.status === "paid" || d?.status === "authorized") {
             try {
               if (!sessionStorage.getItem("dp_" + sessionId)) {
                 sessionStorage.setItem("dp_" + sessionId, "1");

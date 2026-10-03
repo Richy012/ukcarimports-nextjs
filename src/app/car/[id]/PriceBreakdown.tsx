@@ -166,6 +166,14 @@ export default function PriceBreakdown({
   const [selectedWarrantyKey, setSelectedWarrantyKey] = useState("");
 
   const [showModal, setShowModal] = useState(false);
+  // 3 Oct 2026 (review #3): a car with a deposit held or paid is reserved - no second deposit button.
+  const [reserved, setReserved] = useState(false);
+  useEffect(() => {
+    fetch(`/api/car-reserved/${encodeURIComponent(carId)}`, { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => setReserved(Boolean(d?.reserved)))
+      .catch(() => {});
+  }, [carId]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -505,6 +513,11 @@ export default function PriceBreakdown({
         </dl>
       )}
 
+      {reserved ? (
+        <div className={styles.depositButton} role="status" style={{ cursor: "default", textAlign: "center" }}>
+          Reserved - another buyer has placed a deposit on this car
+        </div>
+      ) : (
       <button
         type="button"
         className={styles.depositButton}
@@ -516,6 +529,7 @@ export default function PriceBreakdown({
       >
         {vrm ? `Place A Deposit on ${String(vrm).toUpperCase()}` : "Place A Deposit"}
       </button>
+      )}
 
       <DepositTrust carId={carId} />
 
