@@ -412,6 +412,8 @@ export default function FilterBar({
     return [...chips, t];
   };
   const effSearchChips = withDraft(searchChips, searchDraft);
+  // Live views use only ADDED feature chips: the Search features box coaches the buyer to a feature before it counts.
+  const liveSearchChips = searchChips;
   const effVersionChips = withDraft(versionChips, versionDraft);
   const [sort, setSort] = useState(currentSort);
   const [bestseller, setBestseller] = useState(currentBestseller);
@@ -438,6 +440,10 @@ export default function FilterBar({
     currentQsRef.current = currentQueryString();
   });
   const [liveCount, setLiveCount] = useState(initialCount ?? 0);
+  // Only the newest live-count request may update the screen (owner saw 18K flip to 72K: a slow answer for a
+  // half-typed word arrived after the real one). Older requests are aborted.
+  const previewSeqRef = useRef(0);
+  const previewAbortRef = useRef<AbortController | null>(null);
   const [countLoading, setCountLoading] = useState(false);
 
   // Infinite scroll (AutoTrader-style, owner request 2026-07-31): more cars
@@ -663,8 +669,8 @@ export default function FilterBar({
         maxPrice,
         minMileage,
         maxMileage,
-        search: effSearchChips.join(" "),
-        searchChips: effSearchChips,
+        search: liveSearchChips.join(" "),
+        searchChips: liveSearchChips,
         version: effVersionChips.join(" "),
         versionChips: effVersionChips,
         bestsellerSeries: bestseller,
@@ -704,7 +710,7 @@ export default function FilterBar({
     }, 400);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [make, model, fuel, bodyStyle, transmission, seats, color, minEnginesize, maxEnginesize, minYear, maxYear, minPrice, maxPrice, minMileage, maxMileage, searchChips, versionChips, searchDraft, versionDraft, sort, bestseller, minSaving, belowCheapest]);
+  }, [make, model, fuel, bodyStyle, transmission, seats, color, minEnginesize, maxEnginesize, minYear, maxYear, minPrice, maxPrice, minMileage, maxMileage, searchChips, versionChips, versionDraft, sort, bestseller, minSaving, belowCheapest]);
 
   useEffect(() => {
     // A restore just rebuilt the full scrolled list; this effect's mount run
@@ -719,11 +725,16 @@ export default function FilterBar({
     // Deep link (?page=3) must survive the preview; a filter change must not.
     const targetPage = isFirstRun ? Math.max(0, currentPage - 1) : 0;
     const timer = setTimeout(async () => {
+      const seq = ++previewSeqRef.current;
+      previewAbortRef.current?.abort();
+      const ctrl = new AbortController();
+      previewAbortRef.current = ctrl;
       setCountLoading(true);
       try {
         const { price_sort, mileage_sort, drop_sort, saving_sort } = sortToParams(sort);
         const res = await fetch("/api/car-count", {
           method: "POST",
+          signal: ctrl.signal,
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             ...FILTER_BODY_DEFAULTS,
@@ -742,8 +753,8 @@ export default function FilterBar({
             maxPrice,
             minMileage,
             maxMileage,
-            search: effSearchChips.join(" "),
-            searchChips: effSearchChips,
+            search: liveSearchChips.join(" "),
+            searchChips: liveSearchChips,
             version: effVersionChips.join(" "),
             versionChips: effVersionChips,
             price_sort,
@@ -761,6 +772,7 @@ export default function FilterBar({
           }),
         });
         const data = await res.json();
+        if (seq !== previewSeqRef.current) return; // a newer search has started: this answer is stale
         if (typeof data?.data?.count === "number") setLiveCount(data.data.count);
         if (Array.isArray(data?.data?.cars)) {
           setLiveCars(data.data.cars);
@@ -773,14 +785,14 @@ export default function FilterBar({
           setLoadedPage(targetPage);
         }
       } catch {
-        // Leave the last known results showing rather than a jarring reset.
+        // Leave the last known results showing rather than a jarring reset (an aborted older request lands here too).
       } finally {
-        setCountLoading(false);
+        if (seq === previewSeqRef.current) setCountLoading(false);
       }
     }, 400);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [make, model, fuel, bodyStyle, transmission, seats, color, minEnginesize, maxEnginesize, minYear, maxYear, minPrice, maxPrice, minMileage, maxMileage, searchChips, versionChips, searchDraft, versionDraft, sort, bestseller, minSaving, belowCheapest]);
+  }, [make, model, fuel, bodyStyle, transmission, seats, color, minEnginesize, maxEnginesize, minYear, maxYear, minPrice, maxPrice, minMileage, maxMileage, searchChips, versionChips, versionDraft, sort, bestseller, minSaving, belowCheapest]);
 
   // Reassigned every render so the IntersectionObserver callback always sees
   // the current filter state without re-registering the observer.
@@ -816,8 +828,8 @@ export default function FilterBar({
           maxPrice,
           minMileage,
           maxMileage,
-          search: effSearchChips.join(" "),
-          searchChips: effSearchChips,
+          search: liveSearchChips.join(" "),
+          searchChips: liveSearchChips,
           version: effVersionChips.join(" "),
           versionChips: effVersionChips,
           price_sort,

@@ -100,34 +100,35 @@ const wrap: React.CSSProperties = {
   zIndex: 60,
   background: "#111214",
   color: "#fff",
-  borderTop: "3px solid #b60b0c",
-  boxShadow: "0 -6px 24px rgba(0,0,0,.25)",
+  borderTop: "2px solid #b60b0c",
+  boxShadow: "0 -3px 12px rgba(0,0,0,.2)",
 };
 const inner: React.CSSProperties = {
   maxWidth: 1180,
   margin: "0 auto",
-  padding: "12px 16px",
+  padding: "5px 16px",
   display: "flex",
   alignItems: "center",
-  gap: 14,
+  gap: 10,
   flexWrap: "wrap",
 };
-const text: React.CSSProperties = { fontSize: 14.5, lineHeight: 1.45, flex: 1, minWidth: 220 };
+// Owner 3 Oct 2026: "too big, make it smaller" - about half the height it was.
+const text: React.CSSProperties = { fontSize: 12.5, lineHeight: 1.35, flex: 1, minWidth: 200 };
 const cta: React.CSSProperties = {
   background: "#b60b0c",
   color: "#fff",
   textDecoration: "none",
   fontWeight: 700,
-  fontSize: 14,
-  padding: "10px 18px",
-  borderRadius: 6,
+  fontSize: 12.5,
+  padding: "5px 12px",
+  borderRadius: 5,
   whiteSpace: "nowrap",
 };
 const close: React.CSSProperties = {
   background: "none",
   border: "none",
   color: "#9a9a9d",
-  fontSize: 22,
+  fontSize: 18,
   lineHeight: 1,
   cursor: "pointer",
   padding: "0 4px",
