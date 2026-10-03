@@ -5,7 +5,9 @@ const API_BASE = "https://api.ukcarimports.ie/public";
 
 export const metadata: Metadata = {
   title: "FAQ",
-  description: "We have gathered frequently asked questions for you - UK Car Imports",
+  // Website review 3 Oct 2026 #66: canonical address and a description that says what the page answers.
+  description: "Answers to the questions people ask most about importing a car from the UK to Ireland with UK Car Imports.",
+  alternates: { canonical: "https://ukcarimports.ie/faq" },
 };
 
 interface FaqItem {

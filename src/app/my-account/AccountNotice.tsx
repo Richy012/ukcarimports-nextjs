@@ -25,7 +25,7 @@ export default function AccountNotice() {
   useEffect(() => {
     if (!isTokenValid()) return;
     Promise.all([
-      fetch("/api/saved-cars", { headers: authHeaders() })
+      fetch("/api/saved-car-ids", { headers: authHeaders() })
         .then((r) => r.json())
         .catch(() => null),
       fetch("/api/saved-searches", { headers: authHeaders() })
@@ -33,9 +33,16 @@ export default function AccountNotice() {
         .catch(() => null),
     ])
       .then(([cars, searches]) => {
-        const nCars = Array.isArray(cars?.data) ? cars.data.length : 0;
-        const nSearches = Array.isArray(searches?.data) ? searches.data.length : 0;
-        setEmpty(nCars === 0 && nSearches === 0);
+        // Website review 3 Oct 2026 #22: saved-cars answers {data: {cars, count}},
+        // so counting data as a list gave 0 and every member was warned.
+        // saved-car-ids is the plain list of every saved car_id -- the same rows
+        // the clean-up jobs check, sold cars included. If either reply is not
+        // a list, say nothing rather than warn on a guess.
+        if (!Array.isArray(cars?.data) || !Array.isArray(searches?.data)) {
+          setEmpty(null);
+          return;
+        }
+        setEmpty(cars.data.length === 0 && searches.data.length === 0);
       })
       .catch(() => setEmpty(null));
   }, []);
@@ -58,7 +65,9 @@ export default function AccountNotice() {
       <p style={{ margin: "0 0 14px", lineHeight: 1.55 }}>
         Your account is what tells us what you&rsquo;re looking for. Save a car you like, or save a
         search, and we&rsquo;ll email you the moment a matching one lands — usually before it reaches
-        the Irish market. <strong>Accounts with no saved car or search are removed after 30 days.</strong>
+        the Irish market.{" "}
+        {/* Website review 3 Oct 2026 #23: the real grace period (owner's rule, 31 Aug 2026). */}
+        <strong>Accounts with no saved car or search are removed after 24 hours.</strong>
       </p>
       <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
         <Link

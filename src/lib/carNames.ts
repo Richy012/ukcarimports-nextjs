@@ -83,3 +83,98 @@ export function normaliseModel(make: string, model: string): string {
   if (mk === "volvo" && /^40\s*series\b/.test(md)) md = "v40";
   return md;
 }
+
+// ---------------------------------------------------------------------------
+// DISPLAY names (website review 3 Oct 2026 #63 #64). How a make or a model is
+// WRITTEN on the page - never use these for a lookup (that is what
+// normaliseMake/normaliseModel above are for). They lived in
+// src/app/import/ImportLanding.tsx, which re-exports them so the footer, the car
+// page and the related-deals strip are unchanged; they live here so the
+// client-side home search can share them without pulling the import page into
+// the browser bundle.
+// ---------------------------------------------------------------------------
+
+export function titleCase(s: string): string {
+  return s.replace(/\b\w/g, (c) => c.toUpperCase()).replace(/\bBmw\b/, "BMW").replace(/\bMg\b/, "MG").replace(/\bByd\b/, "BYD").replace(/\bDs\b/, "DS");
+}
+
+// Model names are stored the way the scraper found them (xc90, glc, 320d,
+// A180d, 3 Series after family grouping). Render them the way a human — and
+// a Google query — writes them.
+function baseDisplayModel(make: string, model: string): string {
+  const m = model.trim();
+  const mk = make.toLowerCase();
+  if (mk === "bmw" && /^i[x0-9][a-z0-9]*$/i.test(m)) return "i" + m.slice(1).toUpperCase();
+  if (mk === "hyundai" && /^i\d+$/i.test(m)) return m.toLowerCase();
+  if (/[\s-]/.test(m)) {
+    // 17 Sep 2026: "cx-60" rendered "Cx-60" in the page title and in a
+    // published post. A short letter code in front of digits or "-digits"
+    // (CX-60, MX-30, EV6) is upper case; words stay title case (E-Tron, Aircross).
+    // 1 Oct 2026: two short letter codes joined by a hyphen (c-hr, hr-v) are
+    // both upper case - C-HR, HR-V - not C-Hr; a real word after the hyphen
+    // (e-tron, x-trail) still reads E-Tron, X-Trail.
+    if (/^[a-z]{1,3}-[a-z]{1,3}$/i.test(m)) return m.toUpperCase();
+    return titleCase(m).replace(/\b([A-Za-z]{1,3})(?=\d|-\d)/g, (c) => c.toUpperCase());
+  }
+  if (/^[a-z]+$/.test(m)) return m.length <= 3 ? m.toUpperCase() : titleCase(m);
+  if (/^[a-z]{1,2}\d+[a-z]*$/.test(m)) return m.toUpperCase();
+  return m;
+}
+
+// Whole names the rules cannot derive - the maker's own spelling (website
+// review 3 Oct 2026 #64: "Toyota rav4", "Kia RIO", "Toyota BZ4X" ...).
+const MODEL_DISPLAY: Record<string, string> = {
+  rav4: "RAV4",
+  bz4x: "bZ4X",
+  rio: "Rio",
+  ka: "Ka",
+  mii: "Mii",
+  e: "e",
+  "e:ny1": "e:Ny1",
+  ix20: "ix20",
+  mito: "MiTo",
+  ecosport: "EcoSport",
+  xceed: "XCeed",
+  proceed: "ProCeed",
+  "t-roc": "T-Roc",
+  "up!": "up!",
+  "e-up!": "e-up!",
+  "e-golf": "e-Golf",
+  "e vitara": "e Vitara",
+};
+
+// Words inside a name that the makers write in capitals or lower case
+// ("e-tron GT", "Golf SV", "308 SW", "ID.3", "C-MAX", "500X").
+function brandTokens(make: string, s: string): string {
+  const mk = make.toLowerCase();
+  let out = s
+    .replace(/\bGt\b/g, "GT")
+    .replace(/\bSw\b/g, "SW")
+    .replace(/\bSv\b/g, "SV")
+    .replace(/\bRs\b/g, "RS")
+    .replace(/\b([BCS])-Max\b/g, "$1-MAX")
+    .replace(/Spacetourer/g, "SpaceTourer")
+    .replace(/^id\./i, "ID.");
+  if (mk === "audi") out = out.replace(/\bE-Tron\b/g, "e-tron");
+  if ((mk === "fiat" || mk === "abarth") && /^\d{3}[xc]$/i.test(out)) out = out.toUpperCase();
+  return out;
+}
+
+export function displayModel(make: string, model: string): string {
+  const raw = model.trim();
+  const fixed = MODEL_DISPLAY[raw.toLowerCase()];
+  if (fixed) return fixed;
+  // "prius+", "c-hr+", "ka+": the model's own name, then the plus.
+  if (raw.length > 1 && raw.endsWith("+")) return displayModel(make, raw.slice(0, -1)) + "+";
+  return brandTokens(make, baseDisplayModel(make, raw));
+}
+
+// "an Audi", "an MG", "an Alfa Romeo"; "a BMW", "a Hyundai" (website review
+// 3 Oct 2026 #63: the make pages said "Import a Audi"). A name written in
+// capitals is read letter by letter, so MG takes "an" and BMW, BYD, DS take "a".
+export function withArticle(name: string): string {
+  const n = name.trim();
+  const letters = n.match(/^([A-Z]{2,})\b/);
+  const vowelSound = letters ? /^[AEFHILMNORSX]/.test(letters[1]) : /^[aeiou]/i.test(n);
+  return `${vowelSound ? "an" : "a"} ${n}`;
+}

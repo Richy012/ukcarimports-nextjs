@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import ImportLanding, { getLanding, titleCase, displayModel } from "../../ImportLanding";
 
 export const revalidate = 3600;
@@ -70,5 +70,8 @@ export default async function ModelImportPage({
   const { make, model } = await params;
   const data = await getLanding(make, model);
   if (!data || !data.model) notFound();
+  // Website review 3 Oct 2026 #32: "+" models have their own address now (ka+
+  // was /import/ford/ka, now /import/ford/ka-plus); an old one forwards for good.
+  if (data.model_slug && data.model_slug !== model) permanentRedirect(`/import/${make}/${data.model_slug}`);
   return <ImportLanding data={data} makeSlug={make} />;
 }

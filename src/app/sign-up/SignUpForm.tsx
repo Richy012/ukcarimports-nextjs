@@ -4,6 +4,7 @@ import { track } from "@/lib/gtm";
 import { useState } from "react";
 import Link from "next/link";
 import { setToken } from "@/lib/auth";
+import { withRedirect } from "@/lib/memberReturn";
 import styles from "./page.module.css";
 
 interface FormState {
@@ -35,10 +36,14 @@ function validate(form: FormState): FormErrors {
   if (!form.email.trim()) next.email = "Email is required";
   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) next.email = "Enter a valid email";
   if (!form.password) next.password = "Password is required";
+  // Website review 3 Oct 2026 #48: the same minimum the API and the reset form use.
+  else if (form.password.length < 6) next.password = "Use at least 6 characters";
   return next;
 }
 
-export default function SignUpForm() {
+// Website review 3 Oct 2026 #25: `redirect` (checked by the page) is carried on to
+// sign-in, which returns the visitor to the search or page they came from.
+export default function SignUpForm({ redirect = null }: { redirect?: string | null }) {
     const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitting, setSubmitting] = useState(false);
@@ -97,7 +102,8 @@ export default function SignUpForm() {
   if (awaitingVerify) {
     return (
       <div className={styles.form} style={{ textAlign: "center", padding: "28px 20px" }}>
-        <div style={{ fontSize: "2.2rem", marginBottom: 10 }}>\u2709\uFE0F</div>
+        {/* Website review 3 Oct 2026 #51: in JSX text an escape is printed as typed; in braces it is the envelope. */}
+        <div style={{ fontSize: "2.2rem", marginBottom: 10 }} aria-hidden="true">{"\u2709\uFE0F"}</div>
         <h2 style={{ margin: "0 0 10px" }}>Check your inbox</h2>
         <p style={{ lineHeight: 1.65, margin: "0 0 8px" }}>
           We&apos;ve sent a confirmation link to <strong>{form.email}</strong>.
@@ -113,6 +119,10 @@ export default function SignUpForm() {
           </button>.
         </p>
         {resendMsg && <p style={{ fontSize: "0.85rem", color: "#333" }}>{resendMsg}</p>}
+        <p style={{ lineHeight: 1.65, margin: "14px 0 0" }}>
+          Once it&apos;s confirmed, <Link href={withRedirect("/sign-in", redirect)}>sign in</Link>
+          {redirect ? " and we\u2019ll take you back to where you were." : "."}
+        </p>
       </div>
     );
   }
@@ -198,7 +208,9 @@ export default function SignUpForm() {
         >
           An account is how we know what you&rsquo;re looking for. Save a car or a search and
           we&rsquo;ll email you when a matching one lands. Accounts with{" "}
-          <strong>no saved car or search are removed after 30 days</strong>.
+          {/* Website review 3 Oct 2026 #23: the real grace period (owner's rule, 31 Aug 2026:
+              /root/purge_stale_signups.sh, daily), not the 30 days this used to say. */}
+          <strong>no saved car or search are removed after 24 hours</strong>.
         </p>
 
         <button type="submit" className={styles.submit} disabled={submitting}>
@@ -209,7 +221,7 @@ export default function SignUpForm() {
       </form>
 
       <div className={styles.links}>
-        <Link href="/sign-in">Already have an account? Sign in</Link>
+        <Link href={withRedirect("/sign-in", redirect)}>Already have an account? Sign in</Link>
       </div>
     </>
   );

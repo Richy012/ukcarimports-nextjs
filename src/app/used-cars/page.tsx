@@ -5,6 +5,7 @@
 import { preload } from "react-dom";
 import { facetBody, keepSelected, parseFacet, type FacetName, type FacetOption } from "@/lib/facets";
 import FilterBar from "./FilterBar";
+import HeadlineCount from "./HeadlineCount";
 import { irishListings } from "@/lib/irishListings";
 import { getStockCount } from "@/lib/stockCount";
 import styles from "./page.module.css";
@@ -322,6 +323,14 @@ export default async function UsedCarsPage({
     minSaving: filters.min_saving,
     belowCheapest: filters.below_cheapest,
     dropfilter: filters.drop_sort,
+    // website review 3 Oct 2026 #13: the saving order is also a filter (badge cars only), so the dropdowns count
+    // with it exactly as getCars lists with it -- "abarth (126)" opened 0 cars.
+    savingfilter:
+      filters.saving_sort ||
+      ((filters.bestseller || filters.min_saving || filters.below_cheapest) &&
+      !filters.price_sort && !filters.mileage_sort && !filters.drop_sort
+        ? "1"
+        : ""),
   };
   const [{ data }, makes, models, fuels, bodyStyles, transmissions, seatsOptions, colours, engines] =
     await Promise.all([
@@ -385,12 +394,8 @@ export default async function UsedCarsPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(USED_CARS_JSONLD) }}
       />
       <h1 className={styles.heading}>Used cars for sale</h1>
-      {displayCount !== null && (
-        <p className={styles.count}>
-          {isDefaultView ? "Total vehicles" : "Vehicles matching your filters"}:{" "}
-          {displayCount.toLocaleString("en-IE")}
-        </p>
-      )}
+      {/* website review 3 Oct 2026 #33: server figure first, then the live count FilterBar publishes (one number). */}
+      <HeadlineCount initial={displayCount} isDefaultView={isDefaultView} pageKey={stateKey} className={styles.count} />
       {irish.length > 0 && (
         <p style={{ margin: "0 0 10px" }}>
           <a href={irishOn ? "/used-cars" : "/used-cars?irish=1"}
@@ -469,6 +474,7 @@ export default async function UsedCarsPage({
         totalPages={totalPages}
         prevHref={prevHref}
         nextHref={nextHref}
+        headlineKey={stateKey}
       />
     </main>
   );

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { setToken } from "@/lib/auth";
+import { readPendingAlert, safeRedirect, withRedirect } from "@/lib/memberReturn";
 import styles from "./page.module.css";
 
 interface FormState {
@@ -20,17 +21,23 @@ function validate(form: FormState): Partial<FormState> {
   return next;
 }
 
-export default function SignInForm() {
+// Website review 3 Oct 2026 #49: `redirect` is where the member was before being
+// sent here (/sign-in?redirect=/my-account/saved-cars), already checked by the page.
+export default function SignInForm({ redirect = null }: { redirect?: string | null }) {
     const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [errors, setErrors] = useState<Partial<FormState>>({});
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState("");
+  const [needsConfirm, setNeedsConfirm] = useState(false);
+  const [resendMsg, setResendMsg] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const nextErrors = validate(form);
     setErrors(nextErrors);
     setServerError("");
+    setNeedsConfirm(false);
+    setResendMsg("");
     if (Object.keys(nextErrors).length > 0) return;
 
     setSubmitting(true);
@@ -44,14 +51,37 @@ export default function SignInForm() {
 
       if (data.ResponseCode == 1) {
         setToken(data.token);
-        window.location.href = "/my-account/notifications";
+        // Website review 3 Oct 2026 #49 and #25: back to the page they came
+        // from; failing that, to the search they asked to be alerted on
+        // before they had an account (it is saved when that page loads);
+        // otherwise to their notifications as before.
+        const target = safeRedirect(redirect) || readPendingAlert()?.url || "/my-account/notifications";
+        window.location.href = target;
       } else {
         setServerError(data.ResponseText || "Login failed, please try again.");
+        setNeedsConfirm(Boolean(data.RequiresVerification));
         setSubmitting(false);
       }
     } catch {
       setServerError("Something went wrong, please try again.");
       setSubmitting(false);
+    }
+  }
+
+  // Website review 3 Oct 2026 #24: the old message sent an unconfirmed member
+  // to the sign-up page, which can only resend in the visit that registered.
+  async function resendConfirmation() {
+    setResendMsg("Sending…");
+    try {
+      const res = await fetch(`/api/resend-confirmation`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: form.email.trim() }),
+      });
+      const data = await res.json();
+      setResendMsg(data.ResponseText || "A fresh link is on its way.");
+    } catch {
+      setResendMsg("Could not resend just now — try again in a minute.");
     }
   }
 
@@ -85,11 +115,23 @@ export default function SignInForm() {
         </button>
 
         {serverError && <p className={styles.error}>{serverError}</p>}
+        {needsConfirm && (
+          <p style={{ margin: "4px 0 0", fontSize: "0.9rem", lineHeight: 1.5 }}>
+            <button
+              type="button"
+              onClick={resendConfirmation}
+              style={{ background: "none", border: "none", color: "#b01112", textDecoration: "underline", cursor: "pointer", padding: 0, font: "inherit" }}
+            >
+              Resend confirmation email
+            </button>
+            {resendMsg && <span style={{ display: "block", marginTop: 6, color: "#333" }}>{resendMsg}</span>}
+          </p>
+        )}
       </form>
 
       <div className={styles.links}>
         <Link href="/forgot-password">Forgot your password?</Link>
-        <Link href="/sign-up">Not a user? Create account</Link>
+        <Link href={withRedirect("/sign-up", redirect)}>Not a user? Create account</Link>
       </div>
     </>
   );

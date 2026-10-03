@@ -5,7 +5,9 @@ const API_BASE = "https://api.ukcarimports.ie/public";
 
 export const metadata: Metadata = {
   title: "Terms and Conditions",
-  description: "UK Car Imports client service terms and conditions.",
+  // Website review 3 Oct 2026 #66: canonical address and a fuller description (the terms' own headings).
+  description: "The client service terms and conditions for UK Car Imports' vehicle sourcing, purchase administration, import, VRT and related services.",
+  alternates: { canonical: "https://ukcarimports.ie/terms-and-conditions" },
 };
 
 interface ContentResponse {

@@ -5,6 +5,8 @@ import styles from "./page.module.css";
 export const metadata: Metadata = {
   title: "Contact",
   description: "Get in touch with UK Car Imports — our offices, email, and contact form.",
+  // Website review 3 Oct 2026 #66: canonical address.
+  alternates: { canonical: "https://ukcarimports.ie/contact" },
 };
 
 export default function ContactPage() {

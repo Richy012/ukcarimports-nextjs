@@ -2,10 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import styles from "../../../page.module.css";
 import AdminWhyDetails from "./AdminWhyDetails";
+import { notFound } from "next/navigation";
+import { shownMedian } from "@/lib/shownMedian";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
 
-export const revalidate = 900;
+// Website review 3 Oct 2026 #27: always fetched fresh. The 15-minute cached copy
+// was handed to the first visitor after it expired, however old it was (9 of 12
+// badged cars showed an old price and saving on first view, the right one on the
+// second). The car page fetches no-store too, so a click-through matches it.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "How this deal was calculated",
@@ -78,17 +84,19 @@ const TIER_LABELS: Record<string, string> = {
   trending: "Trending Bestseller",
 };
 
+// Website review 3 Oct 2026 #56: a sold or unknown car is "not found" (404), not
+// a 200 page saying there is no data. Any other failure throws, so an API hiccup
+// is an error for that one request instead of a "No comparison data" page that
+// used to be cached for 15 minutes. Ids are 15 digits; junk never reaches the API.
+const CAR_ID_RE = /^\d{6,20}$/;
+
 async function getWhy(carId: string): Promise<WhyData | null> {
-  try {
-    const res = await fetch(`${API_BASE}/best-value-why/${carId}`, {
-      next: { revalidate: 900 },
-    });
-    if (!res.ok) return null;
-    const json = await res.json();
-    return json?.data ?? null;
-  } catch {
-    return null;
-  }
+  if (!CAR_ID_RE.test(carId)) return null;
+  const res = await fetch(`${API_BASE}/best-value-why/${carId}`, { cache: "no-store" });
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`best-value-why request failed: ${res.status}`);
+  const json = await res.json();
+  return json?.data ?? null;
 }
 
 // Plain-English identity grade: match_score measures advert-text mess, not
@@ -106,17 +114,7 @@ export default async function BestValueWhyPage(props: {
 }) {
   const { carId } = await props.params;
   const data = await getWhy(carId);
-  if (!data) {
-    return (
-      <main className={styles.whyPage}>
-        <h1 className={styles.sectionTitle}>No comparison data for this car</h1>
-        <p className={styles.sectionSub}>
-          It may have been matched in an earlier snapshot, or sold.{" "}
-          <Link href="/used-cars?bestseller=1">Browse all Bestsellers &rarr;</Link>
-        </p>
-      </main>
-    );
-  }
+  if (!data) notFound(); // #56: the site's 404 page, which links to the Bestsellers
 
   // SOUND-MAX (owner 2026-09-02): the working shown as "Route 1" must be a
   // SOUND pair — strong evidence AND priced within 15% of the Irish median for
@@ -145,6 +143,9 @@ export default async function BestValueWhyPage(props: {
   const medUsed = kmBased ? (med.km_median as number) : med?.irish_median;
   const medAdsUsed = kmBased ? (med.km_ads as number) : med?.ads;
   const kmBand = med?.km_band ?? 20000;
+  // Website review 3 Oct 2026 #59: the median as printed in the working, picked so
+  // "median - ours = saving" is exact to the euro (see lib/shownMedian).
+  const medShown = med != null && medUsed != null ? shownMedian(medUsed, med.saving_eur, data.live_price) : null;
   // Which route the page will actually SHOW as the badge's working. Derived
   // from what renders (a route only counts when its live saving clears the
   // band); the API's deciding_route is a tiebreak only.
@@ -184,8 +185,13 @@ export default async function BestValueWhyPage(props: {
       {data.badge && (
         <section className={styles.whyBlock}>
           <h2>
-            &#9889; {TIER_LABELS[data.badge.tier]} — {eur(data.badge.saving_eur)} under the
-            Irish market right now
+            {/* Website review 3 Oct 2026 #28: a Trending saving is worded "around"
+                and rounded to EUR 500 everywhere (frozen wording), as on the car page. */}
+            &#9889; {TIER_LABELS[data.badge.tier]} —{" "}
+            {data.badge.tier === "trending"
+              ? `around ${eur(Math.round(data.badge.saving_eur / 500) * 500)}`
+              : eur(data.badge.saving_eur)}{" "}
+            under the Irish market right now
           </h2>
           <p>
             {data.badge.tier === "trending"
@@ -239,15 +245,15 @@ export default async function BestValueWhyPage(props: {
         <section className={styles.whyBlock}>
           <h2>Route 2 — under the Irish median for its exact model{kmBased ? ", year and mileage" : " and year"}</h2>
           <p className={styles.whyFormula}>
-            {eur(medUsed as number)} Irish median (across {medAdsUsed} real listings{kmBased ? ` within ${kmBand.toLocaleString("en-IE")} km of our mileage` : ""}) −{" "}
-            {eur(data.live_price)} ours = <strong>{eur(med.saving_eur)} saving</strong>
+            {eur(medShown as number)} Irish median (across {medAdsUsed} real listings{kmBased ? ` within ${kmBand.toLocaleString("en-IE")} km of our mileage` : ""}) −{" "}
+            {eur(data.live_price)} ours = <strong>{eur((medShown as number) - Math.round(data.live_price))} saving</strong>
           </p>
           {kmBased ? (
             <p>
               Irish dealers list {med.ads} of this exact make, model and year, with a median asking
               price of {eur(med.irish_median)}. {medAdsUsed} of them sit within{" "}
               {kmBand.toLocaleString("en-IE")} km of this car&rsquo;s mileage, and their median is{" "}
-              {eur(medUsed as number)} — the like-for-like figure, and the one we compare against. We
+              {eur(medShown as number)} — the like-for-like figure, and the one we compare against. We
               only narrow to mileage where 10 or more such listings exist, inside
               model-years with 10 or more listings; a median ignores freak highs and lows, so one or
               two mispriced ads cannot move it.

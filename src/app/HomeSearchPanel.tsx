@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CANONICAL_BROWSE_BODY } from "@/lib/stockCount";
+// Website review 3 Oct 2026 #64: the dropdowns showed "Bmw", "Mg" and every model
+// in lower case; they now use the import pages' and footer's display names.
+import { titleCase, displayModel } from "@/lib/carNames";
 import styles from "./page.module.css";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
@@ -102,7 +105,7 @@ export default function HomeSearchPanel({
           <option value="">Any make</option>
           {makes.map((m) => (
             <option key={m.make} value={m.make}>
-              {m.make.replace(/\b\w/g, (c) => c.toUpperCase())} ({m.n.toLocaleString()})
+              {titleCase(m.make)} ({m.n.toLocaleString()})
             </option>
           ))}
         </select>
@@ -115,7 +118,7 @@ export default function HomeSearchPanel({
           <option value="">Any model</option>
           {models.map((m) => (
             <option key={m.car_model} value={m.car_model}>
-              {m.car_model} ({m.total.toLocaleString()})
+              {displayModel(make, m.car_model)} ({m.total.toLocaleString()})
             </option>
           ))}
         </select>

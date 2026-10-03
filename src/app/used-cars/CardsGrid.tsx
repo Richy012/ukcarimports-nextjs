@@ -91,7 +91,18 @@ function formatKm(mileageMiles: string): string | null {
   );
 }
 
-export default function CardsGrid({ cars }: { cars: Car[] }) {
+export default function CardsGrid({
+  cars,
+  saveVersion = "",
+  saveChips,
+}: {
+  cars: Car[];
+  // Website review 3 Oct 2026 #26: the version and feature chips the listing is
+  // filtered by. saveCar stores them and SendSimilarCarAlerts then alerts only on
+  // similarly equipped cars; hard-coded blanks meant 0 of 117 saved cars had any.
+  saveVersion?: string;
+  saveChips?: string[];
+}) {
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
   const [pending, setPending] = useState<Set<string>>(new Set());
   const [signInCarId, setSignInCarId] = useState<string | null>(null);
@@ -113,7 +124,7 @@ export default function CardsGrid({ cars }: { cars: Car[] }) {
     fetch(isSaved ? `/api/unsave-car/${carId}` : "/api/save-car", {
       method: isSaved ? "DELETE" : "POST",
       headers: { ...authHeaders(), "Content-Type": "application/json" },
-      body: isSaved ? undefined : JSON.stringify({ car_id: carId, version: "", searchChips: [] }),
+      body: isSaved ? undefined : JSON.stringify({ car_id: carId, version: saveVersion, searchChips: saveChips ?? [] }),
     })
       .then((res) => res.json())
       .then((data) => {

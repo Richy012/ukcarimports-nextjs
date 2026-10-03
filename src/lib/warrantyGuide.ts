@@ -85,6 +85,12 @@ const HOOKS: Record<string, string> = {
   "warranty-volvo": "3-year cover that runs on regardless of re-registration",
 };
 
+// Website review 3 Oct 2026 #53: brands whose terms are still unresolved (the
+// owner's decision on Mazda is pending -- reference_warranty_guide_live.md). The
+// hook says so, so the line must never go on to give an end date: a car with a
+// term that may still run shows the hook and the link, no "runs to about".
+const UNRESOLVED_TERMS = new Set<string>(["warranty-mazda"]);
+
 export function warrantyGuideFor(makeName?: string | null): {
   href: string;
   hook: string | null;
@@ -244,6 +250,8 @@ export function titleCaseMake(makeName?: string | null): string {
   const upper: Record<string, string> = {
     bmw: "BMW", mg: "MG", byd: "BYD", ds: "DS", seat: "SEAT", mini: "MINI",
     vw: "VW", kia: "Kia",
+    // website review 3 Oct 2026 #55: live makes the word-by-word casing gets wrong
+    "ds automobiles": "DS Automobiles", ssangyong: "SsangYong",
   };
   if (upper[t.toLowerCase()]) return upper[t.toLowerCase()];
   return t
@@ -282,7 +290,9 @@ export function warrantyStatusFor(
     end.setFullYear(end.getFullYear() + baseYears);
     return {
       href: base.href,
-      hook: `${base.hook ?? "the manufacturer warranty travels to Ireland"} — on this car that runs to about ${MONTHS[end.getMonth()]} ${end.getFullYear()}`,
+      hook: UNRESOLVED_TERMS.has(anchor)
+        ? base.hook
+        : `${base.hook ?? "the manufacturer warranty travels to Ireland"} — on this car that runs to about ${MONTHS[end.getMonth()]} ${end.getFullYear()}`,
       make,
     };
   }
@@ -301,7 +311,9 @@ export function warrantyStatusFor(
     end.setFullYear(end.getFullYear() + battYears);
     return {
       href: base.href,
-      hook: `${pastCap ? "the manufacturer warranty no longer covers this car on mileage" : "the manufacturer warranty has run out on a car this age"}, but the high-voltage battery is covered to about ${MONTHS[end.getMonth()]} ${end.getFullYear()} — conditions apply`,
+      hook: UNRESOLVED_TERMS.has(anchor)
+        ? base.hook
+        : `${pastCap ? "the manufacturer warranty no longer covers this car on mileage" : "the manufacturer warranty has run out on a car this age"}, but the high-voltage battery is covered to about ${MONTHS[end.getMonth()]} ${end.getFullYear()} — conditions apply`,
       make,
     };
   }

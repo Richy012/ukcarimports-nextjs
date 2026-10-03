@@ -4,6 +4,7 @@ import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { API_BASE, authHeaders, isTokenValid } from "@/lib/auth";
+import { usedCarsQuery } from "@/lib/savedSearch";
 import styles from "./page.module.css";
 
 interface SavedSearch {
@@ -12,9 +13,6 @@ interface SavedSearch {
   created_at: string;
   query_params: string;
 }
-
-// The listing page reads three of the API's parameter names under other names.
-const URL_KEYS: Record<string, string> = { bestsellerSeries: "bestseller", minSaving: "min_saving", belowCheapest: "below_cheapest" };
 
 function parseParams(queryParams: string): Record<string, unknown> {
   try {
@@ -25,15 +23,11 @@ function parseParams(queryParams: string): Record<string, unknown> {
   }
 }
 
+// Website review 3 Oct 2026 #26: lists (searchChips, versionChips) are written as
+// repeated keys, which is how the listing reads them; JSON text arrived as one odd
+// chip. lib/savedSearch also maps the three keys the listing names differently.
 function buildQueryString(queryParams: string): string {
-  const params = parseParams(queryParams);
-  return Object.keys(params)
-    .filter((k) => params[k] !== "" && params[k] !== null && params[k] !== undefined)
-    .map((k) => {
-      const v = params[k];
-      return encodeURIComponent(URL_KEYS[k] ?? k) + "=" + encodeURIComponent(typeof v === "object" ? JSON.stringify(v) : String(v));
-    })
-    .join("&");
+  return usedCarsQuery(parseParams(queryParams));
 }
 
 // Bestseller ladder (owner 2026-09-03): "only email me when the car is at
@@ -78,7 +72,8 @@ export default function SavedSearchesClient() {
 
   useEffect(() => {
     if (!isTokenValid()) {
-      window.location.href = "/sign-in";
+      // Website review 3 Oct 2026 #49: sign-in returns the member here.
+      window.location.href = `/sign-in?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
       return;
     }
 

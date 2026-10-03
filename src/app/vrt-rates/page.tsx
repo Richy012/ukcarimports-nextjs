@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: "VRT Rates in Ireland by CO₂ Band",
   description:
     "The full Irish VRT table for 2026: all 20 CO₂ bands and VRT percentages, plus the NOx levy and the NEDC-to-WLTP uplift formulas.",
+  // Website review 3 Oct 2026 #66: canonical address.
+  alternates: { canonical: "https://ukcarimports.ie/vrt-rates" },
 };
 
 // Percentages match production's car_vrt_rate table, verified against

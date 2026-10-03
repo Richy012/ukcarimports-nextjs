@@ -6,6 +6,8 @@ import styles from "./page.module.css";
 export const metadata: Metadata = {
   title: "Car Sourcing",
   description: "Found a vehicle in the UK you'd like to import? We calculate the total landed price for you.",
+  // Website review 3 Oct 2026 #66: canonical address.
+  alternates: { canonical: "https://ukcarimports.ie/car-sourcing" },
 };
 
 export default function CarSourcingPage() {

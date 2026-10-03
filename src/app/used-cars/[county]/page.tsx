@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ladderRung } from "@/lib/ladder";
 
 // County landing pages — restores the /used-cars/<county> family that ranked
 // for years (Limerick alone: 23,743 impressions/90d at position 7) and then
@@ -31,13 +32,26 @@ export function generateStaticParams() {
   return Object.keys(COUNTIES).map((county) => ({ county }));
 }
 
+// Website review 3 Oct 2026 #62: this shape named fields the API never sends
+// (top-level saving_eur, final_price_eur), so the "Priced below the Irish market"
+// cards showed no price and no saving. The best-value endpoint nests them, as the
+// home page's Bestseller cards read them.
 interface BestValueCar {
   car_id: string;
   car_name: string;
   featured_image: string;
-  best_value?: number | null;
-  saving_eur?: number | null;
-  final_price_eur?: number | null;
+  car_info?: { final_price?: number } | null;
+  best_value?: { tier: string; saving_eur: number } | null;
+}
+
+// The home page's Bestseller wording: a verified saving to the euro; a Trending
+// one hedged and rounded to EUR 500, never shown under EUR 1,000.
+function savingLine(bv: BestValueCar["best_value"]): string {
+  if (!bv) return "";
+  const sav = Math.round(bv.saving_eur);
+  if (ladderRung(bv.tier, sav)) return `€${sav.toLocaleString()} less than in Ireland`;
+  const rounded = Math.round(sav / 500) * 500;
+  return rounded >= 1000 ? `around €${rounded.toLocaleString()} less than in Ireland` : "";
 }
 
 async function getShowcase(): Promise<BestValueCar[]> {
@@ -142,7 +156,18 @@ export default async function CountyPage({
               <Link key={c.car_id} href={`/car/${c.car_id}`} style={{ border: "1px solid #e2e2e2", borderRadius: 10, overflow: "hidden", textDecoration: "none", color: "#1a1a1a", background: "#fff" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={c.featured_image} alt={c.car_name} loading="lazy" style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block" }} />
-                <span style={{ display: "block", padding: "10px 12px", fontSize: 13.5, fontWeight: 600, lineHeight: 1.4 }}>{c.car_name}</span>
+                <span style={{ display: "block", padding: "10px 12px 4px", fontSize: 13.5, fontWeight: 600, lineHeight: 1.4 }}>{c.car_name}</span>
+                <span style={{ display: "block", padding: "0 12px 12px", fontSize: 13.5, lineHeight: 1.45 }}>
+                  {c.car_info?.final_price ? (
+                    <strong style={{ fontSize: 16 }}>
+                      €{Math.round(c.car_info.final_price).toLocaleString()}
+                      <span style={{ fontWeight: 400, color: "#666", fontSize: 12.5 }}> all-in</span>
+                    </strong>
+                  ) : null}
+                  {savingLine(c.best_value) ? (
+                    <span style={{ display: "block", color: "#0b6b3a", fontWeight: 700 }}>{savingLine(c.best_value)}</span>
+                  ) : null}
+                </span>
               </Link>
             ))}
           </div>

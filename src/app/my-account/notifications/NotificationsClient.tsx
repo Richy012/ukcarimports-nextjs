@@ -47,7 +47,8 @@ export default function NotificationsClient() {
 
   useEffect(() => {
     if (!isTokenValid()) {
-      window.location.href = "/sign-in";
+      // Website review 3 Oct 2026 #49: sign-in returns the member here.
+      window.location.href = `/sign-in?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
       return;
     }
 

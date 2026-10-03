@@ -6,6 +6,8 @@ const API_BASE = "https://api.ukcarimports.ie/public";
 export const metadata: Metadata = {
   title: "About Us",
   description: "Meet the team behind UK Car Imports and learn how we help import quality used cars from the UK to Ireland.",
+  // Website review 3 Oct 2026 #66: canonical address.
+  alternates: { canonical: "https://ukcarimports.ie/about-us" },
 };
 
 interface ContentResponse {

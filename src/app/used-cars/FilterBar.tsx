@@ -1,6 +1,7 @@
 "use client";
 
 import RecentSearches, { rememberSearch } from "./RecentSearches";
+import { publishHeadlineCount } from "./HeadlineCount";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -70,6 +71,8 @@ interface FilterBarProps {
   totalPages: number;
   prevHref: string | null;
   nextHref: string | null;
+  // website review 3 Oct 2026 #33: pairs this bar with the page headline (HeadlineCount).
+  headlineKey?: string;
 }
 
 // Back on 3 Oct 2026 (owner): the box now resolves a buyer's words to tested synonym groups across all seven
@@ -139,10 +142,33 @@ function sortToParams(sort: string): { price_sort: string; mileage_sort: string;
   return { price_sort: "", mileage_sort: "", drop_sort: "", saving_sort: "" };
 }
 
+// Biggest saving first is the default order inside the badge set unless another sort was chosen (page.tsx getCars
+// does the same). The API reads savingfilter as "badge cars only" too, so the listing AND the dropdown counts send it
+// (website review 3 Oct 2026 #11 #13).
+function savingFilterFor(sort: string, bestseller: string, minSaving: string, belowCheapest: string): string {
+  const { price_sort, mileage_sort, drop_sort, saving_sort } = sortToParams(sort);
+  return saving_sort || ((bestseller || minSaving || belowCheapest) && !price_sort && !mileage_sort && !drop_sort ? "1" : "");
+}
+
 type FeatureResolve = {
   resolved: { id: string; label: string } | null;
   suggestions: { id: string; label: string }[];
+  // website review 3 Oct 2026 #37: "7 seats" / "7-seater" is a seat count, searched on the seats column
+  seats?: string;
+  // website review 3 Oct 2026 #78: the words are a version / trim ("m sport") - offer the Version / trim box
+  trim?: boolean;
 };
+
+// The Version / trim box's check of an added term (website review 3 Oct 2026 #42): how many live cars carry it and, when
+// none do, the nearest trim name or the feature the words name.
+type TrimCheck = {
+  trimCars: number | null;
+  trimSuggest: string | null;
+  feature: { id: string; label: string } | null;
+};
+
+// A message under a chip box. It belongs to the chip it describes and goes when that chip is removed (#77).
+type ChipNotice = { chip: string; text: string; actions?: { label: string; run: () => void }[] };
 
 function ChipSearch({
   label,
@@ -153,6 +179,10 @@ function ChipSearch({
   onDraftChange,
   note,
   coach,
+  commitRef,
+  trimCheck,
+  onTrim,
+  onFeature,
 }: {
   label: string;
   placeholder: string;
@@ -164,12 +194,27 @@ function ChipSearch({
   // Owner, 3 Oct 2026: show buyers what their words are searched as, and when they are not obvious, ask them to
   // pick the feature they mean ("Do you mean Leather seats?"). Backed by /api/feature-resolve.
   coach?: boolean;
+  // website review 3 Oct 2026 #36: lets Apply add the text still in the box first (see FilterBar applyFilters).
+  commitRef?: { current: (() => Promise<string[] | null>) | null };
+  // website review 3 Oct 2026 #42: the Version / trim box says so when no live car's version or trim has the words
+  trimCheck?: boolean;
+  // website review 3 Oct 2026 #78: features box - send trim words ("m sport") to the Version / trim box
+  onTrim?: (term: string) => void;
+  // website review 3 Oct 2026 #42: Version / trim box - send a feature ("leather seats") to the Search features box
+  onFeature?: (label: string) => void;
 }) {
   const [inputValue, setInputValue] = useState("");
   const [live, setLive] = useState<{ term: string; r: FeatureResolve } | null>(null);
   const [asking, setAsking] = useState<{ term: string; r: FeatureResolve } | null>(null);
-  const [notice, setNotice] = useState("");
+  const [notice, setNotice] = useState<ChipNotice | null>(null);
   const cache = useRef(new Map<string, FeatureResolve>());
+  // the chip list as of the latest render, for a message's button pressed later (#42)
+  const chipsRef = useRef(chips);
+  useEffect(() => {
+    chipsRef.current = chips;
+  }, [chips]);
+  // the Version / trim term whose check is out; cleared when that chip is removed first (#42)
+  const pendingTrim = useRef("");
 
   async function resolveTerm(term: string): Promise<FeatureResolve | null> {
     const t = term.trim();
@@ -204,51 +249,127 @@ function ChipSearch({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue, coach]);
 
-  function commit(term: string) {
+  function commit(term: string): string[] {
     const key = term.toLowerCase();
     setAsking(null);
     setLive(null);
     setInputValue("");
     onDraftChange?.("");
-    if (chips.some((c) => c.toLowerCase() === key)) return;
-    onChipsChange([...chips, term]);
+    if (chips.some((c) => c.toLowerCase() === key)) return chips;
+    const next = [...chips, term];
+    onChipsChange(next);
+    return next;
   }
 
-  async function addChip(raw: string, fromBlur = false) {
+  // website review 3 Oct 2026 #42: an added Version / trim term that no live car's version or trim contains gets a
+  // message instead of a silent empty list, with the nearest trim name or the feature it names as a one-click fix.
+  async function checkTrim(term: string) {
+    if (term.startsWith("-")) return;
+    pendingTrim.current = term;
+    let r: TrimCheck | null = null;
+    try {
+      r = (await fetch(`/api/feature-resolve?box=trim&q=${encodeURIComponent(term)}`).then((x) => x.json())) as TrimCheck;
+    } catch {
+      return; // a help, never a blocker
+    }
+    if (!r || r.trimCars !== 0 || pendingTrim.current !== term) return;
+    const actions: { label: string; run: () => void }[] = [];
+    const fixed = r.trimSuggest;
+    if (fixed) {
+      actions.push({
+        label: `Use ${fixed}`,
+        run: () => {
+          const rest = chipsRef.current.filter((c) => c !== term);
+          onChipsChange(rest.some((c) => c.toLowerCase() === fixed.toLowerCase()) ? rest : [...rest, fixed]);
+          setNotice(null);
+        },
+      });
+    }
+    const toFeature = onFeature;
+    const feature = r.feature;
+    if (feature && toFeature) {
+      actions.push({
+        label: `Search features for ${feature.label}`,
+        run: () => {
+          onChipsChange(chipsRef.current.filter((c) => c !== term));
+          toFeature(feature.label);
+          setNotice(null);
+        },
+      });
+    }
+    const hint = fixed ? ` Did you mean ${fixed}?` : feature ? ` ${feature.label} is a feature, not a trim.` : "";
+    setNotice({ chip: term, text: `No version or trim contains "${term}".${hint}`, actions });
+  }
+
+  // Resolves to the chip list after the add, or null while the box is asking which feature was meant (website
+  // review 3 Oct 2026 #36: Apply searches exactly that list).
+  async function addChip(raw: string, fromBlur = false): Promise<string[] | null> {
     const term = raw.trim();
-    if (!term) return;
+    if (!term) return chips;
     if (!coach) {
-      commit(term);
-      return;
+      const added = commit(term);
+      if (trimCheck) void checkTrim(term);
+      return added;
     }
     const neg = term.startsWith("-");
-    const r = await resolveTerm(term);
-    if (r?.resolved) {
-      setNotice("");
-      commit((neg ? "-" : "") + r.resolved.label);
-      return;
+    const shown = term.replace(/^-/, "");
+    // website review 3 Oct 2026 #76: one letter is never searched (the API skips it too) - "C" was quietly Air conditioning
+    if (shown.replace(/[^a-z0-9]/gi, "").length < 2) {
+      if (fromBlur) return null;
+      setInputValue("");
+      onDraftChange?.("");
+      setNotice({ chip: "", text: `"${shown}" is too short to search for - type at least two letters.` });
+      return chips;
     }
-    if (r && r.suggestions.length > 0) {
+    const r = await resolveTerm(term);
+    if (r?.seats && !neg) {
+      // website review 3 Oct 2026 #37: a seat count, which the search filters on - not a seat feature
+      setNotice({ chip: term, text: `Searching for ${r.seats}-seat cars.` });
+      return commit(term);
+    }
+    if (r?.resolved) {
+      setNotice(null);
+      return commit((neg ? "-" : "") + r.resolved.label);
+    }
+    if (r && (r.suggestions.length > 0 || (r.trim && onTrim))) {
       // not obvious: ask the buyer to pick (a blur never forces the question; the text stays in the box)
       if (!fromBlur) setAsking({ term, r });
-      return;
+      return null;
     }
-    if (fromBlur) return;
-    setNotice(`"${term.replace(/^-/, "")}" is not a feature we recognise, so we are searching the advert wording for it.`);
-    commit(term);
+    if (fromBlur) return null;
+    setNotice({ chip: term, text: `"${shown}" is not a feature we recognise, so we are searching the advert wording for it.` });
+    return commit(term);
   }
 
+  useEffect(() => {
+    if (commitRef) commitRef.current = () => addChip(inputValue);
+  });
+
   function choose(featureLabel: string, neg: boolean) {
-    setNotice("");
+    setNotice(null);
     commit((neg ? "-" : "") + featureLabel);
+  }
+
+  // website review 3 Oct 2026 #78: the words are a trim ("m sport") - they go to the Version / trim box instead
+  function moveToTrim(term: string) {
+    setAsking(null);
+    setLive(null);
+    setInputValue("");
+    onDraftChange?.("");
+    setNotice(null);
+    onTrim?.(term);
   }
 
   function removeChip(term: string) {
     onChipsChange(chips.filter((c) => c !== term));
+    // the message about a chip goes with it (website review 3 Oct 2026 #77)
+    if (notice && notice.chip === term) setNotice(null);
+    if (pendingTrim.current === term) pendingTrim.current = "";
   }
 
   const typed = inputValue.trim();
   const shownLive = coach && !asking && live && live.term === typed ? live.r : null;
+  const liveTrim = !!(shownLive?.trim && onTrim);
   // keep the input focused while a choice is clicked, so the blur does not add the typed word first
   const keepFocus = (e: { preventDefault: () => void }) => e.preventDefault();
 
@@ -264,6 +385,7 @@ function ChipSearch({
           setInputValue(e.target.value);
           setAsking(null);
           onDraftChange?.(e.target.value);
+          setNotice((n) => (n && n.chip === "" ? null : n));
         }}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
@@ -282,7 +404,12 @@ function ChipSearch({
                 {sg.label}
               </button>
             ))}
-            <button type="button" className={styles.coachPlain} onMouseDown={keepFocus} onClick={() => { setNotice(""); commit(asking.term); }}>
+            {asking.r.trim && onTrim && (
+              <button type="button" className={styles.quickPickBtn} onMouseDown={keepFocus} onClick={() => moveToTrim(asking.term)}>
+                {`Version / trim: ${asking.term.replace(/^-/, "")}`}
+              </button>
+            )}
+            <button type="button" className={styles.coachPlain} onMouseDown={keepFocus} onClick={() => { setNotice(null); commit(asking.term); }}>
               {`Search the advert wording for "${asking.term.replace(/^-/, "")}"`}
             </button>
           </div>
@@ -290,16 +417,20 @@ function ChipSearch({
       )}
       {shownLive && (
         <div className={styles.coachBox} role="status">
-          {shownLive.resolved ? (
+          {shownLive.seats && !typed.startsWith("-") ? (
+            <span className={styles.coachText}>
+              {"Searching for "}<strong>{`${shownLive.seats}-seat cars`}</strong>{" - press Enter to add it."}
+            </span>
+          ) : shownLive.resolved ? (
             <span className={styles.coachText}>
               {"Searching for "}<strong>{shownLive.resolved.label}</strong>{" - press Enter to add it."}
             </span>
-          ) : shownLive.suggestions.length > 0 ? (
+          ) : shownLive.suggestions.length > 0 || liveTrim ? (
             <span className={styles.coachText}>Do you mean:</span>
           ) : typed.replace(/^-/, "").length >= 3 ? (
             <span className={styles.coachText}>Not a feature we recognise - press Enter to search the advert wording for it.</span>
           ) : null}
-          {shownLive.suggestions.length > 0 && (
+          {(shownLive.suggestions.length > 0 || liveTrim) && (
             <div className={styles.quickPicks}>
               {shownLive.resolved && <span className={styles.coachText}>Or:</span>}
               {shownLive.suggestions.map((sg) => (
@@ -307,6 +438,11 @@ function ChipSearch({
                   {sg.label}
                 </button>
               ))}
+              {liveTrim && (
+                <button type="button" className={styles.quickPickBtn} onMouseDown={keepFocus} onClick={() => moveToTrim(typed)}>
+                  {`Version / trim: ${typed.replace(/^-/, "")}`}
+                </button>
+              )}
             </div>
           )}
         </div>
@@ -321,7 +457,16 @@ function ChipSearch({
         </div>
       )}
       {note && <p className={styles.chipHint}>{note}</p>}
-      {notice && <p className={styles.chipHint}>{notice}</p>}
+      {notice && (
+        <p className={styles.chipHint}>
+          {notice.text}
+          {notice.actions?.map((a) => (
+            <button key={a.label} type="button" className={styles.quickPickBtn} onClick={a.run}>
+              {a.label}
+            </button>
+          ))}
+        </p>
+      )}
       {chips.length > 0 && (
         <div className={styles.chipRow}>
           {chips.map((chip) => {
@@ -382,6 +527,7 @@ export default function FilterBar({
   totalPages,
   prevHref,
   nextHref,
+  headlineKey,
 }: FilterBarProps) {
   const router = useRouter();
   const [make, setMake] = useState(currentMake);
@@ -414,6 +560,8 @@ export default function FilterBar({
   const effSearchChips = withDraft(searchChips, searchDraft);
   // Live views use only ADDED feature chips: the Search features box coaches the buyer to a feature before it counts.
   const liveSearchChips = searchChips;
+  // website review 3 Oct 2026 #36: Apply first adds any text still typed in Search features (ChipSearch addChip).
+  const featureCommitRef = useRef<(() => Promise<string[] | null>) | null>(null);
   const effVersionChips = withDraft(versionChips, versionDraft);
   const [sort, setSort] = useState(currentSort);
   const [bestseller, setBestseller] = useState(currentBestseller);
@@ -460,18 +608,24 @@ export default function FilterBar({
   // when the same query mounts again (browser Back), put all three back.
   // Only the SSR batch survives Back otherwise, so the page renders short
   // and the browser's own scroll restoration has nothing to restore into.
+  // The search this page was rendered with (its props), for the #15 check in the restore pass.
+  const mountQsRef = useRef<string | null>(null);
   useLayoutEffect(() => {
     const KEY = "ucScrollReturn";
+    mountQsRef.current = currentQueryString();
 
     function onClickCapture(e: MouseEvent) {
       const a = (e.target as HTMLElement | null)?.closest?.('a[href^="/car/"]');
       if (!a) return;
       // Preview coherence: stamp the equivalent URL into this history entry
       // before leaving, so Back restores matching controls and SSR list.
+      // website review 3 Oct 2026 #15: note when the address is re-stamped, and from which rendered search.
+      let stamped: string | null = null;
       try {
         const qs = currentQsRef.current;
         if (qs !== window.location.search.replace(/^\?/, "")) {
           window.history.replaceState(window.history.state, "", qs ? `/used-cars?${qs}` : "/used-cars");
+          stamped = qs;
         }
       } catch { /* ignore */ }
       try {
@@ -479,6 +633,8 @@ export default function FilterBar({
           KEY,
           JSON.stringify({
             q: window.location.search,
+            stamped,
+            mountQs: mountQsRef.current,
             page: loadedPageRef.current,
             y: window.scrollY,
             t: Date.now(),
@@ -495,6 +651,8 @@ export default function FilterBar({
             KEY,
             JSON.stringify({
               q: window.location.search,
+              stamped,
+              mountQs: mountQsRef.current,
               page: loadedPageRef.current,
               y: window.scrollY,
               t: Date.now(),
@@ -516,6 +674,20 @@ export default function FilterBar({
         sessionStorage.removeItem(KEY);
         const saved = JSON.parse(raw);
         const fresh = Date.now() - (saved?.t ?? 0) < 30 * 60 * 1000;
+        // website review 3 Oct 2026 #15: a tile click stamps live (not applied) filters into the address with
+        // replaceState, but the router keeps the page it rendered for the OLD address in that history entry, so Back
+        // put the saved BMW tiles under "All Makes" and the whole-stock count. When this is that old render, load the
+        // address itself once; the saved tiles and scroll position wait in sessionStorage and restore on that load.
+        if (
+          fresh && saved.q === window.location.search && !saved.reloaded &&
+          typeof saved.stamped === "string" && typeof saved.mountQs === "string" &&
+          saved.stamped !== saved.mountQs && mountQsRef.current === saved.mountQs
+        ) {
+          sessionStorage.setItem(KEY, JSON.stringify({ ...saved, reloaded: true }));
+          document.documentElement.classList.add("uc-veil");
+          window.location.replace(window.location.href);
+          return;
+        }
         if (fresh && saved.q === window.location.search && Array.isArray(saved.cars) && saved.cars.length > 0) {
           if ("scrollRestoration" in history) history.scrollRestoration = "manual";
           pendingScrollRef.current = saved.y || 0;
@@ -677,6 +849,9 @@ export default function FilterBar({
         minSaving,
         belowCheapest,
         dropfilter: sort === "drop_big" ? "1" : "",
+        // website review 3 Oct 2026 #13: the saving sort lists badge cars only, so the counts must too ("abarth (126)"
+        // opened 0 cars).
+        savingfilter: savingFilterFor(sort, bestseller, minSaving, belowCheapest),
       };
       if (make) setModelsLoading(true);
       const results = await Promise.all(
@@ -712,18 +887,73 @@ export default function FilterBar({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [make, model, fuel, bodyStyle, transmission, seats, color, minEnginesize, maxEnginesize, minYear, maxYear, minPrice, maxPrice, minMileage, maxMileage, searchChips, versionChips, versionDraft, sort, bestseller, minSaving, belowCheapest]);
 
+  // website review 3 Oct 2026 #11: ONE request body for the first page and every scroll batch. The batch request was a
+  // hand-copied subset that left out the euro-saving rung, "cheaper than every Irish listing" and the saving order,
+  // so from car 26 on the list showed other cars and the count jumped (4,025 to 18,196).
+  function listingBody(pagenum: number) {
+    const { price_sort, mileage_sort, drop_sort } = sortToParams(sort);
+    return {
+      ...FILTER_BODY_DEFAULTS,
+      Make: make,
+      Model: model,
+      Fuel: fuel,
+      body_style: bodyStyle,
+      transmission_type: transmission,
+      seats,
+      color,
+      minEnginesize,
+      maxEnginesize,
+      minYear,
+      maxYear,
+      minPrice: minPrice || "1",
+      maxPrice,
+      minMileage,
+      maxMileage,
+      search: liveSearchChips.join(" "),
+      searchChips: liveSearchChips,
+      version: effVersionChips.join(" "),
+      versionChips: effVersionChips,
+      price_sort,
+      mileage_sort,
+      pricefilter: price_sort,
+      mileagefilter: mileage_sort,
+      dropfilter: drop_sort,
+      bestsellerSeries: bestseller,
+      minSaving,
+      belowCheapest,
+      savingfilter: savingFilterFor(sort, bestseller, minSaving, belowCheapest),
+      pagenum,
+      limit: 25,
+    };
+  }
+  const listingSigRef = useRef("");
+  listingSigRef.current = JSON.stringify(listingBody(0));
+  // The search the tiles on screen belong to: the server render's, then whichever preview last landed.
+  const shownSigRef = useRef(listingSigRef.current);
+
   useEffect(() => {
     // A restore just rebuilt the full scrolled list; this effect's mount run
     // would replace it with page 1 and dump the visitor somewhere else --
     // the exact "come back in a different place" bug. Skip one run.
     if (restoredRef.current) {
       restoredRef.current = false;
+      // the restored list stands in for the mount run; the next run is a real change (#71 below)
+      previewRanRef.current = true;
       return;
     }
     const isFirstRun = !previewRanRef.current;
     previewRanRef.current = true;
     // Deep link (?page=3) must survive the preview; a filter change must not.
     const targetPage = isFirstRun ? Math.max(0, currentPage - 1) : 0;
+    if (!isFirstRun) {
+      // website review 3 Oct 2026 #71: the previous search's figure stayed up through the 0.4 s wait (Toyota's 7,885
+      // under Kia + Electric), and an older answer could still land in that gap. Retire it and say so at once.
+      previewSeqRef.current++;
+      previewAbortRef.current?.abort();
+      setCountLoading(true);
+    }
+    const body = listingBody(targetPage);
+    const sig = JSON.stringify(listingBody(0));
     const timer = setTimeout(async () => {
       const seq = ++previewSeqRef.current;
       previewAbortRef.current?.abort();
@@ -731,50 +961,17 @@ export default function FilterBar({
       previewAbortRef.current = ctrl;
       setCountLoading(true);
       try {
-        const { price_sort, mileage_sort, drop_sort, saving_sort } = sortToParams(sort);
         const res = await fetch("/api/car-count", {
           method: "POST",
           signal: ctrl.signal,
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            ...FILTER_BODY_DEFAULTS,
-            Make: make,
-            Model: model,
-            Fuel: fuel,
-            body_style: bodyStyle,
-            transmission_type: transmission,
-            seats,
-            color,
-            minEnginesize,
-            maxEnginesize,
-            minYear,
-            maxYear,
-            minPrice: minPrice || "1",
-            maxPrice,
-            minMileage,
-            maxMileage,
-            search: liveSearchChips.join(" "),
-            searchChips: liveSearchChips,
-            version: effVersionChips.join(" "),
-            versionChips: effVersionChips,
-            price_sort,
-            mileage_sort,
-            pricefilter: price_sort,
-            mileagefilter: mileage_sort,
-            dropfilter: drop_sort,
-            bestsellerSeries: bestseller,
-            minSaving,
-            belowCheapest,
-            // Biggest saving first is the default order inside the badge set.
-            savingfilter: saving_sort || ((bestseller || minSaving || belowCheapest) && !price_sort && !mileage_sort && !drop_sort ? "1" : ""),
-            pagenum: targetPage,
-            limit: 25,
-          }),
+          body: JSON.stringify(body),
         });
         const data = await res.json();
         if (seq !== previewSeqRef.current) return; // a newer search has started: this answer is stale
         if (typeof data?.data?.count === "number") setLiveCount(data.data.count);
         if (Array.isArray(data?.data?.cars)) {
+          shownSigRef.current = sig;
           setLiveCars(data.data.cars);
           // pagenum is 0-based and loadMore fetches loadedPage + 1, so record
           // the page we actually just loaded. Recording 1 here once made the
@@ -801,48 +998,24 @@ export default function FilterBar({
 
   loadMoreRef.current = async () => {
     if (busyRef.current || loadingMore) return;
+    // website review 3 Oct 2026 #11: a batch only ever extends the search whose tiles are on screen, with that
+    // search's own body (listingBody). While a change waits for its first page nothing is appended, and an answer
+    // that arrives after the search changed is dropped, count included.
+    const sig = listingSigRef.current;
+    if (shownSigRef.current !== sig) return;
     // liveCount 0 with cars on screen = the SSR count query failed; treat as
     // unknown and keep loading -- the batch response carries the real count.
     if (liveCount > 0 && liveCars.length >= liveCount) return;
     busyRef.current = true;
     setLoadingMore(true);
     try {
-      const { price_sort, mileage_sort, drop_sort } = sortToParams(sort);
       const res = await fetch("/api/car-count", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...FILTER_BODY_DEFAULTS,
-          Make: make,
-          Model: model,
-          Fuel: fuel,
-          body_style: bodyStyle,
-          transmission_type: transmission,
-          seats,
-          color,
-          minEnginesize,
-          maxEnginesize,
-          minYear,
-          maxYear,
-          minPrice: minPrice || "1",
-          maxPrice,
-          minMileage,
-          maxMileage,
-          search: liveSearchChips.join(" "),
-          searchChips: liveSearchChips,
-          version: effVersionChips.join(" "),
-          versionChips: effVersionChips,
-          price_sort,
-          mileage_sort,
-          pricefilter: price_sort,
-          mileagefilter: mileage_sort,
-          dropfilter: drop_sort,
-          bestsellerSeries: bestseller,
-          pagenum: loadedPage + 1,
-          limit: 25,
-        }),
+        body: JSON.stringify(listingBody(loadedPage + 1)),
       });
       const data = await res.json();
+      if (shownSigRef.current !== sig || listingSigRef.current !== sig) return;
       const batch: Car[] = Array.isArray(data?.data?.cars) ? data.data.cars : [];
       if (batch.length) {
         setLiveCars((prev) => {
@@ -893,14 +1066,16 @@ export default function FilterBar({
   function handleMakeChange(newMake: string) {
     setMake(newMake);
     setModel("");
-    // The model list refreshes with every other dropdown in the facet effect.
-    if (!newMake) setModels([]);
+    // The model list refreshes with every other dropdown in the facet effect. Until it does, offer nothing rather
+    // than the previous make's models (website review 3 Oct 2026 #69: "118i" picked under Volvo gave 0 cars).
+    setModels([]);
+    setModelsLoading(!!newMake);
   }
 
   // Single source of truth for "the URL this filter state means" — used by
   // Apply, and by the tile-click history stamp so Back always lands on an
   // address matching what is on screen.
-  function currentQueryString(): string {
+  function currentQueryString(featureChips: string[] = liveSearchChips): string {
     const { price_sort, mileage_sort, drop_sort, saving_sort } = sortToParams(sort);
     const params = new URLSearchParams();
     if (make) params.set("Make", make);
@@ -918,7 +1093,7 @@ export default function FilterBar({
     if (maxPrice) params.set("maxPrice", maxPrice);
     if (minMileage) params.set("minMileage", minMileage);
     if (maxMileage) params.set("maxMileage", maxMileage);
-    effSearchChips.forEach((c) => params.append("searchChips", c));
+    featureChips.forEach((c) => params.append("searchChips", c));
     effVersionChips.forEach((c) => params.append("versionChips", c));
     if (price_sort) params.set("price_sort", price_sort);
     if (mileage_sort) params.set("mileage_sort", mileage_sort);
@@ -930,8 +1105,17 @@ export default function FilterBar({
     return params.toString();
   }
 
-  function applyFilters() {
-    const qs = currentQueryString();
+  async function applyFilters() {
+    // website review 3 Oct 2026 #36: the live count uses only ADDED feature chips, but Apply also searched the text
+    // still typed in the box ("lumbar": 130,762 shown, 44,120 returned). Add that text first, exactly as Enter would
+    // (a known feature, a "which did you mean?" question, or an advert-wording word), then apply those chips.
+    let featureChips = liveSearchChips;
+    if (searchDraft.trim() && featureCommitRef.current) {
+      const committed = await featureCommitRef.current();
+      if (committed === null) return; // the box is asking which feature was meant
+      featureChips = committed;
+    }
+    const qs = currentQueryString(featureChips);
     const bits = [
       make && (model ? `${make} ${model}` : make),
       minPrice || maxPrice ? `€${minPrice || "0"}–${maxPrice || "any"}` : "",
@@ -983,7 +1167,30 @@ export default function FilterBar({
     minMileage || maxMileage || searchChips.length || versionChips.length || sort || bestseller || minSaving || belowCheapest
   );
 
-  const activeFilters = [bestseller ? "Bestseller Series" : "", minSaving ? `€${Number(minSaving).toLocaleString("en-IE")}+ under Ireland` : "", belowCheapest ? "Cheaper than every Irish listing" : "", make, model, fuel, bodyStyle, transmission, seats ? `${seats} seats` : "", color].filter(Boolean);
+  // website review 3 Oct 2026 #73: name every filter that narrows the list, including the two that hide cars
+  // without saying so elsewhere -- Price Drops, and the saving sort (Bestseller cars only).
+  const span = (lo: string, hi: string, fmt: (v: string) => string) =>
+    lo && hi ? (lo === hi ? fmt(lo) : `${fmt(lo)}–${fmt(hi)}`) : lo ? `from ${fmt(lo)}` : hi ? `up to ${fmt(hi)}` : "";
+  const activeFilters = [
+    bestseller ? "Bestseller Series" : sort === "saving_big" ? "Bestseller cars only (saving sort)" : "",
+    minSaving ? `€${Number(minSaving).toLocaleString("en-IE")}+ under Ireland` : "",
+    belowCheapest ? "Cheaper than every Irish listing" : "",
+    sort === "drop_big" ? "Price drops only" : "",
+    make, model, fuel, bodyStyle, transmission, seats ? `${seats} seats` : "", color,
+    minYear || maxYear ? `Year ${span(minYear, maxYear, (v) => v)}` : "",
+    minPrice || maxPrice ? `Price ${span(minPrice, maxPrice, (v) => `€${Number(v).toLocaleString("en-IE")}`)}` : "",
+    minMileage || maxMileage ? `Mileage ${span(minMileage, maxMileage, (v) => `${Number(v).toLocaleString("en-IE")} km`)}` : "",
+    minEnginesize || maxEnginesize ? `Engine ${span(minEnginesize, maxEnginesize, (v) => `${v} L`)}` : "",
+    ...liveSearchChips.map((c) => (c.startsWith("-") ? `not ${c.slice(1)}` : c)),
+    ...effVersionChips.map((c) => (c.startsWith("-") ? `version not ${c.slice(1)}` : `version ${c}`)),
+  ].filter(Boolean);
+
+  // website review 3 Oct 2026 #33: the page headline follows this live count, so the page shows one number.
+  const headlineFiltered = activeFilters.length > 0;
+  useEffect(() => {
+    if (countLoading) return;
+    publishHeadlineCount({ key: headlineKey ?? "", count: liveCount ?? 0, filtered: headlineFiltered });
+  }, [liveCount, countLoading, headlineFiltered, headlineKey]);
 
   return (
     <>
@@ -996,6 +1203,9 @@ export default function FilterBar({
               setBestseller("");
               setMinSaving("");
               setBelowCheapest("");
+              // website review 3 Oct 2026 #12: the saving sort lists badge cars only, so leaving it on kept ~18,200
+              // Bestsellers on screen after the toggle went off. Off means the whole stock again.
+              if (sort === "saving_big") setSort("");
             } else {
               setBestseller("1");
             }
@@ -1065,6 +1275,8 @@ export default function FilterBar({
           chips={versionChips}
           onChipsChange={setVersionChips}
           onDraftChange={setVersionDraft}
+          trimCheck
+          onFeature={FEATURE_SEARCH_ENABLED ? (f) => setSearchChips((cs) => (cs.some((c) => c.toLowerCase() === f.toLowerCase()) ? cs : [...cs, f])) : undefined}
         />
         {/* Feature search sits below Version / trim (owner, 3 Oct 2026). FEATURE_SEARCH_ENABLED hides it again. */}
         {FEATURE_SEARCH_ENABLED && (
@@ -1075,7 +1287,9 @@ export default function FilterBar({
             onChipsChange={setSearchChips}
             quickPicks={QUICK_PICKS}
             onDraftChange={setSearchDraft}
+            commitRef={featureCommitRef}
             coach
+            onTrim={(t) => setVersionChips((cs) => (cs.some((c) => c.toLowerCase() === t.toLowerCase()) ? cs : [...cs, t]))}
             note={"Garages do not always describe every feature accurately or in full. Please contact the garage yourself to confirm any specific detail."}
           />
         )}
@@ -1222,7 +1436,8 @@ export default function FilterBar({
       )}
 
       <div className="js-cars-area">
-        <CardsGrid cars={liveCars} />
+        {/* Website review 3 Oct 2026 #26: a car saved from filtered results keeps the version and feature chips. */}
+        <CardsGrid cars={liveCars} saveVersion={effVersionChips.join(" ")} saveChips={liveSearchChips} />
       </div>
 
       {/* An email alert is worth more than a follow, so the follow strip only
@@ -1248,6 +1463,13 @@ export default function FilterBar({
           minMileage,
           maxMileage,
           bestsellerSeries: bestseller,
+          // Website review 3 Oct 2026 #26: engine size, version and feature chips
+          // narrow the cars on screen, so the alert keeps them (same values the
+          // live grid fetch sends).
+          minEnginesize,
+          maxEnginesize,
+          versionChips: effVersionChips,
+          searchChips: liveSearchChips,
         }}
         matchCount={liveCount ?? 0}
       />
@@ -1270,7 +1492,8 @@ export default function FilterBar({
         </p>
       )}
 
-      {!dirty && loadedPage === currentPage && liveCars.length > 0 && totalPages > 1 && (
+      {/* website review 3 Oct 2026 #70: loadedPage is 0-based and currentPage 1-based, so this never showed. */}
+      {!dirty && loadedPage === currentPage - 1 && liveCars.length > 0 && totalPages > 1 && (
         <noscript>
         <nav className={pageStyles.pagination} aria-label="Pagination">
           {prevHref ? (

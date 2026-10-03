@@ -13,11 +13,17 @@ import AdminCarLink from "./AdminCarLink";
 import AdminSellerLine from "./AdminSellerLine";
 import SaveCarButton from "./SaveCarButton";
 import { stripStaffPriceFields } from "@/lib/publicCar";
-import { warrantyStatusFor } from "@/lib/warrantyGuide";
+import { warrantyStatusFor, titleCaseMake } from "@/lib/warrantyGuide";
+import { shownMedian } from "@/lib/shownMedian";
 import { ladderRung, RUNG_LABEL } from "@/lib/ladder";
 import { getLanding, displayModel } from "@/app/import/ImportLanding";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
+// Website review 3 Oct 2026 #57: every live car id is 15 digits. Anything else
+// (probes such as /car/1%27%20OR%201=1 or /car/%3Cscript%3E) is "not found"
+// without asking the API -- Cloudflare's firewall answered our own request for
+// such an id with a 403, which the page treated as a crash (500).
+const CAR_ID_RE = /^\d{6,20}$/;
 interface CarImage {
   id: number;
   image: string;
@@ -82,6 +88,10 @@ interface CarDetail {
   // 20,000 km of this car that priced it, when 10+ exist; null = whole segment.
   bestseller_km_ads?: number | null;
   bestseller_km_median_eur?: number | null;
+  // Website review 3 Oct 2026 #5: the route that set the badge figure, decided
+  // by the API exactly as the maths page decides it -- "pair" = a matched Irish
+  // advert, "median" = the Irish median; null = Trending or not decidable now.
+  bestseller_route?: "pair" | "median" | null;
   service_history?: number;
   last_service?: string;
   last_service_mileage?: string;
@@ -236,6 +246,7 @@ export async function generateMetadata({
 }
 
 async function getCar(id: string): Promise<CarDetail | null> {
+  if (!CAR_ID_RE.test(id)) return null; // website review 3 Oct 2026 #57
   const res = await fetch(`${API_BASE}/get-car2new/${id}`, {
     // Same reasoning as /used-cars -- price/availability can change, this
     // is not content to serve stale from a shared cache.
@@ -312,7 +323,9 @@ export default async function CarDetailPage({
       return tax !== null && { label: "Motor Tax (annual)", value: `€${tax.toLocaleString()}` };
     })(),
     car.co2_emission && { label: "CO2 Emissions", value: car.co2_emission },
-    car.owner && { label: "Number of Owners", value: car.owner },
+    // Website review 3 Oct 2026 #54: only a real count. The UK advert's
+    // placeholder ("Contact seller") sent the buyer to a seller we don't name.
+    car.owner && /^\d+$/.test(String(car.owner).trim()) && { label: "Number of Owners", value: String(car.owner).trim() },
     car.capture?.service_history && { label: "Service History", value: car.capture.service_history },
     car.capture?.keys && { label: "Keys", value: String(car.capture.keys) },
     displayDate(car.capture?.mot_expiry) && { label: "MOT Expiry", value: displayDate(car.capture?.mot_expiry) as string },
@@ -326,8 +339,10 @@ export default async function CarDetailPage({
     "@context": "https://schema.org",
     "@type": "Car",
     name: car.car_name,
-    brand: car.make_name ? { "@type": "Brand", name: titleCase(car.make_name) } : undefined,
-    model: car.model_name || undefined,
+    // Website review 3 Oct 2026 #55: the brand's own casing (BMW, MG,
+    // Mercedes-Benz, not "Bmw"), and the model as the page shows it.
+    brand: car.make_name ? { "@type": "Brand", name: titleCaseMake(car.make_name) } : undefined,
+    model: car.model_name ? displayModel(car.make_name || "", car.model_name) : undefined,
     vehicleModelDate: (car.registration_date || "").split("/")[2] || undefined,
     fuelType: car.fuel_type_name || undefined,
     vehicleTransmission: car.transmission_name || undefined,
@@ -363,7 +378,7 @@ export default async function CarDetailPage({
   const makeSlug = crumbSlug(car.make_name);
   const modelSlug = crumbSlug(car.model_name);
   const landing = makeSlug && modelSlug ? await getLanding(makeSlug, modelSlug) : null;
-  const makeLabel = titleCase(car.make_name || "");
+  const makeLabel = titleCaseMake(car.make_name || ""); // website review 3 Oct 2026 #55
   const modelLabel = car.model_name ? displayModel(car.make_name || "", car.model_name) : "";
   const crumbs = [
     { name: "Home", href: "/" },
@@ -395,6 +410,14 @@ export default async function CarDetailPage({
   const kmAds = Number(car.bestseller_km_ads ?? 0);
   const kmMedian = kmAds >= 10 ? (car.bestseller_km_median_eur ?? null) : null;
   const belowCheapest = rung !== null && Number(car.bestseller_below_cheapest ?? 0) === 1 && irishAds >= 10;
+  // Website review 3 Oct 2026 #5: say which comparison set the figure. The badge
+  // is the bigger of two sound savings (SOUND-MAX, frozen); when the matched
+  // advert wins, the median is background, never "the figure we compare against".
+  const route = car.bestseller_route ?? null;
+  // #59: print the compared median so median - our price = the badge, to the euro.
+  const ourPrice = car.car_info?.final_price ?? null;
+  const shownKmMedian = kmMedian !== null ? shownMedian(kmMedian, ladderSaving, ourPrice, 1) : null;
+  const shownIrishMedian = irishMedian !== null ? shownMedian(irishMedian, ladderSaving, ourPrice, 1) : null;
 
   return (
     <main className={styles.main}>
@@ -441,16 +464,28 @@ export default async function CarDetailPage({
               <span>€750</span><span>€1,000</span><span>€1,500</span><span>€2,000</span><span>€2,500</span><span>€5,000+</span>
             </span>
           ) : null}
-          {rung && irishAds >= 10 && irishMedian && kmMedian ? (
+          {rung && route === "pair" ? (
+            <span className={styles.carBadgeEvidence}>
+              Matched to the same car for sale in Ireland, and that advert sets the saving.
+              {irishAds >= 10 && irishMedian
+                ? ` For context, Irish dealers ask a median €${Math.round(irishMedian).toLocaleString("en-IE")} for this model and year, across ${irishAds.toLocaleString("en-IE")} listings.`
+                : ""}
+            </span>
+          ) : rung && route === "median" && irishAds >= 10 && irishMedian && kmMedian ? (
             <span className={styles.carBadgeEvidence}>
               Irish dealers ask a median €{Math.round(irishMedian).toLocaleString("en-IE")} for this model and year, across {irishAds.toLocaleString("en-IE")} listings;
-              the {kmAds.toLocaleString("en-IE")} within 20,000 km of this car&rsquo;s mileage ask a median €{Math.round(kmMedian).toLocaleString("en-IE")}, and that is the figure we compare against.
+              the {kmAds.toLocaleString("en-IE")} within 20,000 km of this car&rsquo;s mileage ask a median €{(shownKmMedian ?? Math.round(kmMedian)).toLocaleString("en-IE")}, and that is the figure we compare against.
               No spec adjustment — prices exactly as listed.
+            </span>
+          ) : rung && route === "median" && irishAds >= 10 && irishMedian ? (
+            <span className={styles.carBadgeEvidence}>
+              Irish dealers ask a median €{(shownIrishMedian ?? Math.round(irishMedian)).toLocaleString("en-IE")} for this model and year, across {irishAds.toLocaleString("en-IE")} listings
+              (too few near this car&rsquo;s mileage to narrow it further). No spec adjustment — prices exactly as listed.
             </span>
           ) : rung && irishAds >= 10 && irishMedian ? (
             <span className={styles.carBadgeEvidence}>
-              Irish dealers ask a median €{Math.round(irishMedian).toLocaleString("en-IE")} for this model and year, across {irishAds.toLocaleString("en-IE")} listings
-              (too few near this car&rsquo;s mileage to narrow it further). No spec adjustment — prices exactly as listed.
+              Irish dealers ask a median €{Math.round(irishMedian).toLocaleString("en-IE")} for this model and year, across {irishAds.toLocaleString("en-IE")} listings.
+              No spec adjustment — prices exactly as listed.
             </span>
           ) : rung ? (
             <span className={styles.carBadgeEvidence}>Matched to the same car for sale in Ireland.</span>
@@ -661,8 +696,12 @@ export default async function CarDetailPage({
 
       <section className={styles.signposts}>
         {(() => {
+          // Website review 3 Oct 2026 #30: the declaration is one comma-joined
+          // string and its measurements carry thousands commas ("Height =
+          // 1,661mm"). A comma between a digit and exactly three digits is part
+          // of a number, not a separator.
           const equipment = (car.equipment_declaration ?? "")
-            .split(",")
+            .split(/(?<!\d),|,(?!\d{3}(?!\d))/)
             .map((s) => s.trim())
             .filter((s) => s !== "");
           const featureGroups = [

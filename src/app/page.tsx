@@ -17,13 +17,23 @@ const API_BASE = "https://api.ukcarimports.ie/public";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  // Owner 2 Oct 2026: brand first, the searched phrase second (SEO_MASTER_PLAN_1OCT step 5).
-  title: { absolute: "UK Car Imports – Importing a Car from the UK to Ireland, VRT Included" },
-  description:
-    "Import your next car from the UK: 135,000+ cars priced fully landed for Ireland — VRT, VAT, customs & delivery included. Independent inspection, Irish plates in ~2 weeks. Est. 2013.",
-  alternates: { canonical: "https://ukcarimports.ie/" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  // Website review 3 Oct 2026 #31: the description said "135,000+ cars", typed in by
+  // hand, while the site held about 130,700. It now takes the live count, floored to
+  // the thousand like the hero's "Over N" so it can never overstate, and leaves the
+  // figure out if the count is unavailable.
+  const count = await getStockCount();
+  const lead =
+    count !== null
+      ? `Import your next car from the UK: over ${roundStockDown(count).toLocaleString()} cars priced fully landed for Ireland`
+      : "Import your next car from the UK, priced fully landed for Ireland";
+  return {
+    // Owner 2 Oct 2026: brand first, the searched phrase second (SEO_MASTER_PLAN_1OCT step 5).
+    title: { absolute: "UK Car Imports – Importing a Car from the UK to Ireland, VRT Included" },
+    description: `${lead} — VRT, VAT, customs & delivery included. Independent inspection, Irish plates in ~2 weeks. Est. 2013.`,
+    alternates: { canonical: "https://ukcarimports.ie/" },
+  };
+}
 
 // Organization + WebSite — the two structured-data blocks Google expects on a
 // homepage. Address and phone match the footer exactly.

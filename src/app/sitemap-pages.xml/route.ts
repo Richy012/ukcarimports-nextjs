@@ -23,6 +23,9 @@ export async function GET() {
     { loc: `${SITE}/trade-ins/above-board-cars`, freq: "weekly", pri: "0.7" },
     { loc: `${SITE}/above-board-cars`, freq: "monthly", pri: "0.5" },
     { loc: `${SITE}/irish-cars`, freq: "daily", pri: "0.6" },
+    // Website review 3 Oct 2026 #66: two landing pages that were in no sitemap.
+    { loc: `${SITE}/bestseller-index`, freq: "weekly", pri: "0.7" },
+    { loc: `${SITE}/vrt-rates`, freq: "monthly", pri: "0.6" },
   ];
 
   const urls = [...fixed];
@@ -66,10 +69,14 @@ export async function GET() {
     // Blog API unreachable: publish the rest rather than nothing.
   }
 
+  // Website review 3 Oct 2026 #32: one entry per address (two models used to share one).
+  const seenLoc = new Set<string>();
+  const unique = urls.filter((u) => (seenLoc.has(u.loc) ? false : (seenLoc.add(u.loc), true)));
+
   const xml =
     `<?xml version="1.0" encoding="UTF-8"?>\n` +
     `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-    urls
+    unique
       .map(
         (u) =>
           `<url><loc>${u.loc}</loc><changefreq>${u.freq}</changefreq><priority>${u.pri}</priority></url>`,

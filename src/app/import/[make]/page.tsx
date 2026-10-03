@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ImportLanding, { getLanding, titleCase } from "../ImportLanding";
+import { withArticle } from "@/lib/carNames";
 
 export const revalidate = 3600;
 
@@ -23,9 +24,11 @@ export async function generateMetadata({
     // off the end. Searcher's words first, VRT inside 60 characters, suffix
     // dropped on /import pages only (absolute). Judge CTR at 28 days.
     title: { absolute: `${makeT} for Sale Ireland – VRT Included, ${data.count.toLocaleString()} Cars from €${Math.round(data.price_min ?? 0).toLocaleString()}` },
+    // Website review 3 Oct 2026 #9 #63: "€2,500+" now carries the verified €2,500+
+    // count (it carried the €750-or-more count), and "an Audi", not "a Audi".
     description: bs
-      ? `Import a ${makeT} from the UK: ${data.count.toLocaleString()} cars priced fully landed for Ireland from €${Math.round(data.price_min ?? 0).toLocaleString()} — VRT, VAT, customs & delivery included. ${bs.count.toLocaleString()} currently €2,500+ under Irish asking prices (up to €${bs.max_saving_eur.toLocaleString()}).`
-      : `Import a ${makeT} from the UK: ${data.count.toLocaleString()} cars priced fully landed for Ireland (VRT, VAT, customs & delivery included), from €${Math.round(data.price_min ?? 0).toLocaleString()}. Independent inspection, Irish plates in ~2 weeks.`,
+      ? `Import ${withArticle(makeT)} from the UK: ${data.count.toLocaleString()} cars priced fully landed for Ireland from €${Math.round(data.price_min ?? 0).toLocaleString()} — VRT, VAT, customs & delivery included. ${(bs.count_2500 ?? 0) > 0 ? `${(bs.count_2500 ?? 0).toLocaleString()} currently €2,500+` : `${bs.count.toLocaleString()} currently €750+`} under Irish asking prices (up to €${bs.max_saving_eur.toLocaleString()}).`
+      : `Import ${withArticle(makeT)} from the UK: ${data.count.toLocaleString()} cars priced fully landed for Ireland (VRT, VAT, customs & delivery included), from €${Math.round(data.price_min ?? 0).toLocaleString()}. Independent inspection, Irish plates in ~2 weeks.`,
     alternates: { canonical: `https://ukcarimports.ie/import/${make}` },
   };
 }

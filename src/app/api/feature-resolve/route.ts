@@ -7,8 +7,10 @@ const API_BASE = "https://api.ukcarimports.ie/public";
 export async function GET(req: NextRequest) {
   const q = (req.nextUrl.searchParams.get("q") || "").slice(0, 80);
   if (!q.trim()) return NextResponse.json({ resolved: null, suggestions: [] });
+  // box=trim: the Version / trim box's "no trim contains this" check (website review 3 Oct 2026 #42)
+  const box = req.nextUrl.searchParams.get("box") === "trim" ? "&box=trim" : "";
   try {
-    const res = await fetch(`${API_BASE}/feature-resolve?q=${encodeURIComponent(q)}`, { next: { revalidate: 300 } });
+    const res = await fetch(`${API_BASE}/feature-resolve?q=${encodeURIComponent(q)}${box}`, { next: { revalidate: 300 } });
     const data = await res.json();
     return NextResponse.json(data, { headers: { "Cache-Control": "public, max-age=300" } });
   } catch {

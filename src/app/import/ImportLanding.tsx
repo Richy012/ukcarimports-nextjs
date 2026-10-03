@@ -5,6 +5,7 @@ import { warrantyGuideFor } from "@/lib/warrantyGuide";
 import { getModelStock } from "@/lib/modelStock";
 import CardsGrid from "../used-cars/CardsGrid";
 import ChipLink from "./ChipLink";
+import { titleCase, displayModel, withArticle } from "@/lib/carNames";
 
 
 // 2026-08-11, owner: "dominate those lanes". Each new-Chinese-brand landing
@@ -21,6 +22,8 @@ export interface LandingData {
   make: string;
   model: string | null;
   is_family?: boolean;
+  // The subject's own address (website review 3 Oct 2026 #32).
+  model_slug?: string | null;
   variants?: { model: string; slug: string; n: number }[];
   count: number;
   price_min: number | null;
@@ -33,6 +36,8 @@ export interface LandingData {
   bestseller?: {
     count: number;
     max_saving_eur: number;
+    // Verified badges EUR 2,500+ under (website review 3 Oct 2026 #9).
+    count_2500?: number;
     top: {
       car_id: string;
       car_name: string;
@@ -73,32 +78,10 @@ export async function getLanding(makeSlug: string, modelSlug?: string): Promise<
   }
 }
 
-export function titleCase(s: string): string {
-  return s.replace(/\b\w/g, (c) => c.toUpperCase()).replace(/\bBmw\b/, "BMW").replace(/\bMg\b/, "MG").replace(/\bByd\b/, "BYD").replace(/\bDs\b/, "DS");
-}
-
-// Model names are stored the way the scraper found them (xc90, glc, 320d,
-// A180d, 3 Series after family grouping). Render them the way a human — and
-// a Google query — writes them.
-export function displayModel(make: string, model: string): string {
-  const m = model.trim();
-  const mk = make.toLowerCase();
-  if (mk === "bmw" && /^i[x0-9][a-z0-9]*$/i.test(m)) return "i" + m.slice(1).toUpperCase();
-  if (mk === "hyundai" && /^i\d+$/i.test(m)) return m.toLowerCase();
-  if (/[\s-]/.test(m)) {
-    // 17 Sep 2026: "cx-60" rendered "Cx-60" in the page title and in a
-    // published post. A short letter code in front of digits or "-digits"
-    // (CX-60, MX-30, EV6) is upper case; words stay title case (E-Tron, Aircross).
-    // 1 Oct 2026: two short letter codes joined by a hyphen (c-hr, hr-v) are
-    // both upper case - C-HR, HR-V - not C-Hr; a real word after the hyphen
-    // (e-tron, x-trail) still reads E-Tron, X-Trail.
-    if (/^[a-z]{1,3}-[a-z]{1,3}$/i.test(m)) return m.toUpperCase();
-    return titleCase(m).replace(/\b([A-Za-z]{1,3})(?=\d|-\d)/g, (c) => c.toUpperCase());
-  }
-  if (/^[a-z]+$/.test(m)) return m.length <= 3 ? m.toUpperCase() : titleCase(m);
-  if (/^[a-z]{1,2}\d+[a-z]*$/.test(m)) return m.toUpperCase();
-  return m;
-}
+// The display-name rules moved to src/lib/carNames.ts (website review 3 Oct
+// 2026 #64) so the home search shares them; re-exported here for the footer,
+// the car page and the blog's related deals.
+export { titleCase, displayModel };
 
 function euro(v: number | null): string {
   return v === null ? "-" : "€" + Math.round(v).toLocaleString();
@@ -114,17 +97,23 @@ export default async function ImportLanding({ data, makeSlug }: { data: LandingD
   const banner = artForMake(makeSlug) ?? DEFAULT_BANNER;
   const isFamily = !!data.is_family;
   // The listing's Model filter takes a real model_name — a family ("3
-  // Series") isn't one, so family pages browse at make level and rely on
-  // the variant grid for the precise cut.
-  const browseHref =
-    data.model && !isFamily
-      ? `/used-cars?Make=${encodeURIComponent(data.make)}&Model=${encodeURIComponent(data.model)}`
-      : `/used-cars?Make=${encodeURIComponent(data.make)}`;
+  // Series") isn't one. Website review 3 Oct 2026 #10: family pages showed
+  // the whole make's stock under the family's name (X5s under "BMW 3 Series
+  // in stock now") and a "Browse 659 BMW 3 Series" link that opened every
+  // BMW. The stock strip now asks for the family's own models (ModelIn); a
+  // one-model family (Defender = the Defender 110) browses that model like
+  // any model page; a many-model family's browse links say they open the
+  // whole make, and the variant grid gives the precise cut.
+  const members = isFamily ? (data.variants ?? []).map((v) => v.model) : [];
+  const listModel = isFamily ? (members.length === 1 ? members[0] : null) : data.model;
+  const browseWholeMake = isFamily && !listModel;
+  const browseHref = listModel
+    ? `/used-cars?Make=${encodeURIComponent(data.make)}&Model=${encodeURIComponent(listModel)}`
+    : `/used-cars?Make=${encodeURIComponent(data.make)}`;
   const bs = data.bestseller && data.bestseller.count > 0 ? data.bestseller : null;
   // Owner 17 Sep 2026: "put the stock on the model pages" - the cars, not a
-  // count. Family pages ("3 Series") have no single model_name, so they show
-  // the make's stock, like their browse link.
-  const stock = await getModelStock(data.make, data.model && !isFamily ? data.model : null, 12);
+  // count.
+  const stock = await getModelStock(data.make, listModel, 12, browseWholeMake ? members : undefined);
 
   const faq = [
     {
@@ -132,11 +121,11 @@ export default async function ImportLanding({ data, makeSlug }: { data: LandingD
       a: `Yes — every ${subject} on ukcarimports.ie is priced fully landed: VRT, VAT, customs duty (where applicable), UK–Ireland transport and our handling are all included. The price you see is the price you pay.`,
     },
     {
-      q: `How long does it take to import a ${subject} from the UK?`,
+      q: `How long does it take to import ${withArticle(subject)} from the UK?`,
       a: `Typically about two weeks from deposit to handover on Irish plates. We handle the purchase, an independent mechanical inspection, customs, VRT and registration — you collect in Dublin or take delivery at your door.`,
     },
     {
-      q: `Is it cheaper to import a ${subject} from the UK?`,
+      q: `Is it cheaper to import ${withArticle(subject)} from the UK?`,
       a: bs
         ? `Often, yes — and we measure it rather than claim it. Right now ${bs.count.toLocaleString()} of our ${subject} cars are priced at least €750 under comparable Irish asking prices (the biggest is €${bs.max_saving_eur.toLocaleString()} under), benchmarked weekly against real Irish ads. UK supply is roughly ten times larger than the Irish market, and we reclaim UK VAT to reduce the Irish tax base.`
         : `Often, yes — UK supply is roughly ten times larger than the Irish market, and we reclaim UK VAT to reduce the Irish tax base. We benchmark every car against real Irish asking prices weekly and flag the exceptional deals.`,
@@ -211,16 +200,26 @@ export default async function ImportLanding({ data, makeSlug }: { data: LandingD
       <h1>
         {data.model
           ? `Used ${subject} for Sale in Ireland — ${data.count.toLocaleString()} UK imports`
-          : `Import a ${subject} from the UK — ${data.count.toLocaleString()} available now`}
+          : `Import ${withArticle(subject)} from the UK — ${data.count.toLocaleString()} available now`}
       </h1>
       <p className={styles.intro}>
         Choose from {data.count.toLocaleString()} {subject} cars at established UK garages, every one
         priced fully landed for Ireland — VRT, VAT, customs and delivery included. Independent
         inspection before you commit, Irish plates on handover, typically two weeks door to door.
-        {bs && (
+        {/* Website review 3 Oct 2026 #9: this said "at least €2,500 under" next to the
+            €750-or-more count (Mercedes: 2,122 claimed, about 1,300 true). The €2,500
+            sentence now carries the verified €2,500+ count; with none at that level it
+            states the €750 floor the Bestseller box below uses. */}
+        {bs && (bs.count_2500 ?? 0) > 0 && (
           <>
-            {" "}Right now <strong>{bs.count.toLocaleString()}</strong> of them are priced at least
+            {" "}Right now <strong>{(bs.count_2500 ?? 0).toLocaleString()}</strong> of them are priced at least
             €2,500 under comparable Irish asking prices.
+          </>
+        )}
+        {bs && !((bs.count_2500 ?? 0) > 0) && (
+          <>
+            {" "}Right now <strong>{bs.count.toLocaleString()}</strong> of them are priced €750 or more
+            under comparable Irish asking prices.
           </>
         )}
       </p>
@@ -282,7 +281,9 @@ export default async function ImportLanding({ data, makeSlug }: { data: LandingD
               href={`${browseHref}&bestseller=1&saving_sort=1`}
               className={styles.bsBrowse}
             >
-              Browse {bs.count.toLocaleString()} {subject} cars under Irish prices — biggest saving first
+              {browseWholeMake
+                ? `Browse all ${makeT} cars under Irish prices — biggest saving first`
+                : `Browse ${bs.count.toLocaleString()} ${subject} cars under Irish prices — biggest saving first`}
             </Link>
           </div>
         </section>
@@ -303,7 +304,7 @@ export default async function ImportLanding({ data, makeSlug }: { data: LandingD
 
       <div className={styles.ctaRow}>
         <Link href={browseHref} className={styles.ctaPrimary}>
-          Browse {isFamily ? `all ${makeT} cars` : `${data.count.toLocaleString()} ${subject} cars`}
+          Browse {browseWholeMake ? `all ${makeT} cars` : `${data.count.toLocaleString()} ${subject} cars`}
         </Link>
         <Link href="/how-it-works" className={styles.ctaSecondary}>
           How it works
@@ -387,7 +388,7 @@ export default async function ImportLanding({ data, makeSlug }: { data: LandingD
       )}
 
       <section className={styles.faq}>
-        <h2>Importing a {subject}: common questions</h2>
+        <h2>Importing {withArticle(subject)}: common questions</h2>
         {faq.map((f) => (
           <details key={f.q} className={styles.faqItem}>
             <summary>{f.q}</summary>

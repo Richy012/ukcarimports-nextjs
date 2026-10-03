@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import styles from "../page.module.css";
 import RelatedDeals from "./RelatedDeals";
+import { blogDate } from "@/lib/blogDate";
 
 const API_BASE = "https://api.ukcarimports.ie/public";
 
@@ -105,7 +106,8 @@ export default async function BlogPostPage({
         <h1>{blog.blog_heading}</h1>
         <div dangerouslySetInnerHTML={{ __html: blog.blog_description }} />
         <div className={styles.meta}>
-          <time>{blog.blog_date}</time> &mdash; By <strong>{blog.Author}</strong>
+          {/* One date format across the blog (website review 3 Oct 2026 #65). */}
+          <time dateTime={blogDate(blog.blog_date).iso}>{blogDate(blog.blog_date).label}</time> &mdash; By <strong>{blog.Author}</strong>
           {/* In-content credit (owner, 10 Sep 2026). A link inside an indexed,
               read article is worth far more to arklightlabs.com than the
               sitewide footer link Google discounts as boilerplate. */}

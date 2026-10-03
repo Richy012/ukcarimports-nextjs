@@ -9,6 +9,24 @@ import styles from "./page.module.css";
 // Save-this-car heart on the car detail page — same contract as the listing
 // tiles (CardsGrid) and the legacy SingleCar.jsx: saved-car-ids on mount,
 // save-car/unsave-car to toggle, sign-in slide-over when logged out.
+// Website review 3 Oct 2026 #26: opened from a filtered listing (the ucScrollReturn
+// stash FilterBar writes on a tile click: same tab, this car, last 30 minutes), the
+// car is saved with that listing's version and feature chips, as the tile heart is.
+function listingChips(carId: string): { version: string; searchChips: string[] } {
+  const none = { version: "", searchChips: [] as string[] };
+  try {
+    const raw = sessionStorage.getItem("ucScrollReturn");
+    if (!raw) return none;
+    const s = JSON.parse(raw) as { q?: string; t?: number; clickedId?: string | null };
+    const fresh = typeof s.t === "number" && Date.now() - s.t < 30 * 60 * 1000;
+    if (!fresh || s.clickedId !== carId || typeof s.q !== "string") return none;
+    const qs = new URLSearchParams(s.q);
+    return { version: qs.getAll("versionChips").join(" "), searchChips: qs.getAll("searchChips") };
+  } catch {
+    return none;
+  }
+}
+
 export default function SaveCarButton({ carId }: { carId: string }) {
   const [saved, setSaved] = useState(false);
   const [pending, setPending] = useState(false);
@@ -28,7 +46,7 @@ export default function SaveCarButton({ carId }: { carId: string }) {
     fetch(saved ? `/api/unsave-car/${carId}` : "/api/save-car", {
       method: saved ? "DELETE" : "POST",
       headers: { ...authHeaders(), "Content-Type": "application/json" },
-      body: saved ? undefined : JSON.stringify({ car_id: carId, version: "", searchChips: [] }),
+      body: saved ? undefined : JSON.stringify({ car_id: carId, ...listingChips(carId) }),
     })
       .then((res) => res.json())
       .then((data) => {

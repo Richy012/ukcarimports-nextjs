@@ -97,9 +97,12 @@ export default function Footer() {
             <path d="M19 4.3 V3.1" stroke="#454443" strokeWidth="1.2" />
             <path d="M16 21 H22" stroke="#454443" strokeWidth="1.3" strokeLinecap="round" />
           </svg>
-          Developed in-house on our{" "}
+          {/* One span (website review 3 Oct 2026 #68): as three loose flex items the
+              words, the link and "AI platform" each wrapped on their own into ragged
+              columns on a phone. */}
+          <span>Developed in-house on our{" "}
           <a href="https://arklightlabs.com" target="_blank" rel="noopener" title="Arklight Labs: websites and platforms for businesses that sell things"><strong>Arklight<sup className={styles.tm}>&trade;</sup></strong></a>{" "}
-          AI platform
+          AI platform</span>
         </p>
       </div>
     </footer>

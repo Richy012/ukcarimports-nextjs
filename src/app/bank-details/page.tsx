@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   title: "Bank Transfer Details",
   description:
     "Bank transfer details for paying your UK Car Imports deposit or balance.",
+  // Website review 3 Oct 2026 #66: canonical address.
+  alternates: { canonical: "https://ukcarimports.ie/bank-details" },
 };
 
 const ROWS: { label: string; value: string; mono?: boolean }[] = [

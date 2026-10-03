@@ -43,7 +43,7 @@ export interface TileCar {
   price_dropped_at?: string | null;
 }
 
-async function fetchStock(make: string, model: string | null, limit: number, savingFirst: boolean): Promise<TileCar[]> {
+async function fetchStock(make: string, model: string | null, limit: number, savingFirst: boolean, models?: string[]): Promise<TileCar[]> {
   try {
     const res = await fetch(`${API_BASE}/allcarsnew/0/10`, {
       method: "POST",
@@ -83,6 +83,9 @@ async function fetchStock(make: string, model: string | null, limit: number, sav
         minSaving: "",
         belowCheapest: "",
         savingfilter: savingFirst ? "1" : "",
+        // A model family's own models, e.g. BMW 3 Series = 318d, 320d, 330e ...
+        // (website review 3 Oct 2026 #10). Only family pages send it.
+        ...(models && models.length > 0 ? { ModelIn: models } : {}),
       }),
       // The landing page itself revalidates hourly; the stock strip refreshes
       // a little faster so a sold car does not sit on the page all hour.
@@ -106,11 +109,11 @@ async function fetchStock(make: string, model: string | null, limit: number, sav
  * also FILTERS to badged cars, so a model with none - a new brand, the i8 -
  * came back empty), topped up in the listing's default order.
  */
-export async function getModelStock(make: string, model: string | null, limit = 12): Promise<{ cars: TileCar[] }> {
-  const cars = await fetchStock(make, model, limit, true);
+export async function getModelStock(make: string, model: string | null, limit = 12, models?: string[]): Promise<{ cars: TileCar[] }> {
+  const cars = await fetchStock(make, model, limit, true, models);
   if (cars.length < limit) {
     const seen = new Set(cars.map((c) => c.car_id));
-    for (const c of await fetchStock(make, model, limit, false)) {
+    for (const c of await fetchStock(make, model, limit, false, models)) {
       if (cars.length >= limit) break;
       if (!seen.has(c.car_id)) {
         cars.push(c);
