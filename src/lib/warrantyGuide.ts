@@ -208,6 +208,23 @@ const BATTERY_YEARS: Record<string, number> = {
   "warranty-volkswagen": 8, "warranty-volvo": 8,
 };
 
+// High-voltage battery MILEAGE limits, from the sourced entries in WARRANTY_TRANSFERS.md (3 Oct 2026). Where the brand
+// publishes km, the km figure is converted (160,000 km = 99,419 miles). A brand with no sourced figure falls back to
+// 100,000 miles, the term every sourced brand but BYD and MG uses. Tesla varies by model and is left on years only.
+const BATTERY_MILES: Record<string, number> = {
+  "warranty-audi": 100000, "warranty-bmw": 100000, "warranty-byd": 125000, "warranty-cupra": 100000,
+  "warranty-dacia": 100000, "warranty-fiat": 99419, "warranty-ford": 100000, "warranty-hyundai": 100000,
+  "warranty-jaecoo": 100000, "warranty-omoda": 100000, "warranty-jaguar": 100000, "warranty-kia": 100000,
+  "warranty-lexus": 60000, "warranty-mercedes-benz": 99419, "warranty-mg": 80000, "warranty-mini": 100000,
+  "warranty-peugeot": 100000,
+};
+// Plug-in hybrids where the sourced battery term is shorter than the EV one: [years, miles].
+// BMW Gen 3/4 PHEV 6 yrs / 62,000 mi (Gen 5 is 8/100k, but the generation is not on the advert - the shorter term is
+// used so we never promise cover that may not exist); MINI PHEV 6 / 62,000; Mercedes PHEV 6 yrs / 100,000 km.
+const PHEV_BATTERY: Record<string, [number, number]> = {
+  "warranty-bmw": [6, 62000], "warranty-mini": [6, 62000], "warranty-mercedes-benz": [6, 62137],
+};
+
 function parseReg(reg?: string | null): Date | null {
   const t = (reg ?? "").trim();
   // The API returns DD/MM/YYYY; fall back to a bare year if that is all we have.
@@ -272,8 +289,14 @@ export function warrantyStatusFor(
 
   const fuel = (fuelTypeName ?? "").toLowerCase();
   const electrified = fuel.includes("electric") || fuel.includes("hybrid");
-  const battYears = BATTERY_YEARS[anchor];
-  if (electrified && battYears && ageYears < battYears) {
+  const plugIn = fuel.includes("plug-in");
+  const phev = plugIn ? PHEV_BATTERY[anchor] : undefined;
+  const battYears = phev ? phev[0] : BATTERY_YEARS[anchor];
+  const battMiles = phev ? phev[1] : anchor === "warranty-tesla" ? 0 : (BATTERY_MILES[anchor] ?? 100000);
+  const carMiles = Number(String(mileageMiles ?? "").replace(/[^0-9]/g, ""));
+  // Unknown or zero mileage never removes cover; a car past the battery's mileage limit gets no battery sentence.
+  const pastBattMiles = battMiles > 0 && carMiles > 0 && carMiles > battMiles;
+  if (electrified && battYears && ageYears < battYears && !pastBattMiles) {
     const end = new Date(reg.getTime());
     end.setFullYear(end.getFullYear() + battYears);
     return {
