@@ -122,10 +122,29 @@ export default function PriceBreakdown({
   // "Reserve Now" deep link (My Notifications): land with the deposit modal
   // already open, exactly as if Place A Deposit had been clicked.
   useEffect(() => {
-    if (new URLSearchParams(window.location.search).get("reserve") === "1") {
+    const q = new URLSearchParams(window.location.search);
+    if (q.get("reserve") === "1") {
       setShowModal(true);
     loadRecaptchaScript();
       startAvailabilityCheck();
+    } else if (q.get("deposit") === "canceled") {
+      // Website review 3 Oct 2026 #46: Stripe's back/cancel returns here. Reopen at the Pay step with the details
+      // the buyer already gave, instead of making them send the deposit request (and two more emails) again.
+      try {
+        const saved = JSON.parse(sessionStorage.getItem("ukci_deposit_" + carId) || "null");
+        if (saved?.email) {
+          setName(saved.name || "");
+          setEmail(saved.email);
+          setPhone(saved.phone || "");
+          setIncludeInspection(Boolean(saved.includeInspection));
+          setIncludeWarranty(Boolean(saved.includeWarranty));
+          setSelectedWarrantyKey(saved.selectedWarrantyKey || "");
+          setSubmitted(true);
+          setPayError("Payment not completed. You can try again below.");
+          setShowModal(true);
+          startAvailabilityCheck();
+        }
+      } catch {}
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -208,7 +227,7 @@ export default function PriceBreakdown({
         return;
       }
       setAvailMake(d.make ?? null);
-      if (d.status === "sold" || d.status === "available") {
+      if (d.status === "sold" || d.status === "available" || d.status === "timeout") {
         setAvailability(d.status);
         return;
       }
@@ -256,6 +275,12 @@ export default function PriceBreakdown({
           value: 2000,
           checkout_kind: "vehicle_deposit",
         });
+        try {
+          sessionStorage.setItem(
+            "ukci_deposit_" + carId,
+            JSON.stringify({ name, email, phone, includeInspection, includeWarranty, selectedWarrantyKey }),
+          );
+        } catch {}
         window.location.href = data.url;
         return;
       }
@@ -295,10 +320,27 @@ export default function PriceBreakdown({
     setSubmitting(true);
     setSubmitError("");
     try {
+      // Website review 3 Oct 2026 #19: when the reCAPTCHA script is blocked (ad blocker, privacy browser) the request
+      // still goes - it used to fail with "Something went wrong". The API limits requests per visitor instead.
       const token: string = await new Promise((resolve) => {
-        window.grecaptcha.ready(() => {
-          window.grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: "submit" }).then(resolve);
-        });
+        const giveUp = setTimeout(() => resolve(""), 4000);
+        try {
+          window.grecaptcha.ready(() => {
+            window.grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: "submit" }).then(
+              (t) => {
+                clearTimeout(giveUp);
+                resolve(t);
+              },
+              () => {
+                clearTimeout(giveUp);
+                resolve("");
+              },
+            );
+          });
+        } catch {
+          clearTimeout(giveUp);
+          resolve("");
+        }
       });
 
       const res = await fetch(`/api/submit-form`, {
@@ -634,7 +676,9 @@ export default function PriceBreakdown({
                 <div className={styles.depositJourney}>
                   <span><HandCoins size={16} strokeWidth={1.75} aria-hidden="true" /> €2,000 deposit today</span>
                   <span><ClipboardCheck size={16} strokeWidth={1.75} aria-hidden="true" /> Optional €395 inspection</span>
-                  <span><ShieldPlus size={16} strokeWidth={1.75} aria-hidden="true" /> Optional warranty from €295</span>
+                  {warrantyTiers.length > 0 && (
+                    <span><ShieldPlus size={16} strokeWidth={1.75} aria-hidden="true" /> Optional warranty from €{Math.min(...warrantyTiers.map((t) => t.price))}</span>
+                  )}
                   <span><CarFront size={16} strokeWidth={1.75} aria-hidden="true" /> Irish plates in ~2 weeks</span>
                 </div>
                 <div className={styles.stripeStrip}>
@@ -684,7 +728,7 @@ export default function PriceBreakdown({
                   {fieldErrors.fundsInPlace && <span className={styles.error}>{fieldErrors.fundsInPlace}</span>}
 
                   <button type="submit" className={styles.depositSubmit} disabled={submitting}>
-                    {submitting ? "Please wait..." : finalPriceLabel}
+                    {submitting ? "Please wait..." : "Send deposit request"}
                   </button>
 
                   <p className={styles.securePayBar}>

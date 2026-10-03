@@ -71,18 +71,23 @@ export default function DepositSuccessClient() {
     };
   }, [sessionId]);
 
+  const held = (info as { status?: string } | null)?.status === "authorized";
+
   return (
     <main className={styles.page}>
       {state === "checking" && <p className={styles.checking}>Confirming your payment...</p>}
 
+      {/* Since 24 Aug deposits are card holds (status "authorized"), captured later - no charge, no receipt yet. */}
       {state === "paid" && info && (
         <div className={styles.card}>
           <div className={styles.tick}><Check size={34} strokeWidth={2.5} aria-hidden="true" /></div>
-          <h1>Deposit received — the car is being secured</h1>
+          <h1>{held ? "Deposit held" : "Deposit received"} — the car is being secured</h1>
           <p>
             Thanks {info.customer_name}. Your €{Math.round(info.amount_cents / 100).toLocaleString()}{" "}
-            deposit for <strong>{info.car_name}</strong> has been received. Stripe has emailed you a
-            receipt.
+            deposit for <strong>{info.car_name}</strong>{" "}
+            {held
+              ? "is now held on your card. It has not been charged yet."
+              : "has been received. Stripe has emailed you a receipt."}
           </p>
           <p>
             Next, we secure the car with the garage. If you selected a mechanical inspection,

@@ -24,6 +24,16 @@ export async function proxyRequest(req: NextRequest, apiPath: string) {
   const origin = req.headers.get("origin");
   if (origin) headers["Origin"] = origin;
 
+  // Website review 3 Oct 2026 #19: the API limits deposit requests, checkouts and availability checks per visitor.
+  // Every call through here comes from our own server, so pass the visitor's address on, with the shared key that
+  // tells the API to trust it (without the key the API ignores the header).
+  const visitorIp = req.headers.get("cf-connecting-ip") || req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  const proxyKey = process.env.UKCI_PROXY_KEY;
+  if (visitorIp && proxyKey) {
+    headers["X-Visitor-IP"] = visitorIp;
+    headers["X-Proxy-Key"] = proxyKey;
+  }
+
   const hasBody = req.method !== "GET" && req.method !== "HEAD";
   const body = hasBody ? await req.text() : undefined;
 

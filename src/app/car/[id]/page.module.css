@@ -35,7 +35,9 @@
 
 @media (max-width: 800px) {
   .layout {
-    grid-template-columns: 1fr;
+    /* minmax(0, ...) not 1fr: a plain 1fr column grows to its widest child (the trade-in reg box), which made the
+       page 455-462px wide on a 375px phone and cut off the deposit window (website review 3 Oct 2026 #17). */
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
